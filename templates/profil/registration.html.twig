@@ -1,0 +1,40 @@
+{% extends 'baseProfil.html.twig' %}
+
+{% block title %} {{ parent() }} Création de votre compte {% endblock %}
+
+{% block body %}
+    <div class="login-box">
+        <div class="login-logo">
+            {{app_name }}
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Création d'un compte</p>
+                <div class="card-body">
+                    {{ form_start(form) }}
+
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.plainPassword) }}
+
+
+                    <p class="text-center">
+                        <button name="registration" id="registration" class="btn btn-info mb-4">
+                            Créer un compte
+                        </button>
+                    </p>
+                    {{ form_end(form) }}
+
+                </div>
+
+
+            <p class="mb-1 mt-5">
+                <a class="d-flex justify-content-center" href="{{ path('user_login') }}"
+                   title="Create an account">
+                    Déjà un compte ?
+                </a>
+            </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

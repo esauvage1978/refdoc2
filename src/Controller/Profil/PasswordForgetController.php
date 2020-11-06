@@ -67,7 +67,6 @@ class PasswordForgetController extends AbstractGController
 
         if (!$user) {
             $this->addFlash(self::WARNING, 'L\'adresse de récupération du mot de passe est incorrecte !');
-
             return $this->redirectToRoute('home');
         }
 

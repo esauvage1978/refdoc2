@@ -1,0 +1,13 @@
+{% extends './mail/template.html.twig' %}
+
+{% block title %} Validation de votre adresse e-mail {% endblock %}
+{% block title_content %} Validation de votre adresse e-mail {% endblock %}
+
+{% block body %}
+        <p> Vous venez de vous connecter sur notre site.</p>
+        <p>
+            Cependant votre adresse mail n'est pas encore validée, merci de l'activer en cliquant sur le lien <a
+                    href="{{ url('profil_email_validated', {'token': user.emailValidatedToken}) }}">cliquez-ici</a> ou
+            collez le lien suivant dans votre navigateur {{ url('profil_email_validated', {'token': user.emailValidatedToken}) }}
+        </p>
+{% endblock %}

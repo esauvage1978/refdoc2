@@ -1,7 +1,6 @@
 {% extends 'baseProfil.html.twig' %}
 
 
-
 {% block title %}
 	Connexion
 {% endblock %}
@@ -66,6 +65,11 @@
 				<p class="mb-1 mt-5">
 					<a id="forget" href="{{ path('password_forget') }}" title="Password forget?">
 						Mot de passe oublié ?
+					</a>
+				</p>
+				<p class="mb-0">
+					<a href="{{ path('registration') }}" title="Créer un compte">
+						Créer un compte
 					</a>
 				</p>
 

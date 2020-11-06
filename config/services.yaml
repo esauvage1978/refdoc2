@@ -14,7 +14,7 @@ parameters:
     es.mailer.user.name: '%env(ES_MAILER_USER_NAME)%'
     es.mailer.user.mail: '%env(ES_MAILER_USER_MAIL)%'
     es.mailer.user.password: '%env(ES_MAILER_USER_PASSWORD)%'
-    
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -39,3 +39,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Listener\UserLoginListener:
+      public: true
+      tags:
+        - { name: 'kernel.event_listener', event: 'security.interactive_login' }

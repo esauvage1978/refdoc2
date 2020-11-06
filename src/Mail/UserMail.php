@@ -17,9 +17,9 @@ use function in_array;
  */
 class UserMail
 {
-    public const LOGIN = 'user/login';
-    public const VALIDATE = 'user/validate';
-    public const REGISTRATION = 'user/register';
+    public const LOGIN = 'profil/login';
+    public const VALIDATE = 'profil/validate';
+    public const REGISTRATION = 'profil/register';
     public const PASSWORDFORGET = 'profil/password_forget';
 
     private $mail;
@@ -32,7 +32,7 @@ class UserMail
     public function send(User $user, string $context, string $subject): int
     {
         if (!in_array($context, [self::LOGIN, self::VALIDATE, self::REGISTRATION, self::PASSWORDFORGET])) {
-            return -1;
+            throw new \exception('Le context n\est pas présente dans la liste UserMail');
         }
 
         $this->mail
