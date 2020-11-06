@@ -81,6 +81,9 @@
     "egulias/email-validator": {
         "version": "2.1.23"
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.1"
+    },
     "kevinpapst/adminlte-bundle": {
         "version": "0.9",
         "recipe": {
