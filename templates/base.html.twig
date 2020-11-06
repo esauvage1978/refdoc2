@@ -1,12 +1,26 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+{% extends '@AdminLTE/layout/default-layout.html.twig' %}
+
+{% block logo_mini %}
+	<img src="{{ asset(admin_lte_context.default_brand_logo) }}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+	<span class="brand-text font-weight-light">{{ app_name }}</span>
+{% endblock %}
+
+{% block navbar_search %}
+	{% block sidebar_search %}
+	{% endblock %}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+
+{% block footer %}
+
+	{% include 'home/_footer.html.twig' %}
+{% endblock %}
+

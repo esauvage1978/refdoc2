@@ -1,2 +1,5 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        app_name: '%env(ES_APP_NAME)%'
+        app_name_description: '%env(ES_APP_CONTENT)%'

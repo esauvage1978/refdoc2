@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{ app_name }}
+	- Page d'accueil
+{% endblock %}
+{% block page_title %}
+	<i class="fas fa-home"></i>
+	Page d'accueil
+{% endblock %}
+
+{% block page_content %}
+	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+		{% import "macros/default.html.twig" as dft %}
+		{{ dft.no_connexion() }}
+	{% else %}
+
+	{% endif %}
+{% endblock %}
