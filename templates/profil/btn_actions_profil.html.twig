@@ -1,0 +1,26 @@
+{% macro show(twigTemplace) %}
+
+	{% import "macros/btn_actions.html.twig" as btn_actions %}
+
+
+	{% set actions = {} %}
+
+	{% set actions = actions|merge({ 'home': {url: path('home'),class:'btn-secondary',attr:{title:'Accueil'}}}) %}
+
+	{% set actions = actions|merge({'divider': null}) %}
+
+	{% if twigTemplace!='index' %}
+		{% set actions = actions|merge({ 'profil': {url: path('profil'),class:'btn-secondary',attr:{title:'votre profil'}}}) %}
+		{% set actions = actions|merge({'divider2': null}) %}
+	{% endif %}
+
+
+    {% if twigTemplace=='index'  or twigTemplace=='password'%}
+{% set actions = actions|merge({ 'save': {onclick: '
+document.getElementById(\'submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}}) %}
+
+    {% endif %}
+
+    {{ btn_actions.page_actions(actions) }}
+
+{% endmacro %}

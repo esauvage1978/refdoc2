@@ -45,7 +45,6 @@ class UserLoginListener
                 'Connexion effectuée');
         }
 
-
         return null;
     }
 }
