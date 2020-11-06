@@ -1,0 +1,40 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/public/avatar/
+/public/picture/
+/public/uploads/
+/migrations
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> php storm ###
+/.idea
+###< php storm ###
+
+###> fixtures ###
+/data
+###< fixtures ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/builds/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
