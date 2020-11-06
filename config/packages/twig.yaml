@@ -3,3 +3,4 @@ twig:
     globals:
         app_name: '%env(ES_APP_NAME)%'
         app_name_description: '%env(ES_APP_CONTENT)%'
+        app_contact: '%env(ES_MAILER_USER_MAIL)%'
