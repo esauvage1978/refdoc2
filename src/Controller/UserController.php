@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * @route("/")
+ * @route("/user")
  */
 class UserController extends AbstractGController
 {
@@ -36,7 +36,7 @@ class UserController extends AbstractGController
     }
 
     /**
-     * @Route("/users", name="user_list", methods={"GET"})
+     * @Route("/", name="user_list", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
     public function list()

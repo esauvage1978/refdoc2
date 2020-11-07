@@ -68,6 +68,22 @@
 									Utilisateur</span>
 							</div>
 						{% endif %}
+						<div class="list-group-item list-group-item-action">
+							{% if app.user.userParams.isDoc %}
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Service Documentation</span>
+							{% endif %}
+						</div>
+
+						<div class="list-group-item list-group-item-action">
+							{% if app.user.userParams.isControl %}
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Service Contrôle</span>
+							{% endif %}
+						</div>
+
 					</div>
 				{% endblock %}
 			{% endembed %}
@@ -90,7 +106,11 @@
 				{% block card_body_class %}
 					text-center
 				{% endblock %}
-				{% block card_body %}{% endblock %}
+				{% block card_body %}
+{{ form_row(form.userParams.iSsubscription) }}
+
+				{% endblock %}
+
 			{% endembed %}
 
 			<div class="row">

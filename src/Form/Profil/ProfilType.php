@@ -6,11 +6,12 @@ namespace App\Form\Profil;
 
 use App\Entity\User;
 use App\Form\AppTypeAbstract;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Form\Admin\UserParamsType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ProfilType extends AppTypeAbstract
 {
@@ -24,10 +25,12 @@ class ProfilType extends AppTypeAbstract
                 self::LABEL => 'Mail',
                 self::REQUIRED => true,
             ])
-            ->add('phone', TextType::class, [
+            ->add('phone',TelType::class, [
                 self::LABEL => 'Téléphone',
                 self::REQUIRED => false,
-            ]);
+            ])
+        ->add('userParams', UserParamsType::class)
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

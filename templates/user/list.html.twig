@@ -25,7 +25,7 @@
 
 {% block breadcrumb %}
 	{% import "user/_btn_actions.html.twig" as actions %}
-{{ actions.show(
+	{{ actions.show(
 
         'list',
         is_granted('ROLE_ADMIN'),
@@ -65,50 +65,36 @@
 				</div>
 			</td>
 			<td class="align-middle text-center p-0 m-0 ">
-<div class="p-2 {{ 'ROLE_GESTIONNAIRE' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
-{{ 'ROLE_GESTIONNAIRE' in item.roles ? '1' : '0' }}
-</div>
-
-
-
-
+				<div class="p-2 {{ 'ROLE_GESTIONNAIRE' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ 'ROLE_GESTIONNAIRE' in item.roles ? '1' : '0' }}
+				</div>
 			</td>
-
-
 			<td class="align-middle text-center p-0 m-0  ">
-<div class="p-2 {{ 'ROLE_USER' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
-{{ 'ROLE_USER' in item.roles ? '1' : '0' }}
-</div>
-
-
-
+				<div class="p-2 {{ 'ROLE_USER' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ 'ROLE_USER' in item.roles ? '1' : '0' }}
+				</div>
 			</td>
-
-
 			<td class="align-middle text-center p-0 m-0">
-<div class="p-2 badge badge-light">&nbsp;</div>
-
-
+				<div class="p-2 {{ item.userParams.isDoc ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ item.userParams.isDoc ? '1' : '0' }}
+				</div>
 			</td>
-
 			<td class="align-middle text-center p-0 m-0">
-<div class="p-2 badge badge-light">&nbsp;</div>
-
-
-
+				<div class="p-2 {{ item.userParams.isControl ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ item.userParams.isControl ? '1' : '0' }}
+				</div>
 			</td>
-
 			<td class="align-middle text-center p-0 m-0">
-<div class="p-2 {{ not item.emailvalidated ? 'badge badge-danger text-danger' : 'badge badge-success text-success' }}">
-{{ not item.emailvalidated ? '1' : '0' }}
-</div>
-
-
-
-
+				<div class="p-2 {{ not item.emailvalidated ? 'badge badge-danger text-danger' : 'badge badge-success text-success' }}">
+					{{ not item.emailvalidated ? '1' : '0' }}
+				</div>
+			</td>
+			<td class="align-middle text-center p-0 m-0">
+				<div class="p-2 {{ item.userParams.isSubscription ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ item.userParams.isSubscription ? '1' : '0' }}
+				</div>
 			</td>
 
-			<td class="align-middle text-center p-0 m-0"></td>
 			<td class="align-middle text-center p-0 m-0"></td>
 			<td class=" align-middle text-right">
 				{% if is_granted('ROLE_GESTIONNAIRE') %}

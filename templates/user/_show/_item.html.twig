@@ -38,6 +38,17 @@
 					text-center
 				{% endblock %}
 				{% block card_body %}
+					{% if item.userParams.isSubscription %}
+						<span class="text-success">
+							<i class="fa fa-check-circle"></i>
+							L'utilisateur est abonné
+						</span>
+					{% else %}
+						<span class="text-danger">
+							<i class="fa fa-times-circle"></i>
+							L'utilisateur n'est pas encore abonné
+						</span>
+					{% endif %}
 
 				{% endblock %}
 			{% endembed %}
@@ -148,14 +159,36 @@
 									Utilisateur</span>
 							{% endif %}
 						</div>
+<div class="list-group-item list-group-item-action">
+	{% if item.userParams.isDoc %}
+		<span class="text-success">
+			<i class="fas fa-check"></i>
+			Service documentation</span>
+	{% else %}
+		<span class="text-danger">
+			<i class="fas fa-times"></i>
+			Service documentation</span>
 
+	{% endif %}
+</div>
+
+<div class="list-group-item list-group-item-action">
+	{% if  item.userParams.isControl %}
+		<span class="text-success">
+			<i class="fas fa-check"></i>
+			Service contrôle</span>
+	{% else %}
+		<span class="text-danger">
+			<i class="fas fa-times"></i>
+			Service contrôle</span>
+
+	{% endif %}
+</div>
 
 					</div>
 				{% endblock %}
 			{% endembed %}
 		</div>
-		<div class="{{ col_2_2 }}">
-
-		</div>
+		<div class="{{ col_2_2 }}"></div>
 	</div>
 {% endif %}

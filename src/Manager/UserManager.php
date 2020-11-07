@@ -4,29 +4,30 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\User;
-use App\Helper\ParamsInServices;
-use App\Repository\UserRepository;
-use App\Security\Role;
-use App\Validator\UserValidator;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-use function base64_decode;
-use function copy;
-use function date_format;
-use function explode;
-use function file_exists;
-use function file_put_contents;
-use function in_array;
-use function is_null;
 use function md5;
+use function copy;
 use function rand;
-use function random_bytes;
-use function str_replace;
+use App\Entity\User;
 use function uniqid;
 use function unlink;
+use function explode;
+
+use function is_null;
+use App\Security\Role;
+use function in_array;
+use function date_format;
+use function file_exists;
+use function str_replace;
+use App\Entity\UserParams;
+use function random_bytes;
+use function base64_decode;
+use function file_put_contents;
+use App\Helper\ParamsInServices;
+use App\Validator\UserValidator;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserManager
 {
@@ -101,6 +102,10 @@ class UserManager
         }
 
         $this->checkAvatar($user);
+
+        if(null == $user->getUserParams()) {
+            $user->setUserParams((new UserParams()));
+        }
 
         return true;
     }
