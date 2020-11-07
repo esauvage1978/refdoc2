@@ -15,3 +15,31 @@
 		</div>
 	{% endif %}
 {% endmacro %}
+
+
+{% macro lastConnexion(item) %}
+	{% if item.loginAt %}
+		{% set difference = date("today").diff(date(item.loginAt)) %}
+
+		{% set leftDays = difference.days %}
+		{% if leftDays > 396 %}
+			<span class="text-danger font-weight-bold">
+				{{ leftDays }}
+				jours
+			</span>
+		{% elseif leftDays > 185 %}
+			<span class="text-warning font-weight-bold">
+				{{ leftDays }}
+				jours
+			</span>
+		{% else %}
+			<span class="text-success">
+				{{ leftDays }}
+				jours
+			</span>
+		{% endif %}
+	{% else %}
+		--/--/----
+	{% endif %}
+
+{% endmacro %}

@@ -3,6 +3,11 @@
 {% set columns = {
     '#': {'class': 'all', 'orderBy': true},
     'Nom / Email': {'class': 'alwaysVisible', 'orderBy': true},
+'<i class="fa fa-clock" data-toggle="tooltip" data-placement="top" title="dernière connexion"></i>': {'class': 'align-middle text-center', 'orderBy': true},
+
+
+
+
     'Description': {'class': 'alwaysVisible', 'orderBy': true},
     '<i class="fa fa-user-cog"  data-toggle="tooltip" data-placement="top" title="Administrateur"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': true},
     '<i class="fa fa-user-astronaut"  data-toggle="tooltip" data-placement="top" title="Gestionnaire"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': true},
@@ -38,6 +43,7 @@
 
 
 	{% import "@AdminLTE/Macros/default.html.twig" as macro %}
+{% import "macros/user.html.twig" as usr %}
 
 	{{ tables.datatable_header(tableName, columns,  {'striped': true}) }}
 	{% for item in items %}
@@ -58,6 +64,9 @@
 					<small>{{ item.phone }}</small>
 				{% endif %}
 			</td>
+<td class="align-middle text-center p-0 m-0 ">{{ usr.lastConnexion(item)  }}</td>
+
+
 			<td class="align-middle">{{ item.content | raw }}</td>
 			<td class="align-middle text-center p-0 m-0 ">
 				<div class="p-2 {{ 'ROLE_ADMIN' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
