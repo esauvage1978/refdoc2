@@ -1,10 +1,10 @@
-{% macro admin(twigTemplace,admin,item, domaine) %}
+{% macro show(twigTemplace,admin,item, domaine) %}
     {% import "macros/delele.html.twig" as del %}
     {% import "macros/btn_actions.html.twig" as btn_actions %}
 
     {% if item %}
-        {% set permissions={ 'permissions': {url: path('permission',{id:item.id}),class:'btn-secondary',attr:{title:'Modification des droits'}}} %}
-        {% set subscription={ 'subscription': {url: path('subscription',{id:item.id}),class:'btn-secondary',attr:{title:'Modification des abonnements'}}} %}
+        {% set permissions='' %}
+        {% set subscription='' %}
         {% set delete={ 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
         {% set show={ 'show': {url: path(domaine~'_show',{id:item.id}),class:'btn-secondary',attr:{title:'Consulter'}}} %}
         {% set edit={ 'edit': {url: path(domaine~'_edit',{id:item.id}),class:'btn-secondary',attr:{title:'Modifier'}}} %}
@@ -35,26 +35,20 @@
         {% elseif twigTemplace=='add' %}
             {% set actions = actions|merge(save) %}
         {% elseif twigTemplace=='edit' %}
-            {% set actions = actions|merge(permissions) %}
-            {% set actions = actions|merge(subscription) %}
             {% set actions = actions|merge(delete) %}
             {% set actions = actions|merge(show) %}
             {% set actions = actions|merge(save) %}
             {{ del.delete_form(domaine~'_del',item.id, null) }}
         {% elseif twigTemplace=='show' %}
-            {% set actions = actions|merge(permissions) %}
-            {% set actions = actions|merge(subscription) %}
             {% set actions = actions|merge(delete) %}
             {% set actions = actions|merge(edit) %}
             {{ del.delete_form(domaine~'_del',item.id, null) }}
         {% elseif twigTemplace=='permission' %}
-            {% set actions = actions|merge(subscription) %}
             {% set actions = actions|merge(delete) %}
             {% set actions = actions|merge(show) %}
             {% set actions = actions|merge(edit) %}
             {{ del.delete_form(domaine~'_del',item.id, null) }} 
         {% elseif twigTemplace=='subscription' %}
-            {% set actions = actions|merge(permissions) %}
             {% set actions = actions|merge(delete) %}
             {% set actions = actions|merge(show) %}
             {% set actions = actions|merge(edit) %}

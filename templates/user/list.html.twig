@@ -24,8 +24,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-	{% import "user/btn_actions.html.twig" as actions %}
-	{{ actions.admin(
+	{% import "user/_btn_actions.html.twig" as actions %}
+{{ actions.show(
+
         'list',
         is_granted('ROLE_ADMIN'),
         null,

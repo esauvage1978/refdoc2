@@ -1,3 +1,7 @@
 {% macro icon(icon) %}
 	<i class="{{ icon|icon(icon) }}"></i>
 {% endmacro %}
+
+{% macro showLongDate(date) %}
+	{{ date |format_datetime('full', 'short', locale='fr') }}
+{% endmacro %}

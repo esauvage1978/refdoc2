@@ -1,0 +1,21 @@
+{% extends 'user/layout.html.twig' %}
+
+
+{% block page_subtitle %}Consultation{% endblock %}
+
+
+{% block breadcrumb %}
+    {% import "user/_btn_actions.html.twig" as actions %}
+{{ actions.show(
+
+        'show',
+        is_granted('ROLE_ADMIN'),
+        item,
+        domaine
+    ) }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ include(domaine ~ '/_show/_item.html.twig') }}
+{% endblock %}
