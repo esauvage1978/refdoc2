@@ -1,0 +1,131 @@
+{% extends 'user/layout.html.twig' %}
+{% import "macros/datatables.html.twig" as tables %}
+{% set columns = {
+    '#': {'class': 'all', 'orderBy': true},
+    'Nom / Email': {'class': 'alwaysVisible', 'orderBy': true},
+    'Description': {'class': 'alwaysVisible', 'orderBy': true},
+    '<i class="fa fa-user-cog"  data-toggle="tooltip" data-placement="top" title="Administrateur"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': true},
+    '<i class="fa fa-user-astronaut"  data-toggle="tooltip" data-placement="top" title="Gestionnaire"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': true},
+'<i class="fa fa-user" data-toggle="tooltip" data-placement="top" title="Utilisateur"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': true},
+
+'<i class="fa fa-user-edit" data-toggle="tooltip" data-placement="top" title="Service documentation"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': true},
+
+'<i class="fa fa-user-check" data-toggle="tooltip" data-placement="top" title="Service contrôle"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': true},
+
+    '<i class="fa fa-envelope-open-text"  data-toggle="tooltip" data-placement="top" title="Mail non vérifié"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy':true},
+    '<i class="fa fa-rss"  data-toggle="tooltip" data-placement="top" title="Abonné"></i>': {'class': 'align-middle text-center p-0 m-0', 'orderBy': false},
+    '<i class="fab fa-chromecast"  data-toggle="tooltip" data-placement="top" title="Nombre de subscription"></i>': {'class': 'text-center', 'orderBy': false},
+    'actions': {'class': 'alwaysVisible', 'orderBy': false}
+} %}
+
+{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+
+{% block page_subtitle %}Liste
+{% endblock %}
+
+{% block breadcrumb %}
+	{% import "user/btn_actions.html.twig" as actions %}
+	{{ actions.admin(
+        'list',
+        is_granted('ROLE_ADMIN'),
+        null,
+        domaine
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+
+
+	{% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+	{{ tables.datatable_header(tableName, columns,  {'striped': true}) }}
+	{% for item in items %}
+		<tr>
+			<td class="align-middle">
+				<div class="image">
+					<img src="{{ asset(item.avatar) }}" class="img-circle elevation-2 direct-chat-img" alt="{{ item.id }}">
+				</div>
+			</td>
+			<td class="align-middle">
+				<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+					{{ item.name }}
+				</a>
+				<br/>
+				<small>{{ item.email }}</small>
+				{% if item.phone is defined %}
+					<br/>
+					<small>{{ item.phone }}</small>
+				{% endif %}
+			</td>
+			<td class="align-middle">{{ item.content | raw }}</td>
+			<td class="align-middle text-center p-0 m-0 ">
+				<div class="p-2 {{ 'ROLE_ADMIN' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ 'ROLE_ADMIN' in item.roles ? '1' : '0' }}
+				</div>
+			</td>
+			<td class="align-middle text-center p-0 m-0 ">
+<div class="p-2 {{ 'ROLE_GESTIONNAIRE' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+{{ 'ROLE_GESTIONNAIRE' in item.roles ? '1' : '0' }}
+</div>
+
+
+
+
+			</td>
+
+
+			<td class="align-middle text-center p-0 m-0  ">
+<div class="p-2 {{ 'ROLE_USER' in item.roles ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+{{ 'ROLE_USER' in item.roles ? '1' : '0' }}
+</div>
+
+
+
+			</td>
+
+
+			<td class="align-middle text-center p-0 m-0">
+<div class="p-2 badge badge-light">&nbsp;</div>
+
+
+			</td>
+
+			<td class="align-middle text-center p-0 m-0">
+<div class="p-2 badge badge-light">&nbsp;</div>
+
+
+
+			</td>
+
+			<td class="align-middle text-center p-0 m-0">
+<div class="p-2 {{ not item.emailvalidated ? 'badge badge-danger text-danger' : 'badge badge-success text-success' }}">
+{{ not item.emailvalidated ? '1' : '0' }}
+</div>
+
+
+
+
+			</td>
+
+			<td class="align-middle text-center p-0 m-0"></td>
+			<td class="align-middle text-center p-0 m-0"></td>
+			<td class=" align-middle text-right">
+				{% if is_granted('ROLE_GESTIONNAIRE') %}
+					{{ btn.link_button(
+                        'Modifier',
+                        path(route_edit,{id:item.id}),
+                        'fa fa-edit',
+                        'purple',
+                        'primary btn-sm'
+                    ) }}
+				{% endif %}
+			</td>
+		</tr>
+	{% else %}
+		{{ tables.datatable_data_else(columns) }}
+	{% endfor %}
+	{{ tables.datatable_footer(tableName,1) }}
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}{{ tables.datatable_javascript(tableName,1,columns) }}
+{% endblock %}

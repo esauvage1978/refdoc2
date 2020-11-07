@@ -1,0 +1,148 @@
+{% macro datatable_header(tableName, columns, query, options) %}
+
+    {% set striped = options.striped|default(true) %}
+
+    {% import _self as macro %}
+<div class="card card-secondary card-outline " id="datatable_{{ tableName }}">
+    <div class="card-body p-0 pt-2" >
+    <div class="row" >
+    <div class="col-12" >
+<table class="table {% if striped %}table-striped {% endif %}table-hover dataTable " role="grid" id="dt_{{ tableName }}">
+    <thead>
+    <tr>
+        {%- for title, headerOptions in columns -%}
+            {% if not headerOptions is iterable %}
+                {% set headerOptions = {'class': headerOptions} %}
+            {% endif %}
+            {% set headerClass = macro.data_table_column_class(tableName, columns, title) %}
+            {% set headerTitle = '' %}
+            {% if headerOptions.title is defined %}
+                {% set headerTitle = headerOptions.title %}
+            {% elseif title is not empty and title != 'actions' %}
+                {% set headerTitle =  title  %}
+            {% endif %}
+            <th data-field="{{ title }}" {% if not headerOptions.orderBy is same as(false) %}data-order="{{ headerOptions.orderBy }}" {% endif %}class="{{ headerClass }}">
+                {% if headerOptions.html_before is defined %}
+                    {{ headerOptions.html_before|raw }}
+                {% endif %}
+                {{ headerTitle | raw }}
+                {% if headerOptions.html_after is defined %}
+                    {{ headerOptions.html_after|raw }}
+                {% endif %}
+            </th>
+        {%- endfor -%}
+    </tr>
+    </thead>
+    <tbody>
+{% endmacro %}
+
+{% macro data_table_column_class(name, columns, column) %}
+{% apply spaceless %}
+    {% set class = '' %}
+    {% set always = false %}
+
+    {% if columns[column] is defined %}
+        {% set classes = columns[column] %}
+        {# change the next if, once data_table_header_options() will be deleted #}
+        {% if classes is iterable %}
+            {% set classes = classes.class %}
+        {% endif %}
+        {% if 'alwaysVisible' in classes %}
+            {# as this column should always be visible, we remove every class that includes hidden #}
+            {% for tmp in classes|split(' ') %}
+                {% if 'hidden' not in tmp %}
+                    {% set class = class ~ ' ' ~ tmp %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+
+            {# needs to be a foreach, as classes like "hidden-xs" would match in: if 'hidden' in classes #}
+            {% for tmp in classes|split(' ') %}
+                {% if 'hidden' in tmp %}
+                    {% set classes = classes|replace({(tmp): ''}) %}
+                {% endif %}
+            {% endfor %}
+
+            {% set class = classes %}
+        {% endif %}
+    {% endif %}
+
+    {% if not class is empty %}
+        {{ class }}
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro datatable_data_else(columns) %}
+    <tr>
+        <td colspan="{{ columns | length }}">Aucun d'enregistrement</td>
+    </tr>
+{% endmacro %}
+
+
+{% macro datatable_footer(tableName, numOrder) %}
+    </tbody>
+</table>
+    </div>
+    </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro datatable_javascript(tableName, numOrder,columns) %}
+<script>
+    $(document).ready( function () {
+
+        $('#dt_{{ tableName }}').DataTable({
+            stateSave: true,
+            responsive:true,
+            scrollCollapse: true,
+            paging: false,
+            scrollX: false,
+            ordering: true,
+            "order": [[{{ numOrder }}, 'asc']],
+            "columns": [
+                {%- for title, headerOptions in columns -%}
+                    {{ loop.index>1?',':'' }}
+                    {% if headerOptions.orderBy  is same as(false) %}
+                {"orderable": false}
+                    {% else %}
+                null
+                    {% endif %}
+                {%- endfor -%}
+
+            ],
+            "language":{
+                "sEmptyTable":     "Aucune donnée disponible dans le tableau",
+                "sInfo":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                "sInfoEmpty":      "Affichage de l'élément 0 à 0 sur 0 élément",
+                "sInfoFiltered":   "(filtré à partir de _MAX_ éléments au total)",
+                "sInfoPostFix":    "",
+                "sInfoThousands":  ",",
+                "sLengthMenu":     "Afficher _MENU_ éléments",
+                "sLoadingRecords": "Chargement...",
+                "sProcessing":     "Traitement...",
+                "sSearch":         "<i class='fas fa-filter'></i>",
+                "sZeroRecords":    "Aucun élément correspondant trouvé",
+                "oPaginate": {
+                    "sFirst":    "Premier",
+                    "sLast":     "Dernier",
+                    "sNext":     "Suivant",
+                    "sPrevious": "Précédent"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+                },
+                "select": {
+                    "rows": {
+                        "_": "%d lignes sélectionnées",
+                        "0": "Aucune ligne sélectionnée",
+                        "1": "1 ligne sélectionnée"
+                    }
+                }
+            } });
+
+    });
+</script>
+{% endmacro %}

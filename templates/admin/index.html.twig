@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% import "macros/widgets.html.twig" as widgets %}
+
+{% block title %}{{ app_name }} - Administration{% endblock %}
+{% block page_title %}{{ widgets.icon('admin') }} Administration{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-3 offset-md-1" >
+            {# ... box widget with defaults ... #}
+            {% for entry in general_entries %}
+                <div class="row ">
+                    <div class="col-sm-12">
+                        <a href="{{ path(entry.route)}}" target="_self" class="large">
+                            <h4><i class="fas fa-angle-right text-purple"></i>  {{ entry.name }}</h4>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

@@ -28,6 +28,7 @@
 	{% set actions = actions|merge(_avatar) %}
 
 
-	{{ btn_actions.page_actions(actions) }}
+{{ btn_actions.show(actions) }}
+
 
 {% endmacro %}
