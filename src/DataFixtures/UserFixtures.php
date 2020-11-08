@@ -39,8 +39,8 @@ class UserFixtures extends Fixture
 
     private $data =
     [
-        ['SAUVAGE Emmanuel','emmanuel.sauvage@live.fr','Fckgwrhqq101',true,true,true, ["ROLE_USER", "ROLE_ADMIN"]],
-        ['LIEKENS Ghislaine','ghislaine.liekens@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['SAUVAGE Emmanuel', 'emmanuel.sauvage@live.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER", "ROLE_ADMIN"]],
+        ['LIEKENS Ghislaine', 'ghislaine.liekens@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
         ['AMEDRO Jeremy', 'jeremy.amedro@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
         ['MIGNOT Bruno', 'bruno.mignot@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
         ['DESPALIER Margot', 'margot.despalier@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
@@ -67,6 +67,11 @@ class UserFixtures extends Fixture
                 ->setIsEnable($this->data[$i][4])
                 ->setEmailValidated($this->data[$i][5])
                 ->setRoles($this->data[$i][6]);
+
+            if ($this->data[$i][5]) {
+                $user->setEmailValidatedToken(date_format(new \DateTime(), 'Y-m-d H:i:s'));
+            }
+            
             $this->userManager->initialise($user);
             $this->checkAndPersist($user);
         }

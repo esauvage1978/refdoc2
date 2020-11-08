@@ -1,0 +1,83 @@
+{% if item is defined %}
+
+    <div class="row justify-content-center">
+        <div class="{{ col_1_2 }}">
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_class %} card-primary card-outline{% endblock %}
+                {% block card_body_class %} box-profile{% endblock %}
+                {% block card_body %}
+<div class="text-center display-2"><strong>{{ item.ref }}</strong></div>
+                    <h2 class="profile-username text-center">{{ item.Name }}</h2>
+
+
+                    <small class="float-right">
+                        {% if item.isEnable %}
+                            <span class="text-success">Visible</span>
+                        {% else %}
+                            <span class="text-danger">Masquée</span>
+                        {% endif %}
+                    </small>
+                {% endblock %}
+            {% endembed %}
+
+            {% if item.content %}
+                {% embed 'widgets/card-widget.html.twig' %}
+                    {% block card_body %}
+                        {{ item.content |raw }}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}Processus{% endblock %}
+                {% block card_tools %}
+                    {% if is_granted('ROLE_GESTIONNAIRE') %}
+                        <a href="#">
+                            <i class="far fa-plus-square"></i> Ajouter un processus
+                        </a>
+                    {% endif %}
+                {% endblock %}
+                {% block card_body_class %}p-0{% endblock %}
+                {% block card_body %}
+
+                {% endblock %}
+            {% endembed %}
+
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}Agent de Direction{% endblock %}
+                {% block card_body_class %}p-0{% endblock %}
+                {% block card_body %}
+
+                {% endblock %}
+            {% endembed %}
+
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}Manager stratégique{% endblock %}
+                {% block card_body_class %}p-0{% endblock %}
+                {% block card_body %}
+
+                {% endblock %}
+            {% endembed %}
+
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}Contributeurs{% endblock %}
+                {% block card_body_class %}p-0{% endblock %}
+                {% block card_body %}
+
+                {% endblock %}
+            {% endembed %}
+
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}Abonnés{% endblock %}
+                {% block card_body_class %}p-0{% endblock %}
+                {% block card_body %}
+                    <div class="users-list">
+
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+
+{% endif %}

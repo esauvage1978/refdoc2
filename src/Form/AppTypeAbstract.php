@@ -32,7 +32,7 @@ abstract class AppTypeAbstract extends AbstractType
     public const MAXLENGTH = 'maxlength';
     public const PLACEHOLDER = 'placeholder';
 
-    public function buildFormName(FormBuilderInterface $builder,$label='Nom'): void
+    public function buildFormName(FormBuilderInterface $builder, $label = 'Nom'): void
     {
         $builder
             ->add('name', TextType::class, [
@@ -42,7 +42,7 @@ abstract class AppTypeAbstract extends AbstractType
             ]);
     }
 
-    public function buildFormIsEnable(FormBuilderInterface $builder, $label=' '): void
+    public function buildFormIsEnable(FormBuilderInterface $builder, $label = ' '): void
     {
         $builder
             ->add(
@@ -55,7 +55,7 @@ abstract class AppTypeAbstract extends AbstractType
             );
     }
 
-    public function buildFormContent(FormBuilderInterface $builder, $label= 'Description'): void
+    public function buildFormContent(FormBuilderInterface $builder, $label = 'Description'): void
     {
         $builder
             ->add('content', TextareaType::class, [
@@ -64,5 +64,4 @@ abstract class AppTypeAbstract extends AbstractType
                 self::ATTR => [self::ROWS => 3, self::CSS_CLASS => 'textarea'],
             ]);
     }
-
 }

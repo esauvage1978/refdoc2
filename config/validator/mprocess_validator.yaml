@@ -3,19 +3,19 @@ App\Entity\MProcess:
     - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
         fields: name
         errorPath: name
-        message: 'Le nom "{{ value }}" est déjà utilisé.'
+        message: 'Le nom {{ value }} est déjà utilisé.'
     - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
         fields: ref
         errorPath: ref
-        message: 'La référence "{{ value }}" est déjà utilisée.'
+        message: 'La référence {{ value }} est déjà utilisée.'
   properties:
     name:
       - NotBlank: ~
       - Length:
           min: 3
           max: 255
-          minMessage: 'Le nom "{{ value }}" doit avoir plus de 3 caractères'
-          maxMessage: 'Le nom "{{ value }}" ne peut pas avoir plus de 30 caractères'
+          minMessage: 'Le nom {{ value }} doit avoir plus de 3 caractères'
+          maxMessage: 'Le nom {{ value }} ne peut pas avoir plus de 30 caractères'
     ref:
       - NotBlank: ~
       - Length:

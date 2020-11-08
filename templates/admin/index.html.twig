@@ -2,23 +2,44 @@
 
 {% import "macros/widgets.html.twig" as widgets %}
 
-{% block title %}{{ app_name }} - Administration{% endblock %}
-{% block page_title %}{{ widgets.icon('admin') }} Administration{% endblock %}
+{% block title %}
+	{{ app_name }}
+	- Administration
+{% endblock %}
+{% block page_title %}
+	{{ widgets.icon('admin') }}
+	Administration
+{% endblock %}
 
 {% block page_content %}
-    <div class="row">
-        <div class="col-md-3 offset-md-1" >
-            {# ... box widget with defaults ... #}
-            {% for entry in general_entries %}
-                <div class="row ">
-                    <div class="col-sm-12">
-                        <a href="{{ path(entry.route)}}" target="_self" class="large">
-                            <h4><i class="fas fa-angle-right text-purple"></i>  {{ entry.name }}</h4>
-                        </a>
-                    </div>
-                </div>
-            {% endfor %}
+	<div class="row">
+		<div
+			class="col-md-4 offset-md-1">
+			{# ... box widget with defaults ... #}
 
-        </div>
-    </div>
+			<div class="card">
+				<div class="card-header">
+					Gestion des paramètres
+				</div>
+				<div class="list-group list-group-flush">
+					{% for entry in general_entries %}
+						<a href="{{ path(entry.route)}}" target="_self" class="list-group-item list-group-item-action">
+							<div class="d-flex w-100 align-items-center">
+								<div class="p-2 mr-4">
+									<i class="fa-3x {{entry.icon}}"></i>
+								</div>
+								<div>
+									<h5 class="mb-1 "><strong>{{ entry.name }}</strong></h5>
+									<p class="mb-1">{{ entry.content }}</p>
+									<small>{{ entry.smallcontent}}</small>
+								</div>
+							</div>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+
+
+		</div>
+	</div>
 {% endblock %}

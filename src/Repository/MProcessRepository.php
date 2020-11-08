@@ -14,37 +14,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MProcessRepository extends ServiceEntityRepository
 {
+    public const ALIAS = 'mp';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MProcess::class);
     }
 
-    // /**
-    //  * @return MProcess[] Returns an array of MProcess objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllForAdmin()
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS
+            )
+            ->orderBy(self::ALIAS . '.ref', 'ASC')
+            ->addOrderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?MProcess
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+            ->getResult();
+    } 
 }
