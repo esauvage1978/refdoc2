@@ -40,17 +40,17 @@ class UserFixtures extends Fixture
     private $data =
     [
         ['SAUVAGE Emmanuel','emmanuel.sauvage@live.fr','Fckgwrhqq101',true,true,true, ["ROLE_USER", "ROLE_ADMIN"]],
-        ['LIEKENS Ghislaine','ghislaine.liekens@assurance-maladie.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER"]],
-        ['AMEDRO Jeremy', 'jeremy.amedro@assurance-maladie.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_GESTIONNAIRE"]],
-        ['MIGNOT Bruno', 'bruno.mignot@assurance-maladie.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_GESTIONNAIRE"]],
-        ['DESPALIER Margot', 'margot.despalier@assurance-maladie.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER"]],
-        ['DUPLESSY Laurent', 'laurent.duplessy@assurance-maladie.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER"]],
-        ['ROSE Hélène', 'helene.rose@assurance-maladie.fr', 'Fckgwrhqq101', true, true,true, ["ROLE_USER"]],
-        ['BOISMARTEL Laurence', 'laurence.boismartel@assurance-maladie.fr', 'Fckgwrhqq101', true, true,true, ["ROLE_USER"]],
-        ['PASZ Romarik', 'romarik.pasz@assurance-maladie.fr', 'Fckgwrhqq101', true, true,true, ["ROLE_USER"]],
-        ['CATELIN Isabelle', 'isabelle.catelin@assurance-maladie.fr', 'Fckgwrhqq101', true, true,true, ["ROLE_USER"]],
-        ['BEAUCAMPS Sabine', 'sabine.beaucamps@assurance-maladie.fr', 'Fckgwrhqq101', true, true,true, ["ROLE_USER"]],
-        ['BUNIET Fanny', 'fanny.bunniet@assurance-maladie.fr', 'Fckgwrhqq101', true, true,true, ["ROLE_USER"]],
+        ['LIEKENS Ghislaine','ghislaine.liekens@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['AMEDRO Jeremy', 'jeremy.amedro@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
+        ['MIGNOT Bruno', 'bruno.mignot@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
+        ['DESPALIER Margot', 'margot.despalier@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['DUPLESSY Laurent', 'laurent.duplessy@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['ROSE Hélène', 'helene.rose@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['BOISMARTEL Laurence', 'laurence.boismartel@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['PASZ Romarik', 'romarik.pasz@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['CATELIN Isabelle', 'isabelle.catelin@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['BEAUCAMPS Sabine', 'sabine.beaucamps@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['BUNIET Fanny', 'fanny.bunniet@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
 
     ];
 
@@ -65,6 +65,7 @@ class UserFixtures extends Fixture
                 ->setPlainPassword($this->data[$i][2])
                 ->setEmailValidated($this->data[$i][3])
                 ->setIsEnable($this->data[$i][4])
+                ->setEmailValidated($this->data[$i][5])
                 ->setRoles($this->data[$i][6]);
             $this->userManager->initialise($user);
             $this->checkAndPersist($user);
