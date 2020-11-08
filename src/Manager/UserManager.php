@@ -19,7 +19,7 @@ use function in_array;
 use function date_format;
 use function file_exists;
 use function str_replace;
-use App\Entity\UserParams;
+use App\Entity\UserParam;
 use function random_bytes;
 use function base64_decode;
 use function file_put_contents;
@@ -103,8 +103,8 @@ class UserManager
 
         $this->checkAvatar($user);
 
-        if(null == $user->getUserParams()) {
-            $user->setUserParams((new UserParams()));
+        if(null == $user->getUserParam()) {
+            $user->setUserParam((new UserParam()));
         }
 
         return true;

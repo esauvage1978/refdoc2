@@ -50,7 +50,7 @@ class UserType extends AppTypeAbstract
             ->add('loginAt')
             ->add('createdAt')
             ->add('modifiedAt')
-            ->add('userParams', UserParamsType::class);
+            ->add('userParam', UserParamType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -6,7 +6,7 @@ namespace App\Form\Profil;
 
 use App\Entity\User;
 use App\Form\AppTypeAbstract;
-use App\Form\Admin\UserParamsType;
+use App\Form\Admin\UserParamType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -29,7 +29,7 @@ class ProfilType extends AppTypeAbstract
                 self::LABEL => 'Téléphone',
                 self::REQUIRED => false,
             ])
-        ->add('userParams', UserParamsType::class)
+        ->add('userParam', UserParamType::class)
             ;
     }
 

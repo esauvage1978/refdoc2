@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UserParamsRepository;
+use App\Repository\UserParamRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=UserParamsRepository::class)
+ * @ORM\Entity(repositoryClass=UserParamRepository::class)
  */
-class UserParams
+class UserParam
 {
     /**
      * @ORM\Id

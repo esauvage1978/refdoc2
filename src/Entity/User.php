@@ -76,9 +76,9 @@ class User implements UserInterface, EntityInterface
     private $phone;
 
     /**
-     * @ORM\OneToOne(targetEntity=UserParams::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=UserParam::class, cascade={"persist", "remove"})
      */
-    private $userParams;
+    private $userParam;
 
 
 
@@ -317,14 +317,14 @@ class User implements UserInterface, EntityInterface
         return 'avatar/' . $this->getId() . '.png';
     }
 
-    public function getUserParams(): ?UserParams
+    public function getUserParam(): ?UserParam
     {
-        return $this->userParams;
+        return $this->userParam;
     }
 
-    public function setUserParams(?UserParams $userParams): self
+    public function setUserParam(?UserParam $userParam): self
     {
-        $this->userParams = $userParams;
+        $this->userParam = $userParam;
 
         return $this;
     }
