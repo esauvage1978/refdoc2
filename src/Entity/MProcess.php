@@ -37,6 +37,11 @@ class MProcess implements EntityInterface
      */
     private $ref;
 
+    public function __construct()
+    {
+        $this->setIsEnable(true);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

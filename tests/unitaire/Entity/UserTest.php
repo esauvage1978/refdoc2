@@ -8,12 +8,8 @@ use Faker;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class CategoryTest extends KernelTestCase
+class UserTest extends KernelTestCase
 {
-    /**
-     * @var Category
-     */
-    private $user;
 
     private $nameGood='abcdef';
     private $mailGood= 'abcdef@live.fr';

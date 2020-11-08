@@ -28,10 +28,7 @@ class ParamsInServicesTest extends WebTestCase
         $this->assertSame(self::$paramInServices->get('notfound'), 'test');
     }
 
-    /**
-     * @dataProvider params
-     */
-    public function testParamsGood($value): void
+    public function testParamsGood(): void
     {
         $this->assertSame(self::$paramInServices->get(ParamsInServices::ES_APP_NAME),'test');
     }

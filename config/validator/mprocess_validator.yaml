@@ -7,7 +7,7 @@ App\Entity\MProcess:
     - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
         fields: ref
         errorPath: ref
-        message: 'Le nom "{{ value }}" est déjà utilisé.'
+        message: 'La référence "{{ value }}" est déjà utilisée.'
   properties:
     name:
       - NotBlank: ~
