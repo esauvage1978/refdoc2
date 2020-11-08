@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% set domaine = 'user' %}
+{% set domaineTitle = 'Utilisateur' %}
+{% set tableName = domaine %}
+{% set route_add = domaine ~ '_add' %}
+{% set route_show = domaine ~ '_show' %}
+{% set route_edit = domaine ~ '_edit' %}
+{% set route_del = domaine ~ '_del' %}
+{% set route_list = domaine ~ '_list' %}
+
+{% block title %}{{ app_name }} - {{domaineTitle}}{% endblock %}
+{% block page_title %}<i class="fas fa-user"></i> {{domaineTitle}}{% endblock %}

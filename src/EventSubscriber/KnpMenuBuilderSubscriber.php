@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use KevinPapst\AdminLTEBundle\Event\KnpMenuEvent;
+use App\Security\Role;
 use Knp\Menu\ItemInterface;
+use App\Security\CurrentUser;
+use KevinPapst\AdminLTEBundle\Event\KnpMenuEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class KnpMenuBuilderSubscriber implements EventSubscriberInterface
 {
+    /** @var CurrentUser */
+    private $currentUser;
 
     /** @var ItemInterface */
     private $menu;
@@ -17,8 +21,9 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
     /** @var KnpMenuEvent */
     private $event;
 
-    public function __construct()
+    public function __construct(CurrentUser $currentUser)
     {
+        $this->currentUser = $currentUser;
     }
 
     public static function getSubscribedEvents(): array
@@ -33,7 +38,19 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
         $this->event = $event;
         $this->menu = $this->event->getMenu();
 
+        if ($this->currentUser->isAuthenticatedRemember() && Role::isUser($this->currentUser->getUser())) {
             $this->addHome();
+            $this->addProfil();
+            $this->addAdmin();
+            $this->addDeconnexion();
+        } elseif ($this->currentUser->isAuthenticatedRemember()) {
+            $this->addHome();
+            $this->addProfil();
+            $this->addConnexion();
+        } else {
+            $this->addHome();
+            $this->addConnexion();
+        }
     }
 
 
@@ -44,6 +61,44 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
             'label' => 'Page d\'accueil',
             'childOptions' => $this->event->getChildOptions(),
         ])->setLabelAttribute('icon', 'fas fa-home');
+    }
+
+    private function addDeconnexion(): void
+    {
+        $this->menu->addChild(
+            'logout',
+            ['route' => 'user_logout', 'label' => 'Déconnexion', 'childOptions' => $this->event->getChildOptions()]
+        )->setLabelAttribute('icon', 'fas fa-sign-out-alt');
+    }
+
+    private function addConnexion(): void
+    {
+        $this->menu->addChild(
+            'login',
+            ['route' => 'user_login', 'label' => 'Connexion', 'childOptions' => $this->event->getChildOptions()]
+        )->setLabelAttribute('icon', 'fas fa-sign-in-alt');
+    }
+
+    private function addProfil(): void
+    {
+        $this->menu->addChild('profil', [
+            'route' => 'profil',
+            'label' => 'Votre compte',
+            'childOptions' => $this->event->getChildOptions(),
+        ])->setLabelAttribute('icon', 'fas fa-user');
+    }
+
+    private function addAdmin(): void
+    {
+        if (!Role::isAdmin($this->currentUser->getUser())) {
+            return;
+        }
+
+        $this->menu->addChild('admin', [
+            'route' => 'admin',
+            'label' => 'Administration',
+            'childOptions' => $this->event->getChildOptions(),
+        ])->setLabelAttribute('icon', 'fas fa-wrench');
     }
 
 }

@@ -1,0 +1,16 @@
+{% macro delete_btn(title,name) %}
+    <span class="btn btn-danger " onclick="$('#delete_{{ name is defined ? name : '1' }} ').click();">
+        <i class="fas fa-trash"></i> {{ title is defined ? title:'Suprrimer'}}
+    </span>
+{% endmacro %}
+
+{% macro delete_form(route_del,id, name) %}
+    <div class="d-none">
+        <form method="post" action="{{ path(route_del, {'id': id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir le supprimer ?');">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ id) }}">
+            <button id="delete_{{ name ? name : '1' }}" class="btn btn-gradient-danger">
+                <i class="fas fa-trash"></i> Supprimer</button>
+        </form>
+    </div>
+{% endmacro %}

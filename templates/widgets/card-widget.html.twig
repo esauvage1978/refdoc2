@@ -1,0 +1,81 @@
+{% import '@AdminLTE/Macros/buttons.html.twig' as button %}
+{#
+Block :
+    card_before | card_after
+    card_img
+    card_title | card_id | card_class | card_attributes | card_tools_attributes  | card_tools
+    card-body | card_body_class
+    card_liste
+    card_footer
+Attributs :
+    collapsed : true/false
+    collapsible : true/false
+    collapsible_title : string
+    removable : true/false
+    removable_title : string
+#}
+{% if block('card_before') is defined %}{{ block('card_before') }}{% endif %}
+
+{% set _collapsed = collapsed|default(false) %}
+{% set _collapsible = collapsible|default(false) %}
+{% set _collapsible_title = collapsible_title|default('') %}
+{% set _removable = removable|default(false) %}
+{% set _removable_title = removable_title|default('') %}
+
+<!--debut CARD--><div class="card {% if block('card_class') is defined %} {{ block('card_class') }}{% endif %}{{ _collapsed ? ' collapsed-card' : '' }}"
+        {% if block('card_attributes') is defined %} {{ block('card_attributes') }}{% endif %}{% if block('card_id') is defined %} id="{{ block('card_id') }}"{% endif %}>
+    {% if block('card_ribbon') is defined %}{{ block('card_ribbon') }}{% endif %}
+    {% if block('card_img') is defined %}{{ block('card_img') }}{% endif %}
+    {% if block('card_title') is defined or _collapsible or _removable %}
+        <!--debut CARD HEADER--><div class="card-header">
+            {% if block('card_title') is defined %}
+                <h3 class="card-title  {% if block('card_title_class') is defined %} {{ block('card_title_class') }}{% endif %}">
+                    {{ block('card_title') }}
+                </h3>
+            {% endif %}
+            <div class="card-tools pull-right"{% if block('card_tools_attributes') is defined %} {{ block('box_tools_attributes') }}{% endif %}>
+                {# Buttons, labels, and many other things can be placed here! #}
+                {% if block('card_tools') is defined %}{{ block('card_tools') }}{% endif %}
+                {% if _collapsible %}
+                    {{ button.action_toolbutton(
+                        _collapsed ? 'fas fa-plus'  : 'fas fa-minus' ,
+                        'collapse',
+                        _collapsible_title|default('')
+                    ) }}
+                {% endif %}
+
+                {% if _removable %}
+                    {{ button.action_toolbutton(
+                        'fas fa-times',
+                        'remove',
+                        _removable_title|default('')
+                    ) }}
+                {% endif %}
+            </div>
+        </div><!--FIN CARD HEADER-->
+    {% endif %}
+    <!--debut CARD BODY--> <div class="card-body{% if block('card_body_class') is defined %} {{ block('card_body_class') }}{% endif %}">
+        {% if block('card_body_ribbon_text') is defined %}
+        <div class="ribbon-wrapper {% if block('card_body_ribbon_class') is defined %} {{ block('card_body_ribbon_class') }}{% endif %}">
+            <div class="ribbon " {% if block('card_body_ribbon_attr') is defined %} {{ block('card_body_ribbon_attr') }}{% endif %} >
+                {{ block('card_body_ribbon_text') }}
+            </div>
+        </div>
+        {% endif %}
+        {{ block('card_body') }}
+
+    </div><!--FIN CARD BODY-->
+    {% if block('card_liste') is defined %} {{ block('card_liste') }}{% endif %}
+
+    {% if block('card_footer') is defined %}
+        {# 
+            If there is a form in the block_footer, it will be rendered when checking "is not empty". 
+            Therefor we have to cache the output first and then perform the checks. 
+        #}
+        {% set cardFooter = block('card_footer') %}
+        {% if cardFooter is not empty %}
+            <!--debut CARD FOOTER--><div class="card-footer">{{ cardFooter|raw }}</div><!--FIN CARD FOOTER-->
+        {% endif %}
+    {% endif %}
+</div><!--fin CARD-->
+{% if block('card_after') is defined %}{{ block('card_after') }}{% endif %}

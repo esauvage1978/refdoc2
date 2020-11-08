@@ -1,0 +1,45 @@
+{% macro messageEmailValidated(item) %}
+	{% if item.emailvalidated == false %}
+		<div class="alert alert-danger alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h5>
+				<i class="icon fas fa-ban"></i>
+				Adresse mail non vérifiée !</h5>
+			<p>
+				Attention votre adresse mail n'a pas encore été vérifiée.
+			</p>
+			<p>
+				<a href="{{ path('profil_sendmail_email_validated') }}" class="text-primary">Cliquer ici</a>
+				pour renvoyer le lien de vérification.
+			</p>
+		</div>
+	{% endif %}
+{% endmacro %}
+
+
+{% macro lastConnexion(item) %}
+	{% if item.loginAt %}
+		{% set difference = date("today").diff(date(item.loginAt)) %}
+
+		{% set leftDays = difference.days %}
+		{% if leftDays > 396 %}
+			<span class="text-danger font-weight-bold">
+				{{ leftDays }}
+				jours
+			</span>
+		{% elseif leftDays > 185 %}
+			<span class="text-warning font-weight-bold">
+				{{ leftDays }}
+				jours
+			</span>
+		{% else %}
+			<span class="text-success">
+				{{ leftDays }}
+				jours
+			</span>
+		{% endif %}
+	{% else %}
+		--/--/----
+	{% endif %}
+
+{% endmacro %}

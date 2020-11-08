@@ -1,0 +1,90 @@
+{% if item is defined %}
+
+
+	{% import "macros/delele.html.twig" as del %}
+	{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+	{% import "macros/submit.html.twig" as sub %}
+	{{ form_start(form) }}
+
+
+	<div class="row justify-content-center">
+		<div class="{{ col_1_2 }}">
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% block card_body %}
+					<div class="form-group row">
+						{{ form_label(form.name,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+						<div class="col">
+							{{ form_errors(form.name) }}
+							{{ form_widget(form.name) }}
+						</div>
+					</div>
+					<div class="form-group row">
+						{{ form_label(form.email,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+						<div class="col">
+							{{ form_errors(form.email) }}
+							{{ form_widget(form.email) }}
+						</div>
+					</div>
+					<div class="form-group row">
+						{{ form_label(form.phone,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+						<div class="col">
+							{{ form_errors(form.phone) }}
+							{{ form_widget(form.phone) }}
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label" for="{{ form.isEnable.vars.id }}">
+							Afficher
+						</label>
+						<div class="col mt-1">
+							{{ form_row(form.isEnable) }}
+						</div>
+					</div>
+					<div class="form-group row">
+						{{ form_label(form.content,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+						<div class="col">
+							{{ form_errors(form.content) }}
+							{{ form_widget(form.content) }}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+
+		</div>
+		<div class="{{ col_2_2 }}">
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% block card_class %}border border-info
+				{% endblock %}
+				{% block card_body_class %}text-center
+				{% endblock %}
+				{% block card_body %}
+					{{ form_row(form.userParam.iSsubscription) }}
+				{% endblock %}
+			{% endembed %}
+
+
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% block card_title %}Habillitations
+				{% endblock %}
+				{% block card_body_class %}select2-primary
+				{% endblock %}
+				{% block card_body %}
+					{{ form_widget(form.roles) }}
+					{{ form_widget(form.userParam.isDoc) }}
+					{{ form_widget(form.userParam.isControl) }}
+				{% endblock %}
+			{% endembed %}
+
+		</div>
+
+		<div class="d-none">
+			{{ sub.btn() }}
+			{{ form_rest(form) }}
+		</div>
+	</div>
+
+	{{ form_end(form) }}
+	{% if item.id is not null %}
+		{{ del.delete_form(route_del,item.id, 'show') }}
+	{% endif %}
+{% endif %}

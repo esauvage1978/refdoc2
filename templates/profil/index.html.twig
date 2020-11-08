@@ -1,0 +1,167 @@
+{% extends 'profil/layout.html.twig' %}
+{% import "macros/submit.html.twig" as sub %}
+{% import "macros/user.html.twig" as user %}
+
+
+{% block breadcrumb %}
+	{% import "profil/_btn_actions_profil.html.twig" as btn_actions_profil %}
+	{{ btn_actions_profil.show('index') }}
+{% endblock %}
+
+{% block page_content %}
+	<div class="row justify-content-center">
+
+		<div class="{{ col_sm_1_2 }}">
+
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% block card_class %}
+					flat-shadow
+				{% endblock %}
+				{% block card_body_class %}
+					box-profile
+				{% endblock %}
+				{% block card_body %}
+					<div class="text-center">
+						<img class="profile-user-img img-fluid img-circle" style="width:60%" src="{{ asset(app.user.avatar) }}" alt="User profile picture">
+					</div>
+					<p>
+						<h3 class="profile-username text-center">{{ app.user.name }}</h3>
+					</p>
+					<p class="text-center">
+						<a href="mailto::{{ app.user.email }}">
+							{{ app.user.email }}
+						</a>
+					</p>
+
+				{% endblock %}
+			{% endembed %}
+
+
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% block card_class %}flat mt-4
+				{% endblock %}
+
+				{% block card_title %}Habilitations
+				{% endblock %}
+				{% block card_body_class %}p-0
+				{% endblock %}
+				{% block card_body %}
+					<div class="list-group list-group-flush dropright">
+						{% if 'ROLE_ADMIN' in app.user.roles %}
+							<div class="list-group-item list-group-item-action">
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Administrateur</span>
+							</div>
+						{% endif %}
+						{% if 'ROLE_GESTIONNAIRE' in app.user.roles %}
+							<div class="list-group-item list-group-item-action">
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Gestionnaire</span>
+							</div>
+						{% endif %}
+						{% if 'ROLE_USER' in app.user.roles %}
+							<div class="list-group-item list-group-item-action">
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Utilisateur</span>
+							</div>
+						{% endif %}
+						<div class="list-group-item list-group-item-action">
+							{% if app.user.userParam.isDoc %}
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Service Documentation</span>
+							{% endif %}
+						</div>
+
+						<div class="list-group-item list-group-item-action">
+							{% if app.user.userParam.isControl %}
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Service Contrôle</span>
+							{% endif %}
+						</div>
+
+					</div>
+				{% endblock %}
+			{% endembed %}
+
+
+		</div>
+
+
+		<div class="{{ col_sm_2_2 }}">
+
+
+			{{ user.messageEmailValidated(app.user) }}
+
+			{{ form_start(form) }}
+
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% block card_class %}
+					border border-info mb-4
+				{% endblock %}
+				{% block card_body_class %}
+					text-center
+				{% endblock %}
+				{% block card_body %}
+{{ form_row(form.userParam.iSsubscription) }}
+
+				{% endblock %}
+
+			{% endembed %}
+
+			<div class="row">
+				<div class="col-lg-12 col-xl-6">
+
+
+					{% embed 'widgets/card-widget.html.twig' %}
+
+
+						{% block card_body %}
+							<div class="form-group row">
+								{{ form_label(form.name,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+								<div class="col">
+									{{ form_errors(form.name) }}
+									{{ form_widget(form.name) }}
+								</div>
+							</div>
+							<div class="form-group row">
+								{{ form_label(form.email,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+								<div class="col">
+									{{ form_errors(form.email) }}
+									{{ form_widget(form.email) }}
+								</div>
+							</div>
+							<div class="form-group row">
+								{{ form_label(form.phone,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+								<div class="col">
+									{{ form_errors(form.phone) }}
+									{{ form_widget(form.phone) }}
+								</div>
+							</div>
+							<div class="form-group row">
+								{{ form_label(form.content,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+								<div class="col">
+									{{ form_errors(form.content) }}
+									{{ form_widget(form.content) }}
+								</div>
+							</div>
+						{% endblock %}
+					{% endembed %}
+
+					<div class="d-none">
+						{{ sub.btn() }}
+						{{ form_rest(form) }}
+					</div>
+				</div>
+				<div class="col-lg-12 col-xl-6"></div>
+			</div>
+
+			{{ form_end(form) }}
+
+		</div>
+	</div>
+{% endblock %}

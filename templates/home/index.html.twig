@@ -13,6 +13,8 @@
 		{% import "macros/default.html.twig" as dft %}
 		{{ dft.no_connexion() }}
 	{% else %}
+		{% import "macros/user.html.twig" as user %}
+		{{user.messageEmailValidated(app.user)}}
 
 	{% endif %}
 {% endblock %}

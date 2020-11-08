@@ -1,0 +1,14 @@
+﻿{% extends './mail/template.html.twig' %}
+
+{% block title %} Création de votre compte {% endblock %}
+{% block title_content %} Création de votre compte {% endblock %}
+
+{% block body %}
+    <p> Vous vous êtes récemment inscrit sur notre site.</p>
+    <p>
+        Afin de finaliser l'inscription et de valider votre compte, <a
+                href="{{ url('profil_email_validated', {'token': user.emailValidatedToken}) }}">cliquez-ici</a> ou
+        collez le lien suivant dans votre navigateur {{ url('profil_email_validated', {'token': user.emailValidatedToken}) }}
+    </p>
+{% endblock %}
+
