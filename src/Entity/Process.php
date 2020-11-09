@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ProcessRepository::class)
  */
-class Process
+class Process implements EntityInterface
 {
     /**
      * @ORM\Id
@@ -41,7 +41,7 @@ class Process
     private $mProcess;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=25)
      */
     private $ref;
 
@@ -66,6 +66,7 @@ class Process
 
     public function __construct()
     {
+        $this->setIsEnable(true);
         $this->validators = new ArrayCollection();
         $this->contributors = new ArrayCollection();
     }
