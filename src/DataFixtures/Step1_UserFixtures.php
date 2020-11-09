@@ -8,8 +8,9 @@ use App\Validator\UserValidator;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class UserFixtures extends Fixture
+class Step1_UserFixtures extends Fixture implements FixtureGroupInterface
 {
 
     /**
@@ -86,5 +87,10 @@ class UserFixtures extends Fixture
             return;
         }
         var_dump('Validator : ' . $this->validator->getErrors($instance) . $instance->getName());
+    }
+
+    public static function getGroups(): array
+    {
+        return ['step1'];
     }
 }

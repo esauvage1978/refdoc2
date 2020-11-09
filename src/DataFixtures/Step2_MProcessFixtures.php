@@ -8,8 +8,9 @@ use App\Validator\MProcessValidator;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class MProcessFixtures extends Fixture
+class Step2_MProcessFixtures extends Fixture implements FixtureGroupInterface
 {
     /**
      * @var MProcessManager
@@ -78,5 +79,11 @@ class MProcessFixtures extends Fixture
             return;
         }
         var_dump('Validator : ' . $this->validator->getErrors($instance) . $instance->getName());
+    }
+
+
+    public static function getGroups(): array
+    {
+        return ['step2'];
     }
 }
