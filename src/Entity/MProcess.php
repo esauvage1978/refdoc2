@@ -60,12 +60,18 @@ class MProcess implements EntityInterface
      */
     private $dirValidators;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Process::class, mappedBy="mProcess")
+     */
+    private $processes;
+
     public function __construct()
     {
         $this->setIsEnable(true);
         $this->contributors = new ArrayCollection();
         $this->dirValidators = new ArrayCollection();
         $this->poleValidators = new ArrayCollection();
+        $this->processes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,6 +199,36 @@ class MProcess implements EntityInterface
     {
         if ($this->poleValidators->contains($poleValidator)) {
             $this->poleValidators->removeElement($poleValidator);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Process[]
+     */
+    public function getProcesses(): Collection
+    {
+        return $this->processes;
+    }
+
+    public function addProcess(Process $process): self
+    {
+        if (!$this->processes->contains($process)) {
+            $this->processes[] = $process;
+            $process->setMProcess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcess(Process $process): self
+    {
+        if ($this->processes->removeElement($process)) {
+            // set the owning side to null (unless already changed)
+            if ($process->getMProcess() === $this) {
+                $process->setMProcess(null);
+            }
         }
 
         return $this;
