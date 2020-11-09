@@ -41,7 +41,7 @@ class Process implements EntityInterface
     private $mProcess;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=25, nullable=true)
      */
     private $ref;
 
@@ -129,7 +129,7 @@ class Process implements EntityInterface
         return $this->ref;
     }
 
-    public function setRef(string $ref): self
+    public function setRef(?string $ref): self
     {
         $this->ref = $ref;
 

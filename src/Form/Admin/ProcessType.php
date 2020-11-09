@@ -24,12 +24,13 @@ class ProcessType extends AppTypeAbstract
         $builder
             ->add('ref', TextType::class, [
                 self::LABEL => 'Référence',
-                self::REQUIRED => true,
-                self::ATTR => [self::PLACEHOLDER => '000'],
+                self::REQUIRED => false,
+                self::ATTR => [self::PLACEHOLDER => '___',self::MAXLENGTH=>25],
             ])
             ->add('grouping', TextType::class, [
                 self::LABEL => 'Groupement',
                 self::REQUIRED => false,
+                self::ATTR => [ self::MAXLENGTH => 255]
             ]);
     }
 
