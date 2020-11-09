@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\MProcess;
-use App\Entity\Organisme;
 use App\Entity\User;
+use App\Entity\MProcess;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
 
 abstract class AppTypeAbstract extends AbstractType
 {
@@ -64,4 +64,65 @@ abstract class AppTypeAbstract extends AbstractType
                 self::ATTR => [self::ROWS => 3, self::CSS_CLASS => 'textarea'],
             ]);
     }
+
+
+
+    public function buildFormContributors(FormBuilderInterface $builder): void
+    {
+        $builder
+            ->add('contributors', EntityType::class, [
+                'class' => User::class,
+                self::LABEL => 'name',
+                self::CHOICE_LABEL => 'name',
+                self::MULTIPLE => true,
+                self::ATTR => ['class' => 'select2'],
+                self::REQUIRED => false,
+                self::QUERY_BUILDER => static function (EntityRepository $er) {
+                    return $er->createQueryBuilder(UserRepository::ALIAS)
+                        ->Where(UserRepository::ALIAS . '.isEnable=:ie')
+                        ->setParameter('ie', '1')
+                        ->orderBy(UserRepository::ALIAS . '.name', 'ASC');
+                },
+            ]);
+    }
+
+    public function buildFormDirValidators(FormBuilderInterface $builder): void
+    {
+        $builder
+            ->add('dirValidators', EntityType::class, [
+                'class' => User::class,
+                self::LABEL => 'name',
+                self::CHOICE_LABEL => 'name',
+                self::MULTIPLE => true,
+                self::ATTR => ['class' => 'select2'],
+                self::REQUIRED => false,
+                self::QUERY_BUILDER => static function (EntityRepository $er) {
+                    return $er->createQueryBuilder(UserRepository::ALIAS)
+                        ->Where(UserRepository::ALIAS . '.isEnable=:ie')
+                        ->setParameter('ie', '1')
+                        ->orderBy(UserRepository::ALIAS . '.name', 'ASC');
+                },
+            ]);
+    }
+
+    public function buildFormPoleValidators(FormBuilderInterface $builder): void
+    {
+        $builder
+            ->add('poleValidators', EntityType::class, [
+                'class' => User::class,
+                self::LABEL => 'name',
+                self::CHOICE_LABEL => 'name',
+                self::MULTIPLE => true,
+                self::ATTR => ['class' => 'select2'],
+                self::REQUIRED => false,
+                self::QUERY_BUILDER => static function (EntityRepository $er) {
+                    return $er->createQueryBuilder(UserRepository::ALIAS)
+                    ->Where(UserRepository::ALIAS . '.isEnable=:ie')
+                    ->setParameter('ie', '1')
+                        ->orderBy(UserRepository::ALIAS.'.name', 'ASC');
+                },
+            ]);
+    }
+
+
 }

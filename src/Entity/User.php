@@ -7,6 +7,8 @@ namespace App\Entity;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use function array_unique;
@@ -76,16 +78,37 @@ class User implements UserInterface, EntityInterface
     private $phone;
 
     /**
-     * @ORM\OneToOne(targetEntity=UserParam::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=UserParam::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $userParam;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity=MProcess::class, mappedBy="contributors")
+     * @ORM\JoinTable("mprocesscontributors_user")
+     */
+    private $mProcessContributors;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=MProcess::class, mappedBy="dirValidators")
+     * @ORM\JoinTable("mprocessdirvalidators_user")
+     */
+    private $mProcessDirValidators;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=MProcess::class, mappedBy="poleValidators")
+     * @ORM\JoinTable("mprocesspolevalidators_user")
+     */
+    private $mProcessPoleValidators;
 
 
     public function __construct()
     {
         $this->setIsEnable(true);
         $this->setEmailValidated(false);
+        $this->mProcessContributors = new ArrayCollection();
+        $this->mProcessPoleValidators = new ArrayCollection();
+        $this->mProcessDirValidators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -329,6 +352,91 @@ class User implements UserInterface, EntityInterface
         return $this;
     }
 
+
+
+    /**
+     * @return Collection|MProcess[]
+     */
+    public function getMProcessContributors(): Collection
+    {
+        return $this->mProcessContributors;
+    }
+
+    public function addMProcessContributor(MProcess $mProcessContributor): self
+    {
+        if (!$this->mProcessContributors->contains($mProcessContributor)) {
+            $this->mProcessContributors[] = $mProcessContributor;
+            $mProcessContributor->addContributor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMProcessContributor(MProcess $mProcessContributor): self
+    {
+        if ($this->mProcessContributors->contains($mProcessContributor)) {
+            $this->mProcessContributors->removeElement($mProcessContributor);
+            $mProcessContributor->removeContributor($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MProcess[]
+     */
+    public function getMProcessPoleValidators(): Collection
+    {
+        return $this->mProcessPoleValidators;
+    }
+
+    public function addMProcessPoleValidator(MProcess $mProcessPoleValidator): self
+    {
+        if (!$this->mProcessPoleValidators->contains($mProcessPoleValidator)) {
+            $this->mProcessPoleValidators[] = $mProcessPoleValidator;
+            $mProcessPoleValidator->addPoleValidator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMProcessPoleValidator(MProcess $mProcessPoleValidator): self
+    {
+        if ($this->mProcessPoleValidators->contains($mProcessPoleValidator)) {
+            $this->mProcessPoleValidators->removeElement($mProcessPoleValidator);
+            $mProcessPoleValidator->removePoleValidator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MProcess[]
+     */
+    public function getMProcessDirValidators(): Collection
+    {
+        return $this->mProcessDirValidators;
+    }
+
+    public function addMProcessDirValidator(MProcess $mProcessDirValidator): self
+    {
+        if (!$this->mProcessDirValidators->contains($mProcessDirValidator)) {
+            $this->mProcessDirValidators[] = $mProcessDirValidator;
+            $mProcessDirValidator->addDirValidator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMProcessDirValidator(MProcess $mProcessDirValidator): self
+    {
+        if ($this->mProcessDirValidators->contains($mProcessDirValidator)) {
+            $this->mProcessDirValidators->removeElement($mProcessDirValidator);
+            $mProcessDirValidator->removeDirValidator($this);
+        }
+
+        return $this;
+    }
 
  
 }

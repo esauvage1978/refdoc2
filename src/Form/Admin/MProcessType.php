@@ -18,6 +18,10 @@ class MProcessType extends AppTypeAbstract
         $this->buildFormIsEnable($builder);
         $this->buildFormContent($builder);
 
+        $this->buildFormContributors($builder);
+        $this->buildFormDirValidators($builder);
+        $this->buildFormPoleValidators($builder);
+
         $builder
             ->add('ref', TextType::class, [
                 self::LABEL => 'Référence',
