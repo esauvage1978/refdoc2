@@ -14,37 +14,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProcessRepository extends ServiceEntityRepository
 {
+    const ALIAS = 'p';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Process::class);
     }
 
-    // /**
-    //  * @return Process[] Returns an array of Process objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllForAdmin()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS,
+                MProcessRepository::ALIAS,
+                UserRepository::ALIAS_P_V,
+                UserRepository::ALIAS_P_C
+            )
+            ->leftJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.validators', UserRepository::ALIAS_P_V)
+            ->leftJoin(self::ALIAS . '.contributors', UserRepository::ALIAS_P_C)
+            ->orderBy(self::ALIAS . '.ref', 'ASC')
+            ->addOrderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Process
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

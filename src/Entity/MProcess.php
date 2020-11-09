@@ -233,4 +233,9 @@ class MProcess implements EntityInterface
 
         return $this;
     }
+
+    public function getFullName(): ?string
+    {
+        return $this->getRef() . ' - ' . $this->getName();
+    }
 }

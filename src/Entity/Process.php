@@ -51,7 +51,7 @@ class Process implements EntityInterface
     private $grouping;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="processvalidators")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="processValidators")
      * @ORM\JoinTable("processvalidators_user")
      * @ORM\OrderBy({"name" = "ASC"})
      */
@@ -194,5 +194,10 @@ class Process implements EntityInterface
         $this->contributors->removeElement($contributor);
 
         return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->getRef() . ' - ' . $this->getName();
     }
 }

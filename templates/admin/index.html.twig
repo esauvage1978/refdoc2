@@ -12,20 +12,17 @@
 {% endblock %}
 
 {% block page_content %}
-	<div class="row">
+	<div class="row mt-5">
 		<div
 			class="col-md-4 offset-md-1">
 			{# ... box widget with defaults ... #}
 
 			<div class="card">
-				<div class="card-header">
-					Gestion des paramètres
-				</div>
 				<div class="list-group list-group-flush">
 					{% for entry in general_entries %}
 						<a href="{{ path(entry.route)}}" target="_self" class="list-group-item list-group-item-action">
 							<div class="d-flex w-100 align-items-center">
-								<div class="p-2 mr-4">
+								<div class="p-2 mr-4 text-center" style="width:120px">
 									<i class="fa-3x {{entry.icon}}"></i>
 								</div>
 								<div>

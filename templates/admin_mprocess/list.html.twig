@@ -46,7 +46,17 @@
 				</a>
 			</td>
 			<td class="align-middle">{{ item.content | raw }}</td>
-			<td class="align-middle text-center"></td>
+			<td class="align-middle text-center">
+				{% if   item.processes.count==0 %}
+					<div class="p-2 badge badge-light text-light">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success">
+						{{ item.processes.count }}
+					</div>
+				{% endif %}
+			</td>
 			<td class="align-middle text-center">
 				{% if   item.dirValidators.count==0 %}
 					<div class="p-2 badge badge-danger text-danger">

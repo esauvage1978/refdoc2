@@ -25,8 +25,16 @@ class MProcessRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder(self::ALIAS)
             ->select(
-                self::ALIAS
+                self::ALIAS,
+                ProcessRepository::ALIAS,
+                UserRepository::ALIAS_MP_DV,
+                UserRepository::ALIAS_MP_PV,
+                UserRepository::ALIAS_MP_C
             )
+            ->leftJoin(self::ALIAS . '.processes', ProcessRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.dirValidators', UserRepository::ALIAS_MP_DV)
+            ->leftJoin(self::ALIAS . '.poleValidators', UserRepository::ALIAS_MP_PV)
+            ->leftJoin(self::ALIAS . '.contributors', UserRepository::ALIAS_MP_C)
             ->orderBy(self::ALIAS . '.ref', 'ASC')
             ->addOrderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
