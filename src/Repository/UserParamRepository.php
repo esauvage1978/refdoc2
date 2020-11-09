@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserParamRepository extends ServiceEntityRepository
 {
+    const ALIAS='up';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserParam::class);

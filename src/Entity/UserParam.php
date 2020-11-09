@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserParamRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,25 @@ class UserParam
      * @ORM\Column(type="boolean")
      */
     private $isControl;
+
+
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="userParam", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $user;
+
+
+
+    public function __construct()
+    {
+        $this->setIsDoc(false);
+        $this->setIsControl(false);
+        $this->setIsSubscription(false);
+
+    }
+
 
     public function getId(): ?int
     {
@@ -74,10 +95,27 @@ class UserParam
         return $this;
     }
 
-    public function __construct()
+
+
+
+
+    public function getUser(): ?User
     {
-        $this->setIsDoc(false);
-        $this->setIsControl(false);
-        $this->setIsSubscription(false);
+        return $this->user;
     }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUserParam = null === $user ? null : $this;
+        if ($user->getUserParam() !== $newUserParam) {
+            $user->setUserParam($newUserParam);
+        }
+
+        return $this;
+    }
+
+
 }

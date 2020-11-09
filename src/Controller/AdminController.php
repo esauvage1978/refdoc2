@@ -18,9 +18,19 @@ class AdminController extends AbstractController
     {
         $general_entries = [
             [
-                'name' => 'Gestion des utilisateurs',
+                'name' => 'Utilisateurs',
                 'route' => 'user_list',
-            ]
+                'content'=> 'Gestion des utilisateurs',
+                'smallcontent'=>'réservé à l\'administrateur',
+                'icon'=>'fa fa-users text-info' 
+            ],
+            [
+                'name' => 'Macro processus',
+                'route' => 'admin_mprocess_list',
+                'content' => 'Gestion des macro-processus et des intervenants',
+                'smallcontent' => '',
+                'icon' => 'fas fa-sitemap text-info' 
+            ]            
         ];
 
         

@@ -43,3 +43,26 @@
 	{% endif %}
 
 {% endmacro %}
+
+{% macro vignettes(items)%}
+	{% import _self as usr %}
+	<div class="p-2 text-center">
+		{% for item in items %}
+			{{ usr.vignette(item) }}
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro vignette(item) %}
+	<a class="list-inline-item" href="{{ path('user_show', {'id': item.id}) }}">
+		<div class="text-center">
+<img class="profile-user-img img-bordered-sm img-circle" src="{{ asset(item.avatar) }}" alt="User Image">
+
+
+
+		</div>
+		<div class="text-center small">
+			{{ item.name }}
+		</div>
+	</a>
+{% endmacro %}
