@@ -19,6 +19,8 @@ class ProcessDto extends AbstractDto
     /** @var MProcessDto|null */
     private $mProcessDto;
 
+    /** @var SubscriptionDto|null */
+    private $subscriptionDto;
 
     public function getMProcessDto(): ?MProcessDto
     {
@@ -32,7 +34,17 @@ class ProcessDto extends AbstractDto
         return $this;
     }
 
+    public function getSubscriptionDto(): ?SubscriptionDto
+    {
+        return $this->subscriptionDto;
+    }
 
+    public function setSubscriptionDto(?SubscriptionDto $subscriptionDto): ProcessDto
+    {
+        $this->subscriptionDto = $subscriptionDto;
+
+        return $this;
+    }
 
     /**
      * @return mixed

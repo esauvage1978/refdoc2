@@ -22,6 +22,22 @@ class MProcessDto extends AbstractDto
     private $processDto;
 
 
+    /** @var SubscriptionDto|null */
+    private $subscriptionDto;
+
+    public function getSubscriptionDto(): ?SubscriptionDto
+    {
+        return $this->subscriptionDto;
+    }
+
+    public function setSubscriptionDto(?SubscriptionDto $subscriptionDto): MProcessDto
+    {
+        $this->subscriptionDto = $subscriptionDto;
+
+        return $this;
+    }
+
+
     public function getProcessDto(): ?ProcessDto
     {
         return $this->processDto;
