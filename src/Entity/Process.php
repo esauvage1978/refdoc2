@@ -64,11 +64,17 @@ class Process implements EntityInterface
      */
     private $contributors;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="process")
+     */
+    private $subscriptions;
+
     public function __construct()
     {
         $this->setIsEnable(true);
         $this->validators = new ArrayCollection();
         $this->contributors = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,5 +205,35 @@ class Process implements EntityInterface
     public function getFullName(): ?string
     {
         return $this->getRef() . ' - ' . $this->getName();
+    }
+
+    /**
+     * @return Collection|Subscription[]
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function addSubscription(Subscription $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions[] = $subscription;
+            $subscription->setProcess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(Subscription $subscription): self
+    {
+        if ($this->subscriptions->removeElement($subscription)) {
+            // set the owning side to null (unless already changed)
+            if ($subscription->getProcess() === $this) {
+                $subscription->setProcess(null);
+            }
+        }
+
+        return $this;
     }
 }
