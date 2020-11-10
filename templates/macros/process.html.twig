@@ -1,0 +1,17 @@
+{% macro vignettes(items) %}
+	{% import _self as macro %}
+	<div class="list-group list-group-flush dropright">
+		{% for item in items %}
+			{{ macro.vignette(item) }}
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro vignette(item) %}
+	<a href="{{ path('admin_process_show', {'id': item.id}) }}" class="list-group-item hvr-float-shadow ">
+		<span class=" {% if item.isEnable is same as(false) %}text-warning {% endif %}">
+			{{ item.fullname | raw}}
+			<small class="text-muted">{{ item.grouping }}</small>
+		</span>
+	</a>
+{% endmacro %}

@@ -39,7 +39,8 @@
 				{% endblock %}
 				{% block card_tools %}
 					{% if is_granted('ROLE_GESTIONNAIRE') %}
-						<a href="#">
+						<a href="{{ path('admin_process_add') }}">
+
 							<i class="far fa-plus-square"></i>
 							Ajouter un processus
 						</a>
@@ -47,7 +48,11 @@
 				{% endblock %}
 				{% block card_body_class %}p-0
 				{% endblock %}
-				{% block card_body %}{% endblock %}
+				{% block card_body %}
+					{% import "macros/process.html.twig" as proc %}
+					{{ proc.vignettes(item.processes) }}
+				{% endblock %}
+
 			{% endembed %}
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% block card_title %}Agent de Direction
