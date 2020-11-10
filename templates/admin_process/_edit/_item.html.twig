@@ -1,0 +1,126 @@
+{% if item is defined %}
+
+    {% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+    {% import "macros/delele.html.twig" as del %}
+    {% import "macros/submit.html.twig" as sub %}
+    {{ form_start(form) }}
+
+
+    <div class="row justify-content-center">
+        <div class="{{ col_1_2 }}">
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}{{ item.ref }}<span class="text-bold"> {{ item.name }}</span>{% endblock %}
+                {% block card_body %}
+                    <div class="row">
+                        <div class=" col-12">
+                            <div class="form-group row">
+                                {{ form_label(form.mprocess,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+                                <div class="col">
+                                    {{ form_errors(form.mprocess) }}
+                                    {{ form_widget(form.mprocess) }}
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                <label class="col-sm-3 col-form-label  control-label " for="cmb_grouping" id="lbl_grouping">Regroupement</label>
+                                <div class="col">
+                                    <select aria-label="lbl_grouping" name="cmb_grouping" id="cmb_grouping" class="form-control">
+                                    </select>
+                                </div>
+                                <button type="button" class="btn  float-right" data-toggle="modal" data-target="#addDir"
+                                        data-whatever="cmb_grouping">
+                                    <i class="fa fa-plus-circle text-success"></i>
+                                </button>
+                            </div>
+                            <div class="form-group row ">
+                                {{ form_label(form.grouping,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+                                <div class="col">
+                                    {{ form_errors(form.grouping) }}
+                                    {{ form_widget(form.grouping) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form_label(form.name,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+                                <div class="col">
+                                    {{ form_errors(form.name) }}
+                                    {{ form_widget(form.name) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ form_label(form.ref,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+                                <div class="col-xs-3 col-md-2">
+                                    {{ form_errors(form.ref) }}
+                                    {{ form_widget(form.ref) }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label" for="{{ form.isEnable.vars.id }}">
+                                    Afficher
+                                </label>
+                                <div class="col mt-1 ">
+                                    {{ form_widget(form.isEnable) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ form_label(form.content,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+                        <div class="col">
+                            {{ form_errors(form.content) }}
+                            {{ form_widget(form.content) }}
+                        </div>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+        <div class="{{ col_2_2 }}">
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}Valideurs{% endblock %}
+                {% block card_body_class %}select2-primary{% endblock %}
+                {% block card_body %}
+                    {{ form_widget(form.validators) }}
+                {% endblock %}
+            {% endembed %}
+
+            {% embed 'widgets/card-widget.html.twig' %}
+                {% block card_title %}Contributeurs{% endblock %}
+                {% block card_body_class %}select2-primary{% endblock %}
+                {% block card_body %}
+                    {{ form_widget(form.contributors) }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    {% import "macros/submit.html.twig" as sub %}
+    <div class="d-none">{{ sub.btn() }}</div>
+    {{ form_end(form) }}
+    {% if item.id is not null %}
+        {{ del.delete_form(route_del,item.id, 'show') }}
+    {% endif %}
+
+    <div class="modal fade" id="addDir" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajoute un libellé</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="addDir_field_new" class="col-form-label">Libellé</label>
+                            <input type="text" class="form-control d-none" id="addDir_field">
+                            <input type="text" class="form-control" id="addDir_field_new">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" id="btn_addDir" class="btn btn-success">Ajouter le libellé</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}

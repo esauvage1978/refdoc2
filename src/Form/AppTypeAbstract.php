@@ -124,5 +124,42 @@ abstract class AppTypeAbstract extends AbstractType
             ]);
     }
 
+    public function buildFormValidators(FormBuilderInterface $builder): void
+    {
+        $builder
+            ->add('validators', EntityType::class, [
+                'class' => User::class,
+                self::LABEL => 'Valideurs',
+                self::CHOICE_LABEL => 'name',
+                self::MULTIPLE => true,
+                self::ATTR => ['class' => 'select2'],
+                self::REQUIRED => false,
+                self::QUERY_BUILDER => static function (EntityRepository $er) {
+                return $er->createQueryBuilder(UserRepository::ALIAS)
+                    ->Where(UserRepository::ALIAS . '.isEnable=:ie')
+                    ->setParameter('ie', '1')
+                    ->orderBy(UserRepository::ALIAS . '.name', 'ASC');
+                },
+            ]);
+    }
+
+    public function buildFormMProcess(FormBuilderInterface $builder): void
+    {
+        $builder
+            ->add('mprocess', EntityType::class, [
+                'class' => MProcess::class,
+                self::CHOICE_LABEL => 'fullname',
+                self::MULTIPLE => false,
+                self::ATTR => ['class' => ''],
+                self::REQUIRED => true,
+                self::QUERY_BUILDER => static function (EntityRepository $er) {
+                    return $er->createQueryBuilder('o')
+                        ->orderBy('o.ref', 'ASC')
+                        ->addOrderBy('o.name', 'ASC');
+                },
+            ]);
+    }
+
+
 
 }

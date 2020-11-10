@@ -1,0 +1,51 @@
+{% extends 'admin_process/layout.html.twig' %}
+
+{% block page_subtitle %}Création{% endblock %}
+
+
+{% block breadcrumb %}
+    {% import domaine~"/_btn_actions.html.twig" as actions %}
+    {{ actions.show(
+        'add',
+        is_granted('ROLE_GESTIONNAIRE'),
+        null,
+        domaine
+    ) }}
+{% endblock %}
+
+
+{% block page_content %}
+    {{ include(domaine ~ '/_edit/_item.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ absolute_url( asset('js/es_widget.js')) }}"></script>
+<script src="{{ absolute_url( asset('js/arborescence.js')) }}"></script>
+
+
+<script type="text/javascript">
+
+	let mprocess = $('#process_mprocess');
+let grouping = $('#cmb_grouping');
+let groupingForm = $('#process_grouping');
+
+
+$(function () {
+idmp = getVal(mprocess);
+
+arbo_grouping(grouping, "{{ path('ajax_fill_combobox_grouping') }}",idm, groupingForm);
+});
+
+
+mprocess.on("change", function (e) {
+idmp = getVal(mprocess);
+arbo_grouping(grouping, "{{ path('ajax_fill_combobox_grouping') }}", idmp, groupingForm);
+});
+
+grouping.on("change", function (e) {
+setVal(groupingForm, getText($('#cmb_grouping option:selected')));
+});
+</script>
+
+{% endblock %}

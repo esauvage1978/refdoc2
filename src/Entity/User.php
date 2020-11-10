@@ -94,13 +94,24 @@ class User implements UserInterface, EntityInterface
      * @ORM\JoinTable("mprocessdirvalidators_user")
      */
     private $mProcessDirValidators;
-
+ 
     /**
      * @ORM\ManyToMany(targetEntity=MProcess::class, mappedBy="poleValidators")
      * @ORM\JoinTable("mprocesspolevalidators_user")
      */
     private $mProcessPoleValidators;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Process::class, mappedBy="contributors")
+     * @ORM\JoinTable("processcontributors_user")
+     */
+    private $processContributors;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Process::class, mappedBy="validators")
+     * @ORM\JoinTable("processvalidators_user")
+     */
+    private $processValidators;
 
     public function __construct()
     {
@@ -109,6 +120,8 @@ class User implements UserInterface, EntityInterface
         $this->mProcessContributors = new ArrayCollection();
         $this->mProcessPoleValidators = new ArrayCollection();
         $this->mProcessDirValidators = new ArrayCollection();
+        $this->processContributors = new ArrayCollection();
+        $this->processValidators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -352,7 +365,61 @@ class User implements UserInterface, EntityInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Process[]
+     */
+    public function getProcessContributors(): Collection
+    {
+        return $this->processContributors;
+    }
 
+    public function addProcessContributor(Process $processContributor): self
+    {
+        if (!$this->processContributors->contains($processContributor)) {
+            $this->processContributors[] = $processContributor;
+            $processContributor->addContributor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcessContributor(Process $processContributor): self
+    {
+        if ($this->processContributors->contains($processContributor)) {
+            $this->processContributors->removeElement($processContributor);
+            $processContributor->removeContributor($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Process[]
+     */
+    public function getProcessValidators(): Collection
+    {
+        return $this->processValidators;
+    }
+
+    public function addProcessPoleValidator(Process $processValidators): self
+    {
+        if (!$this->processValidators->contains($processValidators)) {
+            $this->processValidators[] = $processValidators;
+            $processValidators->addValidator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcessPoleValidator(Process $processValidators): self
+    {
+        if ($this->processValidators->contains($processValidators)) {
+            $this->processValidators->removeElement($processValidators);
+            $processValidators->removeValidator($this);
+        }
+
+        return $this;
+    }
 
     /**
      * @return Collection|MProcess[]

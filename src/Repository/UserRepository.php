@@ -17,7 +17,13 @@ use Doctrine\Persistence\ManagerRegistry;
 class UserRepository extends ServiceEntityRepository
 {
     public const ALIAS = 'u';
+    public const ALIAS_MP_DV = 'u_mp_dv';
+    public const ALIAS_MP_PV = 'u_mp_pv';
+    public const ALIAS_MP_C = 'u_mp_c';
+    public const ALIAS_P_V = 'u_p_v';
+    public const ALIAS_P_C = 'u_p_c';
 
+    
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);

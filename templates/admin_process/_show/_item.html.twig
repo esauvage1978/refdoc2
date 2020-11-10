@@ -10,12 +10,20 @@
 					box-profile
 				{% endblock %}
 				{% block card_body %}
+					<p class="text-center">
+						<a href="{{ path('admin_mprocess_show',{id:item.mprocess.id}) }}">
+							{{ item.mprocess.fullname | raw }}
+						</a>
+					</p>
 					<div class="text-center display-2">
 						<strong>{{ item.ref }}</strong>
 					</div>
 					<h2 class="profile-username text-center">{{ item.Name }}</h2>
-
-
+					<p class="text-center">
+						<small class=" text-muted">
+							{{ item.grouping }}
+						</small>
+					</p>
 					<small class="float-right">
 						{% if item.isEnable %}
 							<span class="text-success">Visible</span>
@@ -30,51 +38,20 @@
 				{% embed 'widgets/card-widget.html.twig' %}
 					{% block card_body %}
 						{{ item.content |raw }}
+
 					{% endblock %}
 				{% endembed %}
 			{% endif %}
 
-			{% embed 'widgets/card-widget.html.twig' %}
-				{% block card_title %}Processus
-				{% endblock %}
-				{% block card_tools %}
-					{% if is_granted('ROLE_GESTIONNAIRE') %}
-						<a href="{{ path('admin_process_add') }}">
 
-							<i class="far fa-plus-square"></i>
-							Ajouter un processus
-						</a>
-					{% endif %}
-				{% endblock %}
-				{% block card_body_class %}p-0
-				{% endblock %}
-				{% block card_body %}
-					{% import "macros/process.html.twig" as proc %}
-					{{ proc.vignettes(item.processes) }}
-				{% endblock %}
-
-			{% endembed %}
 			{% embed 'widgets/card-widget.html.twig' %}
-				{% block card_title %}Agent de Direction
+				{% block card_title %}Valideurs
 				{% endblock %}
 				{% block card_body_class %}p-0
 				{% endblock %}
 				{% block card_body %}
 					{% import "macros/user.html.twig" as usr %}
-					{{ usr.vignettes(item.DirValidators) }}
-
-				{% endblock %}
-			{% endembed %}
-
-			{% embed 'widgets/card-widget.html.twig' %}
-				{% block card_title %}Manager stratégique
-				{% endblock %}
-				{% block card_body_class %}p-0
-				{% endblock %}
-				{% block card_body %}
-					{% import "macros/user.html.twig" as usr %}
-					{{ usr.vignettes(item.poleValidators) }}
-
+					{{ usr.vignettes(item.validators) }}
 				{% endblock %}
 			{% endembed %}
 
@@ -86,9 +63,9 @@
 				{% block card_body %}
 					{% import "macros/user.html.twig" as usr %}
 					{{ usr.vignettes(item.contributors) }}
+
 				{% endblock %}
 			{% endembed %}
-
 
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% block card_title %}Abonnés

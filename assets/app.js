@@ -20,6 +20,8 @@ import "summernote/dist/summernote-bs4.min.css";
 import "select2/dist/css/select2.min.css";
 import "select2-bootstrap-theme/dist/select2-bootstrap.min.css";
 
+import "hover.css";
+
 //adminLte https://github.com/kevinpapst/AdminLTEBundle/blob/5af0b6cb66f709504b529e96d3d27741336ca220/Resources/docs/extend_webpack_encore.md
 require("../vendor/kevinpapst/adminlte-bundle/Resources/assets/admin-lte");
 

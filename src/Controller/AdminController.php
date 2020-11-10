@@ -30,7 +30,14 @@ class AdminController extends AbstractController
                 'content' => 'Gestion des macro-processus et des intervenants',
                 'smallcontent' => '',
                 'icon' => 'fas fa-sitemap text-info' 
-            ]            
+            ],
+            [
+                'name' => 'Processus',
+                'route' => 'admin_process_list',
+                'content' => 'Gestion des processus et des intervenants',
+                'smallcontent' => '',
+                'icon' => 'fas fa-square text-info'
+            ]                            
         ];
 
         
