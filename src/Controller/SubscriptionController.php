@@ -63,6 +63,11 @@ class SubscriptionController extends AbstractController
         return $this->render('subscription/list.html.twig', $this->getDatas($user, true));
     }
 
+    public function myListForHomeAction(): Response
+    {
+        return $this->render('subscription/_mylistforhome.html.twig', $this->getDatas($this->user));
+    }
+
     private function getDatas(User $user, bool $admin = false): array
     {
         $dto_MP = new MProcessDto();
@@ -80,9 +85,6 @@ class SubscriptionController extends AbstractController
 
         $dto_P->setSubscriptionDto($dtoS);
         $abosP = $this->processDtoRepository->findAllForDto($dto_P, MProcessDtoRepository::FILTRE_DTO_INIT_SUBSCRIPTION);
-        
-        dump($abosMP);
-        dump($abosP);
         
         return [
             'items' => $items,

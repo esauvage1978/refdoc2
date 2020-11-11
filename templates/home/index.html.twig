@@ -16,5 +16,14 @@
 		{% import "macros/user.html.twig" as user %}
 		{{user.messageEmailValidated(app.user)}}
 
+
+		<div class="row justify-content-center">
+			<div class="col-sm-12 col-xl-4">
+				{{ render(controller('App\\Controller\\SubscriptionController::myListForHomeAction')) }}
+			</div>
+			<div class="col-sm-12 col-xl-8"></div>
+		</div>
+
 	{% endif %}
+
 {% endblock %}
