@@ -7,8 +7,10 @@ namespace App\Controller;
 use App\Entity\Process;
 use App\Entity\MProcess;
 use App\Entity\Subscription;
+use App\Security\CurrentUser;
 use App\Repository\UserRepository;
 use App\Manager\SubscriptionManager;
+use App\Repository\SubscriptionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +20,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AjaxSubscriptionController extends AbstractGController
 {
 
+    /** @var User */
+    private $user;
+
+    /** @var SubscriptionRepository */
+    private $subscriptionRepository;
+
+
+    public function __construct(
+        CurrentUser $currentUser,
+        SubscriptionRepository $subscriptionRepository
+    ) {
+        $this->user = $currentUser->getUser();
+        $this->subscriptionRepository = $subscriptionRepository;
+    }
+    
     /**
      * @Route("/ajax/toogle_abonnement_mp/{id}", name="ajax_toogle_abonnement_mp", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
