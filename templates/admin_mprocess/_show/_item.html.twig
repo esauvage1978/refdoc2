@@ -96,7 +96,16 @@
 				{% block card_body_class %}p-0
 				{% endblock %}
 				{% block card_body %}
-					<div class="users-list"></div>
+					<div class="p-2 text-center">
+
+						{% import "macros/user.html.twig" as usr %}
+						{% for s in item.subscriptions %}
+							{% if s.isEnable %}
+								{{ usr.vignette(s.user) }}
+							{% endif %}
+						{% endfor %}
+					</div>
+
 				{% endblock %}
 			{% endembed %}
 		</div>

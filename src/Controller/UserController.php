@@ -66,11 +66,15 @@ class UserController extends AbstractGController
      * @IsGranted("ROLE_USER")
      */
     public function show(
-        User $item
+        User $item,
+        MProcessDtoRepository $mProcessDtoRepository,
+        ProcessDtoRepository $processDtoRepository
     ): Response {
 
         return $this->render('user/show.html.twig', [
-            'item' => $item
+            'item' => $item,
+            'mps' => $mProcessDtoRepository->findAllForDto((new MProcessDto)->setIsEnable(MProcessDto::TRUE)),
+            'ps' => $processDtoRepository->findAllForDto((new ProcessDto)->setVisible(ProcessDto::TRUE))
         ]);
     }
 

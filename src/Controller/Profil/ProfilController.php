@@ -6,9 +6,13 @@ namespace App\Controller\Profil;
 
 use App\Entity\User;
 use function assert;
+use App\Dto\ProcessDto;
+use App\Dto\MProcessDto;
 use App\Manager\UserManager;
 use App\Form\Profil\ProfilType;
 use App\Controller\AbstractGController;
+use App\Repository\ProcessDtoRepository;
+use App\Repository\MProcessDtoRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,9 +29,10 @@ class ProfilController extends AbstractGController
      */
     public function profileHomeAction(
         Request $request,
-        UserManager $manager 
-         ): Response
-    {
+        MProcessDtoRepository $mProcessDtoRepository,
+        ProcessDtoRepository $processDtoRepository,
+        UserManager $manager
+    ): Response {
         $user = $this->getUser();
         $oldUserMail = (clone $user)->getEmail();
         $form = $this->createForm(ProfilType::class, $user);
@@ -43,7 +48,9 @@ class ProfilController extends AbstractGController
 
         return $this->render('profil/index.html.twig', [
             'item' => $user,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'mps' => $mProcessDtoRepository->findAllForDto((new MProcessDto)->setIsEnable(MProcessDto::TRUE)),
+            'ps' => $processDtoRepository->findAllForDto((new ProcessDto)->setVisible(ProcessDto::TRUE))
         ]);
     }
 }

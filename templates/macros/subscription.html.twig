@@ -20,13 +20,13 @@
 			{% set nbr=nbr+1 %}
 		{% endif %}
 	{% endfor %}
-	{% if nbr==0 %}
-		<span class="text-light">
-			<i class="fas fa-circle"></i>
-		</span>
-	{% else %}
-		<small class="badge  bg-info">{{ nbr }}</small>
-	{% endif %}
+<div class="p-2 {{ nbr==0 ? 'badge badge-light text-light' :'badge badge-success ' }}">
+
+{{ nbr }}
+
+</div>
+
+
 {% endmacro %}
 
 {% macro MessageCurrentUser() %}
