@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\SubscriptionRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -33,8 +34,12 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder(self::ALIAS)
             ->select(
-                self::ALIAS
+                self::ALIAS,
+                SubscriptionRepository::ALIAS,
+                UserParamRepository::ALIAS
             )
+            ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
+            ->leftJoin(self::ALIAS.'.subscriptions',SubscriptionRepository::ALIAS)
             ->orderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
             ->getResult();

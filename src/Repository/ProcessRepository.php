@@ -28,8 +28,10 @@ class ProcessRepository extends ServiceEntityRepository
                 self::ALIAS,
                 MProcessRepository::ALIAS,
                 UserRepository::ALIAS_P_V,
-                UserRepository::ALIAS_P_C
+                UserRepository::ALIAS_P_C,
+                SubscriptionRepository::ALIAS
             )
+            ->leftJoin(self::ALIAS . '.subscriptions', SubscriptionRepository::ALIAS)
             ->leftJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS)
             ->leftJoin(self::ALIAS . '.validators', UserRepository::ALIAS_P_V)
             ->leftJoin(self::ALIAS . '.contributors', UserRepository::ALIAS_P_C)
