@@ -6,12 +6,12 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use function array_unique;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -79,8 +79,9 @@ class User implements UserInterface, EntityInterface
 
     /**
      * @ORM\OneToOne(targetEntity=UserParam::class, inversedBy="user", cascade={"persist", "remove"})
-     */
+    */
     private $userParam;
+
 
 
     /**

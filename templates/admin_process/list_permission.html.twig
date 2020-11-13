@@ -1,0 +1,96 @@
+{% extends 'admin_process/layout.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+
+{% block title %}
+	{{ app_name }}
+	- Permission sur les processus
+{% endblock %}
+{% block page_title %}
+	{{ widgets.icon('mprocess') }}
+	Permission sur les processus
+{% endblock %}
+
+
+{% block breadcrumb %}
+	{% import domaine~"/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'list_permission',
+        is_granted('ROLE_GESTIONNAIRE'),
+        null,
+        domaine
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+	{% set striped = true %}
+
+
+	<div class="row justify-content-center">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-center table-dark">
+						Processus
+					</th>
+					<th class="table-dark">
+						Nom de l'agent
+					</th>
+					<th class="text-center table-dark">
+						Valideur
+					</th>
+					<th class="text-center table-dark">
+						Contributeurs
+					</th>
+
+				</tr>
+			</thead>
+			<tbody>
+
+				{% for item in items %}
+					{% set nbr = item.validators.count  + item.contributors.count %}
+					{% if nbr>0  %}
+
+						{% set nbr_user = 0 %}
+						{% set endofrow = '' %}
+
+						{% for user in users %}
+							{% set u_v = (user in item.validators ? true : false) %}
+							{% set u_c = (user in item.contributors ? true : false) %}
+
+
+							{% if u_v == true or u_c == true %}
+								{% set endofrow = endofrow ~ (nbr_user == 1 ? '<tr>' : '') %}
+
+								{% set nbr_user = nbr_user + 1 %}
+
+								{% set endofrow = endofrow ~ '<td class="align-middle">' ~ nbr_user ~ ' : ' ~ user.name ~'</td>'%}
+
+
+								{% set endofrow = endofrow ~ '<td class="align-middle text-center">' ~ (u_v == true ? '<div class="p-2 badge badge-success text-success">x</div>':'') ~'</td>'%}
+								{% set endofrow = endofrow ~ '<td class="align-middle text-center">' ~ (u_c == true ? '<div class="p-2 badge badge-success text-success">x</div>':'') ~'</td>'%}
+
+
+								{% set endofrow = endofrow ~ '</tr>'%}
+
+							{% endif %}
+
+						{% endfor %}
+						{% set striped = striped == true ? false : true  %}
+
+						<tr>
+							<td class="align-middle  {{ striped == true ? 'table-primary' : '' }}" rowspan="{{nbr_user}}">
+								<a href="{{ path(route_show,{id:item.id}) }}">
+									{{ item.fullname | raw }}
+									{{nbr}}
+								</a>
+							</td>
+							{{ endofrow | raw }}
+
+						{% endif %}
+
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

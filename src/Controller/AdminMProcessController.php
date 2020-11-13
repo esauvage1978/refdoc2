@@ -8,6 +8,7 @@ use App\Entity\MProcess;
 use App\Form\Admin\MProcessType;
 use App\Manager\MProcessManager;
 use App\Repository\MProcessRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +22,22 @@ class AdminMProcessController extends AbstractGController
         $this->repository = $repository;
         $this->manager = $manager;
         $this->domaine = 'admin_mprocess';
+    }
+
+    /**
+     * @Route("/admin/mprocess/permission", name="admin_mprocess_list_permission", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function listPermission(UserRepository $userRepository )
+    {
+        return $this->render(
+            $this->domaine . '/list_permission.html.twig',
+            [
+                'items' => $this->repository->findAllForAdmin(),
+                'users' => $userRepository->findBy(['isEnable'=>true])
+            ]
+        );
+        return $this->listAction('list_permission');
     }
 
     /**
