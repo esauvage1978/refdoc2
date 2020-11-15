@@ -66,7 +66,7 @@ class MProcess implements EntityInterface
     private $processes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="mProcess")
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="mProcess", orphanRemoval=true,cascade={"persist"})
      */
     private $subscriptions;
 

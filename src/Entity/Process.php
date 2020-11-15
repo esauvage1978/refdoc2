@@ -65,7 +65,7 @@ class Process implements EntityInterface
     private $contributors;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="process")
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="process", orphanRemoval=true,cascade={"persist"})
      */
     private $subscriptions;
 
