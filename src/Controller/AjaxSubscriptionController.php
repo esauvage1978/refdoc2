@@ -66,9 +66,7 @@ class AjaxSubscriptionController extends AbstractGController
             $s = new Subscription();
             $s
                 ->setUser($user)
-                ->setMProcess($mProcess)
-                ->setIsEnable(true)
-                ->setCreatedAt(new \DateTime());
+                ->setMProcess($mProcess);
         } else {
             $s
                 ->setIsEnable(!$s->getIsEnable())
@@ -116,9 +114,7 @@ class AjaxSubscriptionController extends AbstractGController
             $s = new Subscription();
             $s
                 ->setUser($user)
-                ->setProcess($process)
-                ->setIsEnable(true)
-                ->setCreatedAt(new \DateTime());
+                ->setProcess($process);
         } else {
             $s
                 ->setIsEnable(!$s->getIsEnable())

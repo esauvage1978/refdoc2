@@ -51,6 +51,7 @@ class Subscription implements EntityInterface
     public function __construct()
     {
         $this->setIsEnable(true);
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getId(): ?int
