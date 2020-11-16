@@ -1,5 +1,5 @@
-{% macro icon(icon) %}
-	<i class="{{ icon|icon(icon) }}"></i>
+{% macro icon(icon, addclass) %}
+	<i class="{{ icon|icon(icon) }} {{ addclass }}"></i>
 {% endmacro %}
 
 {% macro showLongDate(date) %}

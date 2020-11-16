@@ -1,5 +1,6 @@
 {% extends 'admin_process/layout.html.twig' %}
 {% import "macros/datatables.html.twig" as tables %}
+{% import "macros/subscription.html.twig" as sub %}
 {% set columns = {
     'Référence': {'class': 'alwaysVisible text-center', 'orderBy': true},
     'Processus': {'class': 'alwaysVisible', 'orderBy': true},
@@ -76,6 +77,7 @@
 
             </td>
             <td class="align-middle text-center">
+                {{ sub.nbr(item) }}
             </td>
             <td class=" d-flex  justify-content-end ">
                 {% if is_granted('ROLE_GESTIONNAIRE') %}

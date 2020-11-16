@@ -1,0 +1,74 @@
+{% macro has(user, currentUser) %}
+	{% import _self as macro %}
+	{% set nbr=0 %}
+	{% for s in user.subscriptions %}
+		{% if s.isEnable is same as(true) %}
+			{% set nbr=1 %}
+		{% endif %}
+	{% endfor %}
+	{% if nbr==0 and currentUser is same as (false) %}
+		{{ macro.MessageOtherUser(user) }}
+	{% elseif nbr==0   %}
+		{{ macro.MessageCurrentUser() }}
+	{% endif %}
+{% endmacro %}
+
+{%  macro nbr(item) %}
+	{% set nbr=0 %}
+	{% for s in item.subscriptions %}
+		{% if s.isEnable is same as(true) %}
+			{% set nbr=nbr+1 %}
+		{% endif %}
+	{% endfor %}
+<div class="p-2 {{ nbr==0 ? 'badge badge-light text-light' :'badge badge-success ' }}">
+
+{{ nbr }}
+
+</div>
+
+
+{% endmacro %}
+
+{% macro MessageCurrentUser() %}
+	<div class="alert alert-warning ">
+		<h5>
+			<i class="icon fas fa-exclamation-triangle"></i>
+			Aucun abonnement!</h5>
+		<p>L'ensemble des informations sont affichées la page d'accueil.</p>
+		<p>Si vous souhaitez filtrer sur les processus correspondant à votre activité, vous pouvez
+			<a class="text-primary" href="{{ path('mySubscription') }}">modifier votre abonnement ici</a>.</p>
+	</div>
+{% endmacro %}
+
+{% macro MessageOtherUser(user) %}
+	<div class="alert alert-warning ">
+		<h5>
+			<i class="icon fas fa-exclamation-triangle"></i>
+			Aucun abonnement!</h5>
+		<p>L'ensemble des informations sont affichées la page d'accueil.</p>
+		<p>Vous pouvez
+			<a class="text-primary" href="{{ path('subscription',{id:user.id}) }}">modifier son abonnement ici</a>.</p>
+	</div>
+{% endmacro %}
+
+
+{% macro showNbr(user) %}
+	{% import "macros/widgets.html.twig" as widgets %}
+	{% set nbr=0 %}
+	{% for sub in user.subscriptions %}
+		{% if sub.isEnable is same as(true) %}
+			{% set nbr=nbr+1 %}
+		{% endif %}
+	{% endfor %}
+
+	<div class="small-box bg-info">
+        <div class="inner js-subscription-nbr">
+			<h3 class=''>{{ nbr }}</h3>
+			<p>Abonnement{{ nbr > 1 ? 's':'' }}</p>
+		</div>
+		<div class="icon">
+			{{ widgets.icon('subscription') }}
+		</div>
+	</div>
+
+{% endmacro %}

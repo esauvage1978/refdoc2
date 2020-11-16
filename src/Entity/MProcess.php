@@ -65,6 +65,11 @@ class MProcess implements EntityInterface
      */
     private $processes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="mProcess", orphanRemoval=true,cascade={"persist"})
+     */
+    private $subscriptions;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -72,6 +77,7 @@ class MProcess implements EntityInterface
         $this->dirValidators = new ArrayCollection();
         $this->poleValidators = new ArrayCollection();
         $this->processes = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -237,5 +243,35 @@ class MProcess implements EntityInterface
     public function getFullName(): ?string
     {
         return $this->getRef() . ' - ' . $this->getName();
+    }
+
+    /**
+     * @return Collection|Subscription[]
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function addSubscription(Subscription $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions[] = $subscription;
+            $subscription->setMProcess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(Subscription $subscription): self
+    {
+        if ($this->subscriptions->removeElement($subscription)) {
+            // set the owning side to null (unless already changed)
+            if ($subscription->getMProcess() === $this) {
+                $subscription->setMProcess(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -4,7 +4,7 @@
 
     {% if item %}
         {% set permissions='' %}
-        {% set subscription='' %}
+        {% set subscription={ 'subscription': {url: path('subscription',{id:item.id}),class:'btn-secondary',attr:{title:'Modification des abonnements'}}} %}
         {% set delete={ 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
         {% set show={ 'show': {url: path(domaine~'_show',{id:item.id}),class:'btn-secondary',attr:{title:'Consulter'}}} %}
         {% set edit={ 'edit': {url: path(domaine~'_edit',{id:item.id}),class:'btn-secondary',attr:{title:'Modifier'}}} %}
@@ -35,6 +35,7 @@
         {% elseif twigTemplace=='add' %}
             {% set actions = actions|merge(save) %}
         {% elseif twigTemplace=='edit' %}
+            {% set actions = actions|merge(subscription) %}
             {% set actions = actions|merge(delete) %}
             {% set actions = actions|merge(show) %}
             {% set actions = actions|merge(save) %}

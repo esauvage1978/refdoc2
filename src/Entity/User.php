@@ -6,12 +6,12 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use function array_unique;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -79,8 +79,9 @@ class User implements UserInterface, EntityInterface
 
     /**
      * @ORM\OneToOne(targetEntity=UserParam::class, inversedBy="user", cascade={"persist", "remove"})
-     */
+    */
     private $userParam;
+
 
 
     /**
@@ -113,6 +114,11 @@ class User implements UserInterface, EntityInterface
      */
     private $processValidators;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $subscriptions;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -122,6 +128,7 @@ class User implements UserInterface, EntityInterface
         $this->mProcessDirValidators = new ArrayCollection();
         $this->processContributors = new ArrayCollection();
         $this->processValidators = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -500,6 +507,36 @@ class User implements UserInterface, EntityInterface
         if ($this->mProcessDirValidators->contains($mProcessDirValidator)) {
             $this->mProcessDirValidators->removeElement($mProcessDirValidator);
             $mProcessDirValidator->removeDirValidator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subscription[]
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function addSubscription(Subscription $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions[] = $subscription;
+            $subscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(Subscription $subscription): self
+    {
+        if ($this->subscriptions->removeElement($subscription)) {
+            // set the owning side to null (unless already changed)
+            if ($subscription->getUser() === $this) {
+                $subscription->setUser(null);
+            }
         }
 
         return $this;

@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Dto\DtoInterface;
-use App\Dto\ProcessDto;
-use App\Entity\Process;
+use App\Dto\MProcessDto;
+use App\Entity\MProcess;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use function count;
 
-class ProcessDtoRepository extends ServiceEntityRepository implements DtoRepositoryInterface
+class MProcessDtoRepository extends ServiceEntityRepository implements DtoRepositoryInterface
 {
     use TraitDtoRepository;
 
-    /** @var ProcessDto */
+    /** @var MProcessDto */
     private $dto;
 
     public const FILTRE_DTO_INIT_HOME = 'home';
@@ -30,13 +30,13 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Process::class);
+        parent::__construct($registry, MProcess::class);
     }
 
     public function countForDto(DtoInterface $dto)
     {
         /**
-         * var ProcessDto
+         * var ContactDto
          */
         $this->dto = $dto;
 
@@ -65,26 +65,8 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
             ->getResult();
     }
 
-    public function findForComboboxGrouping(DtoInterface $dto)
-    {
-        $this->dto = $dto;
-
-        $this->initialise_selectComboboxGrouping();
-
-        $this->initialise_where();
-
-        $this->initialise_orderBy();
-
-        return $this->builder
-            ->getQuery()
-            ->getResult();
-    }
-
     public function findAllForDtoPaginator(DtoInterface $dto, $page = null, $limit = null)
     {
-        /**
-         * var ProcessDto
-         */
         $this->dto = $dto;
 
         $this->initialise_selectAll();
@@ -109,7 +91,7 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
     public function findAllForDto(DtoInterface $dto, string $filtre = self::FILTRE_DTO_INIT_HOME)
     {
         /**
-         * var ProcessDto
+         * var ContactDto
          */
         $this->dto = $dto;
 
@@ -145,9 +127,9 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select(
                 self::ALIAS,
-                MProcessRepository::ALIAS
+                ProcessRepository::ALIAS
             )
-            ->innerJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.processes', ProcessRepository::ALIAS);
     }
 
     private function initialise_selectAll(): void
@@ -155,9 +137,9 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select(
                 self::ALIAS,
-                MProcessRepository::ALIAS
+                ProcessRepository::ALIAS
             )
-            ->innerJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.processes', ProcessRepository::ALIAS);
     }
 
     private function initialise_selectSubscription(): void
@@ -165,34 +147,27 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select(
                 self::ALIAS,
-            MProcessRepository::ALIAS,
+                ProcessRepository::ALIAS,
                 SubscriptionRepository::ALIAS,
                 UserRepository::ALIAS
             )
             ->innerJoin(self::ALIAS . '.subscriptions', SubscriptionRepository::ALIAS)
             ->innerJoin(SubscriptionRepository::ALIAS . '.user', UserRepository::ALIAS)
-            ->innerJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.processes', ProcessRepository::ALIAS);
     }
 
     private function initialise_selectCombobox(): void
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
-            ->select('distinct ' . self::ALIAS .'.id, concat(' . self::ALIAS . '.ref,\' - \',' . self::ALIAS . '.name) as name')
-            ->innerJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS);
-    }
-
-    private function initialise_selectComboboxGrouping(): void
-    {
-        $this->builder = $this->createQueryBuilder(self::ALIAS)
-            ->select('distinct ' . self::ALIAS .'.grouping')
-            ->innerJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS);
+            ->select('distinct ' . self::ALIAS . '.id, concat(' . self::ALIAS . '.ref,\' - \',' . self::ALIAS . '.name) as name')
+            ->leftJoin(self::ALIAS . '.processes', ProcessRepository::ALIAS);
     }
 
     private function initialise_selectCount(): void
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select('count(distinct ' . self::ALIAS . '.id)')
-            ->innerJoin(self::ALIAS . '.mProcess', MProcessRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.processes', ProcessRepository::ALIAS);
     }
 
     private function initialise_where(): void
@@ -204,14 +179,11 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
 
         $this->initialise_where_enable();
 
-        $this->initialise_where_mprocess();
+        $this->initialise_where_user_can_update();
 
         $this->initialise_where_search();
 
-        $this->initialise_where_user_can_update();
-
         $this->initialise_where_subscription();
-
 
         if (count($this->params) <= 0) {
             return;
@@ -236,48 +208,48 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
 
                 $this->builder
                     ->andWhere(
-                        self::ALIAS . '.id IN (' . $qWC->getDQL() . ')'
-                    );
+                        self::ALIAS . '.id IN (' . $qWC->getDQL() . ')'   );
             }
         }
     }
 
+    private function initialise_where_subscription(): void
+    {
+        $t = $this->dto->getSubscriptionDto();
+        if (empty($t) || empty($t->getUserDto()->getId())) {
+            return;
+        }
+
+        $this->builder->andWhere(UserRepository::ALIAS . '.id = :subid');
+        $this->builder->andWhere(SubscriptionRepository::ALIAS . '.isEnable = :subIE');
+        $this->addParams('subid', $t->getUserDto()->getId());
+        $this->addParams('subIE', true);
+    }
 
     private function initialise_where_enable(): void
     {
-        if (! empty($this->dto->getVisible())) {
+        if (!empty($this->dto->getVisible())) {
             $this->builder->andWhere(self::ALIAS . '.isEnable= true');
-            $this->builder->andWhere(MProcessRepository::ALIAS . '.isEnable= true');
-        } elseif (! empty($this->dto->getHide())) {
+        } elseif (!empty($this->dto->getHide())) {
             $this->builder->andWhere(self::ALIAS . '.isEnable= false');
-            $this->builder->andWhere(MProcessRepository::ALIAS . '.isEnable= false');
         } else {
             $e = $this->dto->getIsEnable();
-            if (! empty($e)) {
-                if ($e === ProcessDto::TRUE) {
+            if (!empty($e)) {
+                if ($e === MProcessDto::TRUE) {
                     $this->builder->andWhere(self::ALIAS . '.isEnable= true');
-                } elseif ($e === ProcessDto::FALSE) {
+                } elseif ($e === MProcessDto::FALSE) {
                     $this->builder->andWhere(self::ALIAS . '.isEnable= false');
                 }
             }
 
-            $e = $this->dto->getMProcessDto();
-            if (! empty($e)) {
-                if ($e->getIsEnable() === ProcessDto::TRUE) {
-                    $this->builder->andWhere(MProcessRepository::ALIAS . '.isEnable= true');
-                } elseif ($e->getIsEnable() === ProcessDto::FALSE) {
-                    $this->builder->andWhere(MProcessRepository::ALIAS . '.isEnable= false');
+            $e = $this->dto->getProcessDto();
+            if (!empty($e)) {
+                if ($e->getIsEnable() === MProcessDto::TRUE) {
+                    $this->builder->andWhere(ProcessRepository::ALIAS . '.isEnable= true');
+                } elseif ($e->getIsEnable() === MProcessDto::FALSE) {
+                    $this->builder->andWhere(ProcessRepository::ALIAS . '.isEnable= false');
                 }
             }
-        }
-    }
-
-    private function initialise_where_mprocess()
-    {
-        $r = $this->dto->getMProcessDto();
-        if (!empty($r) && !empty($r->getId())) {
-            $this->builder->andwhere(MProcessRepository::ALIAS . '.id = :mprocessid');
-            $this->addParams('mprocessid', $r->getId());
         }
     }
 
@@ -292,11 +264,11 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
         $builder
             ->andWhere(
                 self::ALIAS . '.content like :search' .
-                ' OR ' . self::ALIAS . '.name like :search' .
-                ' OR ' . self::ALIAS . '.ref like :search' .
-                ' OR ' . MProcessRepository::ALIAS . '.ref like :search' .
-                ' OR ' . self::ALIAS . '.grouping like :search' .
-                ' OR ' . MProcessRepository::ALIAS . '.name like :search'
+                    ' OR ' . self::ALIAS . '.name like :search' .
+                    ' OR ' . self::ALIAS . '.ref like :search' .
+                    ' OR ' . ProcessRepository::ALIAS . '.ref like :search' .
+                    ' OR ' . ProcessRepository::ALIAS . '.grouping like :search' .
+                    ' OR ' . ProcessRepository::ALIAS . '.name like :search'
             );
 
         $this->addParams('search', '%' . $dto->getWordSearch() . '%');
@@ -305,29 +277,16 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
     private function initialise_orderBy(): void
     {
         $this->builder
-            ->orderBy(MProcessRepository::ALIAS . '.ref', 'ASC')
-            ->addOrderBy(MProcessRepository::ALIAS . '.name', 'ASC')
-            ->addOrderBy(self::ALIAS . '.grouping', 'ASC')
-            ->addOrderBy(self::ALIAS . '.ref', 'ASC')
-            ->addOrderBy(self::ALIAS . '.name', 'ASC');
+            ->orderBy(self::ALIAS . '.ref', 'ASC')
+            ->addOrderBy(self::ALIAS . '.name', 'ASC')
+            ->addOrderBy(ProcessRepository::ALIAS . '.grouping', 'ASC')
+            ->addOrderBy(ProcessRepository::ALIAS . '.ref', 'ASC')
+            ->addOrderBy(ProcessRepository::ALIAS . '.name', 'ASC');
     }
 
     private function initialise_orderByName(): void
     {
         $this->builder
             ->orderBy(self::ALIAS . '.name', 'ASC');
-    }
-
-    private function initialise_where_subscription(): void
-    {
-        $t = $this->dto->getSubscriptionDto();
-        if (empty($t) || empty($t->getUserDto()->getId())) {
-            return;
-        }
-
-        $this->builder->andWhere(UserRepository::ALIAS . '.id = :subid');
-        $this->builder->andWhere(SubscriptionRepository::ALIAS . '.isEnable = :subIE');
-        $this->addParams('subid', $t->getUserDto()->getId());
-        $this->addParams('subIE', true);
     }
 }

@@ -157,7 +157,94 @@
 						{{ form_rest(form) }}
 					</div>
 				</div>
-				<div class="col-lg-12 col-xl-6"></div>
+				<div class="col-lg-12 col-xl-6">
+					{% if item.mProcessDirValidators | length >0 or  item.mProcessPoleValidators | length >0 or item.mProcessContributors | length >0 %}
+						{% embed 'widgets/card-widget.html.twig' %}
+							{% import "macros/widgets.html.twig" as widgets %}
+							{% block card_class %}
+								flat
+							{% endblock %}
+
+
+							{% block card_body_class %}p-0
+							{% endblock %}
+							{% block card_body %}
+								<div class="list-group">
+									{% for mp in mps %}
+										{% if mp in item.mProcessDirValidators or mp in item.mProcessPoleValidators or mp in item.mProcessContributors %}
+											<a href="{{path('admin_mprocess_show',{id:mp.id})}}" class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center ">
+												<span class='text-primary mr-5'>
+													{{ widgets.icon('mprocess') }}
+													{{ mp.fullname | raw}}
+												</span>
+												<span>
+													{% if mp in item.mProcessDirValidators %}
+														<i class="fas fa-user-tie mr-1 text-success" title='Agent de Direction'></i>
+													{% else %}
+														<i class="fas fa-user-tie mr-1 text-light"></i>
+													{% endif %}
+													{% if mp in item.mProcessPoleValidators %}
+														<i class="fas fa-user-check text-success" title='Manager stratégique'></i>
+													{% else %}
+														<i class="fas fa-user-check text-light"></i>
+													{% endif %}
+													{% if mp in item.mProcessContributors %}
+														<i class="fas fa-user-edit text-success" title='Contributeur'></i>
+													{% else %}
+														<i class="fas fa-user-edit text-light"></i>
+													{% endif %}
+												</span>
+											</a>
+										{% endif %}
+									{% endfor %}
+								</div>
+
+							{% endblock %}
+						{% endembed %}
+					{% endif %}
+
+					{% if  item.processValidators | length >0 or item.processContributors | length >0 %}
+						{% embed 'widgets/card-widget.html.twig' %}
+							{% import "macros/widgets.html.twig" as widgets %}
+							{% block card_class %}
+								flat
+							{% endblock %}
+
+
+							{% block card_body_class %}p-0
+							{% endblock %}
+							{% block card_body %}
+								<div class="list-group">
+									{% for p in ps %}
+										{% if p in item.processValidators or p in item.processContributors %}
+											<a href="{{path('admin_process_show',{id:p.id})}}" class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center ">
+												<span class='text-primary mr-5'>
+													{{ widgets.icon('process') }}
+													{{ p.fullname | raw}}
+												</span>
+												<span>
+													{% if p in item.processValidators %}
+														<i class="fas fa-user-check text-success" title='Valideur'></i>
+													{% else %}
+														<i class="fas fa-user-check text-light"></i>
+													{% endif %}
+													{% if p in item.processContributors %}
+														<i class="fas fa-user-edit text-success" title='Contributeur'></i>
+													{% else %}
+														<i class="fas fa-user-edit text-light"></i>
+													{% endif %}
+												</span>
+											</a>
+										{% endif %}
+									{% endfor %}
+								</div>
+
+							{% endblock %}
+						{% endembed %}
+					{% endif %}
+
+
+				</div>
 			</div>
 
 			{{ form_end(form) }}

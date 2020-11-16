@@ -41,6 +41,7 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
         if ($this->currentUser->isAuthenticatedRemember() && Role::isUser($this->currentUser->getUser())) {
             $this->addHome();
             $this->addProfil();
+            $this->addSubscription();
             $this->addAdmin();
             $this->addDeconnexion();
         } elseif ($this->currentUser->isAuthenticatedRemember()) {
@@ -99,6 +100,16 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
             'label' => 'Administration',
             'childOptions' => $this->event->getChildOptions(),
         ])->setLabelAttribute('icon', 'fas fa-wrench');
+    }
+
+
+    private function addSubscription(): void
+    {
+        $this->menu->addChild('subscription', [
+            'route' => 'mySubscription',
+            'label' => 'Vos abonnements',
+            'childOptions' => $this->event->getChildOptions(),
+        ])->setLabelAttribute('icon', 'fab fa-chromecast');
     }
 
 }
