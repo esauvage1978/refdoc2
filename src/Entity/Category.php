@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use App\Workflow\WorkflowNames;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,7 +77,7 @@ class Category implements EntityInterface
         $this->setIcone("fas fa-book");
         $this->setBgColor("#ffffff");
         $this->setForeColor("#ff00ff");
-        $this->setWorkflowName("wkf_all");
+        $this->setWorkflowName(WorkflowNames::WORKFLOW_ALL);
     }
 
     public function getId(): ?int
@@ -199,7 +200,9 @@ class Category implements EntityInterface
 
     public function setWorkflowName(string $workflowName): self
     {
-        $this->workflowName = $workflowName;
+        $wn=new  WorkflowNames();
+
+        $this->workflowName = $wn->check( $workflowName);
 
         return $this;
     }
