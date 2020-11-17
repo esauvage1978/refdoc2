@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class Step6_Process extends Fixture implements FixtureGroupInterface
+class Step6_ProcessFixtures extends Fixture implements FixtureGroupInterface
 {
     /**
      * @var ProcessManager

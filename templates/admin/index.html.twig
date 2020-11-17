@@ -14,7 +14,6 @@
 {% block page_content %}
 	<div class="row mt-5">
 		<div class="col-lg-4 ">
-			{# ... box widget with defaults ... #}
 
 			<div class="card">
 				<div class="list-group list-group-flush">
@@ -28,8 +27,10 @@
 									<h5 class="mb-1 ">
 										<strong>{{ entry.name }}</strong>
 									</h5>
-									<p class="mb-1">{{ entry.content }}</p>
-									<small>{{ entry.smallcontent}}</small>
+									<p class="mb-1">{{ entry.content | raw }}</p>
+
+									<small>{{ entry.smallcontent | raw}}</small>
+
 								</div>
 							</div>
 						</a>
@@ -37,31 +38,29 @@
 				</div>
 			</div>
 		</div>
-<div
-	class="col-lg-4 ">
-	{# ... box widget with defaults ... #}
+		<div class="col-lg-4 ">
 
-	<div class="card">
-		<div class="list-group list-group-flush">
-			{% for entry in list_entries %}
-				<a href="{{ path(entry.route)}}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow">
-					<div class="d-flex w-100 align-items-center">
-						<div class="col-4  text-center">
-							<i class="fa-3x {{entry.icon}}"></i>
-						</div>
-						<div class="">
-							<h5 class="mb-1 ">
-								<strong>{{ entry.name }}</strong>
-							</h5>
-							<p class="mb-1">{{ entry.content }}</p>
-							<small>{{ entry.smallcontent}}</small>
-						</div>
-					</div>
-				</a>
-			{% endfor %}
+			<div class="card">
+				<div class="list-group list-group-flush">
+					{% for entry in list_entries %}
+						<a href="{{ path(entry.route)}}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow">
+							<div class="d-flex w-100 align-items-center">
+								<div class="col-4  text-center">
+									<i class="fa-3x {{entry.icon}}"></i>
+								</div>
+								<div class="">
+									<h5 class="mb-1 ">
+										<strong>{{ entry.name }}</strong>
+									</h5>
+									<p class="mb-1">{{ entry.content | raw }}</p>
+									<small>{{ entry.smallcontent | raw}}</small>
+								</div>
+							</div>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
 
 	</div>
 {% endblock %}

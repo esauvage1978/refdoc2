@@ -1,0 +1,25 @@
+{% extends 'admin_category/layout.html.twig' %}
+
+{% block page_subtitle %}Modification
+{% endblock %}
+
+{% block breadcrumb %}
+	{% import domaine~"/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'edit',
+        is_granted('ROLE_GESTIONNAIRE'),
+        item,
+        domaine
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+	<div class="row justify-content-center">
+		<div class="" style="width:960px">
+
+			{{ include(domaine ~ '/_edit/_item.html.twig') }}
+		</div>
+	</div> 
+
+{% endblock %}
+

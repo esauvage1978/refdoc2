@@ -1,0 +1,98 @@
+{% extends 'admin_category/layout.html.twig' %}
+{% import "macros/datatables.html.twig" as tables %}
+{% set columns = {
+    'Libellé': {'class': 'alwaysVisible', 'orderBy': true},
+    'Description': {'class': 'alwaysVisible', 'orderBy': true},
+'<i class="fas fa-user-shield" data-toggle="tooltip" data-placement="top" title="Validation par le service contrôle"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+
+
+'<i class="fas fa-user-tag" data-toggle="tooltip" data-placement="top" title="Validation par le service documentation"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+'<i class="fas fa-glasses" data-toggle="tooltip" data-placement="top" title="Délai avant révision des porte-documents de ce type"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+
+
+
+    'actions': {'class': 'alwaysVisible', 'orderBy': false}
+} %}
+{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+{% block page_subtitle %}Liste
+{% endblock %}
+
+
+{% block breadcrumb %}
+	{% import domaine~"/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'list',
+        is_granted('ROLE_GESTIONNAIRE'),
+        null,
+        domaine
+    ) }}
+{% endblock %}
+
+
+{% block page_content %}
+
+
+	{% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+	{{ tables.datatable_header(tableName, columns,  {'striped': true}) }}
+	{% for item in items %}
+		<tr>
+			<td class="align-middle ">
+				<div class=" d-flex align-items-center">
+					<i class="{{item.icone}} fa-2x mr-3" style="background-color:{{item.bgcolor}};color:{{item.forecolor}};"></i>
+
+					<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+						{{ item.name }}
+					</a>
+				</div>
+			</td>
+			<td class="align-middle">{{ item.content | raw }}</td>
+			<td class="align-middle text-center p-0 m-0">
+				{% if item.isValidatedByControl %}
+					<div class="p-2 badge badge-light text-light">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success text-success">
+						1
+					</div>
+				{% endif %}
+			</td>
+			<td class="align-middle text-center p-0 m-0">
+				{% if item.isValidatedByDoc %}
+					<div class="p-2 badge badge-light text-light">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success text-success">
+						1
+					</div>
+				{% endif %}
+			</td>
+			<td class="align-middle text-center p-0 m-0">
+				{{ item.timeBeforeRevision }}
+				mois
+			</td>
+			<td class=" d-flex  justify-content-end ">
+				{% if is_granted('ROLE_GESTIONNAIRE') %}
+					{{ btn.link_button(
+                        'Modifier',
+                        path(route_edit,{id:item.id}),
+                        'fa fa-edit',
+                        'purple',
+                        'primary btn-sm'
+                    ) }}
+				{% endif %}
+			</td>
+		</tr>
+	{% else %}
+		{{ tables.datatable_data_else(columns) }}
+	{% endfor %}
+	{{ tables.datatable_footer(tableName,1) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ tables.datatable_javascript(tableName,0,columns) }}
+{% endblock %}

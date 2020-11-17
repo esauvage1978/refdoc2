@@ -1,0 +1,43 @@
+App\Entity\Category:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: name
+        errorPath: name
+        message: 'Ce nom {{ value }} est déjà utilisé.'
+  properties:
+    name:
+      - NotBlank: ~
+      - Length:
+          min: 3
+          max: 50
+          minMessage: 'Le nom "{{ value }}" doit avoir plus de 3 caractères'
+          maxMessage: 'Le nom "{{ value }}" ne peut pas avoir plus de 50 caractères'
+    icone:
+      - NotBlank: ~            
+      - Length:
+          min: 3
+          max: 30
+          minMessage: 'Une icône "{{ value }}" doit avoir plus de 3 caractères'
+          maxMessage: 'une icône "{{ value }}" ne peut pas avoir plus de 30 caractères'
+    timeBeforeRevision:
+      - NotBlank: ~            
+    bgColor:
+      - NotBlank: ~            
+      - Length:
+          min: 4
+          max: 7
+          minMessage: 'La couleur "{{ value }}" doit avoir plus de 4 caractères'
+          maxMessage: 'La couleur "{{ value }}" ne peut pas avoir plus de 7 caractères'
+    foreColor:
+      - NotBlank: ~            
+      - Length:
+          min: 4
+          max: 7
+          minMessage: 'La couleur "{{ value }}" doit avoir plus de 4 caractères'
+          maxMessage: 'La couleur "{{ value }}" ne peut pas avoir plus de 7 caractères'
+    workflowName:
+      - NotBlank: ~            
+      - Length:
+          max: 30
+          maxMessage: 'Le worflow "{{ value }}" ne peut pas avoir plus de 30 caractères'
+

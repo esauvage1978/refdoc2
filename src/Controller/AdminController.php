@@ -37,7 +37,14 @@ class AdminController extends AbstractController
                 'content' => 'Gestion des processus et des intervenants',
                 'smallcontent' => '',
                 'icon' => 'fas fa-square text-info'
-            ]                            
+            ],
+            [
+                'name' => 'Type de porte-document',
+                'route' => 'admin_category_list',
+                'content' => 'Gestion des types de porte-document',
+                'smallcontent' => '<ul><li>Consigne,</li><li> note de processus,</li><li> procédure,</li><li> mode opératoire,</li><li>...</li></ul>',
+                'icon' => 'fas fa-clipboard-list text-info'
+            ]                                          
         ];
 
         $list_entries = [
@@ -45,15 +52,15 @@ class AdminController extends AbstractController
             [
                 'name' => 'Permissions sur les macro processus',
                 'route' => 'admin_mprocess_list_permission',
-                'content' => 'Consultation de la liste des utilisateurs ayant le profil valideur (agent de direction, Manager stratégique) et contributeur ',
-                'smallcontent' => '',
+                'content' => 'Consultation de la liste des utilisateurs  ',
+                'smallcontent' => '<ul><li>Valideur : agent de direction,</li><li>Valideur : Manager stratégique</li><li>Contributeur</li></ul>',
                 'icon' => 'fas fa-sitemap text-info'
             ],
             [
                 'name' => 'Permissions sur les processus',
                 'route' => 'admin_process_list_permission',
-                'content' => 'Consultation de la liste des utilisateurs ayant le profil valideur et contributeur ',
-                'smallcontent' => '',
+                'content' => 'Consultation de la liste des utilisateurs  ',
+                'smallcontent' => '<ul><li>Valideur</li><li>Contributeur</li></ul>',
                 'icon' => 'fas fa-square text-info'
             ]
             ];
