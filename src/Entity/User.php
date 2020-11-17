@@ -119,6 +119,11 @@ class User implements UserInterface, EntityInterface
      */
     private $subscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Backpack::class, mappedBy="owner")
+     */
+    private $backpacks;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -129,6 +134,7 @@ class User implements UserInterface, EntityInterface
         $this->processContributors = new ArrayCollection();
         $this->processValidators = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
+        $this->backpacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -536,6 +542,36 @@ class User implements UserInterface, EntityInterface
             // set the owning side to null (unless already changed)
             if ($subscription->getUser() === $this) {
                 $subscription->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Backpack[]
+     */
+    public function getBackpacks(): Collection
+    {
+        return $this->backpacks;
+    }
+
+    public function addBackpack(Backpack $backpack): self
+    {
+        if (!$this->backpacks->contains($backpack)) {
+            $this->backpacks[] = $backpack;
+            $backpack->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpack(Backpack $backpack): self
+    {
+        if ($this->backpacks->removeElement($backpack)) {
+            // set the owning side to null (unless already changed)
+            if ($backpack->getOwner() === $this) {
+                $backpack->setOwner(null);
             }
         }
 
