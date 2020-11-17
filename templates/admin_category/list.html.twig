@@ -37,29 +37,42 @@
 	{{ tables.datatable_header(tableName, columns,  {'striped': true}) }}
 	{% for item in items %}
 		<tr>
-			<td class="align-middle">
-				<i class="{{item.icone}} " style="background-color:{{item.bgcolor}};color:{{item.forecolor}};"></i>
+			<td class="align-middle ">
+				<div class=" d-flex align-items-center">
+					<i class="{{item.icone}} fa-2x mr-3" style="background-color:{{item.bgcolor}};color:{{item.forecolor}};"></i>
 
-				<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
-					{{ item.name }}
-				</a>
+					<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+						{{ item.name }}
+					</a>
+				</div>
 			</td>
 			<td class="align-middle">{{ item.content | raw }}</td>
 			<td class="align-middle text-center p-0 m-0">
-				<span class="text-{{ item.isValidatedByControl ? 'info' : 'light' }} ">
-					<i class="fas fa-circle"></i>
-				</span>
+				{% if item.isValidatedByControl %}
+					<div class="p-2 badge badge-light text-light">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success text-success">
+						1
+					</div>
+				{% endif %}
 			</td>
 			<td class="align-middle text-center p-0 m-0">
-				<span class="text-{{ item.isValidatedByDoc ? 'info' : 'light' }} ">
-					<i class="fas fa-circle"></i>
-				</span>
+				{% if item.isValidatedByDoc %}
+					<div class="p-2 badge badge-light text-light">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success text-success">
+						1
+					</div>
+				{% endif %}
 			</td>
 			<td class="align-middle text-center p-0 m-0">
 				{{ item.timeBeforeRevision }}
 				mois
 			</td>
-
 			<td class=" d-flex  justify-content-end ">
 				{% if is_granted('ROLE_GESTIONNAIRE') %}
 					{{ btn.link_button(
