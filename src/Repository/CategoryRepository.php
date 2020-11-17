@@ -21,5 +21,15 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
- 
+
+    public function findAllForAdmin()
+    {
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS
+            )
+            ->orderBy(self::ALIAS . '.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

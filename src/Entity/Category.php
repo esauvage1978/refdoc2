@@ -74,7 +74,7 @@ class Category implements EntityInterface
         $this->setIsValidatedByControl(false);
         $this->setIsValidatedByDoc(true);
         $this->setTimeBeforeRevision(6);
-        $this->setIcone("fas fa-book");
+        $this->setIcone("fas fa-clipboard-list");
         $this->setBgColor("#ffffff");
         $this->setForeColor("#ff00ff");
         $this->setWorkflowName(WorkflowNames::WORKFLOW_ALL);
