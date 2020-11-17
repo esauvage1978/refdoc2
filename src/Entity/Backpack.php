@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\BackpackRepository;
+use App\Workflow\WorkflowData;
+use App\Workflow\WorkflowNames;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BackpackRepository::class)
  */
-class Backpack
+class Backpack implements EntityInterface
 {
     /**
      * @ORM\Id
@@ -99,6 +101,13 @@ class Backpack
      * @ORM\JoinColumn(nullable=false)
      */
     private $process;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setStateCurrent(WorkflowData::STATE_DRAFT);
+        $this->setStateAt(new \DateTime());
+    }
 
     public function getId(): ?int
     {
