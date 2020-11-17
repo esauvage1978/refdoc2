@@ -193,6 +193,8 @@ class Backpack implements EntityInterface
 
     public function setStateCurrent(string $stateCurrent): self
     {
+        WorkflowData::hasState($stateCurrent);
+        
         $this->stateCurrent = $stateCurrent;
 
         return $this;

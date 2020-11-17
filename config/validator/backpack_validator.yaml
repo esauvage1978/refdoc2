@@ -8,10 +8,18 @@ App\Entity\Backpack:
     name:
       - NotBlank: ~
       - Length:
-          min: 2
+          min: 3
           max: 255
           minMessage: 'Le nom "{{ value }}" doit avoir plus de 2 caractères'
           maxMessage: 'Le nom "{{ value }}" ne peut pas avoir plus de 255 caractères'
+    owner:
+      - NotBlank: ~
+    mProcess:
+      - NotBlank: ~
+    stateCurrent:
+      - NotBlank: ~
+    createdAt:
+      - NotBlank: ~
     dir1:
       - Length:
           min: 2
