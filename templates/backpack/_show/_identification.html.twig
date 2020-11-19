@@ -1,0 +1,39 @@
+<h2 class="text-bold">
+	{{ item.name }}
+</h2>
+<hr/>
+{% import "macros/user.html.twig" as usr %}
+{% import "macros/widgets.html.twig" as widgets %}
+
+<div class="d-flex align-items-center justify-content-around mb-5">
+
+	{{ usr.vignette(item.owner) }}
+
+
+
+	<div class="text-center">
+{{ widgets.icon('calendar','fa-4x mb-1 text-info') }}
+
+        <br/>
+        <span class="text-muted">Créé</span>
+        <br/>
+		{{ widgets.showShortDate(item.createdat) }}
+	</div>
+
+{% if widgets.showShortDate(item.createdat) != widgets.showShortDate(item.updatedat) %}
+
+
+
+
+
+    <div class="text-center">
+        {{ widgets.icon('calendar','fa-4x mb-1 text-info') }}
+        <br/>
+<span class="text-muted">Modifié </span>
+<br/>
+
+        {{ widgets.showShortDate(item.updatedat) }}
+    </div>
+{% endif %}
+
+</div>

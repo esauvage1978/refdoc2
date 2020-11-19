@@ -14,8 +14,6 @@ App\Entity\Backpack:
           maxMessage: 'Le nom "{{ value }}" ne peut pas avoir plus de 255 caractères'
     owner:
       - NotBlank: ~
-    mProcess:
-      - NotBlank: ~
     stateCurrent:
       - NotBlank: ~
     createdAt:

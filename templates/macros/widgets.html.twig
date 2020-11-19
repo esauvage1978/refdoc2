@@ -5,3 +5,8 @@
 {% macro showLongDate(date) %}
 	{{ date |format_datetime('full', 'short', locale='fr') }}
 {% endmacro %}
+
+{% macro showShortDate(date) %}
+	{{ date |format_datetime('medium', 'short', locale='fr') }}
+{% endmacro %}
+

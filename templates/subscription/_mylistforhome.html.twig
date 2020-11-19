@@ -6,28 +6,16 @@
 	{% endif %}
 {% endfor %}
 
-<div class="card flat">
+<div class="card card-info card-outline ">
+<div class="card-header ">
+
+<div class="card-title  m-0">
+	<h4 class="text-bold text-info">Mes abonnements</h4>
+</div>
+
+	</div>
 	<div class="list-group list-group-flush">
-		<a href="{{ path('mySubscription')}}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow">
-			<div class="d-flex w-100 align-items-center">
-				<div class="col-4  text-center">
-					{{ widgets.icon('subscription', nbr>0?'fa-5x text-info':' fa-5x text-danger') }}
-				</div>
-				<div class="">
-					{% if nbr==0 %}
-						<h5 class="mb-1 text-danger">
-							<strong>Aucun abonnement</strong>
-						</h5>
-					{% else %}
-						<h5 class="mb-1 text-info">
-							<strong>{{nbr>1?'Mes ' ~ nbr ~ ' abonnements':'Mon abonnement'}}</strong>
-						</h5>
-					{% endif %}
-					<p class="mb-1"></p>
-					<small>Cliquez ici pour gérer les abonnements</small>
-				</div>
-			</div>
-		</a>
+
 		{% for  item in items %}
 			{% if item in abosMP %}
 				<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
@@ -73,7 +61,7 @@
 
 					<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
 						<span class='js-title mr-5'>
-							<span >
+							<span>
 								{{ widgets.icon('mprocess','text-warning') }}
 
 							</span>
@@ -86,22 +74,22 @@
 
 						</span>
 					</div>
-{% for  p in item.processes %}
-	{% if p in abosP %}
-		<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
-			<span class=' mr-5 ml-5 text-sm'>
-				<span class=" text-success ">
-					{{ widgets.icon('process') }}
-				</span>
-				{{ p.fullname | raw}}
-			</span>
-			<span>
-				<span class=' text-muted mr-1'></span>
-				<i class="fa fa-check text-success"></i>
-			</span>
-		</div>
-	{% endif %}
-{% endfor %}
+					{% for  p in item.processes %}
+						{% if p in abosP %}
+							<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
+								<span class=' mr-5 ml-5 text-sm'>
+									<span class=" text-success ">
+										{{ widgets.icon('process') }}
+									</span>
+									{{ p.fullname | raw}}
+								</span>
+								<span>
+									<span class=' text-muted mr-1'></span>
+									<i class="fa fa-check text-success"></i>
+								</span>
+							</div>
+						{% endif %}
+					{% endfor %}
 
 				{% endif %}
 

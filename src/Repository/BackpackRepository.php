@@ -14,37 +14,68 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BackpackRepository extends ServiceEntityRepository
 {
+    const ALIAS = 'b';
+    
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Backpack::class);
     }
 
-    // /**
-    //  * @return Backpack[] Returns an array of Backpack objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Backpack
+    public function findAllFillComboboxDir1(string $idMp, string $idP)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+        $builder = $this->createQueryBuilder(self::ALIAS)
+            ->select('distinct ' . self::ALIAS . '.dir1 as id ,' . self::ALIAS . '.dir1 as name');
+
+        $builder
+            ->Where(self::ALIAS . '.mProcess = :mp')
+            ->andWhere(self::ALIAS . '.dir1 is not null');
+
+        if ($idP !== "0") {
+            $builder
+                ->andWhere(self::ALIAS . '.process = :p')
+                ->setParameters(['mp' => $idMp, 'p' => $idP]);
+        } else {
+            $builder
+                ->andWhere(self::ALIAS . '.process is null')
+                ->setParameters(['mp' => $idMp]);
+        }
+
+        $builder->orderBy(self::ALIAS . '.dir1', 'ASC');
+
+        return $builder
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+    public function findAllFillComboboxDirOther(string $idMp, string $idP, string $data, int $numDir)
+    {
+        $dirCourant = 'dir' . $numDir;
+        $dirPrecedent = 'dir' . ($numDir - 1);
+
+        $builder = $this->createQueryBuilder(self::ALIAS)
+            ->select('distinct ' . self::ALIAS . '.' . $dirCourant . ' as id ,' . self::ALIAS . '.' . $dirCourant . ' as name');
+
+        $builder = $builder
+            ->Where(self::ALIAS . '.mProcess = :mp')
+            ->andWhere(self::ALIAS . '.' . $dirPrecedent . ' = :dirp')
+            ->andWhere(self::ALIAS . '.' . $dirCourant . ' is not null');
+
+        if ($idP !== "0") {
+            $builder
+                ->andWhere(self::ALIAS . '.process = :p')
+                ->setParameters(['mp' => $idMp, 'p' => $idP,  'dirp' => $data]);
+        } else {
+            $builder
+                ->andWhere(self::ALIAS . '.process is null')
+                ->setParameters(['mp' => $idMp,  'dirp' => $data]);
+        }
+
+        $builder->orderBy(self::ALIAS . '.' . $dirCourant . '', 'ASC');
+
+        return $builder
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

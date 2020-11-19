@@ -1,0 +1,61 @@
+{% embed 'widgets/card-widget.html.twig' %}
+	{% block card_class %}flat
+	{% endblock %}
+	{% block card_body %}
+
+		<div class="form-group row m-2 js-createTip-wrapper">
+			<p>
+				<input type="radio" id="mp_radio" name="mpp_radio" value="mp_radio" class="js-mpp" checked>
+				<label for="mp_radio" style="cursor:pointer">Macro processus</label>
+			</p>
+
+			<select name="cmb_mp" id="cmb_mp" class="form-control" required></select>
+			<div class="d-none">
+				{{ form_widget(form.mProcess) }}
+			</div>
+
+			<div class="createTip  mt-4">
+
+				<div class="createTip__title">
+					Macro processus
+				</div>
+				<p>
+					Liste des macro-processus pour lesquels vous êtes contributeur.
+				</p>
+				<p>
+					Le porte document doit être rattaché à un macro processus ou un processus
+				</p>
+
+			</div>
+		</div>
+		<div class="form-group row m-2 js-createTip-wrapper">
+			<p>
+				<input type="radio" id="p_radio" name="mpp_radio" value="p_radio" class="js-mpp">
+				<label for="p_radio" style="cursor:pointer">Processus</label>
+			</p>
+			<select name="cmb_p" id="cmb_p" class="form-control" required></select>
+
+			<div class="d-none">
+				{{ form_widget(form.process) }}
+			</div>
+
+			<div class="createTip  mt-4">
+
+				<div class="createTip__title">
+					Processus
+				</div>
+				<p>
+					Liste des processus pour lesquels vous êtes contributeur
+				</p>
+				<p>
+					Le porte document doit être rattaché à un processus ou un macro processus
+
+				</p>
+
+			</div>
+		</div>
+
+
+	{% endblock %}
+
+{% endembed %}

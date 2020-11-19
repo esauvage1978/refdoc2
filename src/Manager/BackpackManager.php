@@ -34,10 +34,10 @@ class BackpackManager extends AbstractManager
         $bp = $entity;
 
 
-        if (empty($entity->getId())) {
+        if (null===$entity->getId()) {
             $bp->setOwner($this->currentUser->getUser());
         } else {
-            $bp->setUpdateAt(new \DateTime());
+            $bp->setUpdatedAt(new \DateTime());
         }
 
         if ($bp->getProcess() !== null) {

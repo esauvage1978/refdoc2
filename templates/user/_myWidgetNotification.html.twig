@@ -1,0 +1,25 @@
+{% import "macros/widgets.html.twig" as widgets %}
+
+
+<a href="{{ path('profil') }}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow h-100">
+
+	<div class="d-flex w-100 align-items-center">
+		<div class="col-4  text-center">
+			{{ widgets.icon('mail-sent', app.user.userParam.isSubscription?'fa-5x text-success':' fa-5x text-warning') }}
+
+
+		</div>
+		<div class="">
+			<h5 class="mb-1 {{ app.user.userParam.isSubscription?'text-success':'text-warning' }}">
+
+				<strong>Notification</strong>
+			</h5>
+			<p class="mb-1"></p>
+			{% if app.user.userParam.isSubscription %}
+				<small>Envoi hebdomadaire des nouveautés</small>
+			{% else %}
+				<small>Aucun envoi des nouveautés</small>
+			{% endif %}
+		</div>
+	</div>
+</a>

@@ -37,7 +37,7 @@ class Backpack implements EntityInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updateAt;
+    private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="backpacks")
@@ -98,7 +98,7 @@ class Backpack implements EntityInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Process::class, inversedBy="backpacks")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $process;
 
@@ -150,14 +150,14 @@ class Backpack implements EntityInterface
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(?\DateTimeInterface $updateAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -194,7 +194,7 @@ class Backpack implements EntityInterface
     public function setStateCurrent(string $stateCurrent): self
     {
         WorkflowData::hasState($stateCurrent);
-        
+
         $this->stateCurrent = $stateCurrent;
 
         return $this;
