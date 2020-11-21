@@ -1,0 +1,32 @@
+{% extends 'backpack/layout_tree.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/workflow.html.twig" as workflow %}
+{% import "macros/default.html.twig" as new %}
+
+{% block title %}Porte-document
+{% endblock %}
+
+{% block page_subtitle %}
+	<span class="text-muted">
+		{{ count }}
+		{% if stateCurrent is defined and stateCurrent  %}
+			{{ workflow.badge_state(stateCurrent) }}
+		{% endif %}
+		{% if isNew is defined and isNew==true %}
+			{{ new.spanNew() }}
+		{% endif %}
+		{% if hide is defined and item %}
+			{{ widgets.badge('Masqué','#252525') }}
+		{% endif %}
+	</span>
+{% endblock %}
+
+
+{% import "backpack/_btn_actions.html.twig" as actions %}
+{% block breadcrumb %}
+	{{ actions.backpack('tree','','',item) }}
+{% endblock %}
+
+{% block page_content %}
+	{{ parent() }}
+{% endblock %}

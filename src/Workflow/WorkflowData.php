@@ -7,6 +7,7 @@ namespace App\Workflow;
 class WorkflowData
 {
     const STATE_DRAFT = 'draft';
+    const STATE_PUBLISHED = 'published';
 
     public static function hasState(string $data): bool
     {

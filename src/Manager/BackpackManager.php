@@ -40,6 +40,14 @@ class BackpackManager extends AbstractManager
             $bp->setUpdatedAt(new \DateTime());
         }
 
+        foreach ($bp->getBackpackLinks() as $backpackLink) {
+            $backpackLink->setBackpack($bp);
+        }
+
+        foreach ($bp->getBackpackFiles() as $backpackFile) {
+            $backpackFile->setBackpack($bp);
+        }
+
         if ($bp->getProcess() !== null) {
             $bp->setMProcess($bp->getProcess()->getMProcess());
         }

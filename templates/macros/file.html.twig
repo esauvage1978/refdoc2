@@ -1,0 +1,109 @@
+{% macro icon(extension,option,color) %}
+    {% set icone='file-alt' %}
+    {% if extension== 'pdf' %}
+        {% set icone='file-pdf' %}
+    {% elseif extension== 'png' or extension== 'gif' or extension== 'jpg' or  extension== 'jpeg' or  extension== 'bmp' %}
+        {% set icone='file-image' %}
+    {% elseif extension== 'zip' or extension== '7z' or extension== 'tar' %}
+        {% set icone='file-archive' %}
+    {% elseif extension== 'csv' %}
+        {% set icone='file-csv' %}
+    {% elseif extension== 'doc' or  extension== 'docx' or extension== 'docm' %}
+        {% set icone='file-word' %}
+    {% elseif extension== 'ppt' or extension == 'pptx' %}
+        {% set icone='file-powerpoint' %}
+    {% elseif extension== 'xls' or  extension== 'xlsx' or extension== 'xlsm' %}
+        {% set icone='file-excel' %}
+    {% endif %}
+    <i class="fa fa-{{ icone }} mr-2 {{ option is defined ?option:'' }} {{ color is defined?color:'' }}"></i>
+{% endmacro %}
+
+{% macro showFiles(files,item,route) %}
+    {%- import _self as macro -%}
+    {% for file in files %}
+
+        {% set color='text-gray' %}
+
+        {% if file.modifyAt %}
+            {% set difference = date("today").diff(date(file.modifyAt)) %}
+            {% set leftDays = difference.days %}
+            {% if leftDays < news_time %}
+                {% set color='text-fuchsia' %}
+            {% endif %}
+        {% endif %}
+
+        <tr class="tr-animate">
+            <td class="align-middle text-center">
+                <a target="_blank"
+                   href="{{ path(route,{'id':item.id, 'fileId':file.id}) }}">
+                    {{ macro.icon(file.fileExtension,' fa-3x align-self-start mt-2 mr-3  ',color) }}
+                </a>
+            </td>
+            <td class="align-middle">
+                <a target="_blank"
+                   href="{{ path(route,{'id':item.id, 'fileId':file.id}) }}">
+                    {{ file.title }}.{{ file.fileExtension }}
+                    <br/>
+                    <div class="small text-muted">
+                        {{ file.content | raw }}
+                    </div>
+                </a>
+            </td>
+            <td class="align-middle text-center text-muted small">
+                {{ file.modifyAt |format_datetime('full', 'short', locale='fr') }}
+            </td>
+            <td class="align-middle">
+                <span class="ml-2 text-muted text-bold">{{ macro.size(file.size) }}</span>
+            </td>
+        </tr>
+
+    {% endfor %}
+{% endmacro %}
+{% macro showLinks(links) %}
+    {% for link in links %}
+
+        {% set color='text-gray' %}
+
+        {% if link.modifyAt %}
+            {% set difference = date("today").diff(date(link.modifyAt)) %}
+            {% set leftDays = difference.days %}
+            {% if leftDays < news_time %}
+                {% set color='text-fuchsia' %}
+            {% endif %}
+        {% endif %}
+        <tr>
+            <td class="align-middle text-center">
+                <i class="fas fa-globe  fa-3x align-self-start mr-3 {{ color }} mt-2"></i>
+            </td>
+            <td class="align-middle">
+                <a target="_blank" href="{{ link.link }}">{{ link.title }}
+                    <span class="small">( {{ link.link }} )</span>
+                </a>
+                <br/>
+                <div class="small text-muted">
+                    {{ link.content | raw }}
+                </div>
+            </td>
+            <td class="align-middle text-center text-muted small">
+                {{ link.modifyAt |format_datetime('full', 'short', locale='fr') }}
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    {% endfor %}
+{% endmacro %}
+
+{% macro size(data) %}
+    {% if data %}
+        {% if data <1024 %}
+            1 ko
+        {% elseif data < 1048576 %}
+            {% set nbr=data / 1024 %}
+            {{ nbr|number_format }} Ko
+        {% else %}
+            {% set nbr=data / 1048576 %}
+            {{ nbr|number_format }} Mo
+        {% endif %}
+    {% endif %}
+{% endmacro %}

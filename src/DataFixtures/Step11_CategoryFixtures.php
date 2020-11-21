@@ -44,9 +44,9 @@ class Step11_CategoryFixtures extends Fixture implements FixtureGroupInterface
     private $data =
     [
         ['Consigne', '<p>Les consignes sont des données <b>éphémères </b>et <b>succinctes</b>. </p><p>Une consigne <b>pérenne </b>doit être insérer dans un mode opératoire.<br></p>',false, false,12, 'fas fa-clipboard-check', '#ffffff', '#ff00ff', WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL],
-        ['Consigne validée par le service contrôle', '<p>Les consignes sont des données <b>éphémères </b>et <b>succinctes</b>. </p><p>Une consigne <b>pérenne </b>doit être insérer dans un mode opératoire.<br></p>', true, false, 12, 'fas fa-clipboard-check', '#ffffff', '#ff00ff', WorkflowNames::WORKFLOW_WITHOUT_DOC],
+        ['Consigne validée', '<p>Les consignes sont des données <b>éphémères </b>et <b>succinctes</b>. </p><p>Une consigne <b>pérenne </b>doit être insérer dans un mode opératoire.<br></p>', true, false, 12, 'fas fa-clipboard-check', '#ffffff', '#ff00ff', WorkflowNames::WORKFLOW_WITHOUT_DOC],
         ['Mode opératoire', '', false, true, 12, 'fas fa-clipboard-list', '#ffffff', '#ff8000', WorkflowNames::WORKFLOW_WITHOUT_CONTROL],
-        ['Mode opératoire validé par le service contrôle', '', true, true, 12, 'fas fa-clipboard-list', '#ffffff', '#ff8000', WorkflowNames::WORKFLOW_ALL],
+        ['Mode opératoire validé', '', true, true, 12, 'fas fa-clipboard-list', '#ffffff', '#ff8000', WorkflowNames::WORKFLOW_ALL],
         ['Procédure stratégique', '<p>Définition de la note stratégique à définir ici<br></p>', false, true, 12, 'fas fa-journal-whills', '#ffffff', '#0080ff', WorkflowNames::WORKFLOW_WITHOUT_CONTROL],
         ['Note de procédure', '', false, true, 12, 'fas fa-book', '#ffffff', '#00bf00', WorkflowNames::WORKFLOW_WITHOUT_CONTROL],
     ];

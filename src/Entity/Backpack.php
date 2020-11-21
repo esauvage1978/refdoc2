@@ -6,6 +6,8 @@ use App\Repository\BackpackRepository;
 use App\Workflow\WorkflowData;
 use App\Workflow\WorkflowNames;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=BackpackRepository::class)
@@ -102,11 +104,24 @@ class Backpack implements EntityInterface
      */
     private $process;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BackpackFile", mappedBy="backpack", orphanRemoval=true,cascade={"persist"})
+     */
+    private $backpackFiles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BackpackLink", mappedBy="backpack",cascade={"persist"})
+     */
+    private $backpackLinks;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setStateCurrent(WorkflowData::STATE_DRAFT);
         $this->setStateAt(new \DateTime());
+        $this->backpackFiles = new ArrayCollection();
+        $this->backpackLinks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,6 +319,70 @@ class Backpack implements EntityInterface
     public function setProcess(?Process $process): self
     {
         $this->process = $process;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|BackpackFile[]
+     */
+    public function getBackpackFiles(): Collection
+    {
+        return $this->backpackFiles;
+    }
+
+    public function addBackpackFile(BackpackFile $backpackFile): self
+    {
+        if (!$this->backpackFiles->contains($backpackFile)) {
+            $this->backpackFiles[] = $backpackFile;
+            $backpackFile->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+
+
+    /**
+     * @return Collection|BackpackLink[]
+     */
+    public function getBackpackLinks(): Collection
+    {
+        return $this->backpackLinks;
+    }
+
+    public function addBackpackLink(BackpackLink $backpackLink): self
+    {
+        if (!$this->backpackLinks->contains($backpackLink)) {
+            $this->backpackLinks[] = $backpackLink;
+            $backpackLink->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpackLink(BackpackLink $backpackLink): self
+    {
+        if ($this->backpackLinks->contains($backpackLink)) {
+            $this->backpackLinks->removeElement($backpackLink);
+            // set the owning side to null (unless already changed)
+            if ($backpackLink->getBackpack() === $this) {
+                $backpackLink->setBackpack(null);
+            }
+        }
+
+        return $this;
+    }
+    public function removeBackpackFile(BackpackFile $backpackFile): self
+    {
+        if ($this->backpackFiles->contains($backpackFile)) {
+            $this->backpackFiles->removeElement($backpackFile);
+            // set the owning side to null (unless already changed)
+            if ($backpackFile->getBackpack() === $this) {
+                $backpackFile->setBackpack(null);
+            }
+        }
 
         return $this;
     }

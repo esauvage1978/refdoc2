@@ -1,39 +1,54 @@
-<h2 class="text-bold">
-	{{ item.name }}
-</h2>
-<hr/>
-{% import "macros/user.html.twig" as usr %}
 {% import "macros/widgets.html.twig" as widgets %}
+<h3 class="text-bold text-info">
+	{{ widgets.icon('backpack') }}
+	{{ item.name }}
+</h3>
+<div class="row d-flex justify-content-end">
+<div class="bg-white  mr-4 text-info shadow">
 
-<div class="d-flex align-items-center justify-content-around mb-5">
 
-	{{ usr.vignette(item.owner) }}
+	<span class=" bg-white p-1  text-secondary h-100">
+		<i class="{{ item.category.icone }} " style="
+                {% if item.category.forecolor is defined %}
+                    color:{{ item.category.forecolor }};
+                {% endif %}
+        {% if item.category.bgcolor is defined %}
+            background-color:{{ item.category.bgcolor }};
+        {% endif %}"></i>
+		{{ item.category.name }}
+	</span>
+|<span class=" bg-white p-1  pl-2 text-secondary">
+
+		{{ widgets.icon('user','text-info') }}
+
+		{{item.owner.name}}
+	</span>
+|<span class=" bg-white p-1  pl-2 text-secondary">
 
 
+{{ widgets.icon('calendar','text-info') }}
 
-	<div class="text-center">
-{{ widgets.icon('calendar','fa-4x mb-1 text-info') }}
+<small class="text-muted">Créé
+</small>
 
-        <br/>
-        <span class="text-muted">Créé</span>
-        <br/>
 		{{ widgets.showShortDate(item.createdat) }}
-	</div>
-
-{% if widgets.showShortDate(item.createdat) != widgets.showShortDate(item.updatedat) %}
-
+	</span>
+|<span class=" bg-white p-1  pl-2 text-secondary">
 
 
 
+{{ widgets.icon('calendar','text-info') }}
 
-    <div class="text-center">
-        {{ widgets.icon('calendar','fa-4x mb-1 text-info') }}
-        <br/>
-<span class="text-muted">Modifié </span>
-<br/>
+		<small class="text-muted">Modifié
+		</small>
+		{{ widgets.showShortDate(item.updatedat) }}
+	</span>
+|<span class=" bg-white p-1 pl-2 text-secondary">
 
-        {{ widgets.showShortDate(item.updatedat) }}
-    </div>
-{% endif %}
 
+{{ widgets.icon('workflow','text-info') }}
+
+	{{ item.stateCurrent }}
+</span>
+</div>
 </div>

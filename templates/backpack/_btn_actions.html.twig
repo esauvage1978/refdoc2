@@ -1,4 +1,4 @@
-{% macro backpack(twigTemplace,currentState,owner,item,underRubric,visible,hide) %}
+{% macro backpack(twigTemplace,currentState,owner,item,underRubric,visible) %}
 	{% import "macros/btn_actions.html.twig" as btn_actions %}
 	{% import "macros/delele.html.twig" as del %}
 
@@ -17,13 +17,9 @@
 
 	{% if item %}
 
-		{% if hide %}
-			{% set url=path('backpacks_hide',{iditem:item}) %}
-		{% elseif underRubric and currentState=='published' %}
-			{% set url=path('underrubric_show',{visible:'true',id:underRubric.id,idItem:item.id}) %}
-		{% else %}
+
 			{% set url=path('backpacks',{visible:'true',currentState:currentState,idItem:item.id}) %}
-		{% endif %}
+
 
 		{% set edit = { 'edit': {url: path('backpack_edit',{id:item.id}),class:'btn-secondary',attr:{title:'Modifier'}}} %}
 		{% set delete = { 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}

@@ -31,7 +31,6 @@ class ParamsInServices
     public const ES_NEWS_TIME = 'es.news.time';
     public const ES_TREE_UNDEVELOPPED_NBR = 'es.tree.undevelopped.nbr';
 
-
     /** @var ParameterBagInterface */
     private $params;
 

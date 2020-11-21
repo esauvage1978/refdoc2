@@ -33,13 +33,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class BackpackController extends AbstractGController
 {
 
+
+
+    /**
+     * @var BackpackForTree
+     */
+    private $backpackForTree;
+
     public function __construct(
         BackpackRepository $repository,
-        backpackManager $manager
+        backpackManager $manager,
+        BackpackForTree $backpackForTree
     ) {
         $this->repository = $repository;
         $this->manager = $manager;
         $this->domaine = 'backpack';
+        $this->backpackForTree = $backpackForTree;
     }
 
     /**
@@ -87,8 +96,8 @@ class BackpackController extends AbstractGController
      */
     public function treeView(Request $request, BackpackDto $dto)
     {
-        //$renderArray = $this->backpackForTree->getDatas($this->container, $request, null, $dto);
-        return $this->render('backpack/tree.html.twig');
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, null, $dto);
+        return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
     /**
@@ -125,5 +134,28 @@ class BackpackController extends AbstractGController
 
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, null, $dto);
         return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    public function widgetBackpacksAction(): Response
+    {
+        return $this->render('backpack/_widgetBackpacks.html.twig');
+    }
+
+    /**
+     * @Route("/backpack/{id}/file/{fileId}", name="backpack_file_show", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function actionFileShowAction(
+        Request $request,
+        Backpack $backpack,
+        string $fileId,
+        BackpackFileRepository $backpackFileRepository
+    ): Response {
+
+        $actionFile = $backpackFileRepository->find($fileId);
+
+        $file = new File($actionFile->getHref());
+
+        return $this->file($file, Slugger::slugify($actionFile->getTitle()) . '.' . $actionFile->getFileExtension());
     }
 }
