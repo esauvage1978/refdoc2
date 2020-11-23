@@ -15,35 +15,31 @@
 	{% else %}
 		{% import "macros/user.html.twig" as user %}
 		{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/backpack.html.twig" as bkp %}
+
 
 		{{user.messageEmailValidated(app.user)}}
 
 		<div class="row justify-content-center mt-2 mb-5">
 			<div class="col-sm-12 col-lg-3 ">
 				{{ render(controller('App\\Controller\\SubscriptionController::myWidgetAction')) }}
-
 			</div>
 			<div class="col-sm-12 col-lg-3 ">
 				{{ render(controller('App\\Controller\\UserController::myWidgetNotificationAction')) }}
 			</div>
-
 			<div class="col-sm-12 col-lg-3 "></div>
-
 			<div class="col-sm-12 col-lg-3 ">
 				{{ render(controller('App\\Controller\\BackpackController::widgetBackpacksAction')) }}
 			</div>
-
 		</div>
 
 		<div class="row justify-content-center mt-2">
 			<div class="col-sm-12 col-lg-4 ">
 				{{ render(controller('App\\Controller\\SubscriptionController::myListForHomeAction')) }}
 			</div>
-
 			<div class="col-sm-12 col-lg-4 "></div>
 			<div class="col-sm-12 col-lg-4 ">
-				{{dft.listBackpack(dash_options)}}
-
+				{{bkp.listBackpack(dash_options)}}
 			</div>
 
 		</div>
