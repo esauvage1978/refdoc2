@@ -10,3 +10,8 @@
 	{{ date |format_datetime('medium', 'short', locale='fr') }}
 {% endmacro %}
 
+{% macro badge(title, bgcolor, forecolor) %}
+	<span class="badge" style="background-color:{{ bgcolor }}{{ forecolor ? " ;color:" ~ forecolor :'' }}">{{ title | raw }}</span>
+{% endmacro %}
+
+

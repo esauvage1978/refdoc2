@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block page_content %}
+	{% import "macros/default.html.twig" as dft %}
 	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-		{% import "macros/default.html.twig" as dft %}
 		{{ dft.no_connexion() }}
 	{% else %}
 		{% import "macros/user.html.twig" as user %}
@@ -40,8 +40,14 @@
 				{{ render(controller('App\\Controller\\SubscriptionController::myListForHomeAction')) }}
 			</div>
 
-			<div class="col-sm-12 col-xl-8"></div>
+			<div class="col-sm-12 col-lg-4 "></div>
+			<div class="col-sm-12 col-lg-4 ">
+				{{dft.listBackpack(dash_options)}}
+
+			</div>
+
 		</div>
+
 
 	{% endif %}
 

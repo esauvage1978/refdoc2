@@ -2,9 +2,9 @@
 	<div class="row bg-white shadow ">
 		<div class="col-sm-4 ">
 			<img src="{{ absolute_url( asset('img/closed.png')) }}" style="min-width:50%;
-								                        min-height:50%;
-								                        width:auto;
-								                        height:auto;" alt="nothing"/>
+																                        min-height:50%;
+																                        width:auto;
+																                        height:auto;" alt="nothing"/>
 		</div>
 		<div class="col-sm-8 pr-4 pt-5">
 			<div class="row justify-content-center ">
@@ -23,14 +23,45 @@
 						<br/><br/>
 						Rien de grave, vous pouvez le faire à partir de la
 						<a href="{{ path('user_login') }}">page de
-							
-														                            connexion</a>.
+																					
+																												                            connexion</a>.
 					</p>
 					<p>
 						A tout de suite !
 					</p>
 				</div>
 			</div>
+		</div>
+	</div>
+{% endmacro %}
+{% macro listBackpack(items) %}
+	<div class="card card-info card-outline ">
+		<div class="card-header ">
+
+			<div class="card-title  m-0">
+				<h4 class="text-bold text-info">Mes porte-documents</h4>
+			</div>
+
+		</div>
+		<div class="list-group list-group-flush">
+
+			{% for  item in items %}
+				{% if item.data!="0" %}
+
+
+					<a class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center" href="{{ path(item.route) }}">
+						<span class=' mr-5'>
+							<i class="{{ item.icon }}"></i>
+							{{ item.title | raw}}
+						</span>
+						<span class=''>
+							<span class=' text-muted mr-1'></span>
+							{{ item.data}}
+
+						</span>
+					</a>
+				{% endif %}
+			{% endfor %}
 		</div>
 	</div>
 {% endmacro %}

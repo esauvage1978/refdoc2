@@ -32,7 +32,7 @@ class BackpackDto extends AbstractDto
     /**
      * @var ?string
      */
-    private $currentState;
+    private $stateCurrent;
 
 
     /**
@@ -123,18 +123,18 @@ class BackpackDto extends AbstractDto
     /**
      * @return mixed
      */
-    public function getCurrentState()
+    public function getStateCurrent()
     {
-        return $this->currentState;
+        return $this->stateCurrent;
     }
 
     /**
-     * @param mixed $currentState
+     * @param mixed $stateCurrent
      * @return BackpackDto
      */
-    public function setCurrentState($currentState)
+    public function setStateCurrent($stateCurrent)
     {
-        $this->currentState = $currentState;
+        $this->stateCurrent = $stateCurrent;
         return $this;
     }
 
@@ -203,7 +203,7 @@ class BackpackDto extends AbstractDto
         isset($this->visible) && $d = array_merge($d, ['isNew' => $this->isNew]);
         isset($this->visible) && $d = array_merge($d, ['isUpdatable' => $this->isUpdatable]);
         isset($this->visible) && $d = array_merge($d, ['visible' => $this->visible]);
-        isset($this->visible) && $d = array_merge($d, ['currentState' => $this->currentState]);
+        isset($this->visible) && $d = array_merge($d, ['stateCurrent' => $this->stateCurrent]);
         isset($this->hide) && $d = array_merge($d, ['hide' => $this->hide]);
         isset($this->ownerDto) && isset($this->ownerDto->id) && $d = array_merge($d, ['owner' => $this->ownerDto->id]);
         isset($this->userDto) && isset($this->userDto->id) && $d = array_merge($d, ['user' => $this->userDto->id]);
@@ -219,7 +219,7 @@ class BackpackDto extends AbstractDto
         null !== $datas->get('hide') && $this->hide = $datas->get('hide');
         null !== $datas->get('owner') && $this->ownerDto = (new UserDto())->setId($datas->get('owner'));
         null !== $datas->get('user') && $this->userDto = (new UserDto())->setId($datas->get('user'));
-        null !== $datas->get('currentState') && $this->currentState = $datas->get('currentState');
+        null !== $datas->get('stateCurrent') && $this->stateCurrent = $datas->get('stateCurrent');
     }
 
 }

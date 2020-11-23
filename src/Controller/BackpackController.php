@@ -123,7 +123,7 @@ class BackpackController extends AbstractGController
 
         $dto = new BackpackDto();
         $dto
-            ->setCurrentState($item->getStateCurrent())
+            ->setStateCurrent($item->getStateCurrent())
             ->setMProcessDto((new MProcessDto())->setId($item->getMProcess()->getId()))
             ->setVisible(BackpackDto::TRUE);
 
@@ -157,5 +157,26 @@ class BackpackController extends AbstractGController
         $file = new File($actionFile->getHref());
 
         return $this->file($file, Slugger::slugify($actionFile->getTitle()) . '.' . $actionFile->getFileExtension());
+    }
+
+    /**
+     * @Route("/backpacks/draftupdatable", name="backpacks_draft_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_draft_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::DRAFT_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+
+    /**
+     * @Route("/backpacks/mydraftupdatable", name="backpacks_mydraft_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_mydraft_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_DRAFT_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
     }
 }

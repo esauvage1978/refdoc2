@@ -55,7 +55,7 @@ class BackpackMakerDto
         {
             case self::DRAFT:
                 $dto
-                    ->setCurrentState(WorkflowData::STATE_DRAFT)
+                    ->setStateCurrent(WorkflowData::STATE_DRAFT)
                     ->setVisible(BackpackDto::TRUE);
                 break;
             case self::HOME_SUBSCRIPTION:
@@ -63,7 +63,7 @@ class BackpackMakerDto
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setCurrentState(WorkflowData::STATE_DRAFT)
+                    ->setStateCurrent(WorkflowData::STATE_DRAFT)
                     ->setIsForSubscription(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;                 
@@ -72,7 +72,7 @@ class BackpackMakerDto
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setCurrentState(WorkflowData::STATE_DRAFT)
+                    ->setStateCurrent(WorkflowData::STATE_DRAFT)
                     ->setIsUpdatable(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;                
@@ -82,47 +82,8 @@ class BackpackMakerDto
                 }
                 $dto
                     ->setIsUpdatable(BackpackDto::TRUE)
-                    ->setCurrentState(WorkflowData::STATE_DRAFT)
+                    ->setStateCurrent(WorkflowData::STATE_DRAFT)
                     ->setVisible(BackpackDto::TRUE);
-                break;
-            case self::TO_VALIDATE:
-                $dto
-                    ->setCurrentState(WorkflowData::STATE_TO_VALIDATE)
-                    ->setVisible(BackpackDto::TRUE);
-                break;                
-            case self::PUBLISHED:
-                $dto
-                    ->setCurrentState(WorkflowData::STATE_PUBLISHED)
-                    ->setVisible(BackpackDto::TRUE);
-                break;
-            case self::SEARCH:
-                if(null===$param) {
-                    throw new \InvalidArgumentException('Il manque le critère de recherche');
-                }
-                $dto
-                    ->setWordSearch($param)
-                    ->setVisible(BackpackDto::TRUE);
-                break;
-
-            case self::NEWS:
-                $dto
-                ->setCurrentState(WorkflowData::STATE_PUBLISHED)
-                    ->setIsNew(BackpackDto::TRUE)
-                    ->setVisible(BackpackDto::TRUE);
-                break;
-            case self::ARCHIVED:
-                $dto
-                    ->setCurrentState(WorkflowData::STATE_ARCHIVED)
-                    ->setVisible(BackpackDto::TRUE);
-                break;
-            case self::ABANDONNED:
-                $dto
-                    ->setCurrentState(WorkflowData::STATE_ABANDONNED)
-                    ->setVisible(BackpackDto::TRUE);
-                break;
-            case self::HIDE:
-                $dto
-                    ->setHide(BackpackDto::TRUE);
                 break;
         }
 

@@ -293,9 +293,9 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
     private function initialise_where_state()
     {
 
-        if (!empty($this->dto->getCurrentState())) {
-            $this->builder->andwhere(self::ALIAS . '.currentState = :state');
-            $this->addParams('state', $this->dto->getCurrentState());
+        if (!empty($this->dto->getStateCurrent())) {
+            $this->builder->andwhere(self::ALIAS . '.stateCurrent = :state');
+            $this->addParams('state', $this->dto->getStateCurrent());
         }
     }
 

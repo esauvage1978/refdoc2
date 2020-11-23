@@ -1,4 +1,4 @@
-{% macro backpack(twigTemplace,currentState,owner,item,underRubric,visible) %}
+{% macro backpack(twigTemplace,stateCurrent,owner,item,underRubric,visible) %}
 	{% import "macros/btn_actions.html.twig" as btn_actions %}
 	{% import "macros/delele.html.twig" as del %}
 
@@ -18,7 +18,7 @@
 	{% if item %}
 
 
-			{% set url=path('backpacks',{visible:'true',currentState:currentState,idItem:item.id}) %}
+			{% set url=path('backpacks',{visible:'true',stateCurrent:stateCurrent,idItem:item.id}) %}
 
 
 		{% set edit = { 'edit': {url: path('backpack_edit',{id:item.id}),class:'btn-secondary',attr:{title:'Modifier'}}} %}

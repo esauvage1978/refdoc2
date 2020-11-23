@@ -86,7 +86,7 @@ class BackpackForTree
             ->setRoute('backpacks')
             ->setParameter($renderArray);
 
-        if (!is_null($dto->getCurrentState())) {
+        if (!is_null($dto->getStateCurrent())) {
             $tree->hideState();
         }
 
