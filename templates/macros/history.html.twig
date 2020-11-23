@@ -1,0 +1,40 @@
+{% macro timeline(data,icon) %}
+    {% embed 'widgets/timeline-item-widget.html.twig' %}
+        {% import "macros/widgets.html.twig" as widgets %}
+        {% block timeline_item_icon %}{{ icon }}{% endblock %}
+        {% block timeline_item_body_class %}{% endblock %}
+        {% block  timeline_item_tool %}
+            <i class="fas fa-clock"></i> {{ data.createdAt | date('d-m-Y') }}
+        {% endblock %}
+        {% block timeline_item_header %}
+            <img class="img-circle img-bordered-sm"
+                 src=" {{ asset( data.user.avatar) }}"
+                 alt="user image" style="width: 48px">
+            <a href="{{ path('user_show',{'id':data.user.id }) }}">{{ data.user.name }}</a>
+        {% endblock %}
+        {% block timeline_item_body %}
+
+                    <table id="tableAdministration"
+                           class="table table-striped table-borderless "
+                           style="width:100%">
+                        <thead>
+                        <tr>
+                            <th class="align-middle col-2"></th>
+                            <th class="align-middle col-5">Ancienne valeur</th>
+                            <th class="align-middle col-5">Nouvelle valeur</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in data.content %}
+                            <tr>
+                                <td>{{ row.field }}</td>
+                                <td>{{ row.oldData | raw}}</td>
+                                <td>{{ row.newData | raw }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+        {% endblock %}
+    {% endembed %}
+{% endmacro %}

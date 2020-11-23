@@ -3,10 +3,11 @@
 namespace App\Manager;
 
 use App\Entity\Backpack;
-use App\Entity\EntityInterface;
 use App\Security\CurrentUser;
-use App\Validator\BackpackValidator;
 use App\Workflow\WorkflowData;
+use App\Entity\EntityInterface;
+use App\History\BackpackHistory;
+use App\Validator\BackpackValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -17,13 +18,20 @@ class BackpackManager extends AbstractManager
      */
     private $currentUser;
 
+    /**
+     * @var BackpackHistory
+     */
+    private $backpackHistory;
+
     public function __construct(
         EntityManagerInterface $manager,
         BackpackValidator $validator,
-        CurrentUser $currentUser
+        CurrentUser $currentUser,
+        BackpackHistory $backpackHistory
     ) {
         parent::__construct($manager, $validator);
         $this->currentUser = $currentUser;
+        $this->backpackHistory = $backpackHistory;
     }
 
     public function initialise(EntityInterface $entity): void
@@ -34,7 +42,7 @@ class BackpackManager extends AbstractManager
         $bp = $entity;
 
 
-        if (null===$entity->getId()) {
+        if (null === $entity->getId()) {
             $bp->setOwner($this->currentUser->getUser());
         } else {
             $bp->setUpdatedAt(new \DateTime());
@@ -50,6 +58,13 @@ class BackpackManager extends AbstractManager
 
         if ($bp->getProcess() !== null) {
             $bp->setMProcess($bp->getProcess()->getMProcess());
+        }
+    }
+
+    public function historize(Backpack $entity, ?Backpack $entityOld = null)
+    {
+        if (null !== $entityOld) {
+            $this->backpackHistory->compare($entityOld, $entity);
         }
     }
 }

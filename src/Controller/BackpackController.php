@@ -9,6 +9,7 @@ use App\Dto\BackpackDto;
 use App\Dto\MProcessDto;
 use App\Entity\Backpack;
 use App\Tree\BackpackTree;
+use App\History\HistoryShow;
 use App\Security\CurrentUser;
 use App\Security\BackpackVoter;
 use App\Helper\ParamsInServices;
@@ -78,7 +79,7 @@ class BackpackController extends AbstractGController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->manager->save($item)) {
                 $this->addFlash(self::SUCCESS, self::MSG_MODIFY);
-                //$backpackHistory->compare($itemOld, $item);
+                $this->manager->historize($item, $itemOld);
             } else {
                 $this->addFlash(self::DANGER, self::MSG_MODIFY_ERROR . $this->manager->getErrors($item));
             }
@@ -87,6 +88,27 @@ class BackpackController extends AbstractGController
         return $this->render('backpack/edit.html.twig', [
             'item' => $item,
             self::FORM => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/backpack/{id}/history", name="backpack_history", methods={"GET","POST"})
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function historyAction(Request $request, Backpack $item): Response
+    {
+        $this->denyAccessUnlessGranted(BackpackVoter::READ, $item);
+        $historyShow = new HistoryShow(
+            $this->generateUrl('backpack_edit', ['id' => $item->getId()]),
+            "Porte-document : " . $item->getName(),
+            "Historiques des modifications du porte-document"
+        );
+
+        return $this->render('backpack/history.html.twig', [
+            'item' => $item,
+            'histories' => $item->getHistories(),
+            'data' => $historyShow->getParams()
         ]);
     }
 
