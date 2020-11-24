@@ -42,7 +42,6 @@ class WorkflowData
         }
         throw new \InvalidArgumentException('cet état n\'existe pas : ' . $data);
     }
-
     public static function getNameOfState(string $state)
     {
         return self::getStatesValue($state, self::NAME);

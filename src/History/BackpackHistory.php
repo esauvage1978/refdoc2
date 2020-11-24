@@ -35,6 +35,8 @@ class BackpackHistory extends HistoryAbstract
         $this->compareField('Niveau 4', $backpackOld->getDir4(), $backpackNew->getDir4()) && $diffPresent = true;
         $this->compareField('Niveau 5', $backpackOld->getDir5(), $backpackNew->getDir5()) && $diffPresent = true;
 
+
+        
         if ($diffPresent) {
             $this->save();
         }

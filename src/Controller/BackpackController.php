@@ -201,4 +201,15 @@ class BackpackController extends AbstractGController
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_DRAFT_UPDATABLE);
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
+
+
+    /**
+     * @Route("/backpacks/draft", name="backpacks_draft", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_draft(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::DRAFT);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
 }

@@ -12,22 +12,25 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController extends AbstractController
+class DashboardController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/dashboard", name="dashboard")
      * @IsGranted("ROLE_USER")
      */
     public function index(BackpackDtoRepository $backpackDtoRepository)
     {
         $md = new MakeDashboard($backpackDtoRepository, $this->getUser());
 
-        $dash_options = [
+        $draft = [
+            $md->getData(MakeDashboard::DRAFT),
             $md->getData(MakeDashboard::DRAFT_UPDATABLE),
             $md->getData(MakeDashboard::MY_DRAFT_UPDATABLE),
         ];
 
-        return $this->render('home/index.html.twig', ['dash_options' => $dash_options]);
+        return $this->render('dashboard/index.html.twig', ['draft' => $draft]);
     }
 
+
+    
 }

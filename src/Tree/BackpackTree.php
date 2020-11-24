@@ -21,6 +21,8 @@ class BackpackTree extends AbstractTree
 
     private $hideState=false;
 
+    private $sameMp=false;
+
 
     private $mprocess_last = '';
     private $mprocess_id = '';
@@ -59,7 +61,6 @@ class BackpackTree extends AbstractTree
     public function getTree()
     {
         $this->getTreeCheck();
-
         foreach ($this->items as $item) {
 
             $open = $this->item->getId() === $item->getId();
@@ -91,7 +92,6 @@ class BackpackTree extends AbstractTree
             ];
 
         }
-
         return json_encode($this->tree);
     }
 
@@ -166,6 +166,9 @@ class BackpackTree extends AbstractTree
             $this->dir4_last = '';
             $this->dir5_id = '';
             $this->dir5_last = '';
+            $this->sameMp = false;
+        } else {
+            $this->sameMp=true;
         }
 
         $this->mprocess_last = $data_courant;
@@ -175,7 +178,11 @@ class BackpackTree extends AbstractTree
     {
         $data_courant = $backpack->getProcess();
 
-        if ($data_courant === '' || $data_courant === null) {
+        if (($data_courant === '' || $data_courant === null) && $this->sameMp) {
+            return;
+        }
+
+        if (($data_courant === '' || $data_courant === null ) ) {
             $this->dir1_id = '';
             $this->dir1_last = '';
             $this->dir2_id = '';
@@ -236,9 +243,8 @@ class BackpackTree extends AbstractTree
 
             $parent = $this->process_id? $this->process_id: $this->mprocess_id;
             $this->addBranche($this->dir1_id, $data_courant, $parent, $this->developed);
-
-            $this->dir1_last = $data_courant;
         }
+        $this->dir1_last = $data_courant;
 
     }
 

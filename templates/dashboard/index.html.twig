@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{ app_name }}
+	- Tableau de bord
+{% endblock %}
+{% block page_title %}
+	<i class="fas fa-dashboard"></i>
+	Tableau de bord
+
+{% endblock %}
+
+{% block page_content %}
+
+
+		{% import "macros/backpack.html.twig" as bkp %}
+{% import "macros/widgets.html.twig" as widgets %}
+
+
+		<div class="row justify-content-center mt-2">
+			<div class="col-sm-12 col-lg-6 ">
+				<div class="card card-info card-outline ">
+					<div class="card-header ">
+
+						<div class="card-title  m-0">
+							<h4 class="text-bold text-info">Porte-documents</h4>
+						</div>
+
+					</div>
+					<div class="card-body">
+						<table class='table'>
+<thead>
+<tr>
+	<td></td>
+	<td>Total</td>
+	<td>Modifiable</td>
+	<td>Mes porte-documents</td>
+
+
+
+</tr>
+</thead>
+
+							<tbody>
+								<tr>
+<td style="background-color:{{ 'draft' | workflowGetBGColorOfState }};color: {{ 'draft' | workflowGetForeColorOfState}};">
+
+<i class="{{ 'draft' | workflowGetIconOfState}}"></i> {{ 'draft' | workflowGetNameOfState }}
+
+
+
+									</td>
+									{% for  item in draft %}
+										<td>
+
+											<a class=" hvr-float-shadow   align-items-center" href="{{ path(item.route) }}">
+												<span class=''>
+													{{ item.data}}
+												</span>
+											</a>
+										</td>
+
+									{% endfor %}
+
+								</tr>
+
+							</tbody>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="col-sm-12 col-lg-6 "></div>
+
+			</div>
+
+
+
+
+	{% endblock %}

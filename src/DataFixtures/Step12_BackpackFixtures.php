@@ -35,6 +35,17 @@ class Step12_BackpackFixtures extends Fixture implements FixtureGroupInterface
      */
     private $entityManagerInterface;
 
+    private $repertoire=[
+        'Répertoire 1',
+        'description',
+        'activité 1',
+        'activité 2',
+        'activité 3',
+        'activité 4',
+        'activité 5',
+        'activité 6',
+    ];
+
     private $users;
     private $mprocesses;
     private $processes;
@@ -71,7 +82,8 @@ class Step12_BackpackFixtures extends Fixture implements FixtureGroupInterface
                 ->setOwner($user)
                 ->setCategory($this->categories[$faker->numberBetween(0, count($this->categories) - 1)])
                 ->setContent($faker->realText(500))
-                ->setName($faker->realText(20));
+                ->setName($faker->realText(20))
+                ->setCreatedAt($faker->dateTimeBetween($startDate = '-2 years', $endDate = 'now', $timezone = null));
 
             if ($faker->numberBetween(0, 1) == 1) {
                 $backpack->setMProcess($this->mprocesses[$faker->numberBetween(0, count($this->mprocesses) - 1)]);
@@ -79,6 +91,16 @@ class Step12_BackpackFixtures extends Fixture implements FixtureGroupInterface
                 $process= $this->processes[$faker->numberBetween(0, count($this->processes) - 1)];
                 $backpack->setProcess($process);
                 $backpack->setMProcess($process->getMProcess());
+            }
+
+            if ($faker->numberBetween(0, 1) == 1) {
+                $backpack->setDir1($this->repertoire[$faker->numberBetween(0, count($this->repertoire) - 1)]);
+                if ($faker->numberBetween(0, 1) == 1) {
+                    $backpack->setDir2($this->repertoire[$faker->numberBetween(0, count($this->repertoire) - 1)]);
+                    if ($faker->numberBetween(0, 1) == 1) {
+                        $backpack->setDir3($this->repertoire[$faker->numberBetween(0, count($this->repertoire) - 1)]);
+                    }
+                }
             }
             $this->checkAndPersist($backpack);
         }
