@@ -1,0 +1,73 @@
+{% macro backpack(twigTemplace,stateCurrent,owner,item,underRubric,visible) %}
+	{% import "macros/btn_actions.html.twig" as btn_actions %}
+	{% import "macros/delele.html.twig" as del %}
+
+	{% set home = { 'home': {url: path('home'),class:'btn-secondary',attr:{title:'Accueil'}}} %}
+	{% set save = { 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
+
+
+
+	{% set actions = {} %}
+	{% if underRubric %}
+		{% set actions = actions|merge({ 'left': {url: path('rubric_show',{id:underRubric.rubric.id}),class:'btn-secondary',attr:{title:'retour'}}}) %}
+	{% endif %}
+	{% set actions = actions|merge(home) %}
+	{% set actions = actions|merge({'divider': null}) %}
+
+
+	{% if item %}
+
+
+			{% set url=path('backpacks',{visible:'true',stateCurrent:stateCurrent,idItem:item.id}) %}
+
+
+		{% set edit = { 'edit': {url: path('backpack_edit',{id:item.id}),class:'btn-secondary',attr:{title:'Modifier'}}} %}
+		{% set delete = { 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
+		{% set show = { 'show': {url: url,class:'btn-secondary',attr:{title:'Consulter'}}} %}
+		{% set history = { 'history': {url: path('backpack_history',{id:item.id}),class:'btn-secondary',attr:{title:'historique des modifications'}}} %}
+
+		{% set actions = actions|merge({'divider2': null}) %}
+
+
+		{% if twigTemplace=='tree' %}
+			{% if  item | backpackCanUpdate %}
+				{% set actions = actions|merge(edit) %}
+			{% endif %}
+			{% if  item | backpackCanDelete %}
+				{% set actions = actions|merge(delete) %}
+				{{ del.delete_form('backpack_del',item.id, null) }}
+			{% endif %}
+		{% elseif twigTemplace=='comment_add' or twigTemplace=='comments' %}
+			{% if  item | backpackCanUpdate %}
+				{% set actions = actions|merge(edit) %}
+
+			{% endif %}
+			{% set actions = actions|merge(save) %}
+
+		{% elseif twigTemplace=='workflow' %}
+			{% set actions = actions|merge() %}
+			{% set actions = actions|merge(edit) %}
+
+		{% elseif twigTemplace=='history' %}
+			{% set actions = actions|merge(show) %}
+			{% if  item | backpackCanDelete %}
+				{% set actions = actions|merge(delete) %}
+				{{ del.delete_form('backpack_del',item.id, null) }}
+			{% endif %}
+			{% set actions = actions|merge(edit) %}
+
+		{% elseif twigTemplace=='edit' %}
+			{% set actions = actions|merge(history) %}
+			{% set actions = actions|merge(show) %}
+			{% if  item | backpackCanDelete %}
+				{% set actions = actions|merge(delete) %}
+				{{ del.delete_form('backpack_del',item.id, null) }}
+			{% endif %}
+			{% set actions = actions|merge(save) %}
+		{% endif %}
+	{% elseif twigTemplace=='add' %}
+		{% set actions = actions|merge(save) %}
+	{% endif %}
+	{{ btn_actions.show(actions) }}
+
+{% endmacro %}

@@ -1,0 +1,16 @@
+
+<div class="timeline">
+    {% if block('timeline_title') is defined %}
+        <div class="time-label">
+        <span class="{% if block('timeline_title_class') is defined %}{{ block('timeline_title_class') }}{% endif %}">
+            {{ block('timeline_title') }}</span>
+        </div>
+    {% endif %}
+    {% if block('timeline_body') is defined %}
+        {{ block('timeline_body') }}
+    {% endif %}
+
+    <div>
+        <i class="fas fa-clock {% if block('timeline_end_class') is defined %}{{ block('timeline_end_class') }}{% endif %}"></i>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+{% extends 'backpack/layout.html.twig' %}
+
+
+{% block page_subtitle %}Création
+{% endblock %}
+
+
+{% block breadcrumb %}
+	{% import "backpack/_btn_actions.html.twig" as actions %}
+	{{ actions.backpack(
+        'add',
+        'draft',
+        true,
+        null,
+        null
+    ) }}
+{% endblock %}
+
+
+{% block page_content %}
+	<div class="row justify-content-center">
+		<div class="" style="width:960px">
+
+
+			{% if item is defined %}
+
+				{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+				{% import "macros/delele.html.twig" as del %}
+				{% import "macros/submit.html.twig" as sub %}
+				{% import "macros/save.html.twig" as save %}
+
+				{{ form_start(form) }}
+
+
+				<div style="width:630px">
+
+					{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
+
+					{{ include(domaine ~ '/_edit/_process.html.twig') }}
+
+					{{ include(domaine ~ '/_edit/_name.html.twig') }}
+{{ save.btn()}}
+
+
+					<p class="mt-5 mb-5"></p>
+					<p class="mt-5 mb-5"></p>
+				</div>
+				{% import "macros/submit.html.twig" as sub %}<div class="d-none">{{ sub.btn() }}{{form_rest(form)}}</div>
+				{{ form_end(form) }}
+				{% if item.id is not null %}
+					{{ del.delete_form(route_del,item.id, 'show') }}
+				{% endif %}
+			{% endif %}
+
+
+		</div>
+	</div>
+
+
+{% endblock %}
+
+{%  block javascripts %}
+	{{ parent() }}
+
+
+	<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
+
+	<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
+	<script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script>
+	<script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script>
+
+
+	<script type="text/javascript">
+
+		/*##################################
+####################################
+####        MP / P          ########
+####################################
+##################################*/
+
+let mp_less = $('#cmb_mp');
+let mp_radio = $('#mp_radio');
+let mp = $('#backpack_new_mProcess');
+
+
+let p_less = $('#cmb_p');
+let p_radio = $('#p_radio');
+let p = $('#backpack_new_process');
+
+
+let route_mp = "{{ path('ajax_cmb_mp_for_contribute') }}";
+let route_p = "{{ path('ajax_cmb_p_for_contribute') }}";
+
+
+fillComboboxMP(mp_less, route_mp);
+fillComboboxMP(p_less, route_p);
+
+
+required(mp_less);
+disabled(p_less);
+
+
+mp_less.change(function () {
+setVal(mp, getVal(mp_less));
+});
+
+
+p_less.change(function () {
+setVal(p, getVal(p_less));
+});
+
+
+mp_radio.on('ifChecked', function () {
+required(mp_less);
+undisabled(mp_less);
+disabled(p_less);
+setVal(p_less, 0);
+});
+
+
+p_radio.on('ifChecked', function () {
+unrequired(mp_less);
+disabled(mp_less);
+undisabled(p_less);
+setVal(mp_less, 0);
+});
+
+	</script>
+{% endblock %}

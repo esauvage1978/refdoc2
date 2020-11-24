@@ -54,7 +54,6 @@ class Step1_UserFixtures extends Fixture implements FixtureGroupInterface
         ['ROSE Hélène', 'helene.rose@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
         ['SAUVAGE Emmanuel', 'emmanuel.sauvage@live.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER", "ROLE_ADMIN"]],
         ['WILLEMS Gregory', 'gregory.willems@live.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER", "ROLE_ADMIN"]],
-
     ];
 
     public function load(ObjectManager $manager)

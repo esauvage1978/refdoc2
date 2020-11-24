@@ -1,0 +1,8 @@
+{% macro get_style_color(state) %}
+	style="background-color:{{ state | workflowGetBGColorOfState }};color:{{ state | workflowGetForeColorOfState }}"
+{% endmacro %}
+
+{% macro badge_state(state) %}
+	{% import "macros/widgets.html.twig" as widgets %}
+	{{ widgets.badge( '<i class="' ~ (state | workflowGetIconOfState) ~ '"></i> ' ~ (state | workflowGetNameOfState) , state | workflowGetBGColorOfState, state | workflowGetForeColorOfState) }}
+{% endmacro %}

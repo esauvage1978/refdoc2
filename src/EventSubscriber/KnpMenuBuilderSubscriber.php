@@ -40,6 +40,8 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
 
         if ($this->currentUser->isAuthenticatedRemember() && Role::isUser($this->currentUser->getUser())) {
             $this->addHome();
+            $this->addDashboard();
+            $this->addBackpack();
             $this->addProfil();
             $this->addSubscription();
             $this->addAdmin();
@@ -55,6 +57,15 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
     }
 
 
+    private function addDashboard(): void
+    {
+        $this->menu->addChild('dashboard', [
+            'route' => 'dashboard',
+            'label' => 'Tableau de bord',
+            'childOptions' => $this->event->getChildOptions(),
+        ])->setLabelAttribute('icon', 'fas fa-tachometer-alt');
+    }
+    
     private function addHome(): void
     {
         $this->menu->addChild('home', [
@@ -112,4 +123,25 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
         ])->setLabelAttribute('icon', 'fab fa-chromecast');
     }
 
+    private function addBackpack()
+    {
+        $this->menu->addChild(
+            'backpack',
+            [
+                'route' => 'home',
+                'label' => 'Porte-documents',
+                'childOptions' => $this->event->getChildOptions(),
+                'options' => ['branch_class' => 'treeview']
+            ]
+        )->setLabelAttribute('icon', 'nav-icon fas fa-suitcase');
+
+        $this->menu->getChild('backpack')->addChild(
+            'backpack-add',
+            [
+                'route' => 'backpack_add',
+                'label' => 'Création',
+                'childOptions' => $this->event->getChildOptions()
+            ]
+        )->setLabelAttribute('icon', 'fas fa-plus-circle');
+    }
 }

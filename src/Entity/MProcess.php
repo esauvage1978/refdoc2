@@ -70,6 +70,11 @@ class MProcess implements EntityInterface
      */
     private $subscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Backpack::class, mappedBy="mProcess")
+     */
+    private $backpacks;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -78,6 +83,7 @@ class MProcess implements EntityInterface
         $this->poleValidators = new ArrayCollection();
         $this->processes = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
+        $this->backpacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +275,36 @@ class MProcess implements EntityInterface
             // set the owning side to null (unless already changed)
             if ($subscription->getMProcess() === $this) {
                 $subscription->setMProcess(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Backpack[]
+     */
+    public function getBackpacks(): Collection
+    {
+        return $this->backpacks;
+    }
+
+    public function addBackpack(Backpack $backpack): self
+    {
+        if (!$this->backpacks->contains($backpack)) {
+            $this->backpacks[] = $backpack;
+            $backpack->setMProcess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpack(Backpack $backpack): self
+    {
+        if ($this->backpacks->removeElement($backpack)) {
+            // set the owning side to null (unless already changed)
+            if ($backpack->getMProcess() === $this) {
+                $backpack->setMProcess(null);
             }
         }
 

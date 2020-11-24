@@ -86,4 +86,9 @@ class UserController extends AbstractGController
     {
         return $this->editAction($request, $item, UserType::class);
     }
+
+    public function myWidgetNotificationAction(): Response
+    {
+        return $this->render('user/_myWidgetNotification.html.twig');
+    }
 }

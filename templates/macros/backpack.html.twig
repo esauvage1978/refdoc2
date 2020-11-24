@@ -1,0 +1,78 @@
+{%  macro identification(item) %}
+	{% import "macros/widgets.html.twig" as widgets %}
+	{% import "macros/user.html.twig" as user %}
+	<div class="row ">
+		<div class="col-12 d-flex justify-content-around  align-items-center">
+			<div class="users-list">
+				{{ user.vignette(item.owner) }}
+			</div>
+			<small class="text-muted ">
+				Modifié le
+				<strong>{{ widgets.showLongDate (item.updatedAt) }}</strong>
+			</small>
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro icone(item) %}
+	<i class="{{ item.category.icone }} fa-2x" style="
+				{% if item.category.forecolor is defined %}
+					color:{{ item.category.forecolor }};
+				{% endif %}
+		{% if item.category.bgcolor is defined %}
+			background-color:{{ item.category.bgcolor }};
+		{% endif %}
+		
+		" title="{{ item.category.name }}"></i>
+
+
+{% endmacro %}
+
+{% macro isNew(dateNew) %}
+	{% import _self as macro %}
+	{% if dateNew %}
+		{% set difference = date("today").diff(date(dateNew)) %}
+		{% set leftDays = difference.days %}
+		{% if leftDays < news_time %}
+			{{ macro.spanNew() }}
+		{% endif %}
+	{% endif %}
+{% endmacro %}
+
+{% macro listBackpack(items) %}
+	<div class="card card-info card-outline ">
+		<div class="card-header ">
+
+			<div class="card-title  m-0">
+				<h4 class="text-bold text-info">Mes porte-documents</h4>
+			</div>
+
+		</div>
+		<div class="list-group list-group-flush">
+
+			{% for  item in items %}
+				{% if item.data!="0" %}
+
+
+<a class="list-group-item list-group-item-action hvr-float-shadow  d-flex justify-content-between align-items-center" href="{{ path(item.route) }}"
+
+style="color:{{ item.foreColor}};background-color:{{ item.bgColor}};"
+
+					>
+						<span class=' mr-5'>
+							<i class="{{ item.icon }}"></i>
+							{{ item.title | raw}}
+						</span>
+						<span class=''>
+							<span class=' text-muted mr-1'></span>
+							{{ item.data}}
+
+						</span>
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+{% endmacro %}
+
+

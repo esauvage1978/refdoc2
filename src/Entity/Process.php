@@ -69,12 +69,18 @@ class Process implements EntityInterface
      */
     private $subscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Backpack::class, mappedBy="process")
+     */
+    private $backpacks;
+
     public function __construct()
     {
         $this->setIsEnable(true);
         $this->validators = new ArrayCollection();
         $this->contributors = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
+        $this->backpacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +237,36 @@ class Process implements EntityInterface
             // set the owning side to null (unless already changed)
             if ($subscription->getProcess() === $this) {
                 $subscription->setProcess(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Backpack[]
+     */
+    public function getBackpacks(): Collection
+    {
+        return $this->backpacks;
+    }
+
+    public function addBackpack(Backpack $backpack): self
+    {
+        if (!$this->backpacks->contains($backpack)) {
+            $this->backpacks[] = $backpack;
+            $backpack->setProcess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpack(Backpack $backpack): self
+    {
+        if ($this->backpacks->removeElement($backpack)) {
+            // set the owning side to null (unless already changed)
+            if ($backpack->getProcess() === $this) {
+                $backpack->setProcess(null);
             }
         }
 

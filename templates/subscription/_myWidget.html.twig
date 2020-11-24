@@ -1,0 +1,30 @@
+{% import "macros/widgets.html.twig" as widgets %}
+
+{% set nbr=0 %}
+{% for sub in app.user.subscriptions %}
+	{% if sub.isEnable is same as(true) %}
+		{% set nbr=nbr+1 %}
+	{% endif %}
+{% endfor %}
+
+<a href="{{ path('mySubscription')}}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow h-100">
+	<div class="d-flex w-100 align-items-center">
+		<div class="col-4  text-center">
+			{{ widgets.icon('subscription', nbr>0?'fa-5x text-info':' fa-5x text-danger') }}
+		</div>
+		<div class="">
+			{% if nbr==0 %}
+				<h5 class="mb-1 text-danger">
+					<strong>Aucun abonnement</strong>
+				</h5>
+			{% else %}
+				<h5 class="mb-1 text-info">
+					<strong>{{nbr>1?'Mes ' ~ nbr ~ ' abonnements':'Mon abonnement'}}</strong>
+				</h5>
+			{% endif %}
+			<p class="mb-1"></p>
+			<small>Cliquez ici pour gérer les abonnements</small>
+		</div>
+	</div>
+</a>
+

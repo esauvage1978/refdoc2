@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use App\Workflow\WorkflowNames;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,6 +70,11 @@ class Category implements EntityInterface
      */
     private $workflowName;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Backpack::class, mappedBy="category")
+     */
+    private $backpacks;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -78,6 +85,7 @@ class Category implements EntityInterface
         $this->setBgColor("#ffffff");
         $this->setForeColor("#ff00ff");
         $this->setWorkflowName(WorkflowNames::WORKFLOW_ALL);
+        $this->backpacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,6 +211,36 @@ class Category implements EntityInterface
         $wn=new  WorkflowNames();
 
         $this->workflowName = $wn->check( $workflowName);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Backpack[]
+     */
+    public function getBackpacks(): Collection
+    {
+        return $this->backpacks;
+    }
+
+    public function addBackpack(Backpack $backpack): self
+    {
+        if (!$this->backpacks->contains($backpack)) {
+            $this->backpacks[] = $backpack;
+            $backpack->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpack(Backpack $backpack): self
+    {
+        if ($this->backpacks->removeElement($backpack)) {
+            // set the owning side to null (unless already changed)
+            if ($backpack->getCategory() === $this) {
+                $backpack->setCategory(null);
+            }
+        }
 
         return $this;
     }

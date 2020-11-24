@@ -30,6 +30,41 @@ function fillComboboxChained(selecteurSource, selecteurDestination, route, appel
 }
 
 
+function arborescence(fieldSource, route, idMp, idP, appelEnCascade, fieldForm) {
+    var data = getVal(fieldForm);
+
+    fieldSource.empty();
+
+    $.ajax({
+        method: "POST",
+        url: route,
+        data: {
+            'idMp': idMp,
+            'idP': idP
+        },
+        dataType: 'json',
+        success: function (json) {
+            console.log(json);
+            var selected = '';
+            fieldSource.append('<option value=""></option>');
+
+            $.each(json, function (index, value) {
+                if (data === value.id) {
+                    selected = 'selected';
+                } else {
+                    selected = '';
+                } fieldSource.append('<option ' + selected + ' value="' + value.id + '">' + value.name + '</option > ');
+            }
+            );
+            if (appelEnCascade) {
+                fieldSource.change();
+
+            }
+        }
+
+    }
+    );
+}
 
 function arborescenceChained(fieldSource, route, idMp, idP, dataSource, appelEnCascade, fieldForm) {
     var data = fieldForm.val();

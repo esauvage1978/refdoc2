@@ -119,6 +119,16 @@ class User implements UserInterface, EntityInterface
      */
     private $subscriptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Backpack::class, mappedBy="owner")
+     */
+    private $backpacks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="History", mappedBy="user", orphanRemoval=true)
+     */
+    private $histories;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -129,6 +139,8 @@ class User implements UserInterface, EntityInterface
         $this->processContributors = new ArrayCollection();
         $this->processValidators = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
+        $this->backpacks = new ArrayCollection();
+        $this->histories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -542,5 +554,65 @@ class User implements UserInterface, EntityInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Backpack[]
+     */
+    public function getBackpacks(): Collection
+    {
+        return $this->backpacks;
+    }
+
+    public function addBackpack(Backpack $backpack): self
+    {
+        if (!$this->backpacks->contains($backpack)) {
+            $this->backpacks[] = $backpack;
+            $backpack->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpack(Backpack $backpack): self
+    {
+        if ($this->backpacks->removeElement($backpack)) {
+            // set the owning side to null (unless already changed)
+            if ($backpack->getOwner() === $this) {
+                $backpack->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|History[]
+     */
+    public function getHistories(): Collection
+    {
+        return $this->histories;
+    }
+
+    public function addHistory(History $history): self
+    {
+        if (!$this->histories->contains($history)) {
+            $this->histories[] = $history;
+            $history->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistory(History $history): self
+    {
+        if ($this->histories->contains($history)) {
+            $this->histories->removeElement($history);
+            // set the owning side to null (unless already changed)
+            if ($history->getUser() === $this) {
+                $history->setUser(null);
+            }
+        }
+
+        return $this;
+    }
  
 }
