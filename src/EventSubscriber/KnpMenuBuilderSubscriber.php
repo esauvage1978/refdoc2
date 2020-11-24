@@ -40,6 +40,7 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
 
         if ($this->currentUser->isAuthenticatedRemember() && Role::isUser($this->currentUser->getUser())) {
             $this->addHome();
+            $this->addDashboard();
             $this->addBackpack();
             $this->addProfil();
             $this->addSubscription();
@@ -56,6 +57,15 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
     }
 
 
+    private function addDashboard(): void
+    {
+        $this->menu->addChild('dashboard', [
+            'route' => 'dashboard',
+            'label' => 'Tableau de bord',
+            'childOptions' => $this->event->getChildOptions(),
+        ])->setLabelAttribute('icon', 'fas fa-tachometer-alt');
+    }
+    
     private function addHome(): void
     {
         $this->menu->addChild('home', [
