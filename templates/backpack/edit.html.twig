@@ -23,8 +23,7 @@
 
 		<div class="" style="width:960px">
 			{{ include(domaine ~ '/_show/_identification.html.twig') }}
-{{ include(domaine ~ '/_show/_content.html.twig') }}
-
+			{{ include(domaine ~ '/_show/_content.html.twig') }}
 
 
 			<div class="card card-info card-tabs mt-3">
@@ -77,18 +76,9 @@
 								{{ save.btn()}}
 							</div>
 						{% elseif item.stateCurrent == "abandonned" %}
-							{{ include(domaine ~ '/_show/_type_doc.html.twig') }}
 							{{ include(domaine ~ '/_show/_process.html.twig') }}
 							{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
-							{{ include(domaine ~ '/_show/_item.html.twig') }}
-						{% elseif item.stateCurrent =="toValidate" %}
-							{{ include(domaine ~ '/_show/_type_doc.html.twig') }}
-							{{ include(domaine ~ '/_show/_process.html.twig') }}
-							{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
-							{{ include(domaine ~ '/_show/_item.html.twig') }}
 						{% endif %}
-
-
 
 
 					{% endif %}
@@ -96,11 +86,11 @@
 
 				</div>
 
-				<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab"></div>
 
 				<div class="tab-pane fade" id="custom-tabs-one-file" role="tabpanel" aria-labelledby="custom-tabs-one-file-tab">
 					{% if item.stateCurrent == "draft" %}
 						<div style="width:630px">
+
 							{{ include(domaine ~ '/_edit/_files.html.twig') }}
 
 							{{ save.btn()}}
@@ -109,8 +99,15 @@
 
 				</div>
 
+<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+	{% import "macros/workflow.html.twig" as wfl %}
 
-			</div>
+
+
+	{{ wfl.cards(item) }}
+
+</div>
+</div>
 
 			{% import "macros/submit.html.twig" as sub %}
 			<div class="d-none">
@@ -121,15 +118,20 @@
 			</div>
 
 			{{ form_end(form) }}
+{% for transition in workflow_transitions(item,item.category.workflowName) %}
+	{{ include('workflow/_modal_transition.html.twig',{'transition':transition.name,'id':item.id}) }}
+{% endfor %}
+
+
 			{% if item.id is not null %}
 				{{ del.delete_form(route_del,item.id, 'show') }}
 			{% endif %}
-<p class="mt-5 mb-5">&nbsp;</p>
-<p class="mt-5 mb-5">&nbsp;</p>
-<p class="mt-5 mb-5">&nbsp;</p>
-<p class="mt-5 mb-5">&nbsp;</p>
-<p class="mt-5 mb-5">&nbsp;</p>
-<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
 
 		</div>
 		<div class="modal fade" id="addDir" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">

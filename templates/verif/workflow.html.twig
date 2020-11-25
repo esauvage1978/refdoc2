@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	Vérif action
+{% endblock %}
+
+
+{% block page_content %}
+
+	<a href="{{ path('backpack_edit',{'id':item.id}) }}">
+
+
+		{{ include('backpack/_show/_identification.html.twig') }}
+		{{ include('backpack/_show/_content.html.twig') }}
+
+
+	</a>
+	<br/>
+	{{ item.stateCurrent }}
+
+	<br/>
+	{{ item.stateContent }}
+
+	<br/>
+	{{ item.stateAt | date("d/m/Y") }}
+	<br/>
+	Liste des transitions possibles :
+	{% for transition in workflow_transitions(item,item.category.workflowName) %}
+
+		<a href="{{ path('workflow_backpack_check_apply_transition',{'id': item.id, 'transition':transition.name}) }}">
+
+			{{ transition.name }}
+		</a>
+	{% else %}
+		No actions available.
+	{% endfor %}
+	<hr>
+	<table class="table table-striped table-bordered">
+		<tr>
+			<th>Num</th>
+			<th>Qui</th>
+			<th>FROM</th>
+			<th>TO</th>
+			<th>Le</th>
+			<th>Commentaire</th>
+		</tr>
+		{% for backpackState in item.backpackStates %}
+			<tr>
+				<td>{{ backpackState.id }}</td>
+				<td>{{ backpackState.user.name }}</td>
+				<td>{{ backpackState.stateOld }}</td>
+				<td>{{ backpackState.stateNew }}</td>
+				<td>{{ backpackState.changeAt | date('d-m-Y') }}</td>
+				<td>{{ backpackState.content }}</td>
+			</tr>
+		{% endfor %}
+
+
+	</table>
+{% endblock %}

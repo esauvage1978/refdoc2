@@ -212,4 +212,34 @@ class BackpackController extends AbstractGController
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::DRAFT);
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
+
+
+    /**
+     * @Route("/backpacks/abandonned", name="backpacks_abandonned", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_abandonned(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::ABANDONNED);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/abandonnedupdatable", name="backpacks_abandonned_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_abandonned_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::ABANDONNED_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/myabandonnedupdatable", name="backpacks_myabandonned_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_myabandonned_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_ABANDONNED_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
 }

@@ -28,9 +28,18 @@ class DashboardController extends AbstractController
             $md->getData(MakeDashboard::MY_DRAFT_UPDATABLE),
         ];
 
-        return $this->render('dashboard/index.html.twig', ['draft' => $draft]);
+        $abandonned = [
+            $md->getData(MakeDashboard::ABANDONNED),
+            $md->getData(MakeDashboard::ABANDONNED_UPDATABLE),
+            $md->getData(MakeDashboard::MY_ABANDONNED_UPDATABLE),
+        ];
+
+        return $this->render(
+            'dashboard/index.html.twig',
+            [
+                'draft' => $draft,
+                'abandonned' => $abandonned
+            ]
+        );
     }
-
-
-    
 }

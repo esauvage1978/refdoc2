@@ -1,0 +1,59 @@
+{%  set data = (transition | workflowGetModalDataForTransition)  %}
+<form method="post" id="{{ data.transition }}_form" action="{{ path('workflow_backpack_apply_transition' , {'id': id,'transition': data.transition}) }}">
+    <div class="modal  fade" id="modal-{{ data.transition }}" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div id="{{ data.transition }}_overlay" class="d-none">
+                <div  class=" overlay d-flex justify-content-center align-items-center">
+                    <i class="fas fa-2x fa-sync fa-spin"></i>
+                </div>
+                </div>
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ data.titre }}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label for="{{ data.transition }}_content" class="col-12">
+                                Commentaire
+                            </label>
+                            <textarea id="{{ data.transition }}_content" name="{{ data.transition }}_content" required
+                                      class="textarea form-control" rows="5"
+                                      placeholder="Saisir votre commentaire ici"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_method" value="POST">
+                    <input type="hidden" name="_token" value="{{ csrf_token(data.transition ~ id) }}">
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <a href="#" id="a_{{ data.transition }}" class="btn btn-primary" ><i class="fas fa-external-link-alt"></i> {{ data.btn_label }}</a>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script src="{{ absolute_url( asset('/vendor/jquery/dist/jquery.min.js')) }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#a_{{ data.transition }}').click(function () {
+                if($('#{{ data.transition }}_content').val()==="") {
+                    alert('Le commentaire est vide');
+                    return;
+                }
+                $('#{{ data.transition }}_overlay').removeClass('d-none');
+                $var= confirm('Êtes-vous sûr de vouloir changer l\'état ?');
+                if($var) {
+                    $('#{{ data.transition }}_form').submit();
+                } else {
+                    $('#{{ data.transition }}_overlay').addClass('d-none');
+                }
+
+            });
+        })
+    </script>
+</form>

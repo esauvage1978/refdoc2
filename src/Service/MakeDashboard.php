@@ -28,6 +28,11 @@ class MakeDashboard
     public const DRAFT = 'draft';
     public const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
     public const DRAFT_UPDATABLE = 'draft_updatable';
+    public const ABANDONNED = 'abandonned';
+    public const ABANDONNED_UPDATABLE = 'abandonned_updatable';
+    public const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
+
+
     public const TO_VALIDATE = 'to_validate';
 
     public function getData(string $data)
@@ -60,7 +65,33 @@ class MakeDashboard
                 self::TITLE => 'Mes brouillons modifiables',
                 self::NBR => $this->counter->get(BackpackMakerDto::MY_DRAFT_UPDATABLE),
             ],
-         
+            self::ABANDONNED => [
+                self::ROUTE => 'backpacks_' . self::ABANDONNED,
+                self::ROUTE_OPTIONS => null,
+                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_ABANDONNED),
+                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_ABANDONNED),
+                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_ABANDONNED),
+                self::TITLE => 'Les abandonnés',
+                self::NBR => $this->counter->get(BackpackMakerDto::ABANDONNED),
+            ],
+            self::ABANDONNED_UPDATABLE => [
+                self::ROUTE => 'backpacks_' . self::ABANDONNED_UPDATABLE,
+                self::ROUTE_OPTIONS => null,
+                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_ABANDONNED),
+                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_ABANDONNED),
+                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_ABANDONNED),
+                self::TITLE => 'Les abandonnés modifiables',
+                self::NBR => $this->counter->get(BackpackMakerDto::ABANDONNED_UPDATABLE),
+            ],
+            self::MY_ABANDONNED_UPDATABLE => [
+                self::ROUTE => 'backpacks_' . self::MY_ABANDONNED_UPDATABLE,
+                self::ROUTE_OPTIONS => null,
+                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_ABANDONNED),
+                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_ABANDONNED),
+                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_ABANDONNED),
+                self::TITLE => 'Mes abandonnés modifiables',
+                self::NBR => $this->counter->get(BackpackMakerDto::MY_ABANDONNED_UPDATABLE),
+            ],            
         ];
 
 

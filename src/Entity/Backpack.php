@@ -120,6 +120,12 @@ class Backpack implements EntityInterface
      */
     private $histories;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BackpackState", mappedBy="backpack")
+     */
+    private $backpackStates;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -128,6 +134,7 @@ class Backpack implements EntityInterface
         $this->backpackFiles = new ArrayCollection();
         $this->backpackLinks = new ArrayCollection();
         $this->histories = new ArrayCollection();
+        $this->backpackStates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -424,4 +431,37 @@ class Backpack implements EntityInterface
 
         return $this;
     }
+
+
+    /**
+     * @return Collection|BackpackState[]
+     */
+    public function getBackpackStates(): Collection
+    {
+        return $this->backpackStates;
+    }
+
+    public function addBackpackState(BackpackState $backpackState): self
+    {
+        if (!$this->backpackStates->contains($backpackState)) {
+            $this->backpackStates[] = $backpackState;
+            $backpackState->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpackState(BackpackState $backpackState): self
+    {
+        if ($this->backpackStates->contains($backpackState)) {
+            $this->backpackStates->removeElement($backpackState);
+            // set the owning side to null (unless already changed)
+            if ($backpackState->getBackpack() === $this) {
+                $backpackState->setBackpack(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

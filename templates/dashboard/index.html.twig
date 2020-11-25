@@ -1,4 +1,13 @@
 {% extends 'base.html.twig' %}
+{% import "macros/datatables.html.twig" as tables %}
+{% set columns = {
+    '#': {'class': 'alwaysVisible text-center', 'orderBy': true},
+    'Total': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'Modifiable': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'Les miens': {'class': 'alwaysVisible text-center', 'orderBy': true},
+} %}
+
+
 {% block title %}
 	{{ app_name }}
 	- Tableau de bord
@@ -12,68 +21,51 @@
 {% block page_content %}
 
 
-		{% import "macros/backpack.html.twig" as bkp %}
-{% import "macros/widgets.html.twig" as widgets %}
+	{% import "macros/backpack.html.twig" as bkp %}
+	{% import "macros/widgets.html.twig" as widgets %}
+	{% import "macros/workflow.html.twig" as wkf %}
 
 
-		<div class="row justify-content-center mt-2">
-			<div class="col-sm-12 col-lg-6 ">
-				<div class="card card-info card-outline ">
-					<div class="card-header ">
+	<div class="row justify-content-center mt-2">
+		<div class="col-sm-12 col-lg-6 ">
 
-						<div class="card-title  m-0">
-							<h4 class="text-bold text-info">Porte-documents</h4>
-						</div>
+			{{ tables.datatable_header('dsb', columns,  {'striped': true}) }}
 
-					</div>
-					<div class="card-body">
-						<table class='table'>
-<thead>
-<tr>
-	<td></td>
-	<td>Total</td>
-	<td>Modifiable</td>
-	<td>Mes porte-documents</td>
+			<tr>
+				{{ wkf.state_table_td('draft') }}
 
+				{% for  item in draft %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
 
+				{% endfor %}
 
-</tr>
-</thead>
+			</tr>
 
-							<tbody>
-								<tr>
-<td style="background-color:{{ 'draft' | workflowGetBGColorOfState }};color: {{ 'draft' | workflowGetForeColorOfState}};">
-
-<i class="{{ 'draft' | workflowGetIconOfState}}"></i> {{ 'draft' | workflowGetNameOfState }}
+			<tr>
+				{{ wkf.state_table_td('abandonned') }}
 
 
+				{% for  item in abandonned %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
 
-									</td>
-									{% for  item in draft %}
-										<td>
+			</tr>
 
-											<a class=" hvr-float-shadow   align-items-center" href="{{ path(item.route) }}">
-												<span class=''>
-													{{ item.data}}
-												</span>
-											</a>
-										</td>
+			{{ tables.datatable_footer('dsb',1) }}
 
-									{% endfor %}
-
-								</tr>
-
-							</tbody>
-
-						</div>
-					</div>
-
-				</div>
-				<div class="col-sm-12 col-lg-6 "></div>
-
-			</div>
-
-
-
-
-	{% endblock %}
+		</div>
+		<div class="col-sm-12 col-lg-6 "></div>
+	</div>
+{% endblock %}

@@ -6,3 +6,134 @@
 	{% import "macros/widgets.html.twig" as widgets %}
 	{{ widgets.badge( '<i class="' ~ (state | workflowGetIconOfState) ~ '"></i> ' ~ (state | workflowGetNameOfState) , state | workflowGetBGColorOfState, state | workflowGetForeColorOfState) }}
 {% endmacro %}
+
+{% macro state_table_td(state) %}
+	<td class="align-middle" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+		<i class="{{ state | workflowGetIconOfState}}"></i>
+		{{ state | workflowGetNameOfState }}
+	</td>
+{% endmacro %}
+
+
+{% macro cards(item,choice) %}
+	{% import "macros/workflow.html.twig" as macro %}
+
+	<div class="row">
+		{{ macro.current_card(item) }}
+	</div>
+	<div class="row justify-content-center mt-4">
+		{% for transition in item.category.workflowname|  workflowGetTransitionsForState(item.stateCurrent) %}
+
+			{{ macro.card(item,transition,choice) }}
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro current_card(item) %}
+	{% import "macros/workflow.html.twig" as wkf %}
+
+
+	<div class="col-sm-12 ">
+		<span>Etat actuel du porte-document :
+		</span>
+		{{ wkf.badge_state(item.stateCurrent) }}
+		<span class="">
+			{{item.stateCurrent}}
+			-
+			{{item.category.workflowName}}
+		</span>
+
+
+		{% if item.stateContent  %}
+			<div class="callout callout-info bg-white mt-4 mb-4">
+				{{ item.stateContent | raw }}
+			</div>
+		{% endif %}
+	</div>
+{% endmacro %}
+
+{% macro card(item,transition,choice) %}
+	<div class="col-sm-12 col-md-6   mb-4">
+		{% set data = (transition | workflowGetModalDataForTransition) %}
+		{% embed 'widgets/card-widget.html.twig' %}
+			{% import "macros/workflow.html.twig" as wkf %}
+			{% import "macros/widgets.html.twig" as widgets %}
+			{% block card_class %}h-100 bg-gray
+			{% endblock %}
+			{% block card_body_ribbon_text %}
+				{{ data.state | workflowGetShortNameOfState }}
+			{% endblock %}
+			{% block card_body_ribbon_class %}ribbon-lg
+			{% endblock %}
+			{% block card_body_ribbon_attr %}
+				{{ wkf.get_style_color(data.state) }}
+			{% endblock %}
+			{% block card_body %}
+				{% if workflow_can(item, data.transition,item.category.workflowName ) %}
+					<p class="text-center text-success">
+						{{ widgets.icon('check_big') }}
+					</p>
+					{% for message in item | workflowGetExplains(data.transition) %}
+						<p>
+							<small>
+								{{ message }}
+							</small>
+						</p>
+					{% endfor %}
+				{% else %}
+					<p class="text-center text-warning">
+						{{ widgets.icon('nocheck_big') }}
+					</p>
+
+					<span class="text-warning">Les conditions ne sont pas réunies</span>
+					{% set iconSuccess='<i class="fa fa-check-circle"></i>' %}
+					{% set iconDanger='<i class="fa fa-stop-circle"></i>' %}
+
+					{% set checkMessages=item | workflowGetCheckMessages(data.transition) %}
+					{% if checkMessages | length >0 %}
+						<ul class="list-unstyled mt-1 p-2 rounded-1 bg-light">
+							{% for checkMessage in checkMessages %}
+								<li>
+									<small>
+										{% if checkMessage.type == 'success' %}
+											<span class="text-success  ">
+												{{ iconSuccess | raw }}{{ checkMessage.message }}
+											</span>
+										{% elseif checkMessage.type == 'danger' %}
+											<span class="text-danger">
+												{{ iconDanger | raw }}
+												{{ checkMessage.message }}
+											</span>
+										{% elseif checkMessage.type == 'info' %}
+											<span class="text-info  ">
+												{{ checkMessage.message }}
+											</span>
+										{% else %}
+											{{ checkMessage.message }}
+										{% endif %}
+									</small>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				{% endif %}
+			{% endblock %}
+
+			{% block card_footer %}
+
+				{% if workflow_can(item, data.transition,item.category.workflowName ) %}
+
+					<div class="col text-center">
+						<button type="button" class="btn {{ css | default('') }}" {{ wkf.get_style_color(data.state) }} data-toggle="modal" data-target="#modal-{{ transition }}">
+
+							<i class="fas fa-external-link-alt "></i>
+							{{ data.btn_label }}
+						</button>
+					</div>
+				{% endif %}
+			{% endblock %}
+
+		{% endembed %}
+	</div>
+{% endmacro %}
+

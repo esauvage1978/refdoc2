@@ -1,0 +1,91 @@
+# config/packages/workflow.yaml
+framework:
+    workflows:
+        wkf_all:
+            type: 'state_machine' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'stateCurrent'
+            supports:
+                - App\Entity\Backpack
+            initial_marking: draft
+            places:
+                - draft
+                - toResume
+                - abandonned
+            transitions:
+                goToResume:
+                    from: [ abandonned]
+                    to: toResume
+                goAbandonned:
+                    from: [draft, toResume]
+                    to: abandonned
+        wkf_without_doc:
+            type: 'state_machine' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'stateCurrent'
+            supports:
+                - App\Entity\Backpack
+            initial_marking: draft
+            places:
+                - draft
+                - toResume
+                - abandonned
+            transitions:
+                goToResume:
+                    from: [ abandonned]
+                    to: toResume
+                goAbandonned:
+                    from: [draft, toResume]
+                    to: abandonned               
+        wkf_without_control:
+            type: 'state_machine' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'stateCurrent'
+            supports:
+                - App\Entity\Backpack
+            initial_marking: draft
+            places:
+                - draft
+                - toResume
+                - abandonned
+            transitions:
+                goToResume:
+                    from: [ abandonned]
+                    to: toResume
+                goAbandonned:
+                    from: [draft, toResume]
+                    to: abandonned                  
+        wkf_without_doccontrol:
+            type: 'state_machine' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'stateCurrent'
+            supports:
+                - App\Entity\Backpack
+            initial_marking: draft
+            places:
+                - draft
+                - toResume
+                - abandonned
+            transitions:
+                goToResume:
+                    from: [ abandonned]
+                    to: toResume
+                goAbandonned:
+                    from: [draft, toResume]
+                    to: abandonned
+
+
+
+

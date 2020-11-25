@@ -372,7 +372,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                         ' OR ' . self::ALIAS . '.dir4 like :search' .
                         ' OR ' . self::ALIAS . '.dir5 like :search' .
                         ' OR ' . self::ALIAS . '.name like :search' .
-                        ' OR ' . self::ALIAS . '.contentState like :search' .
+                        ' OR ' . self::ALIAS . '.stateContent like :search' .
                         ' OR ' . BackpackLinkRepository::ALIAS . '.title like :search' .
                         ' OR ' . BackpackLinkRepository::ALIAS . '.link like :search' .
                         ' OR ' . BackpackLinkRepository::ALIAS . '.content like :search' .

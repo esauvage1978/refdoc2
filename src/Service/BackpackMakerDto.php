@@ -28,6 +28,8 @@ class BackpackMakerDto
     Const NEWS_FOR_UNDERRUBRIC='news_for_underrubric';
     Const ARCHIVED='archived';
     Const ABANDONNED='abandonned';
+    const ABANDONNED_UPDATABLE = 'abandonned_updatable';
+    const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
     Const HIDE='hide';
 
     /**
@@ -53,11 +55,6 @@ class BackpackMakerDto
         $dto = $this->checkUser($dto);
         switch ($type)
         {
-            case self::DRAFT:
-                $dto
-                    ->setStateCurrent(WorkflowData::STATE_DRAFT)
-                    ->setVisible(BackpackDto::TRUE);
-                break;
             case self::HOME_SUBSCRIPTION:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
@@ -67,6 +64,11 @@ class BackpackMakerDto
                     ->setIsForSubscription(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;                 
+            case self::DRAFT:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_DRAFT)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
             case self::DRAFT_UPDATABLE:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
@@ -85,6 +87,29 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_DRAFT)
                     ->setVisible(BackpackDto::TRUE);
                 break;
+            case self::ABANDONNED:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_ABANDONNED)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::ABANDONNED_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_ABANDONNED)
+                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::MY_ABANDONNED_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setStateCurrent(WorkflowData::STATE_ABANDONNED)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                                     
         }
 
         return $dto;
