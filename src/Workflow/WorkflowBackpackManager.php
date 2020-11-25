@@ -81,6 +81,7 @@ class WorkflowBackpackManager
 
             $user = $this->loadUser($automate);
 
+
             $this->send_mails($user, $item);
 
             $this->historisation($user, $item, $stateOld);
@@ -116,7 +117,7 @@ class WorkflowBackpackManager
         if (!$automate) {
             return $this->currentUser->getUser();
         } else {
-            return $this->userRepository->find(1);
+            return $this->userRepository->findAll()[0];
         }
     }
 }

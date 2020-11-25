@@ -4,12 +4,12 @@ namespace App\Manager;
 
 use App\Entity\Backpack;
 use App\Security\CurrentUser;
-use App\Workflow\WorkflowData;
+
 use App\Entity\EntityInterface;
 use App\History\BackpackHistory;
 use App\Validator\BackpackValidator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Security;
+
 
 class BackpackManager extends AbstractManager
 {

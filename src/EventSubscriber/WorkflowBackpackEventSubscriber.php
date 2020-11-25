@@ -23,8 +23,6 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
      */
     public function onGuardgoAbandonned(GuardEvent $event)
     {
-        
-        dump("onGuardgoAbandonned");
         $this->onGuard($event, WorkflowData::TRANSITION_GO_ABANDONNED);
     }
 
@@ -48,7 +46,6 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        dump("getSubscribedEvents");
         return [
             'workflow.action.guard.goAbandonned' => ['onGuardgoAbandonned'],
         ];

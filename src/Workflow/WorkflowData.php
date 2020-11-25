@@ -42,7 +42,7 @@ class WorkflowData
             self::STATE_ABANDONNED =>
             [
                 self::NAME => ' Abandonné',
-                self::ICON => 'far fa-trash-alt"',
+                self::ICON => 'far fa-trash-alt',
                 self::TITLE_MAIL => ' Un porte-document est abandonné',
                 self::BGCOLOR => '#AA0C0C',
                 self::FORECOLOR => '#ffffff',

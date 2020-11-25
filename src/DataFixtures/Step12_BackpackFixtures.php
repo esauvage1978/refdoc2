@@ -3,10 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker;
-use App\Entity\User;
-use App\Entity\Process;
 use App\Entity\Backpack;
-use App\Manager\ProcessManager;
 use App\Manager\BackpackManager;
 use App\Repository\UserRepository;
 use App\Validator\BackpackValidator;
@@ -74,7 +71,7 @@ class Step12_BackpackFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
-        for ($i = 0; $i < 300; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
 
             $backpack = new Backpack();
             $user=$this->users[$faker->numberBetween(0, count($this->users)-1)];
@@ -82,7 +79,7 @@ class Step12_BackpackFixtures extends Fixture implements FixtureGroupInterface
                 ->setOwner($user)
                 ->setCategory($this->categories[$faker->numberBetween(0, count($this->categories) - 1)])
                 ->setContent($faker->realText(500))
-                ->setName($faker->realText(20))
+                ->setName('fxt' . $faker->realText(40))
                 ->setCreatedAt($faker->dateTimeBetween($startDate = '-2 years', $endDate = 'now', $timezone = null));
 
             if ($faker->numberBetween(0, 1) == 1) {
@@ -102,7 +99,11 @@ class Step12_BackpackFixtures extends Fixture implements FixtureGroupInterface
                     }
                 }
             }
+
             $this->checkAndPersist($backpack);
+
+
+
         }
         $this->entityManagerInterface->flush();
     }
