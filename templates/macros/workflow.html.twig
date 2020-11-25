@@ -33,15 +33,20 @@
 	{% import "macros/workflow.html.twig" as wkf %}
 
 
-	<div class="col-sm-12 ">
+<div class="col-sm-12 d-flex justify-content-between">
+
 		<span>Etat actuel du porte-document :
+
+			{{ wkf.badge_state(item.stateCurrent) }}
+			<span class="d-none">
+				{{item.stateCurrent}}
+				-
+				{{item.category.workflowName}}
+			</span>
 		</span>
-		{{ wkf.badge_state(item.stateCurrent) }}
-		<span class="">
-			{{item.stateCurrent}}
-			-
-			{{item.category.workflowName}}
-		</span>
+<a href="{{ path('workflow_backpack_history',{id:item.id}) }}">Historique des changements</a>
+	</div>
+	<div class="col-sm-12 ">
 
 
 		{% if item.stateContent  %}
@@ -76,7 +81,7 @@
 					{% for message in item | workflowGetExplains(data.transition) %}
 						<p>
 							<small>
-								{{ message }}
+								{{ message | raw}}
 							</small>
 						</p>
 					{% endfor %}
@@ -102,14 +107,16 @@
 										{% elseif checkMessage.type == 'danger' %}
 											<span class="text-danger">
 												{{ iconDanger | raw }}
-												{{ checkMessage.message }}
+{{ checkMessage.message  | raw }}
+
 											</span>
 										{% elseif checkMessage.type == 'info' %}
 											<span class="text-info  ">
 												{{ checkMessage.message }}
 											</span>
 										{% else %}
-											{{ checkMessage.message }}
+{{ checkMessage.message  | raw}}
+
 										{% endif %}
 									</small>
 								</li>
@@ -135,5 +142,71 @@
 
 		{% endembed %}
 	</div>
+{% endmacro %}
+
+{% macro timeline(data) %}
+	{% embed 'widgets/timeline-item-widget.html.twig' %}
+		{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/workflow.html.twig" as wkf %}
+
+		{% block timeline_item_icon %}fas fa-bezier-curve
+		{% endblock %}
+		{% block timeline_item_icon_class %}
+{{ wkf.get_style_color(data.state) }}
+
+
+		{% endblock %}
+		{% block timeline_item_class %}
+{{ wkf.get_style_color(data.stateNew) }}
+
+
+		{% endblock %}
+		{% block timeline_item_body_class %}mt-1
+		{% endblock %}
+		{% block  timeline_item_tool %}
+			<i class="fas fa-clock"></i>
+			{{ data.changeAt |format_datetime('full', 'short', locale='fr') }}
+		{% endblock %}
+		{% block timeline_item_header %}
+			<img class="img-circle img-bordered-sm" src=" {{ asset( data.user.avatar) }}" alt="user image" style="width: 48px">
+			<a href="{{ path('user_show',{'id':data.user.id }) }}">{{ data.user.name }}</a>
+		{% endblock %}
+		{% block timeline_item_body %}
+			<div class="row">
+				<div class="col-sm-12 col-md-6 col-lg-4">
+					<div class="row">
+						<div class="col-lg-12 col-xl-6">
+							<div class=" info-box bg-light">
+								<div class="info-box-content">
+									<span class="info-box-text text-center text-muted">De</span>
+									<span class="info-box-number text-center  text-lg mb-0">
+{{ wkf.badge_state(data.stateOld) }}
+
+
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12 col-xl-6">
+
+							<div class=" info-box bg-light">
+								<div class="info-box-content">
+									<span class="info-box-text text-center text-muted">Vers</span>
+									<span class="info-box-number text-center  text-lg mb-0">
+{{ wkf.badge_state(data.stateNew) }}
+
+
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6 col-lg-8">
+					{{ data.content | raw }}
+				</div>
+			</div>
+		{% endblock %}
+	{% endembed %}
 {% endmacro %}
 

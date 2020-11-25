@@ -8,9 +8,7 @@
 
 
 	{% set actions = {} %}
-	{% if underRubric %}
-		{% set actions = actions|merge({ 'left': {url: path('rubric_show',{id:underRubric.rubric.id}),class:'btn-secondary',attr:{title:'retour'}}}) %}
-	{% endif %}
+
 	{% set actions = actions|merge(home) %}
 	{% set actions = actions|merge({'divider': null}) %}
 
@@ -45,7 +43,6 @@
 			{% set actions = actions|merge(save) %}
 
 		{% elseif twigTemplace=='workflow' %}
-			{% set actions = actions|merge() %}
 			{% set actions = actions|merge(edit) %}
 
 		{% elseif twigTemplace=='history' %}

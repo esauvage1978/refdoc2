@@ -42,7 +42,7 @@ class WorkflowData
             self::STATE_ABANDONNED =>
             [
                 self::NAME => ' Abandonné',
-                self::ICON => 'far fa-trash-alt text-danger"',
+                self::ICON => 'far fa-trash-alt"',
                 self::TITLE_MAIL => ' Un porte-document est abandonné',
                 self::BGCOLOR => '#AA0C0C',
                 self::FORECOLOR => '#ffffff',
@@ -54,7 +54,7 @@ class WorkflowData
             ],
             self::STATE_TO_RESUME =>
             [
-                self::NAME => ' A repprendre',
+                self::NAME => ' A reprendre',
                 self::ICON => 'far fa-edit text-success',
                 self::TITLE_MAIL => ' Un porte-document est à repprendre',
                 self::BGCOLOR => '#5B2971',

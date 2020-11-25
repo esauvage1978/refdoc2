@@ -55,9 +55,24 @@ class WorkflowController extends AbstractGController
 
         return $this->redirectToRoute('workflow_backpack_check', ['id' => $backpack->getId()]);
     }
-    
-  
 
+
+    /**
+     * @Route("/{id}/history", name="workflow_backpack_history", methods={"GET"})
+     *
+     * @param BackpackStateRepository $repository
+     * @param Backpack $backpack
+     *
+     * @return Response
+     *
+     * @IsGranted("ROLE_USER")
+     */
+    public function showHistoryBackpack(Backpack $backpack): Response
+    {
+        return $this->render('backpack/workflowHistory.html.twig', [
+            'item' => $backpack
+        ]);
+    }
 
     /**
      * @Route("/{id}/{transition}", name="workflow_backpack_apply_transition", methods={"GET","POST"})
