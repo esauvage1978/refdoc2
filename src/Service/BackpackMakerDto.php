@@ -15,9 +15,11 @@ class BackpackMakerDto
 {
     const HOME_SUBSCRIPTION = 'home_subscription';
     const HOME_ALL = 'home_all';
+
     Const DRAFT='draft';
     Const MY_DRAFT_UPDATABLE= 'mydraft_updatable';
     const DRAFT_UPDATABLE = 'draft_updatable';
+
     const TO_VALIDATE = 'to_validate';
     Const PUBLISHED='published';
     Const SEARCH='search';
@@ -26,10 +28,15 @@ class BackpackMakerDto
     Const NEWS='news';
     Const NEWS_FOR_RUBRIC='news_for_rubric';
     Const NEWS_FOR_UNDERRUBRIC='news_for_underrubric';
-    Const ARCHIVED='archived';
+
     Const ABANDONNED='abandonned';
     const ABANDONNED_UPDATABLE = 'abandonned_updatable';
     const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
+
+    public const TO_RESUME = 'toResume';
+    public const TO_RESUME_UPDATABLE = 'toResume_updatable';
+    public const MY_TO_RESUME_UPDATABLE = 'mytoResume_updatable';
+
     Const HIDE='hide';
 
     /**
@@ -109,7 +116,31 @@ class BackpackMakerDto
                     ->setIsUpdatable(BackpackDto::TRUE)
                     ->setStateCurrent(WorkflowData::STATE_ABANDONNED)
                     ->setVisible(BackpackDto::TRUE);
-                break;                                     
+                break;
+            case self::TO_RESUME:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_RESUME)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::TO_RESUME_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_RESUME)
+                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::MY_TO_RESUME_UPDATABLE:
+                if (!is_null($this->user)) {
+                    dump('user not null');
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setStateCurrent(WorkflowData::STATE_TO_RESUME)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                                                     
         }
 
         return $dto;

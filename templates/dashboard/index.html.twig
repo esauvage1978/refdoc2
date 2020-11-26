@@ -30,6 +30,21 @@
 		<div class="col-sm-12 col-lg-6 ">
 
 			{{ tables.datatable_header('dsb', columns,  {'striped': true}) }}
+			<tr>
+				{{ wkf.state_table_td('abandonned') }}
+
+
+				{% for  item in abandonned %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+
+			</tr>
 
 			<tr>
 				{{ wkf.state_table_td('draft') }}
@@ -47,11 +62,11 @@
 
 			</tr>
 
+
 			<tr>
-				{{ wkf.state_table_td('abandonned') }}
+				{{ wkf.state_table_td('toResume') }}
+				{% for  item in toResume %}
 
-
-				{% for  item in abandonned %}
 					<td class="align-middle text-center text-lg">
 						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
 							<span class=''>
@@ -60,7 +75,6 @@
 						</a>
 					</td>
 				{% endfor %}
-
 			</tr>
 
 			{{ tables.datatable_footer('dsb',1) }}

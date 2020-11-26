@@ -21,9 +21,17 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
     /**
      * @param GuardEvent $event
      */
-    public function onGuardgoAbandonned(GuardEvent $event)
+    public function onGuardGoAbandonned(GuardEvent $event)
     {
         $this->onGuard($event, WorkflowData::TRANSITION_GO_ABANDONNED);
+    }
+
+    /**
+     * @param GuardEvent $event
+     */
+    public function onGuardGoToResume(GuardEvent $event)
+    {
+        $this->onGuard($event, WorkflowData::TRANSITION_GO_TO_RESUME);
     }
 
 
@@ -47,7 +55,8 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'workflow.action.guard.goAbandonned' => ['onGuardgoAbandonned'],
+            'workflow.action.guard.goAbandonned' => ['onGuardGoAbandonned'],
+            'workflow.action.guard.goToResume' => ['onGuardGoToResume'],
         ];
     }
 }

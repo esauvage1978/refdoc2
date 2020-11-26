@@ -55,7 +55,7 @@ class WorkflowData
             self::STATE_TO_RESUME =>
             [
                 self::NAME => ' A reprendre',
-                self::ICON => 'far fa-edit text-success',
+                self::ICON => 'far fa-edit',
                 self::TITLE_MAIL => ' Un porte-document est à repprendre',
                 self::BGCOLOR => '#5B2971',
                 self::FORECOLOR => '#ffffff',

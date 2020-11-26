@@ -242,4 +242,34 @@ class BackpackController extends AbstractGController
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_ABANDONNED_UPDATABLE);
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
+
+
+    /**
+     * @Route("/backpacks/toresume", name="backpacks_toResume", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_toresume(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::TO_RESUME);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/toresumeupdatable", name="backpacks_toResume_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_toresume_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::TO_RESUME_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/mytoresumeupdatable", name="backpacks_mytoResume_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_mytoresume_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_TO_RESUME_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
 }

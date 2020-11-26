@@ -28,74 +28,63 @@ class MakeDashboard
     public const DRAFT = 'draft';
     public const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
     public const DRAFT_UPDATABLE = 'draft_updatable';
+
     public const ABANDONNED = 'abandonned';
     public const ABANDONNED_UPDATABLE = 'abandonned_updatable';
     public const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
 
+    public const TO_RESUME = 'toResume';
+    public const TO_RESUME_UPDATABLE = 'toResume_updatable';
+    public const MY_TO_RESUME_UPDATABLE = 'mytoResume_updatable';
+
+
+private const STATE='state';
 
     public const TO_VALIDATE = 'to_validate';
 
-    public function getData(string $data)
+    public function getData(string $filter)
     {
         $datas = [
             self::DRAFT => [
-                self::ROUTE => 'backpacks_' . self::DRAFT,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_DRAFT),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_DRAFT),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_DRAFT),
+                self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Les brouillons',
-                self::NBR => $this->counter->get(BackpackMakerDto::DRAFT),
             ],
             self::DRAFT_UPDATABLE => [
-                self::ROUTE => 'backpacks_' . self::DRAFT_UPDATABLE,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_DRAFT),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_DRAFT),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_DRAFT),
+                self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Les brouillons modifiables',
-                self::NBR => $this->counter->get(BackpackMakerDto::DRAFT_UPDATABLE),
             ],
             self::MY_DRAFT_UPDATABLE => [
-                self::ROUTE => 'backpacks_' . self::MY_DRAFT_UPDATABLE,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_DRAFT),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_DRAFT),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_DRAFT),
+                self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Mes brouillons modifiables',
-                self::NBR => $this->counter->get(BackpackMakerDto::MY_DRAFT_UPDATABLE),
             ],
             self::ABANDONNED => [
-                self::ROUTE => 'backpacks_' . self::ABANDONNED,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_ABANDONNED),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_ABANDONNED),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_ABANDONNED),
+                self::STATE =>  WorkflowData::STATE_ABANDONNED,
                 self::TITLE => 'Les abandonnés',
-                self::NBR => $this->counter->get(BackpackMakerDto::ABANDONNED),
             ],
             self::ABANDONNED_UPDATABLE => [
-                self::ROUTE => 'backpacks_' . self::ABANDONNED_UPDATABLE,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_ABANDONNED),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_ABANDONNED),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_ABANDONNED),
+                self::STATE =>  WorkflowData::STATE_ABANDONNED,
                 self::TITLE => 'Les abandonnés modifiables',
-                self::NBR => $this->counter->get(BackpackMakerDto::ABANDONNED_UPDATABLE),
             ],
             self::MY_ABANDONNED_UPDATABLE => [
-                self::ROUTE => 'backpacks_' . self::MY_ABANDONNED_UPDATABLE,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_ABANDONNED),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_ABANDONNED),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_ABANDONNED),
+                self::STATE =>  WorkflowData::STATE_ABANDONNED,
                 self::TITLE => 'Mes abandonnés modifiables',
-                self::NBR => $this->counter->get(BackpackMakerDto::MY_ABANDONNED_UPDATABLE),
-            ],            
+            ],
+            self::TO_RESUME => [
+                self::STATE =>  WorkflowData::STATE_TO_RESUME,
+                self::TITLE => 'Les porte-documents à reprendre',
+            ],
+            self::TO_RESUME_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_RESUME,
+                self::TITLE => 'Les porte-documents à reprendre modifiables',
+            ],
+            self::MY_TO_RESUME_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_RESUME,
+                self::TITLE => 'Mes porte-documents à reprendre modifiables',
+            ],                          
         ];
 
 
-        return $this->getArray($datas[$data]);
+        return $this->getArray($datas[$filter],$filter);
     }
 
     public function __construct(
@@ -105,18 +94,18 @@ class MakeDashboard
         $this->counter = new BackpackCounter($backpackDtoRepository, $user);
     }
 
-    private function getArray($datas)
+    private function getArray($datas,$filter)
     {
         $ib = new WidgetInfoBox();
 
         return $ib
-            ->setRoute($datas[self::ROUTE])
-            ->setRouteOptions($datas[self::ROUTE_OPTIONS])
-            ->setBgColor($datas[self::BG_COLOR])
-            ->setForeColor($datas[self::FORE_COLOR])
-            ->setIcone($datas[self::ICONE])
+            ->setRoute('backpacks_' . $filter)
+            ->setRouteOptions(key_exists(self::ROUTE_OPTIONS,$datas)? $datas[self::ROUTE_OPTIONS]:null)
+            ->setBgColor(WorkflowData::getBGColorOfState($datas[self::STATE]))
+            ->setForeColor(WorkflowData::getForeColorOfState($datas[self::STATE]))
+            ->setIcone(WorkflowData::getIconOfState($datas[self::STATE]))
             ->setTitle($datas[self::TITLE])
-            ->setData($datas[self::NBR])
+            ->setData($this->counter->get($filter))
             ->createArray();
     }
 

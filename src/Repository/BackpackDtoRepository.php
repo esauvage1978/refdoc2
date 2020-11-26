@@ -137,10 +137,12 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                 MProcessRepository::ALIAS,
                 ProcessRepository::ALIAS,
                 BackpackFileRepository::ALIAS,
-                BackpackLinkRepository::ALIAS
+                BackpackLinkRepository::ALIAS,
+            UserRepository::ALIAS
             )
             ->join(self::ALIAS . '.category', CategoryRepository::ALIAS)
             ->join(self::ALIAS . '.mProcess', MProcessRepository::ALIAS)
+            ->join(self::ALIAS . '.owner', UserRepository::ALIAS)
             ->leftjoin(self::ALIAS . '.process', ProcessRepository::ALIAS)
             ->leftJoin(self::ALIAS . '.backpackFiles', BackpackFileRepository::ALIAS)
             ->leftJoin(self::ALIAS . '.backpackLinks', BackpackLinkRepository::ALIAS);
@@ -153,8 +155,10 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                 self::ALIAS,
                 CategoryRepository::ALIAS,
                 MProcessRepository::ALIAS,
-                ProcessRepository::ALIAS
+                ProcessRepository::ALIAS,
+                UserRepository::ALIAS
             )
+            ->join(self::ALIAS . '.owner', UserRepository::ALIAS)
             ->join(self::ALIAS . '.category', CategoryRepository::ALIAS)
             ->join(self::ALIAS . '.mProcess', MProcessRepository::ALIAS)
             ->leftjoin(self::ALIAS . '.process', ProcessRepository::ALIAS)
@@ -165,6 +169,8 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select('count(distinct ' . self::ALIAS . '.id)')
+            ->join(self::ALIAS . '.category', CategoryRepository::ALIAS)
+            ->join(self::ALIAS . '.owner', UserRepository::ALIAS)
             ->join(self::ALIAS . '.mProcess', MProcessRepository::ALIAS)
             ->leftjoin(self::ALIAS . '.process', ProcessRepository::ALIAS);
     }

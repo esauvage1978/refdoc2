@@ -67,7 +67,8 @@
 						{% import "macros/save.html.twig" as save %}
 
 
-						{% if item.stateCurrent == "draft" %}
+						{% if item.stateCurrent in ["draft","toResume"] %}
+
 							<div style="width:630px">
 								{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
 								{{ include(domaine ~ '/_edit/_process.html.twig') }}
@@ -99,15 +100,14 @@
 
 				</div>
 
-<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-	{% import "macros/workflow.html.twig" as wfl %}
+				<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+					{% import "macros/workflow.html.twig" as wfl %}
 
 
+					{{ wfl.cards(item) }}
 
-	{{ wfl.cards(item) }}
-
-</div>
-</div>
+				</div>
+			</div>
 
 			{% import "macros/submit.html.twig" as sub %}
 			<div class="d-none">
@@ -118,9 +118,9 @@
 			</div>
 
 			{{ form_end(form) }}
-{% for transition in workflow_transitions(item,item.category.workflowName) %}
-	{{ include('workflow/_modal_transition.html.twig',{'transition':transition.name,'id':item.id}) }}
-{% endfor %}
+			{% for transition in workflow_transitions(item,item.category.workflowName) %}
+				{{ include('workflow/_modal_transition.html.twig',{'transition':transition.name,'id':item.id}) }}
+			{% endfor %}
 
 
 			{% if item.id is not null %}
