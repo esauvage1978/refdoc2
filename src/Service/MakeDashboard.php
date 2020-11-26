@@ -75,11 +75,11 @@ private const STATE='state';
             ],
             self::TO_RESUME_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
-                self::TITLE => 'Les porte-documents à reprendre modifiables',
+                self::TITLE => 'A reprendre et modifiables',
             ],
             self::MY_TO_RESUME_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
-                self::TITLE => 'Mes porte-documents à reprendre modifiables',
+                self::TITLE => 'Mes porte-documents à reprendre',
             ],                          
         ];
 
