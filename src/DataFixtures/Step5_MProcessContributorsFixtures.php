@@ -56,7 +56,7 @@ class Step5_MProcessContributorsFixtures extends Fixture implements FixtureGroup
 
     private $data =
     [
-        ['SAUVAGE Emmanuel', 'M1;M2;M3:M4'],
+        ['SAUVAGE Emmanuel', 'D3'],
         ['LIEKENS Ghislaine', ''],
         ['AMEDRO Jeremy', 'S5'],
         ['MIGNOT Bruno', ''],

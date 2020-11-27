@@ -16,6 +16,7 @@ use App\Entity\BackpackLink;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bundle\MakerBundle\Validator;
 
 class BackpackDtoRepository extends ServiceEntityRepository implements DtoRepositoryInterface
 {
@@ -138,7 +139,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                 ProcessRepository::ALIAS,
                 BackpackFileRepository::ALIAS,
                 BackpackLinkRepository::ALIAS,
-            UserRepository::ALIAS
+                UserRepository::ALIAS
             )
             ->join(self::ALIAS . '.category', CategoryRepository::ALIAS)
             ->join(self::ALIAS . '.mProcess', MProcessRepository::ALIAS)
@@ -225,36 +226,69 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
 
     private function initialise_where_is_updatable()
     {
-        if ($this->dto->getIsUpdatable() == BackpackDto::TRUE) {
-            
-            $u = $this->dto->getUserDto();
-            if(empty($u)) {
-                $u = $this->dto->getOwnerDto();
-            }
-            if (!empty($u) && !empty($u->getId())) {
+        $contributor = ($this->dto->getIsContributor() == BackpackDto::TRUE);
+        $validator = ($this->dto->getIsValidator() == BackpackDto::TRUE);
+        $validatorForCategory = ($this->dto->getIsValidatorForCategory() == BackpackDto::TRUE);
 
-                $qWC = $this->createQueryBuilder(self::ALIAS . '1')
-                    ->select(self::ALIAS . '1.id')
-                    ->join(self::ALIAS .'1.mProcess', MProcessRepository::ALIAS.'1')
-                    ->join(MProcessRepository::ALIAS . '1.contributors', UserRepository:: ALIAS_MP_C . '1')
-                    ->where(UserRepository::ALIAS_MP_C . '1.id= :idUser');
-                $qWC2 = $this->createQueryBuilder(self::ALIAS . '2')
-                    ->select(self::ALIAS . '2.id')
-                    ->join(self::ALIAS . '2.process', ProcessRepository::ALIAS . '2')
-                    ->join(ProcessRepository::ALIAS . '2.contributors', UserRepository::ALIAS_MP_C . '2')
-                    ->where(UserRepository::ALIAS_MP_C . '2.id= :idUser');
+
+        $u = $this->dto->getUserDto();
+        if (empty($u)) {
+            $u = $this->dto->getOwnerDto();
+        }
+        if (!empty($u) && !empty($u->getId())) {
+
+            $rqtMPContributor = $this->createQueryBuilder(self::ALIAS . '1')
+                ->select(self::ALIAS . '1.id')
+                ->join(self::ALIAS . '1.mProcess', MProcessRepository::ALIAS . '1')
+                ->join(MProcessRepository::ALIAS . '1.contributors', UserRepository::ALIAS_MP_C . '1')
+                ->where(UserRepository::ALIAS_MP_C . '1.id= :idUser');
+            $rqtPContributor = $this->createQueryBuilder(self::ALIAS . '2')
+                ->select(self::ALIAS . '2.id')
+                ->join(self::ALIAS . '2.process', ProcessRepository::ALIAS . '2')
+                ->join(ProcessRepository::ALIAS . '2.contributors', UserRepository::ALIAS_MP_C . '2')
+                ->where(UserRepository::ALIAS_MP_C . '2.id= :idUser');
+
+            $rqtMPValidatorMS = $this->createQueryBuilder(self::ALIAS . '3')
+                ->select(self::ALIAS . '3.id')
+                ->join(self::ALIAS . '3.mProcess', MProcessRepository::ALIAS . '3')
+                ->join(MProcessRepository::ALIAS . '3.poleValidators', UserRepository::ALIAS_MP_PV . '3')
+                ->where(UserRepository::ALIAS_MP_PV . '3.id= :idUser');
+            $rqtMPValidatorADD = $this->createQueryBuilder(self::ALIAS . '5')
+                ->select(self::ALIAS . '5.id')
+                ->join(self::ALIAS . '5.mProcess', MProcessRepository::ALIAS . '5')
+                ->join(MProcessRepository::ALIAS . '5.dirValidators', UserRepository::ALIAS_MP_DV . '5')
+                ->where(UserRepository::ALIAS_MP_DV . '5.id= :idUser');
+            $rqtPValidator = $this->createQueryBuilder(self::ALIAS . '4')
+                ->select(self::ALIAS . '4.id')
+                ->join(self::ALIAS . '4.process', ProcessRepository::ALIAS . '4')
+                ->join(ProcessRepository::ALIAS . '4.validators', UserRepository::ALIAS_P_V . '4')
+                ->where(UserRepository::ALIAS_P_V . '4.id= :idUser');
 
                 $this->addParams('idUser', $u->getId());
 
+            if ($contributor && !$validator && !$validatorForCategory) {
+
                 $this->builder
                     ->andWhere(
-                        '(( '. self::ALIAS . '.process is null AND '. 
-                        self::ALIAS . '.id IN (' . $qWC->getDQL() . ')) OR ('.
-                        self::ALIAS . '.id IN (' . $qWC2->getDQL() . ')))'
+                        '(( ' . self::ALIAS . '.process is null AND ' .
+                            self::ALIAS . '.id IN (' . $rqtMPContributor->getDQL() . ')) OR (' .
+                            self::ALIAS . '.id IN (' . $rqtPContributor->getDQL() . ')))'
                     );
-            }
+            } elseif ($contributor && $validator && !$validatorForCategory) {
 
-
+                $this->builder
+                    ->andWhere(
+                        '(( ' . self::ALIAS . '.process is null AND (' .
+                            self::ALIAS . '.id IN (' . $rqtMPContributor->getDQL() . ') OR '.
+                            self::ALIAS . '.id IN (' . $rqtMPValidatorADD->getDQL() . ') OR '.
+                            self::ALIAS . '.id IN (' . $rqtMPValidatorMS->getDQL() . ') '.
+                            ')) OR (' .
+                            self::ALIAS . '.id IN (' . $rqtPContributor->getDQL() . ') OR '.
+                        self::ALIAS . '.id IN (' . $rqtPValidator->getDQL() . ')' .
+                            '))'
+                    );
+            } 
+ 
         }
     }
 
@@ -271,7 +305,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                 $qWC = $this->createQueryBuilder(self::ALIAS . '1')
                     ->select(self::ALIAS . '1.id')
                     ->join(self::ALIAS . '1.mProcess', MProcessRepository::ALIAS . '1')
-                    ->join(MProcessRepository::ALIAS . '1.subscriptions', SubscriptionRepository::ALIAS.'1')
+                    ->join(MProcessRepository::ALIAS . '1.subscriptions', SubscriptionRepository::ALIAS . '1')
                     ->join(SubscriptionRepository::ALIAS . '1.user', UserRepository::ALIAS_MP_C . '1')
                     ->where(UserRepository::ALIAS_MP_C . '1.id= :idUser')
                     ->andWhere(SubscriptionRepository::ALIAS . '1.isEnable=1');
@@ -289,8 +323,8 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                 $this->builder
                     ->andWhere(
                         '(' .
-                        self::ALIAS . '.id IN (' . $qWC->getDQL() . ') OR ' .
-                        self::ALIAS . '.id IN (' . $qWC2->getDQL() . '))'
+                            self::ALIAS . '.id IN (' . $qWC->getDQL() . ') OR ' .
+                            self::ALIAS . '.id IN (' . $qWC2->getDQL() . '))'
                     );
             }
         }
@@ -298,7 +332,6 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
 
     private function initialise_where_state()
     {
-
         if (!empty($this->dto->getStateCurrent())) {
             $this->builder->andwhere(self::ALIAS . '.stateCurrent = :state');
             $this->addParams('state', $this->dto->getStateCurrent());

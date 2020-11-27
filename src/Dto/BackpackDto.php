@@ -43,7 +43,18 @@ class BackpackDto extends AbstractDto
     /**
      * @var ?string
      */
-    private $isUpdatable;
+    private $isContributor;
+
+    /**
+     * @var ?string
+     */
+    private $isValidator;
+
+    /**
+     * @var ?string
+     */
+    private $isValidatorForCategory;
+
 
     /**
      * @var ?string
@@ -160,19 +171,57 @@ class BackpackDto extends AbstractDto
     /**
      * @return mixed
      */
-    public function getIsUpdatable()
+    public function getIsContributor()
     {
-        return $this->isUpdatable;
+        return $this->isContributor;
     }
 
     /**
      * @param mixed $isNew
      * @return BackpackDto
      */
-    public function setIsUpdatable($isUpdatable)
+    public function setIsContributor($isContributor)
     {
-        $this->checkBool($isUpdatable);
-        $this->isUpdatable = $isUpdatable;
+        $this->checkBool($isContributor);
+        $this->isContributor = $isContributor;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsValidator()
+    {
+        return $this->isValidator;
+    }
+
+    /**
+     * @param mixed $isNew
+     * @return BackpackDto
+     */
+    public function setIsValidator($isValidator)
+    {
+        $this->checkBool($isValidator);
+        $this->isValidator = $isValidator;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsValidatorForCategory()
+    {
+        return $this->isValidatorForCategory;
+    }
+
+    /**
+     * @param mixed $isNew
+     * @return BackpackDto
+     */
+    public function setIsValidatorForCategory($isValidatorForCategory)
+    {
+        $this->checkBool($isValidatorForCategory);
+        $this->isValidatorForCategory = $isValidatorForCategory;
         return $this;
     }
 
@@ -201,7 +250,9 @@ class BackpackDto extends AbstractDto
         isset($this->wordSearch) && $d = array_merge($d, ['wordSearch' => $this->wordSearch]);
         isset($this->visible) && $d = array_merge($d, ['isForSubscription' => $this->isForSubscription]);
         isset($this->visible) && $d = array_merge($d, ['isNew' => $this->isNew]);
-        isset($this->visible) && $d = array_merge($d, ['isUpdatable' => $this->isUpdatable]);
+        isset($this->visible) && $d = array_merge($d, ['isContributor' => $this->isContributor]);
+        isset($this->visible) && $d = array_merge($d, ['isValidator' => $this->isValidator]);
+        isset($this->visible) && $d = array_merge($d, ['isValidatorForCategory' => $this->isValidatorForCategory]);
         isset($this->visible) && $d = array_merge($d, ['visible' => $this->visible]);
         isset($this->visible) && $d = array_merge($d, ['stateCurrent' => $this->stateCurrent]);
         isset($this->hide) && $d = array_merge($d, ['hide' => $this->hide]);
@@ -214,7 +265,9 @@ class BackpackDto extends AbstractDto
         null !== $datas->get('wordSearch') && $this->wordSearch = $datas->get('wordSearch');
         null !== $datas->get('isForSubscription') && $this->isForSubscription = $datas->get('isForSubscription');
         null !== $datas->get('isNew') && $this->isNew = $datas->get('isNew');
-        null !== $datas->get('isUpdatable') && $this->isUpdatable = $datas->get('isUpdatable');
+        null !== $datas->get('isContributor') && $this->isContributor = $datas->get('isContributor');
+        null !== $datas->get('isValidator') && $this->isUisValidatordatable = $datas->get('isValidator');
+        null !== $datas->get('isValidatorForCategory') && $this->isUpdatable = $datas->get('isValidatorForCategory');
         null !== $datas->get('visible') && $this->visible = $datas->get('visible');
         null !== $datas->get('hide') && $this->hide = $datas->get('hide');
         null !== $datas->get('owner') && $this->ownerDto = (new UserDto())->setId($datas->get('owner'));

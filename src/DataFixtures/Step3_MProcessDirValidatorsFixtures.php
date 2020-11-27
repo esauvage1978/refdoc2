@@ -56,7 +56,7 @@ class Step3_MProcessDirValidatorsFixtures extends Fixture implements FixtureGrou
 
     private $data =
     [
-        ['SAUVAGE Emmanuel', ''],
+        ['SAUVAGE Emmanuel', 'D1'],
         ['LIEKENS Ghislaine', 'D1;D2;D3;M1;M2;M3;M4;S5'],
         ['AMEDRO Jeremy', ''],
         ['MIGNOT Bruno', ''],

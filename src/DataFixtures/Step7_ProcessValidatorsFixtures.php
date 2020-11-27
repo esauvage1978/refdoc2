@@ -68,7 +68,7 @@ class Step7_ProcessValidatorsFixtures extends Fixture implements FixtureGroupInt
         ['MIGNOT Bruno', 'M4-13-AJAP;M3-1;M4-9-IJ AT/MP;M4-8-IJ AS'],
         ['PASZ Romarik', 'M3-4;M4-12-CD;M3-3;M4-2-FSP;M4-1-FSE B2 SEFI;S1-1-ACF TRESO'],
         ['ROSE Hélène', 'S2-1-RH-DS;S2-1-RH-GEC'],
-        ['SAUVAGE Emmanuel', 'M4-9-IJ AT/MP;M3-4;M4-12-CD'],
+        ['SAUVAGE Emmanuel', ''],
         ['WILLEMS Gregory', 'M3-4;M4-12-CD;M3-3;M4-2-FSP;M4-1-FSE B2 SEFI;S1-1-ACF TRESO'],
     ];
 

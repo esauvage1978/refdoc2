@@ -68,7 +68,7 @@ class Step8_ProcessContributorsFixtures extends Fixture implements FixtureGroupI
         ['MIGNOT Bruno', ''],
         ['PASZ Romarik', ''],
         ['ROSE Hélène', ''],
-        ['SAUVAGE Emmanuel', 'M4-13-AJAP;S1-2-ACF TC;S1-4-ACF-GOP'],
+        ['SAUVAGE Emmanuel', ''],
         ['WILLEMS Gregory', ''],
     ];
 

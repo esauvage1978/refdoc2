@@ -16,20 +16,20 @@ class BackpackMakerDto
     const HOME_SUBSCRIPTION = 'home_subscription';
     const HOME_ALL = 'home_all';
 
-    Const DRAFT='draft';
-    Const MY_DRAFT_UPDATABLE= 'mydraft_updatable';
+    const DRAFT = 'draft';
+    const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
     const DRAFT_UPDATABLE = 'draft_updatable';
 
     const TO_VALIDATE = 'to_validate';
-    Const PUBLISHED='published';
-    Const SEARCH='search';
-    Const PUBLISHED_FOR_RUBRIC='published_for_rubric';
-    Const PUBLISHED_FOR_UNDERRUBRIC='published_for_underrubric';
-    Const NEWS='news';
-    Const NEWS_FOR_RUBRIC='news_for_rubric';
-    Const NEWS_FOR_UNDERRUBRIC='news_for_underrubric';
+    const PUBLISHED = 'published';
+    const SEARCH = 'search';
+    const PUBLISHED_FOR_RUBRIC = 'published_for_rubric';
+    const PUBLISHED_FOR_UNDERRUBRIC = 'published_for_underrubric';
+    const NEWS = 'news';
+    const NEWS_FOR_RUBRIC = 'news_for_rubric';
+    const NEWS_FOR_UNDERRUBRIC = 'news_for_underrubric';
 
-    Const ABANDONNED='abandonned';
+    const ABANDONNED = 'abandonned';
     const ABANDONNED_UPDATABLE = 'abandonned_updatable';
     const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
 
@@ -37,7 +37,7 @@ class BackpackMakerDto
     public const TO_RESUME_UPDATABLE = 'toResume_updatable';
     public const MY_TO_RESUME_UPDATABLE = 'mytoResume_updatable';
 
-    Const HIDE='hide';
+    const HIDE = 'hide';
 
     /**
      * @var User
@@ -52,16 +52,15 @@ class BackpackMakerDto
     public function __construct(?User $user)
     {
         $this->user = $user;
-        $this->gestionnaire = Role::isGestionnaire( $this->user);
+        $this->gestionnaire = Role::isGestionnaire($this->user);
     }
 
 
-    public function get(string $type,?string $param=null): BackpackDto
+    public function get(string $type, ?string $param = null): BackpackDto
     {
         $dto = new BackpackDto();
         $dto = $this->checkUser($dto);
-        switch ($type)
-        {
+        switch ($type) {
             case self::HOME_SUBSCRIPTION:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
@@ -70,7 +69,7 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_DRAFT)
                     ->setIsForSubscription(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                 
+                break;
             case self::DRAFT:
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_DRAFT)
@@ -82,16 +81,16 @@ class BackpackMakerDto
                 }
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_DRAFT)
-                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setIsContributor(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                
+                break;
             case self::MY_DRAFT_UPDATABLE:
                 if (!is_null($this->user)) {
                     $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setIsUpdatable(BackpackDto::TRUE)
                     ->setStateCurrent(WorkflowData::STATE_DRAFT)
+                    ->setIsContributor(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
             case self::ABANDONNED:
@@ -105,7 +104,8 @@ class BackpackMakerDto
                 }
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_ABANDONNED)
-                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setIsValidator(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
             case self::MY_ABANDONNED_UPDATABLE:
@@ -113,8 +113,9 @@ class BackpackMakerDto
                     $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setIsUpdatable(BackpackDto::TRUE)
                     ->setStateCurrent(WorkflowData::STATE_ABANDONNED)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setIsValidator(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
             case self::TO_RESUME:
@@ -128,7 +129,7 @@ class BackpackMakerDto
                 }
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_TO_RESUME)
-                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setIsContributor(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
             case self::MY_TO_RESUME_UPDATABLE:
@@ -136,10 +137,10 @@ class BackpackMakerDto
                     $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setIsUpdatable(BackpackDto::TRUE)
+                    ->setIsContributor(BackpackDto::TRUE)
                     ->setStateCurrent(WorkflowData::STATE_TO_RESUME)
                     ->setVisible(BackpackDto::TRUE);
-                break;                                                     
+                break;
         }
 
         return $dto;
@@ -153,5 +154,4 @@ class BackpackMakerDto
         }
         return $dto;
     }
-
 }
