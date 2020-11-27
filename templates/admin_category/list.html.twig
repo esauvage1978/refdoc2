@@ -3,10 +3,9 @@
 {% set columns = {
     'Libellé': {'class': 'alwaysVisible', 'orderBy': true},
     'Description': {'class': 'alwaysVisible', 'orderBy': true},
-'<i class="fas fa-user-shield" data-toggle="tooltip" data-placement="top" title="Validation par le service contrôle"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
-
-
-'<i class="fas fa-user-tag" data-toggle="tooltip" data-placement="top" title="Validation par le service documentation"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+'<i class="fas fa-user-tie" data-toggle="tooltip" data-placement="top" title="Validation par un agent de Direction"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+'<i class="fas fa-user-shield" data-toggle="tooltip" data-placement="top" title="Passage par le service contrôle"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+'<i class="fas fa-user-tag" data-toggle="tooltip" data-placement="top" title="Passage par le service documentation"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
 '<i class="fas fa-glasses" data-toggle="tooltip" data-placement="top" title="Délai avant révision des porte-documents de ce type"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
 
 
@@ -48,7 +47,19 @@
 			</td>
 			<td class="align-middle">{{ item.content | raw }}</td>
 			<td class="align-middle text-center p-0 m-0">
-				{% if item.isValidatedByControl %}
+				{% if item.isValidatedByADD == false %}
+					<div class="p-2 badge badge-info text-info">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success text-success">
+						1
+					</div>
+				{% endif %}
+			</td>
+
+			<td class="align-middle text-center p-0 m-0">
+				{% if item.isValidatedByControl == false %}
 					<div class="p-2 badge badge-light text-light">
 						0
 					</div>
@@ -59,7 +70,7 @@
 				{% endif %}
 			</td>
 			<td class="align-middle text-center p-0 m-0">
-				{% if item.isValidatedByDoc %}
+				{% if item.isValidatedByDoc == false %}
 					<div class="p-2 badge badge-light text-light">
 						0
 					</div>

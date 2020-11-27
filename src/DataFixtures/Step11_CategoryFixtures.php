@@ -67,7 +67,7 @@ class Step11_CategoryFixtures extends Fixture implements FixtureGroupInterface
                     ->setBgColor($this->data[$i][6])
                     ->setForeColor($this->data[$i][7])
                     ->setWorkflowName($this->data[$i][8])
-                    ->setValidatedByADD($this->data[$i][9]);
+                    ->setIsValidatedByADD($this->data[$i][9]);
 
                 $this->checkAndPersist($entity);
             }

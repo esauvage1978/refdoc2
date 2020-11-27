@@ -78,13 +78,14 @@ class Category implements EntityInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $validatedByADD;
+    private $isValidatedByADD;
 
     public function __construct()
     {
         $this->setIsEnable(true);
         $this->setIsValidatedByControl(false);
         $this->setIsValidatedByDoc(true);
+        $this->setIsValidatedByADD(false);
         $this->setTimeBeforeRevision(6);
         $this->setIcone("fas fa-clipboard-list");
         $this->setBgColor("#ffffff");
@@ -250,14 +251,14 @@ class Category implements EntityInterface
         return $this;
     }
 
-    public function getValidatedByADD(): ?bool
+    public function getIsValidatedByADD(): ?bool
     {
-        return $this->validatedByADD;
+        return $this->isValidatedByADD;
     }
 
-    public function setValidatedByADD(bool $validatedByADD): self
+    public function setIsValidatedByADD(bool $isValidatedByADD): self
     {
-        $this->validatedByADD = $validatedByADD;
+        $this->isValidatedByADD = $isValidatedByADD;
 
         return $this;
     }
