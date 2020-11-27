@@ -94,15 +94,15 @@
 
 					<div class="createTip ">
 						<div class="createTip__title">
-							Validation par le service documentation
+							Passage par le service documentation
 						</div>
 						<p>
 							<b>Coché</b>
-							: Les documents de ce type seront soumis à la validation du service documentation
+							: Les porte-documents de ce type seront envoyés au service documentation
 						</p>
 						<p>
 							<b>décoché</b>
-							: Les documents de ce type ne seront pas soumis à la validation du service documentation. Les consignes sont concernés afin de les rendre visible rapidement
+							: Les porte-documents de ce type ne seront pas envoyés au service documentation. Les consignes sont concernées afin de les rendre visible rapidement
 
 						</p>
 					</div>
@@ -115,16 +115,16 @@
 					</div>
 					<div class="createTip">
 						<div class="createTip__title">
-							Validation par le service documentation
+							Passage par le service documentation
 						</div>
 
 						<p>
 							<b>Coché</b>
-							: Les documents de ce type seront soumis à la validation du service contrôle
+							: Les porte-documents de ce type seront envoyés au service contrôle
 						</p>
 						<p>
 							<b>décoché</b>
-							: Les documents de ce type ne seront pas soumis à la validation du service contrôle. Ceci permet de valider les points réglementaires avant diffusion aux agents.
+							: Les porte-documents de ce type ne seront pas envoyés au service contrôle. Ceci permet de valider les points réglementaires avant diffusion aux agents.
 
 
 						</p>
@@ -137,6 +137,39 @@
 			{% endblock %}
 		{% endembed %}
 		{{ save.btn()}}
+
+{% embed 'widgets/card-widget.html.twig' %}
+	{% block card_class %}flat mt-5
+	{% endblock %}
+	{% block card_body %}
+
+
+		<div class="form-group row m-2 js-createTip-wrapper">
+			<div class=" mt-4">
+
+				{{ form_row(form.isValidatedByADD) }}
+
+			</div>
+
+			<div class="createTip ">
+				<div class="createTip__title">
+					Validation par un agent de Direction
+				</div>
+				<p>
+					<b>Coché</b>
+					: Les porte-documents de ce type seront validés par un agent de Direction
+				</p>
+				<p>
+					<b>décoché</b>
+					: Les porte-documents de ce type ne seront pas validés par un agent de Direction mais par un manager Stratégique pour les macros processus et un cadre pour les processus.
+
+				</p>
+			</div>
+		</div>
+
+	{% endblock %}
+{% endembed %}
+{{ save.btn()}}
 
 
 		{% embed 'widgets/card-widget.html.twig' %}
