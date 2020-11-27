@@ -65,6 +65,19 @@ class BackpackController extends AbstractGController
 
 
     /**
+     * @Route("/backpack/{id}", name="backpack_show", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function show( Backpack $item)
+    {
+        $this->denyAccessUnlessGranted(BackpackVoter::READ, $item);
+
+        return $this->render('backpack/show.html.twig', [
+            'item' => $item
+        ]);
+    }
+
+    /**
      * @Route("/backpack/{id}/edit", name="backpack_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */

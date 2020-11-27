@@ -110,14 +110,17 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
 
     private function saveHistoryOfMail(Backpack $backpack)
     {
-        $content = 'Envoi d\un mail aux adresses suivantes : ';
+        $content = 'Notification lors du changement d\'état aux adresses suivantes :<br/> ';
         
         foreach($this->users as $user) {
             $content = $content . ' ' . $user->getName() . ' (' . $user->getEmail() . ')'; 
         }
 
         $backpackMailHistory = new BackpackMailHistory();
-        $backpackMailHistory->setBackpack($backpack);
+        $backpackMailHistory
+            ->setBackpack($backpack)
+            ->setContent($content)
+            ->setSendAt(new \DateTime());
         $this->backpackMailHistoryManager->save($backpackMailHistory);
     }
 

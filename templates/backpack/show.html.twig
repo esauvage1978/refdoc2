@@ -1,0 +1,49 @@
+{% extends 'backpack/layout.html.twig' %}
+
+{% block page_subtitle %}Modification
+{% endblock %}
+
+{% block breadcrumb %}
+	{% import "backpack/_btn_actions.html.twig" as actions %}
+	{{ actions.backpack(
+
+        'show',
+        item.stateCurrent,
+        item.owner==app.user,
+        item,
+        null
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+
+
+	<div class="row justify-content-center">
+
+
+		<div class="" style="width:960px">
+			{{ include(domaine ~ '/_show/_identification.html.twig') }}
+			{{ include(domaine ~ '/_show/_content.html.twig') }}
+
+
+			{{ include(domaine ~ '/_show/_process.html.twig') }}
+			{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
+			{{ include(domaine ~ '/_show/_files.html.twig') }}
+			{% import "macros/workflow.html.twig" as wfl %}
+<hr/>
+<h4 class="text-info">Etat du porte-document</h4>
+<hr/>
+			{{ wfl.current_card(item) }}
+
+
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+			<p class="mt-5 mb-5">&nbsp;</p>
+
+		</div>
+
+	</div>
+{% endblock %}

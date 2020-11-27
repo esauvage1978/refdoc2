@@ -30,21 +30,31 @@
 {% endmacro %}
 
 {% macro current_card(item) %}
+	{% import "macros/widgets.html.twig" as widget %}
 	{% import "macros/workflow.html.twig" as wkf %}
 
 
-<div class="col-sm-12 d-flex justify-content-between">
+	<div class="col-sm-12 d-flex justify-content-between">
 
 		<span>Etat actuel du porte-document :
 
 			{{ wkf.badge_state(item.stateCurrent) }}
-			<span class="">
+			<span class="d-none">
 				{{item.stateCurrent}}
 				-
 				{{item.category.workflowName}}
 			</span>
 		</span>
-<a href="{{ path('workflow_backpack_history',{id:item.id}) }}">Historique des changements</a>
+		<span>
+		<a href="{{ path('workflow_backpack_history',{id:item.id}) }}">
+			{{widget.icon('history')}}
+			Historique
+		</a>
+		<a href="{{ path('workflow_backpack_notification',{id:item.id}) }}">
+			{{widget.icon('mail-sent')}}
+			Notifications
+		</a>
+</span>
 	</div>
 	<div class="col-sm-12 ">
 
@@ -107,7 +117,7 @@
 										{% elseif checkMessage.type == 'danger' %}
 											<span class="text-danger">
 												{{ iconDanger | raw }}
-{{ checkMessage.message  | raw }}
+												{{ checkMessage.message  | raw }}
 
 											</span>
 										{% elseif checkMessage.type == 'info' %}
@@ -115,7 +125,7 @@
 												{{ checkMessage.message }}
 											</span>
 										{% else %}
-{{ checkMessage.message  | raw}}
+											{{ checkMessage.message  | raw}}
 
 										{% endif %}
 									</small>
@@ -147,17 +157,17 @@
 {% macro timeline(data) %}
 	{% embed 'widgets/timeline-item-widget.html.twig' %}
 		{% import "macros/widgets.html.twig" as widgets %}
-{% import "macros/workflow.html.twig" as wkf %}
+		{% import "macros/workflow.html.twig" as wkf %}
 
 		{% block timeline_item_icon %}fas fa-bezier-curve
 		{% endblock %}
 		{% block timeline_item_icon_class %}
-{{ wkf.get_style_color(data.state) }}
+			{{ wkf.get_style_color(data.state) }}
 
 
 		{% endblock %}
 		{% block timeline_item_class %}
-{{ wkf.get_style_color(data.stateNew) }}
+			{{ wkf.get_style_color(data.stateNew) }}
 
 
 		{% endblock %}
@@ -180,7 +190,7 @@
 								<div class="info-box-content">
 									<span class="info-box-text text-center text-muted">De</span>
 									<span class="info-box-number text-center  text-lg mb-0">
-{{ wkf.badge_state(data.stateOld) }}
+										{{ wkf.badge_state(data.stateOld) }}
 
 
 									</span>
@@ -193,7 +203,7 @@
 								<div class="info-box-content">
 									<span class="info-box-text text-center text-muted">Vers</span>
 									<span class="info-box-number text-center  text-lg mb-0">
-{{ wkf.badge_state(data.stateNew) }}
+										{{ wkf.badge_state(data.stateNew) }}
 
 
 									</span>
@@ -209,4 +219,3 @@
 		{% endblock %}
 	{% endembed %}
 {% endmacro %}
-

@@ -6,7 +6,6 @@
 	{% set save = { 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
 
 
-
 	{% set actions = {} %}
 
 	{% set actions = actions|merge(home) %}
@@ -16,14 +15,13 @@
 	{% if item %}
 
 
-			{% set url=path('backpacks',{visible:'true',stateCurrent:stateCurrent,idItem:item.id}) %}
+		{% set url=path('backpacks',{visible:'true',stateCurrent:stateCurrent,idItem:item.id}) %}
 
 
 		{% set edit = { 'edit': {url: path('backpack_edit',{id:item.id}),class:'btn-secondary',attr:{title:'Modifier'}}} %}
 		{% set delete = { 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
-		{% set show = { 'show': {url: url,class:'btn-secondary',attr:{title:'Consulter'}}} %}
+		{% set show = { 'show': {url: path('backpack_show',{id:item.id}),class:'btn-secondary',attr:{title:'Consulter'}}} %}
 		{% set history = { 'history': {url: path('backpack_history',{id:item.id}),class:'btn-secondary',attr:{title:'historique des modifications'}}} %}
-
 		{% set actions = actions|merge({'divider2': null}) %}
 
 
@@ -38,21 +36,30 @@
 		{% elseif twigTemplace=='comment_add' or twigTemplace=='comments' %}
 			{% if  item | backpackCanUpdate %}
 				{% set actions = actions|merge(edit) %}
-
 			{% endif %}
 			{% set actions = actions|merge(save) %}
 
 		{% elseif twigTemplace=='workflow' %}
-			{% set actions = actions|merge(edit) %}
+			{% set actions = actions|merge(show) %}
+			{% if  item | backpackCanUpdate %}
+				{% set actions = actions|merge(edit) %}
+			{% endif %}
 
 		{% elseif twigTemplace=='history' %}
 			{% set actions = actions|merge(show) %}
+			{% if  item | backpackCanUpdate %}
+				{% set actions = actions|merge(edit) %}
+			{% endif %}
+		{% elseif twigTemplace=='show' %}
+
+			{% set actions = actions|merge(history) %}
+			{% if  item | backpackCanUpdate %}
+				{% set actions = actions|merge(edit) %}
+			{% endif %}
 			{% if  item | backpackCanDelete %}
 				{% set actions = actions|merge(delete) %}
 				{{ del.delete_form('backpack_del',item.id, null) }}
 			{% endif %}
-			{% set actions = actions|merge(edit) %}
-
 		{% elseif twigTemplace=='edit' %}
 			{% set actions = actions|merge(history) %}
 			{% set actions = actions|merge(show) %}

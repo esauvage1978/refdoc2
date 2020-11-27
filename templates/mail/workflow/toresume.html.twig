@@ -16,11 +16,12 @@
 	</p>
 	<p>
 		Vous pouvez aller le consulter en cliquant sur le lien ou en saisissant l'adresse
-		<a style="color:#57a7fe;text-decoration: none" href="{{ url('backpack_edit', {'id': backpack.id}) }}">cliquez-ici</a>
+		<a style="color:#57a7fe;text-decoration: none" href="{{ url('backpack_show', {'id': backpack.id}) }}">cliquez-ici</a>
+
 		ou
-						            collez le lien suivant dans votre navigateur
+								            collez le lien suivant dans votre navigateur
 		<span style="color:#57a7fe;">
-			{{ url('backpack_edit', {'id': backpack.id}) }}
+			{{ url('backpack_show', {'id': backpack.id}) }}
 		</span>
 	</p>
 {% endblock %}

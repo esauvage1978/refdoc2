@@ -74,6 +74,24 @@ class WorkflowController extends AbstractGController
         ]);
     }
 
+
+    /**
+     * @Route("/{id}/notification", name="workflow_backpack_notification", methods={"GET"})
+     *
+     * @param BackpackStateRepository $repository
+     * @param Backpack $backpack
+     *
+     * @return Response
+     *
+     * @IsGranted("ROLE_USER")
+     */
+    public function showNotificationBackpack(Backpack $backpack): Response
+    {
+        return $this->render('backpack/workflowNotification.html.twig', [
+            'item' => $backpack
+        ]);
+    }
+
     /**
      * @Route("/{id}/{transition}", name="workflow_backpack_apply_transition", methods={"GET","POST"})
      *
@@ -101,12 +119,12 @@ class WorkflowController extends AbstractGController
             if ($result) {
                 $this->addFlash(self::SUCCESS, 'Le changement d\'état est effectué');
 
-                return $this->redirectToRoute('backpack_edit', ['id' => $item->getId()]);
+                return $this->redirectToRoute('backpack_show', ['id' => $item->getId()]);
             }
             $this->addFlash(self::DANGER, 'Le changement d\'état n\'a pas abouti. Les conditions ne sont pas remplies.');
         }
 
-        return $this->redirectToRoute('backpack_edit', ['id' => $item->getId()]);
+        return $this->redirectToRoute('backpack_show', ['id' => $item->getId()]);
     }
 
 
