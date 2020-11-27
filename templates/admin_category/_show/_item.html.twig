@@ -10,10 +10,9 @@
 					box-profile
 				{% endblock %}
 				{% block card_body %}
-                <div class="text-center">
-<i class="{{item.icone}} fa-3x" style="background-color:{{item.bgcolor}};color:{{item.forecolor}};"></i>
-
-                </div>
+					<div class="text-center">
+						<i class="{{item.icone}} fa-3x" style="background-color:{{item.bgcolor}};color:{{item.forecolor}};"></i>
+					</div>
 					<h3 class="profile-username text-center">{{ item.Name }}</h3>
 
 					<small class="float-right">
@@ -38,7 +37,7 @@
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% import "macros/widgets.html.twig" as widgets %}
 
-				{% block card_title %}Validation
+				{% block card_title %}Passage
 				{% endblock %}
 				{% block card_body_class %}{% endblock %}
 				{% block card_body %}
@@ -55,26 +54,53 @@
 						<div class="col-6 d-flex align-items-center">
 							{% if item.isValidatedByDoc %}
 								{{ widgets.icon('check','text-success fa-2x mr-4') }}
-								<span class="text-success">Documentation</span>
+								<span class="text-success">Service documentation</span>
 							{% else %}
 								{{ widgets.icon('nocheck','text-warning fa-2x mr-4') }}
-								<span class="text-warning">Documentation</span>
+								<span class="text-warning">Service documentation</span>
 							{% endif %}
 						</div>
 					</div>
 				{% endblock %}
 			{% endembed %}
 
-{% embed 'widgets/card-widget.html.twig' %}
-	{% import "macros/widgets.html.twig" as widgets %}
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% import "macros/widgets.html.twig" as widgets %}
 
-	{% block card_title %}Révision
-	{% endblock %}
-	{% block card_body_class %}text-center{% endblock %}
-	{% block card_body %}
-        La révision sera automatiquement tous les<strong> {{ item.timeBeforeRevision }} mois</strong>
-	{% endblock %}
-{% endembed %}
+				{% block card_title %}Validation
+				{% endblock %}
+				{% block card_body_class %}{% endblock %}
+				{% block card_body %}
+					<div class="row">
+						<div class="col-6 d-flex align-items-center">
+							{% if item.isValidatedByADD %}
+								{{ widgets.icon('user','text-success fa-2x mr-4') }}
+								<span class="text-success">
+									Agent de Direction</span>
+							{% else %}
+								{{ widgets.icon('user','text-info fa-2x mr-4') }}
+								<span class="text-info">Valideur / Manager stratégique</span>
+							{% endif %}
+						</div>
+
+					</div>
+				{% endblock %}
+			{% endembed %}
+
+
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% import "macros/widgets.html.twig" as widgets %}
+
+				{% block card_title %}Révision
+				{% endblock %}
+				{% block card_body_class %}text-center
+				{% endblock %}
+				{% block card_body %}
+					La révision sera automatiquement tous les<strong>
+						{{ item.timeBeforeRevision }}
+						mois</strong>
+				{% endblock %}
+			{% endembed %}
 
 		</div>
 	</div>
