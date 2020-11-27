@@ -30,7 +30,6 @@ class TransitionAbstract implements Transition
     public function can(): bool
     {
         $this->check();
-        dump($this->check());
         return !$this->backpackCheck->hasMessageError();
     }
 

@@ -56,7 +56,7 @@ class Step4_MProcessPoleValidatorsFixtures extends Fixture implements FixtureGro
 
     private $data =
     [
-        ['SAUVAGE Emmanuel', ''],
+        ['SAUVAGE Emmanuel', 'D1;D2;D3'],
         ['LIEKENS Ghislaine', ''],
         ['AMEDRO Jeremy', 'S5'],
         ['MIGNOT Bruno', 'M3'],

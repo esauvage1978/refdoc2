@@ -75,6 +75,11 @@ class Category implements EntityInterface
      */
     private $backpacks;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validatedByADD;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -241,6 +246,18 @@ class Category implements EntityInterface
                 $backpack->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getValidatedByADD(): ?bool
+    {
+        return $this->validatedByADD;
+    }
+
+    public function setValidatedByADD(bool $validatedByADD): self
+    {
+        $this->validatedByADD = $validatedByADD;
 
         return $this;
     }

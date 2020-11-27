@@ -126,6 +126,11 @@ class Backpack implements EntityInterface
      */
     private $backpackStates;
 
+    /**
+     * @ORM\OneToMany(targetEntity=BackpackMailHistory::class, mappedBy="backpack", orphanRemoval=true)
+     */
+    private $backpackMailHistories;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -135,6 +140,7 @@ class Backpack implements EntityInterface
         $this->backpackLinks = new ArrayCollection();
         $this->histories = new ArrayCollection();
         $this->backpackStates = new ArrayCollection();
+        $this->backpackMailHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -458,6 +464,36 @@ class Backpack implements EntityInterface
             // set the owning side to null (unless already changed)
             if ($backpackState->getBackpack() === $this) {
                 $backpackState->setBackpack(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BackpackMailHistory[]
+     */
+    public function getBackpackMailHistories(): Collection
+    {
+        return $this->backpackMailHistories;
+    }
+
+    public function addBackpackMailHistory(BackpackMailHistory $backpackMailHistory): self
+    {
+        if (!$this->backpackMailHistories->contains($backpackMailHistory)) {
+            $this->backpackMailHistories[] = $backpackMailHistory;
+            $backpackMailHistory->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpackMailHistory(BackpackMailHistory $backpackMailHistory): self
+    {
+        if ($this->backpackMailHistories->removeElement($backpackMailHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($backpackMailHistory->getBackpack() === $this) {
+                $backpackMailHistory->setBackpack(null);
             }
         }
 

@@ -7,11 +7,13 @@ namespace App\Workflow;
 class WorkflowData
 {
     const STATE_DRAFT = 'draft';
+    const STATE_TO_VALIDATE = 'toValidate';
     const STATE_PUBLISHED = 'published';
     const STATE_ABANDONNED = 'abandonned';
     const STATE_TO_RESUME = 'toResume';
 
     const TRANSITION_GO_TO_RESUME = 'goToResume';
+    const TRANSITION_GO_TO_VALIDATE = 'goToValidate';
     const TRANSITION_GO_ABANDONNED = 'goAbandonned';
 
     const WORKFLOW_IS_SAME = 'same';
@@ -35,8 +37,35 @@ class WorkflowData
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_TO_VALIDATE,
                         self::TRANSITION_GO_ABANDONNED
                     ]
+                ]
+            ],
+            self::STATE_TO_VALIDATE =>
+            [
+                self::NAME => ' A valider',
+                self::ICON => 'fas fa-stamp',
+                self::TITLE_MAIL => ' Un porte-document est à valider par les responsables hiérarchiques',
+                self::BGCOLOR => '#5b0570',
+                self::FORECOLOR => '#ffffff',
+                self::TRANSITIONS => [
+                    WorkflowNames::WORKFLOW_ALL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_DOC => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_CONTROL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
                 ]
             ],
             self::STATE_ABANDONNED =>
@@ -61,6 +90,7 @@ class WorkflowData
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_TO_VALIDATE,
                         self::TRANSITION_GO_ABANDONNED
                     ]
                 ]
@@ -72,6 +102,7 @@ class WorkflowData
     public static function hasTransition(string $data): bool
     {
         $datas = [
+            self::TRANSITION_GO_TO_VALIDATE,
             self::TRANSITION_GO_ABANDONNED,
             self::TRANSITION_GO_TO_RESUME
         ];
@@ -84,6 +115,7 @@ class WorkflowData
     public static function hasState(string $data): bool
     {
         $datas = [
+            self::STATE_TO_VALIDATE,
             self::STATE_DRAFT,
             self::STATE_TO_RESUME,
             self::STATE_ABANDONNED
@@ -160,7 +192,11 @@ class WorkflowData
         ];
 
         switch ($transition) {
-
+            case self::TRANSITION_GO_TO_VALIDATE:
+                $data['state'] = self::STATE_TO_VALIDATE;
+                $data['titre'] = 'Mettre à la validation hiérarchique';
+                $data['btn_label'] = 'A valider';
+                break;
             case self::TRANSITION_GO_ABANDONNED:
                 $data['state'] = self::STATE_ABANDONNED;
                 $data['titre'] = 'Abandonner le porte-document';

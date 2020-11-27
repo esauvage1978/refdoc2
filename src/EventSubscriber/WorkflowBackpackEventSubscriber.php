@@ -35,6 +35,14 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
     }
 
 
+    /**
+     * @param GuardEvent $event
+     */
+    public function onGuardGoToValidate(GuardEvent $event)
+    {
+        $this->onGuard($event, WorkflowData::TRANSITION_GO_TO_VALIDATE);
+    }
+
     private function onGuard(GuardEvent $event, string $transition)
     {
         /** @var Action $action */
@@ -57,6 +65,7 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
         return [
             'workflow.action.guard.goAbandonned' => ['onGuardGoAbandonned'],
             'workflow.action.guard.goToResume' => ['onGuardGoToResume'],
+            'workflow.action.guard.goToValidate' => ['onGuardGoToValidate'],
         ];
     }
 }

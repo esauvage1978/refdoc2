@@ -6,8 +6,10 @@ use App\Entity\Backpack;
 use App\Mail\BackpackMail;
 use App\Workflow\WorkflowData;
 use App\Helper\ParamsInServices;
+use App\Entity\BackpackMailHistory;
 use App\Event\WorkflowTransitionEvent;
 use App\Repository\BackpackRepository;
+use App\Manager\BackpackMailHistoryManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class WorkflowMailerSubscriber implements EventSubscriberInterface
@@ -27,17 +29,24 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
      */
     private $paramsInServices;
 
+    /**
+     * @var BackpackMailHistoryManager
+     */
+    private $backpackMailHistoryManager;
+
     private $users;
 
     public function __construct(
         BackpackMail $backpackMail,
         BackpackRepository $backpackRepository,
-        ParamsInServices $paramsInServices
+        ParamsInServices $paramsInServices,
+        BackpackMailHistoryManager $backpackMailHistoryManager
     ) {
         $this->backpackMail = $backpackMail;
         $this->backpackRepository = $backpackRepository;
         $this->paramsInServices = $paramsInServices;
-        $this->users=[];
+        $this->users = [];
+        $this->backpackMailHistoryManager = $backpackMailHistoryManager;
     }
 
     /**
@@ -81,16 +90,15 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         ];
 
         if (in_array($state, $stateOwner)) {
-            dump('owner');
             $this->getOwner($backpack);
-            dump($this->users);
         }
 
 
         if (empty($this->users)) {
-            dump('user vide');
             return -1;
         }
+
+        $this->saveHistoryOfMail($backpack);
 
         return $this->backpackMail->sendForUsers(
             $this->users,
@@ -100,7 +108,18 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         );
     }
 
+    private function saveHistoryOfMail(Backpack $backpack)
+    {
+        $content = 'Envoi d\un mail aux adresses suivantes : ';
+        
+        foreach($this->users as $user) {
+            $content = $content . ' ' . $user->getName() . ' (' . $user->getEmail() . ')'; 
+        }
 
+        $backpackMailHistory = new BackpackMailHistory();
+        $backpackMailHistory->setBackpack($backpack);
+        $this->backpackMailHistoryManager->save($backpackMailHistory);
+    }
 
     private function checkMailForState(string $state): bool
     {

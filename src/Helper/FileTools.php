@@ -76,9 +76,7 @@ class FileTools extends AbstractFsObject
 
         
         if( !$this->exist($path,$file)) {
-            dump('existe pas');
             $this->fsObject->touch($fullFile);
-            dump('creation');
         } else if(!$append) {
             $this->remove($path,$file);
         }

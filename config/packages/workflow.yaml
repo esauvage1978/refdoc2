@@ -13,14 +13,18 @@ framework:
             initial_marking: draft
             places:
                 - draft
+                - toValidate
                 - toResume
                 - abandonned
             transitions:
+                goToValidate:
+                    from: [draft, toResume]
+                    to: toValidate                
                 goToResume:
-                    from: [ abandonned]
+                    from: [toValidate, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [draft, toResume]
+                    from: [toValidate, draft, toResume]
                     to: abandonned
         wkf_without_doc:
             type: 'state_machine' # or 'state_machine'
@@ -34,14 +38,18 @@ framework:
             initial_marking: draft
             places:
                 - draft
+                - toValidate
                 - toResume
                 - abandonned
             transitions:
+                goToValidate:
+                    from: [draft, toResume]
+                    to: toValidate                
                 goToResume:
-                    from: [ abandonned]
+                    from: [toValidate, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [draft, toResume]
+                    from: [toValidate, draft, toResume]
                     to: abandonned               
         wkf_without_control:
             type: 'state_machine' # or 'state_machine'
@@ -55,15 +63,19 @@ framework:
             initial_marking: draft
             places:
                 - draft
+                - toValidate
                 - toResume
                 - abandonned
             transitions:
+                goToValidate:
+                    from: [draft, toResume]
+                    to: toValidate                
                 goToResume:
-                    from: [ abandonned]
+                    from: [toValidate, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [draft, toResume]
-                    to: abandonned                  
+                    from: [toValidate, draft, toResume]
+                    to: abandonned                 
         wkf_without_doccontrol:
             type: 'state_machine' # or 'state_machine'
             audit_trail:
@@ -76,14 +88,18 @@ framework:
             initial_marking: draft
             places:
                 - draft
+                - toValidate
                 - toResume
                 - abandonned
             transitions:
+                goToValidate:
+                    from: [draft, toResume]
+                    to: toValidate                
                 goToResume:
-                    from: [ abandonned]
+                    from: [toValidate, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [draft, toResume]
+                    from: [toValidate, draft, toResume]
                     to: abandonned
 
 

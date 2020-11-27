@@ -133,7 +133,6 @@ class BackpackMakerDto
                 break;
             case self::MY_TO_RESUME_UPDATABLE:
                 if (!is_null($this->user)) {
-                    dump('user not null');
                     $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
