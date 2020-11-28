@@ -11,6 +11,7 @@ use App\Entity\Backpack;
 use App\Tree\BackpackTree;
 use App\History\HistoryShow;
 use App\Security\CurrentUser;
+use App\Service\MakeDashboard;
 use App\Security\BackpackVoter;
 use App\Helper\ParamsInServices;
 use App\Manager\BackpackManager;
@@ -21,6 +22,7 @@ use App\Form\Backpack\BackpackNewType;
 use App\Repository\BackpackRepository;
 use App\Repository\BackpackDtoRepository;
 use App\Repository\BackpackFileRepository;
+use App\Service\BackpackCounter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
@@ -171,9 +173,25 @@ class BackpackController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
-    public function widgetBackpacksAction(): Response
+    public function widgetBackpackSubscriptionAction(BackpackDtoRepository $backpackDtoRepository): Response
     {
-        return $this->render('backpack/_widgetBackpacks.html.twig');
+        $md = new BackpackCounter($backpackDtoRepository, $this->getUser());
+        $nbr = $md->get(BackpackMakerDto::HOME_SUBSCRIPTION);
+        return $this->render('backpack/_widgetBackpackSubscription.html.twig', ['nbr' => $nbr]);
+    }
+
+    public function widgetBackpacksAction(BackpackDtoRepository $backpackDtoRepository): Response
+    {
+        $md = new BackpackCounter($backpackDtoRepository, $this->getUser());
+        $nbr = $md->get(BackpackMakerDto::DRAFT);
+        return $this->render('backpack/_widgetBackpacks.html.twig', ['nbr' => $nbr]);
+    }
+
+    public function widgetBackpacksInProgressAction(BackpackDtoRepository $backpackDtoRepository): Response
+    {
+        $md = new BackpackCounter($backpackDtoRepository, $this->getUser());
+        $nbr= $md->get(BackpackMakerDto::BACKPACK_IN_PROGRESS);
+        return $this->render('backpack/_widgetBackpacksInProgress.html.twig',['nbr'=>$nbr]);
     }
 
     /**
@@ -193,6 +211,18 @@ class BackpackController extends AbstractGController
 
         return $this->file($file, Slugger::slugify($actionFile->getTitle()) . '.' . $actionFile->getFileExtension());
     }
+
+    /**
+     * @Route("/backpacks/subscription", name="backpacks_subscription", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function subscription(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::HOME_SUBSCRIPTION);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+
 
     /**
      * @Route("/backpacks/draftupdatable", name="backpacks_draft_updatable", methods={"GET"})
@@ -283,6 +313,36 @@ class BackpackController extends AbstractGController
     public function state_mytoresume_updatable(Request $request)
     {
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_TO_RESUME_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+
+    /**
+     * @Route("/backpacks/tovalidate", name="backpacks_toValidate", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_tovalidate(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::TO_VALIDATE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/tovalidateupdatable", name="backpacks_toValidate_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_tovalidate_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::TO_VALIDATE_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/mytovalidateupdatable", name="backpacks_mytoValidate_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_mytovalidate_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_TO_VALIDATE_UPDATABLE);
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 }

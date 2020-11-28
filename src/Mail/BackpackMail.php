@@ -8,6 +8,7 @@ use App\Entity\User;
 
 use function in_array;
 use App\Entity\Backpack;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Classe permettant l'envoi d'un mail en rapport avec les utilisateurs
@@ -18,7 +19,8 @@ use App\Entity\Backpack;
  */
 class BackpackMail
 {
-    public const TORESUME = 'workflow/toresume';
+    public const TORESUME = 'workflow/toResume';
+    public const TOVALIDATE = 'workflow/toValidate';
 
     private $mail;
 
@@ -29,8 +31,10 @@ class BackpackMail
 
     public function send(User $user, Backpack $backpack, string $context, string $subject): int
     {
-        if (!in_array($context, [self::TORESUME])) {
-            throw new \exception('Le context n\est pas présente dans la liste UserMail');
+        $context='workflow/'.$context;
+
+        if (!in_array($context, [self::TORESUME, self::TOVALIDATE])) {
+            throw new \exception('Le context n\est pas présente dans la liste UserMail : ' . $context);
         }
 
         $this->mail
@@ -42,7 +46,7 @@ class BackpackMail
         return $this->mail->send();
     }
 
-    public function sendForUsers(array $users, Backpack $backpack, string $context, string $subject)
+    public function sendForUsers(ArrayCollection $users, Backpack $backpack, string $context, string $subject)
     {
         foreach ($users as $user) {
             $this->send($user, $backpack, $context, $subject);

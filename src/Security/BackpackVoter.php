@@ -108,6 +108,11 @@ class BackpackVoter extends Voter
                 WorkflowData::STATE_ABANDONNED,
             ];
 
+        $restrict_ValidatorByCat =
+            [
+                WorkflowData::STATE_TO_VALIDATE,
+            ];
+
         //restriction de la modification aux contributeurs
         if (in_array($stateCurrent, $restrict_contributer)) {
 
@@ -123,15 +128,28 @@ class BackpackVoter extends Voter
 
             if (
                 $process !== null &&
-                (in_array($process, $processes_contributors) or
+                (in_array($process, $processes_contributors) ||
                     in_array($process, $processes_validators))
             ) {
                 return true;
             } elseif (
-                in_array($Mprocess, $mprocesses_contributors) or
-                in_array($Mprocess, $mprocesses_ADDs) or
+                in_array($Mprocess, $mprocesses_contributors) ||
+                in_array($Mprocess, $mprocesses_ADDs) ||
                 in_array($Mprocess, $mprocesses_validators)
             ) {
+                return true;
+            }
+        }
+
+
+        //restriction de la modification aux personne ayant des droits
+        if (in_array($stateCurrent, $restrict_ValidatorByCat)) {
+
+            if ($process !== null && in_array($process, $processes_validators)) {
+                return true;
+            } elseif ($backpack->getCategory()->getIsValidatedByADD() && in_array($Mprocess, $mprocesses_ADDs)) {
+                return true;
+            } elseif (!$backpack->getCategory()->getIsValidatedByADD() && in_array($Mprocess, $mprocesses_validators)) {
                 return true;
             }
         }

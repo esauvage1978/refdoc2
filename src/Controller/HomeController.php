@@ -27,6 +27,7 @@ class HomeController extends AbstractController
             $md->getData(MakeDashboard::MY_DRAFT_UPDATABLE),
             $md->getData(MakeDashboard::TO_RESUME_UPDATABLE),
             $md->getData(MakeDashboard::MY_TO_RESUME_UPDATABLE),
+            $md->getData(MakeDashboard::TO_VALIDATE_UPDATABLE),
         ];
 
         return $this->render('home/index.html.twig', ['dash_options' => $dash_options]);

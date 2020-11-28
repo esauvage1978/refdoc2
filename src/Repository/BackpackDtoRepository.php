@@ -201,6 +201,8 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
 
         $this->initialise_where_state();
 
+        $this->initialise_where_state_in_progress();
+
         $this->initialise_where_search();
 
         if (count($this->params) > 0) {
@@ -230,65 +232,89 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
         $validator = ($this->dto->getIsValidator() == BackpackDto::TRUE);
         $validatorForCategory = ($this->dto->getIsValidatorForCategory() == BackpackDto::TRUE);
 
+        if ($contributor || $validator || $validatorForCategory) {
+            $u = $this->dto->getUserDto();
+            if (empty($u)) {
+                $u = $this->dto->getOwnerDto();
+            }
+            if (!empty($u) && !empty($u->getId())) {
 
-        $u = $this->dto->getUserDto();
-        if (empty($u)) {
-            $u = $this->dto->getOwnerDto();
-        }
-        if (!empty($u) && !empty($u->getId())) {
+                $rqtMPContributor = $this->createQueryBuilder(self::ALIAS . '1')
+                    ->select(self::ALIAS . '1.id')
+                    ->join(self::ALIAS . '1.mProcess', MProcessRepository::ALIAS . '1')
+                    ->join(MProcessRepository::ALIAS . '1.contributors', UserRepository::ALIAS_MP_C . '1')
+                    ->where(UserRepository::ALIAS_MP_C . '1.id= :idUser');
+                $rqtPContributor = $this->createQueryBuilder(self::ALIAS . '2')
+                    ->select(self::ALIAS . '2.id')
+                    ->join(self::ALIAS . '2.process', ProcessRepository::ALIAS . '2')
+                    ->join(ProcessRepository::ALIAS . '2.contributors', UserRepository::ALIAS_MP_C . '2')
+                    ->where(UserRepository::ALIAS_MP_C . '2.id= :idUser');
 
-            $rqtMPContributor = $this->createQueryBuilder(self::ALIAS . '1')
-                ->select(self::ALIAS . '1.id')
-                ->join(self::ALIAS . '1.mProcess', MProcessRepository::ALIAS . '1')
-                ->join(MProcessRepository::ALIAS . '1.contributors', UserRepository::ALIAS_MP_C . '1')
-                ->where(UserRepository::ALIAS_MP_C . '1.id= :idUser');
-            $rqtPContributor = $this->createQueryBuilder(self::ALIAS . '2')
-                ->select(self::ALIAS . '2.id')
-                ->join(self::ALIAS . '2.process', ProcessRepository::ALIAS . '2')
-                ->join(ProcessRepository::ALIAS . '2.contributors', UserRepository::ALIAS_MP_C . '2')
-                ->where(UserRepository::ALIAS_MP_C . '2.id= :idUser');
-
-            $rqtMPValidatorMS = $this->createQueryBuilder(self::ALIAS . '3')
-                ->select(self::ALIAS . '3.id')
-                ->join(self::ALIAS . '3.mProcess', MProcessRepository::ALIAS . '3')
-                ->join(MProcessRepository::ALIAS . '3.poleValidators', UserRepository::ALIAS_MP_PV . '3')
-                ->where(UserRepository::ALIAS_MP_PV . '3.id= :idUser');
-            $rqtMPValidatorADD = $this->createQueryBuilder(self::ALIAS . '5')
-                ->select(self::ALIAS . '5.id')
-                ->join(self::ALIAS . '5.mProcess', MProcessRepository::ALIAS . '5')
-                ->join(MProcessRepository::ALIAS . '5.dirValidators', UserRepository::ALIAS_MP_DV . '5')
-                ->where(UserRepository::ALIAS_MP_DV . '5.id= :idUser');
-            $rqtPValidator = $this->createQueryBuilder(self::ALIAS . '4')
-                ->select(self::ALIAS . '4.id')
-                ->join(self::ALIAS . '4.process', ProcessRepository::ALIAS . '4')
-                ->join(ProcessRepository::ALIAS . '4.validators', UserRepository::ALIAS_P_V . '4')
-                ->where(UserRepository::ALIAS_P_V . '4.id= :idUser');
+                $rqtMPValidatorMS = $this->createQueryBuilder(self::ALIAS . '3')
+                    ->select(self::ALIAS . '3.id')
+                    ->join(self::ALIAS . '3.mProcess', MProcessRepository::ALIAS . '3')
+                    ->join(MProcessRepository::ALIAS . '3.poleValidators', UserRepository::ALIAS_MP_PV . '3')
+                    ->where(UserRepository::ALIAS_MP_PV . '3.id= :idUser');
+                $rqtMPValidatorMSByCategory = $this->createQueryBuilder(self::ALIAS . '6')
+                    ->select(self::ALIAS . '6.id')
+                    ->join(self::ALIAS . '6.category', CategoryRepository::ALIAS . '6')
+                    ->join(self::ALIAS . '6.mProcess', MProcessRepository::ALIAS . '6')
+                    ->join(MProcessRepository::ALIAS . '6.poleValidators', UserRepository::ALIAS_MP_PV . '6')
+                    ->where(UserRepository::ALIAS_MP_PV . '6.id= :idUser')
+                    ->andWhere(categoryRepository::ALIAS . '6.isValidatedByADD=0');
+                $rqtMPValidatorADD = $this->createQueryBuilder(self::ALIAS . '5')
+                    ->select(self::ALIAS . '5.id')
+                    ->join(self::ALIAS . '5.mProcess', MProcessRepository::ALIAS . '5')
+                    ->join(MProcessRepository::ALIAS . '5.dirValidators', UserRepository::ALIAS_MP_DV . '5')
+                    ->where(UserRepository::ALIAS_MP_DV . '5.id= :idUser');
+                $rqtMPValidatorADDByCategory = $this->createQueryBuilder(self::ALIAS . '7')
+                    ->select(self::ALIAS . '7.id')
+                    ->join(self::ALIAS . '7.category', CategoryRepository::ALIAS . '7')
+                    ->join(self::ALIAS . '7.mProcess', MProcessRepository::ALIAS . '7')
+                    ->join(MProcessRepository::ALIAS . '7.dirValidators', UserRepository::ALIAS_MP_DV . '7')
+                    ->where(UserRepository::ALIAS_MP_DV . '7.id= :idUser')
+                    ->andWhere(categoryRepository::ALIAS . '7.isValidatedByADD=1');
+                $rqtPValidator = $this->createQueryBuilder(self::ALIAS . '4')
+                    ->select(self::ALIAS . '4.id')
+                    ->join(self::ALIAS . '4.process', ProcessRepository::ALIAS . '4')
+                    ->join(ProcessRepository::ALIAS . '4.validators', UserRepository::ALIAS_P_V . '4')
+                    ->where(UserRepository::ALIAS_P_V . '4.id= :idUser');
 
                 $this->addParams('idUser', $u->getId());
 
-            if ($contributor && !$validator && !$validatorForCategory) {
+                if ($contributor && !$validator && !$validatorForCategory) {
 
-                $this->builder
-                    ->andWhere(
-                        '(( ' . self::ALIAS . '.process is null AND ' .
-                            self::ALIAS . '.id IN (' . $rqtMPContributor->getDQL() . ')) OR (' .
-                            self::ALIAS . '.id IN (' . $rqtPContributor->getDQL() . ')))'
-                    );
-            } elseif ($contributor && $validator && !$validatorForCategory) {
+                    $this->builder
+                        ->andWhere(
+                            '(( ' . self::ALIAS . '.process is null AND ' .
+                                self::ALIAS . '.id IN (' . $rqtMPContributor->getDQL() . ')) OR (' .
+                                self::ALIAS . '.id IN (' . $rqtPContributor->getDQL() . ')))'
+                        );
+                } elseif ($contributor && $validator && !$validatorForCategory) {
 
-                $this->builder
-                    ->andWhere(
-                        '(( ' . self::ALIAS . '.process is null AND (' .
-                            self::ALIAS . '.id IN (' . $rqtMPContributor->getDQL() . ') OR '.
-                            self::ALIAS . '.id IN (' . $rqtMPValidatorADD->getDQL() . ') OR '.
-                            self::ALIAS . '.id IN (' . $rqtMPValidatorMS->getDQL() . ') '.
-                            ')) OR (' .
-                            self::ALIAS . '.id IN (' . $rqtPContributor->getDQL() . ') OR '.
-                        self::ALIAS . '.id IN (' . $rqtPValidator->getDQL() . ')' .
-                            '))'
-                    );
-            } 
- 
+                    $this->builder
+                        ->andWhere(
+                            '(( ' . self::ALIAS . '.process is null AND (' .
+                                self::ALIAS . '.id IN (' . $rqtMPContributor->getDQL() . ') OR ' .
+                                self::ALIAS . '.id IN (' . $rqtMPValidatorADD->getDQL() . ') OR ' .
+                                self::ALIAS . '.id IN (' . $rqtMPValidatorMS->getDQL() . ') ' .
+                                ')) OR (' .
+                                self::ALIAS . '.id IN (' . $rqtPContributor->getDQL() . ') OR ' .
+                                self::ALIAS . '.id IN (' . $rqtPValidator->getDQL() . ')' .
+                                '))'
+                        );
+                } elseif (!$contributor && !$validator && $validatorForCategory) {
+                    $this->builder
+                        ->andWhere(
+                            '(( ' . self::ALIAS . '.process is null AND (' .
+                                self::ALIAS . '.id IN (' . $rqtMPValidatorADDByCategory->getDQL() . ') OR ' .
+                                self::ALIAS . '.id IN (' . $rqtMPValidatorMSByCategory->getDQL() . ') ' .
+                                ')) OR (' .
+                                self::ALIAS . '.id IN (' . $rqtPValidator->getDQL() . ')' .
+                                '))'
+                        );
+                }
+            }
         }
     }
 
@@ -337,6 +363,15 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
             $this->addParams('state', $this->dto->getStateCurrent());
         }
     }
+
+    private function initialise_where_state_in_progress()
+    {
+        if (!empty($this->dto->getStateInProgress())) {
+            $states = implode('\',\'', $this->dto->getStateInProgressData());
+            $this->builder->andwhere(self::ALIAS . '.stateCurrent in (\''. $states .'\')');
+        }
+    }
+
 
     private function initialise_where_enable()
     {

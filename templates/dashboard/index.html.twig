@@ -77,9 +77,27 @@
 				{% endfor %}
 			</tr>
 
+			<tr>
+				{{ wkf.state_table_td('toValidate') }}
+				{% for  item in toValidate %}
+
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
+
+
 			{{ tables.datatable_footer('dsb',1) }}
 
 		</div>
-		<div class="col-sm-12 col-lg-6 "></div>
+		<div class="col-sm-12 col-lg-6 ">
+			<img src="{{ asset('img/dashboard.svg')}}" alt"choix des abonnements" style="width:100%"/>
+
+		</div>
 	</div>
 {% endblock %}

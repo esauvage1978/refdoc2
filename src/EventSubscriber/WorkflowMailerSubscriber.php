@@ -10,6 +10,7 @@ use App\Entity\BackpackMailHistory;
 use App\Event\WorkflowTransitionEvent;
 use App\Repository\BackpackRepository;
 use App\Manager\BackpackMailHistoryManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class WorkflowMailerSubscriber implements EventSubscriberInterface
@@ -45,7 +46,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         $this->backpackMail = $backpackMail;
         $this->backpackRepository = $backpackRepository;
         $this->paramsInServices = $paramsInServices;
-        $this->users = [];
+        $this->users = new ArrayCollection();
         $this->backpackMailHistoryManager = $backpackMailHistoryManager;
     }
 
@@ -86,15 +87,21 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
 
 
         $stateOwner = [
-            WorkflowData::STATE_TO_RESUME
+            WorkflowData::STATE_TO_RESUME,
+            WorkflowData::STATE_TO_VALIDATE,
+        ];
+
+        $stateForValidator = [
+            WorkflowData::STATE_TO_VALIDATE,
         ];
 
         if (in_array($state, $stateOwner)) {
             $this->getOwner($backpack);
         }
-
-
-        if (empty($this->users)) {
+        if (in_array($state, $stateForValidator)) {
+            $this->getUserForValidator($backpack);
+        }
+        if ($this->users->isEmpty()) {
             return -1;
         }
 
@@ -103,7 +110,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         return $this->backpackMail->sendForUsers(
             $this->users,
             $backpack,
-            BackpackMail::TORESUME,
+            $state,
             WorkflowData::getTitleOfMail($state)
         );
     }
@@ -134,20 +141,51 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
     {
         foreach ($backpack->getMProcess()->getDirValidators() as $user) {
             if ($user->getIsEnable()) {
-                $this->users = array_merge([
-                    $user->getEmail() => $user->getName(),
-                ], $this->users);
+                if (!$this->users->contains($user)) {
+                    $this->users[] = $user;
+                }
+                //$this->users = array_merge([
+                //    $user->getEmail() => $user->getName(),
+                //], $this->users);
+            }
+        }
+    }
+    public function getOwner(Backpack $backpack)
+    {
+        if ($backpack->getOwner()->getIsEnable()) {
+            if (!$this->users->contains($backpack->getOwner())) {
+                $this->users[] = $backpack->getOwner();
             }
         }
     }
 
-
-    public function getOwner(Backpack $backpack)
+    public function getUserForValidator(Backpack $backpack)
     {
-        if ($backpack->getOwner()->getIsEnable()) {
-            $this->users = array_merge([
-                $backpack->getOwner()
-            ], $this->users);
+        if( $backpack->getProcess()===null) {
+            foreach ($backpack->getProcess()->getValidators() as $user) {
+                if ($user->getIsEnable()) {
+                    $this->users = array_merge([
+                        $user,
+                    ], $this->users);
+                }
+            }
+        } elseif( $backpack->getCategory()->getIsValidatedByADD()) {
+            foreach ($backpack->getMProcess()->getDirValidators() as $user) {
+                if ($user->getIsEnable()) {
+                    $this->users = array_merge([
+                        $user,
+                    ], $this->users);
+                }
+            }
+        } else {
+            foreach ($backpack->getMProcess()->getPoleValidators() as $user) {
+                if ($user->getIsEnable()) {
+                    $this->users = array_merge([
+                        $user,
+                    ], $this->users);
+                }
+            }
         }
+
     }
 }

@@ -40,12 +40,19 @@ class DashboardController extends AbstractController
             $md->getData(MakeDashboard::MY_TO_RESUME_UPDATABLE),
         ];
 
+        $toValidate = [
+            $md->getData(MakeDashboard::TO_VALIDATE),
+            $md->getData(MakeDashboard::TO_VALIDATE_UPDATABLE),
+            $md->getData(MakeDashboard::MY_TO_VALIDATE_UPDATABLE),
+        ];
+
         return $this->render(
             'dashboard/index.html.twig',
             [
                 'draft' => $draft,
                 'abandonned' => $abandonned,
                 'toResume' => $toResume,
+                'toValidate' => $toValidate,
             ]
         );
     }

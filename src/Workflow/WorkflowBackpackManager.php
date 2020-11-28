@@ -81,8 +81,7 @@ class WorkflowBackpackManager
 
             $user = $this->loadUser($automate);
 
-
-            $this->send_mails($user, $item);
+            $this->send_mails($user, $item, $automate);
 
             $this->historisation($user, $item, $stateOld);
 
@@ -101,10 +100,12 @@ class WorkflowBackpackManager
         $this->stateMachine->apply($item, $transition);
     }
 
-    private function send_mails(User $user, Backpack $item)
+    private function send_mails(User $user, Backpack $item, bool $automate)
     {
-        $event = new WorkflowTransitionEvent($user, $item);
-        $this->dispatcher->dispatch($event, WorkflowTransitionEvent::NAME);
+        if (!$automate) {
+            $event = new WorkflowTransitionEvent($user, $item);
+            $this->dispatcher->dispatch($event, WorkflowTransitionEvent::NAME);
+        }
     }
 
     private function historisation(User $user, Backpack $item, string $stateOld)

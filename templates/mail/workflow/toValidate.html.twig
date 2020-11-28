@@ -1,15 +1,16 @@
 {% extends './mail/template.html.twig' %}
 
 {% block title %}
-	Le porte document est à reprendre
+	Le porte document est à valider
 {% endblock %}
 {% block title_content %}
-	Reprise du porte-document
+	Porte-document à valider
 {% endblock %}
 
 {% block body %}
 	<p>
-		votre porte-document <strong>{{ backpack.name }}</strong> est à reprendre. La personne qui l'a envoyé dans cet été a laissé le commentaire suivant
+le porte-document <strong>{{ backpack.name }}</strong> est à valider. La personne qui l'a envoyé dans cet été a laissé le commentaire suivant
+
 	</p>
 	<p>
 		{{ backpack.stateContent | raw }}

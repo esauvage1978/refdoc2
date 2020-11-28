@@ -37,10 +37,12 @@ class MakeDashboard
     public const TO_RESUME_UPDATABLE = 'toResume_updatable';
     public const MY_TO_RESUME_UPDATABLE = 'mytoResume_updatable';
 
+    public const TO_VALIDATE = 'toValidate';
+    public const TO_VALIDATE_UPDATABLE = 'toValidate_updatable';
+    public const MY_TO_VALIDATE_UPDATABLE = 'mytoValidate_updatable';
 
 private const STATE='state';
 
-    public const TO_VALIDATE = 'to_validate';
 
     public function getData(string $filter)
     {
@@ -80,7 +82,19 @@ private const STATE='state';
             self::MY_TO_RESUME_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
                 self::TITLE => 'Mes porte-documents à reprendre',
-            ],                          
+            ],
+            self::TO_VALIDATE => [
+                self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
+                self::TITLE => 'Les porte-documents à valider',
+            ],
+            self::TO_VALIDATE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
+                self::TITLE => 'A valider et modifiables',
+            ],
+            self::MY_TO_VALIDATE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
+                self::TITLE => 'Mes porte-documents à valider',
+            ],                           
         ];
 
 

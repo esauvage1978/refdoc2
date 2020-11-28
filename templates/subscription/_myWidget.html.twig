@@ -7,24 +7,150 @@
 	{% endif %}
 {% endfor %}
 
-<a href="{{ path('mySubscription')}}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow h-100">
-	<div class="d-flex w-100 align-items-center">
-		<div class="col-4  text-center">
-			{{ widgets.icon('subscription', nbr>0?'fa-5x text-info':' fa-5x text-danger') }}
-		</div>
-		<div class="">
-			{% if nbr==0 %}
-				<h5 class="mb-1 text-danger">
-					<strong>Aucun abonnement</strong>
-				</h5>
-			{% else %}
-				<h5 class="mb-1 text-info">
-					<strong>{{nbr>1?'Mes ' ~ nbr ~ ' abonnements':'Mon abonnement'}}</strong>
-				</h5>
-			{% endif %}
-			<p class="mb-1"></p>
-			<small>Cliquez ici pour gérer les abonnements</small>
+
+<div class="small-box {{nbr>0?'bg-info':'bg-danger'}} ">
+	<div class="inner ">
+		{% if nbr==0 %}
+			<a href="{{ path('mySubscription')}}" target="_self">
+				<h3 class="text-white">0</h3>
+
+				<p class="text-white">Aucun abonnement</p>
+				<p class="text-white">Cliquez ici pour choisir vos abonnements</p>
+
+			</a>
+		{% else %}
+			<h3>{{ nbr }}</h3>
+
+			<p>Abonnement{{nbr>1?'s':''}}</p>
+
+		{% endif %}
+	</div>
+	<div class="icon">
+	
+		{{ widgets.icon('subscription') }}
+	</div>
+
+	<a href="#" class="small-box-footer  {{nbr>0?'':'d-none'}}" data-toggle="modal" data-target="#exampleModal">Liste
+
+
+		<i class="fas fa-arrow-circle-right"></i>
+	</a>
+</div>
+
+{% import "macros/widgets.html.twig" as widgets %}
+{% set nbr=0 %}
+{% for sub in app.user.subscriptions %}
+	{% if sub.isEnable is same as(true) %}
+		{% set nbr=nbr+1 %}
+	{% endif %}
+{% endfor %}
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog  modal-dialog-scrollable  	modal-lg">
+
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Liste des abonnements</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="list-group list-group-flush">
+
+					{% for  item in items %}
+						{% if item in abosMP %}
+							<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
+								<span class=' mr-5'>
+									<span class=" {{ item in abosMP ? 'text-success':'text-warning' }} ">
+										{{ widgets.icon('mprocess') }}
+									</span>
+									{{ item.fullname | raw}}
+								</span>
+								<span class=''>
+									<span class=' text-muted mr-1'></span>
+									{% if item in abosMP %}
+										<i class="fa fa-check text-success"></i>
+									{% else %}
+										<i class="fa fa-times text-warning"></i>
+									{% endif %}
+								</span>
+							</div>
+							{% for  p in item.processes %}
+								{% if p in abosP %}
+									<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
+										<span class=' mr-5 ml-5 text-sm'>
+											<span class=" text-success ">
+												{{ widgets.icon('process') }}
+											</span>
+											{{ p.fullname | raw}}
+										</span>
+										<span>
+											<span class=' text-muted mr-1'></span>
+											<i class="fa fa-check text-success"></i>
+										</span>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% else %}
+							{% set nbrAbosP=0 %}
+							{% for  p in item.processes %}
+								{% if p in abosP %}
+									{% set nbrAbosP=nbrAbosP+1 %}
+								{% endif %}
+							{% endfor %}
+							{% if nbrAbosP>0 %}
+
+								<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
+									<span class='js-title mr-5'>
+										<span>
+											{{ widgets.icon('mprocess','text-warning') }}
+
+										</span>
+										{{ item.fullname | raw}}
+									</span>
+									<span>
+										<span class=' text-muted mr-1'></span>
+
+										<i class="fa fa-times text-warning"></i>
+
+									</span>
+								</div>
+								{% for  p in item.processes %}
+									{% if p in abosP %}
+										<div class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
+											<span class=' mr-5 ml-5 text-sm'>
+												<span class=" text-success ">
+													{{ widgets.icon('process') }}
+												</span>
+												{{ p.fullname | raw}}
+											</span>
+											<span>
+												<span class=' text-muted mr-1'></span>
+												<i class="fa fa-check text-success"></i>
+											</span>
+										</div>
+									{% endif %}
+								{% endfor %}
+
+							{% endif %}
+
+						{% endif %}
+					{% endfor %}
+
+
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<a href="{{ path('mySubscription')}}" class="btn btn-primary" target="_self">Modifier</a>
+
+
+			</div>
 		</div>
 	</div>
-</a>
-
+</div>

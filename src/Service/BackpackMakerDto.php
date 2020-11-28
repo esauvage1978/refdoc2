@@ -16,18 +16,13 @@ class BackpackMakerDto
     const HOME_SUBSCRIPTION = 'home_subscription';
     const HOME_ALL = 'home_all';
 
+    public const BACKPACK_IN_PROGRESS = 'backpack_in_progress';
+
+    const SEARCH = 'search';
+
     const DRAFT = 'draft';
     const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
     const DRAFT_UPDATABLE = 'draft_updatable';
-
-    const TO_VALIDATE = 'to_validate';
-    const PUBLISHED = 'published';
-    const SEARCH = 'search';
-    const PUBLISHED_FOR_RUBRIC = 'published_for_rubric';
-    const PUBLISHED_FOR_UNDERRUBRIC = 'published_for_underrubric';
-    const NEWS = 'news';
-    const NEWS_FOR_RUBRIC = 'news_for_rubric';
-    const NEWS_FOR_UNDERRUBRIC = 'news_for_underrubric';
 
     const ABANDONNED = 'abandonned';
     const ABANDONNED_UPDATABLE = 'abandonned_updatable';
@@ -36,6 +31,10 @@ class BackpackMakerDto
     public const TO_RESUME = 'toResume';
     public const TO_RESUME_UPDATABLE = 'toResume_updatable';
     public const MY_TO_RESUME_UPDATABLE = 'mytoResume_updatable';
+
+    public const TO_VALIDATE = 'toValidate';
+    public const TO_VALIDATE_UPDATABLE = 'toValidate_updatable';
+    public const MY_TO_VALIDATE_UPDATABLE = 'mytoValidate_updatable';
 
     const HIDE = 'hide';
 
@@ -61,6 +60,14 @@ class BackpackMakerDto
         $dto = new BackpackDto();
         $dto = $this->checkUser($dto);
         switch ($type) {
+            case self::BACKPACK_IN_PROGRESS:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStatInProgress(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
             case self::HOME_SUBSCRIPTION:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
@@ -141,6 +148,29 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_TO_RESUME)
                     ->setVisible(BackpackDto::TRUE);
                 break;
+            case self::TO_VALIDATE:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_VALIDATE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::TO_VALIDATE_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_VALIDATE)
+                    ->setIsValidatorForCategory(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::MY_TO_VALIDATE_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setIsValidatorForCategory(BackpackDto::TRUE)
+                    ->setStateCurrent(WorkflowData::STATE_TO_VALIDATE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                
         }
 
         return $dto;

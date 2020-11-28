@@ -22,6 +22,8 @@ parameters:
     es.news.time: '%env(ES_NEWS_TIME)%'
     
     es.mailer.workflow.toResume: '%env(ES_MAILER_WORKFLOW_TORESUME)%'
+    es.mailer.workflow.toValidate: '%env(ES_MAILER_WORKFLOW_TOVALIDATE)%'
+    
 
 services:
     # default configuration for services in *this* file

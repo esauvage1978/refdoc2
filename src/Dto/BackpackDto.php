@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-
+use App\Workflow\WorkflowData;
 use Symfony\Component\HttpFoundation\Request;
 
 class BackpackDto extends AbstractDto
@@ -34,6 +34,10 @@ class BackpackDto extends AbstractDto
      */
     private $stateCurrent;
 
+    /**
+     * @var ?string
+     */
+    private $stateInProgress;
 
     /**
      * @var ?string
@@ -158,6 +162,39 @@ class BackpackDto extends AbstractDto
     }
 
     /**
+     * @param mixed $stateInProgress
+     * @return BackpackDto
+     */
+    public function setStatInProgress($stateInProgress)
+    {
+        $this->checkBool($stateInProgress);
+        $this->stateInProgress = $stateInProgress;
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getStateInProgressData()
+    {
+        return
+        [
+            WorkflowData::STATE_DRAFT,
+            WorkflowData::STATE_TO_RESUME,
+            WorkflowData::STATE_TO_VALIDATE,
+        ];;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStateInProgress()
+    {
+        return $this->stateInProgress;
+    }
+
+    /**
      * @param mixed $isNew
      * @return BackpackDto
      */
@@ -167,6 +204,7 @@ class BackpackDto extends AbstractDto
         $this->isNew = $isNew;
         return $this;
     }
+
 
     /**
      * @return mixed
