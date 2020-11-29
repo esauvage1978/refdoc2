@@ -19,9 +19,9 @@ class BackpackTree extends AbstractTree
      */
     protected $item;
 
-    private $hideState=false;
+    private $hideState = false;
 
-    private $sameMp=false;
+    private $sameMp = false;
 
 
     private $mprocess_last = '';
@@ -48,7 +48,6 @@ class BackpackTree extends AbstractTree
 
     private function check()
     {
-
     }
 
     /**
@@ -80,7 +79,7 @@ class BackpackTree extends AbstractTree
             $this->tree[] = [
                 'id' => $item->getid(),
                 'parent' => $this->getParent(),
-                'text' => '<span class="text-primary">' . $item->getName() . '</span> ' . $fileSpan . $this->checkNews($item). $this->checkState($item),
+                'text' => '<span class="text-primary">' . $item->getName() . '</span> ' . $fileSpan . $this->checkNews($item) . $this->checkState($item),
                 'icon' => $item->getCategory()->getIcone() . ' category_' . $item->getCategory()->getId(),
                 'a_attr' => [
                     'href' => $this->generateUrl($item->getId()),
@@ -90,26 +89,30 @@ class BackpackTree extends AbstractTree
                     'opened' => true,
                 ],
             ];
-
         }
         return json_encode($this->tree);
     }
 
-    private function checkNews(Backpack $item):string
+    private function checkNews(Backpack $item): string
     {
         if (
-            $item->getStateCurrent()===WorkflowData::STATE_PUBLISHED
-            && $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)) {
+            $item->getStateCurrent() === WorkflowData::STATE_PUBLISHED
+            && $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)
+        ) {
 
             return '<i class="fas fa-certificate text-fuchsia"></i>';
         }
         return '';
     }
 
-    private function checkState(Backpack $item):string
+    private function checkState(Backpack $item): string
     {
-        if ($item->getStateCurrent()!==null && $this->hideState===false) {
-            return '';//WorkflowData::getIconOfState($item->getStateCurrent());
+        if ($item->getStateCurrent() !== null && $this->hideState === false) {
+            return "<span class='badge' style='background-color:" .
+                WorkflowData::getBGColorOfState($item->getStateCurrent()) . 
+                ";color:" . WorkflowData::getForeColorOfState($item->getStateCurrent()) .
+                "'><i class='" . WorkflowData::getIconOfState($item->getStateCurrent()) . "'></i>" .
+                 WorkflowData::getNameOfState($item->getStateCurrent()) . "</span>";
         }
         return '';
     }
@@ -154,7 +157,7 @@ class BackpackTree extends AbstractTree
         if ($data_courant != $this->mprocess_last) {
             $parent =  '#';
             $this->addBranche($this->mprocess_id, $data_courant, $parent, $this->developed, $backpack->getMProcess()->getIsEnable(), 'fas fa-sitemap text-gray');
-            $this->process_id='';
+            $this->process_id = '';
             $this->process_last = '';
             $this->dir1_id = '';
             $this->dir1_last = '';
@@ -168,7 +171,7 @@ class BackpackTree extends AbstractTree
             $this->dir5_last = '';
             $this->sameMp = false;
         } else {
-            $this->sameMp=true;
+            $this->sameMp = true;
         }
 
         $this->mprocess_last = $data_courant;
@@ -182,7 +185,7 @@ class BackpackTree extends AbstractTree
             return;
         }
 
-        if (($data_courant === '' || $data_courant === null ) ) {
+        if (($data_courant === '' || $data_courant === null)) {
             $this->dir1_id = '';
             $this->dir1_last = '';
             $this->dir2_id = '';
@@ -241,11 +244,10 @@ class BackpackTree extends AbstractTree
             $this->dir1_i++;
             $this->dir1_id = 'd1_' . $this->dir1_i;
 
-            $parent = $this->process_id? $this->process_id: $this->mprocess_id;
+            $parent = $this->process_id ? $this->process_id : $this->mprocess_id;
             $this->addBranche($this->dir1_id, $data_courant, $parent, $this->developed);
         }
         $this->dir1_last = $data_courant;
-
     }
 
     private function Dir2(Backpack $backpack)
@@ -273,7 +275,6 @@ class BackpackTree extends AbstractTree
 
             $this->dir2_last = $data_courant;
         }
-
     }
 
     private function Dir3(Backpack $backpack)
@@ -299,7 +300,6 @@ class BackpackTree extends AbstractTree
 
             $this->dir3_last = $data_courant;
         }
-
     }
 
     private function Dir4(Backpack $backpack)
@@ -323,7 +323,6 @@ class BackpackTree extends AbstractTree
 
             $this->dir4_last = $data_courant;
         }
-
     }
 
     private function Dir5(Backpack $backpack)
@@ -345,7 +344,6 @@ class BackpackTree extends AbstractTree
 
             $this->dir5_last = $data_courant;
         }
-
     }
 
     public function hideThematic(): self
@@ -374,5 +372,4 @@ class BackpackTree extends AbstractTree
         $this->hideState = true;
         return $this;
     }
-
 }
