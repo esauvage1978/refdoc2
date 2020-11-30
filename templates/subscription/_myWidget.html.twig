@@ -8,7 +8,7 @@
 {% endfor %}
 
 
-<div class="small-box {{nbr>0?'bg-info':'bg-danger'}} ">
+<div class="small-box {{nbr>0?'bg-p-dark':'bg-danger'}} ">
 	<div class="inner ">
 		{% if nbr==0 %}
 			<a href="{{ path('mySubscription')}}" target="_self">
@@ -19,14 +19,15 @@
 
 			</a>
 		{% else %}
-			<h3>{{ nbr }}</h3>
+			<div class="text-light">
+				<h3>{{ nbr }}</h3>
 
-			<p>Abonnement{{nbr>1?'s':''}}</p>
-
+				<p>Abonnement{{nbr>1?'s':''}}</p>
+			</div>
 		{% endif %}
 	</div>
 	<div class="icon">
-	
+
 		{{ widgets.icon('subscription') }}
 	</div>
 
@@ -147,7 +148,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-<a href="{{ path('mySubscription')}}" class="btn btn-primary" target="_self">Modifier</a>
+				<a href="{{ path('mySubscription')}}" class="btn btn-primary" target="_self">Modifier</a>
 
 
 			</div>

@@ -1,38 +1,48 @@
 {% import "macros/widgets.html.twig" as widgets %}
 {% import "macros/workflow.html.twig" as workflow %}
 
-<h3 class="text-bold text-info">
-	{{ widgets.icon('backpack') }}
-	{{ item.name }}
+<h3 class="text-bold text-p-dark">
+	<a href="{{ path('backpack_show',{id: item.id})}}" class="text-p-dark">
+
+		{{ widgets.icon('backpack') }}
+		{{ item.name }}
+	</a>
+
 </h3>
 <div class="row d-flex justify-content-end">
-	<div class="bg-white  mr-4 text-info shadow">
-		<span class=" bg-white p-1  text-secondary h-100">
+	<div class="bg-p-light  mr-4 text-p-dark shadow">
+		<span class=" bg-p-light p-1  text-p-dark h-100">
+
 			<i class="{{ item.category.icone }} " style="
-								                {% if item.category.forecolor is defined %}
-								                    color:{{ item.category.forecolor }};
-								                {% endif %}
-								        {% if item.category.bgcolor is defined %}
-								            background-color:{{ item.category.bgcolor }};
-								        {% endif %}"></i>
+								{% if item.category.forecolor is defined %}
+									color:{{ item.category.forecolor }};
+								{% endif %}
+								{% if item.category.bgcolor is defined %}
+									background-color:{{ item.category.bgcolor }};
+								{% endif %}"></i>
 			{{ item.category.name }}
+
 		</span>
-		|<span class=" bg-white p-1  pl-2 text-secondary">
-			{{ widgets.icon('user','text-info') }}
+		|<span class=" bg-p-light p-1  pl-2 text-p-dark">
+
+			{{ widgets.icon('user','text-p-dark') }}
 			{{item.owner.name}}
 		</span>
 
 		{% if item.updatedat %}
-			|<span class=" bg-white p-1  pl-2 text-secondary">
-				{{ widgets.icon('calendar','text-info') }}
+			|<span class=" bg-p-light p-1  pl-2 text-p-dark">
+
+
+				{{ widgets.icon('calendar','text-p-dark') }}
 
 				<small class="text-muted">Modifié
 				</small>
 				{{ widgets.showShortDate(item.updatedat) }}
 			</span>
 		{% else %}
-			|<span class=" bg-white p-1  pl-2 text-secondary">
-				{{ widgets.icon('calendar','text-info') }}
+			|<span class=" bg-p-light p-1  pl-2 text-p-dark">
+				{{ widgets.icon('calendar','text-p-dark') }}
+
 				<small class="text-muted">Créé
 				</small>
 				{{ widgets.showShortDate(item.createdat) }}
@@ -40,7 +50,7 @@
 
 		{% endif %}
 
-		|<span class=" bg-white p-1 pl-2 text-secondary">
+		|<span class=" bg-p-light p-1 pl-2 text-p-dark">
 			{{ workflow.badge_state(item.stateCurrent) }}
 		</span>
 	</div>

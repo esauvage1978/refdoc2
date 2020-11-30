@@ -1,4 +1,8 @@
 {% extends 'backpack/layout.html.twig' %}
+{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+{% import "macros/delele.html.twig" as del %}
+{% import "macros/submit.html.twig" as sub %}
+{% import "macros/save.html.twig" as save %}
 
 {% block page_subtitle %}Modification
 {% endblock %}
@@ -19,169 +23,140 @@
 
 
 	<div class="row justify-content-center">
-
-
-		<div class="" style="width:960px">
+		<div class="col-11">
 			{{ include(domaine ~ '/_show/_identification.html.twig') }}
-			{{ include(domaine ~ '/_show/_content.html.twig') }}
+		</div>
+	</div>
+	{{ form_start(form) }}
+	{{ form_errors(form) }}
+
+	<div class="row justify-content-center mt-5">
+		<div class="col-lg-12 col-xl-8">
 
 
-			<div class="card card-info card-tabs mt-3">
-				<div class="card-header p-0 pt-1">
-					<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-						<li class="nav-item">
-							<a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
-								Général
-							</a>
-						</li>
+			{% if item.stateCurrent in ["draft","toResume"] %}
+				{% set nbrL=item.backpackLinks | length %}
+				{% set nbrF=item.backpackFiles | length %}
 
-						<li class="nav-item">
-							<a class="nav-link" id="custom-tabs-one-file-tab" data-toggle="pill" href="#custom-tabs-one-file" role="tab" aria-controls="custom-tabs-one-file" aria-selected="false">
-								Fichiers</a>
-						</li>
+				<div class="card card-p-dark card-tabs">
+					<div class="card-header p-0 pt-1">
+						<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
+									Général
+								</a>
+							</li>
 
-						<li class="nav-item">
-							<a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">
-								Changement d'état</a>
-						</li>
+							<li class="nav-item">
+								<a class="nav-link" id="custom-tabs-one-file-tab" data-toggle="pill" href="#custom-tabs-one-file" role="tab" aria-controls="custom-tabs-one-file" aria-selected="false">
+									Fichiers (<strong>{{ nbrL + nbrF}}</strong>)
+								</a>
+							</li>
 
-					</ul>
+
+						</ul>
+					</div>
+
+					<!-- /.card -->
 				</div>
 
-				<!-- /.card -->
-			</div>
 
-			{{ form_start(form) }}
-			{{ form_errors(form) }}
+				<div class="tab-content " id="custom-tabs-one-tabContent">
 
-			<div class="tab-content " id="custom-tabs-one-tabContent">
-
-				<div class="tab-pane fade active show " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-
-
-					{% if item is defined %}
-
-						{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
-						{% import "macros/delele.html.twig" as del %}
-						{% import "macros/submit.html.twig" as sub %}
-						{% import "macros/save.html.twig" as save %}
+					<div class="tab-pane fade active show " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+						{% if item is defined %}
+							{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
+							{{ include(domaine ~ '/_edit/_process.html.twig') }}
+							{{ include(domaine ~ '/_edit/_arborescence.html.twig') }}
+							{{ include(domaine ~ '/_edit/_name.html.twig') }}
+							{{ save.btn()}}
+						{% endif %}
+					</div>
 
 
-						{% if item.stateCurrent in ["draft","toResume"] %}
-
-							<div style="width:630px">
-								{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
-								{{ include(domaine ~ '/_edit/_process.html.twig') }}
-								{{ include(domaine ~ '/_edit/_arborescence.html.twig') }}
-								{{ include(domaine ~ '/_edit/_name.html.twig') }}
-								{{ save.btn()}}
-							</div>
-						{% elseif item.stateCurrent == "abandonned" %}
-							{{ include(domaine ~ '/_show/_process.html.twig') }}
-							{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
+					<div class="tab-pane fade" id="custom-tabs-one-file" role="tabpanel" aria-labelledby="custom-tabs-one-file-tab">
+						{% if item.stateCurrent  in ["draft","toResume"] %}
+							{{ include(domaine ~ '/_edit/_files.html.twig') }}
+							{{ save.btn()}}
 						{% endif %}
 
-
-					{% endif %}
-
-
+					</div>
 				</div>
-
-
-				<div class="tab-pane fade" id="custom-tabs-one-file" role="tabpanel" aria-labelledby="custom-tabs-one-file-tab">
-					{% if item.stateCurrent == "draft" %}
-						<div style="width:630px">
-
-							{{ include(domaine ~ '/_edit/_files.html.twig') }}
-
-							{{ save.btn()}}
-						</div>
-					{% endif %}
-
-				</div>
-
-				<div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-					{% import "macros/workflow.html.twig" as wfl %}
-
-
-					{{ wfl.cards(item) }}
-
-				</div>
-			</div>
-
-			{% import "macros/submit.html.twig" as sub %}
-			<div class="d-none">
-
-
-				{{form_rest(form)}}
-				{{ sub.btn() }}
-			</div>
-
-			{{ form_end(form) }}
-			{% for transition in workflow_transitions(item,item.category.workflowName) %}
-				{{ include('workflow/_modal_transition.html.twig',{'transition':transition.name,'id':item.id}) }}
-			{% endfor %}
-
-
-			{% if item.id is not null %}
-				{{ del.delete_form(route_del,item.id, 'show') }}
+			{% elseif item.stateCurrent in ["abandonned","toValidate"] %}
+				{{ include(domaine ~ '/_show/_process.html.twig') }}
+				{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
+				{{ include(domaine ~ '/_show/_content.html.twig') }}
 			{% endif %}
-			<p class="mt-5 mb-5">&nbsp;</p>
-			<p class="mt-5 mb-5">&nbsp;</p>
-			<p class="mt-5 mb-5">&nbsp;</p>
-			<p class="mt-5 mb-5">&nbsp;</p>
-			<p class="mt-5 mb-5">&nbsp;</p>
-			<p class="mt-5 mb-5">&nbsp;</p>
 
 		</div>
-		<div class="modal fade" id="addDir" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Ajoute un libellé</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+		<div class="col-lg-12 col-xl-4 ">
+			<h4 class="text-p-dark bg-p-light p-2 rounded">Etat du porte-document</h4>
+
+			{% import "macros/workflow.html.twig" as wfl %}
+
+
+			{{ wfl.cards(item) }}
+
+		</div>
+	</div>
+
+	{% import "macros/submit.html.twig" as sub %}
+	<div class="d-none">
+		{{form_rest(form)}}
+		{{ sub.btn() }}
+	</div>
+
+	{{ form_end(form) }}
+	{% for transition in workflow_transitions(item,item.category.workflowName) %}
+		{{ include('workflow/_modal_transition.html.twig',{'transition':transition.name,'id':item.id}) }}
+	{% endfor %}
+
+
+	{% if item.id is not null %}
+		{{ del.delete_form(route_del,item.id, 'show') }}
+	{% endif %}
+	<p class="mt-5 mb-5">&nbsp;</p>
+	<p class="mt-5 mb-5">&nbsp;</p>
+	<p class="mt-5 mb-5">&nbsp;</p>
+	<p class="mt-5 mb-5">&nbsp;</p>
+	<p class="mt-5 mb-5">&nbsp;</p>
+	<p class="mt-5 mb-5">&nbsp;</p>
+
+</div>
+<div class="modal fade" id="addDir" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Ajoute un libellé</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<label for="addDir_field_new" class="col-form-label">Libellé</label>
+						<input type="text" class="form-control d-none" id="addDir_field">
+						<input type="text" class="form-control" id="addDir_field_new">
 					</div>
-					<div class="modal-body">
-						<form>
-							<div class="form-group">
-								<label for="addDir_field_new" class="col-form-label">Libellé</label>
-								<input type="text" class="form-control d-none" id="addDir_field">
-								<input type="text" class="form-control" id="addDir_field_new">
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-						<button type="button" id="btn_addDir" class="btn btn-success">Ajouter le libellé</button>
-					</div>
-				</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+				<button type="button" id="btn_addDir" class="btn btn-success">Ajouter le libellé</button>
 			</div>
 		</div>
 	</div>
-{% endblock %}
+</div></div>{% endblock %}{%  block javascripts %}{{ parent() }}<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script><script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script><script type="text/javascript">
 
-{%  block javascripts %}
-	{{ parent() }}
-	<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
-	<script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script>
-
-	<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
-	<script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script>
-	<script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script>
-	<script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script>
-
-
-	<script type="text/javascript">
-
-		$(document).on('change', '.custom-file-input', function () {
+$(document).on('change', '.custom-file-input', function () {
 let fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
 $(this).parent('.custom-file').find('.custom-file-label').text(fileName);
 });
 // nécessaire pour l'update es images
+
 $('#backpack_updatedAt_date_month').val(new Date().getMonth() + 1);
-$('#backpack_updatedAt_date_day').val(new Date().getDay());
+$('#backpack_updatedAt_date_day').val(new Date().getDate());
 $('#backpack_updatedAt_date_year').val(new Date().getFullYear());
 $('#backpack_updatedAt_time_hour').val(new Date().getHours());
 $('#backpack_updatedAt_time_minute').val(new Date().getMinutes());
@@ -373,6 +348,4 @@ setVal(mp, 0);
 if (idP != 0) {
 p_radio.iCheck('check');
 mp_radio.iCheck('uncheck');
-}
-	</script>
-{% endblock %}
+}</script>{% endblock %}

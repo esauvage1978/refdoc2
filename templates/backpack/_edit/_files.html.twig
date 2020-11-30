@@ -1,6 +1,6 @@
 {% embed 'widgets/card-widget.html.twig' %}
 	{% import "macros/file.html.twig" as file %}
-{% import "macros/widgets.html.twig" as widgets %}
+	{% import "macros/widgets.html.twig" as widgets %}
 
 	{% block card_class %}h-100
 	{% endblock %}
@@ -13,7 +13,7 @@
 			{% for backpackFile in item.backpackFiles %}
 				<tr id="media-{{ backpackFile.fileName }}">
 					<td>
-						<a type="button" class="text-primary" target="_blank" href="{{ absolute_url( asset(backpackFile.href)) }}">
+						<a type="button" class="text-p-dark" target="_blank" href="{{ absolute_url( asset(backpackFile.href)) }}">
 							{{ file.icon(backpackFile.fileExtension) }}
 
 							{{ backpackFile.title }}
@@ -45,7 +45,7 @@
 			{% for backpackLink in item.backpackLinks %}
 				<tr id="media-{{ backpackLink.id }}">
 					<td>
-						<a type="button" class="text-primary" target="_blank" href="{{ backpackLink.link }}">
+						<a type="button" class="text-p-dark" target="_blank" href="{{ backpackLink.link }}">
 							<i class="fas fa-globe"></i>
 							{{ backpackLink.title }}
 						</a>
@@ -58,7 +58,9 @@
 						{{ backpackLink.content | raw }}
 					</td>
 					<td>
-						{{ widgets.showLongDate(backpackLink.modifyAt) }}
+						<small>
+							{{ widgets.showLongDate(backpackLink.modifyAt) }}
+						</small>
 					</td>
 					<td class="float-right" style="width: 100px">
 						<button class="media-delete btn btn-danger btn-sm " data-msg="backpackLink_{{ loop.index0 }}" data-media="{{ backpackLink.id }}">
@@ -89,11 +91,11 @@
 
 		<div class="row justify-content-around js-createTip-wrapper">
 
-			<a href="#file" id="add-file" class="btn btn-success mt-1">
+			<a href="#file" id="add-file" class="btn btn-p-dark mt-1">
 				<i class="fas fa-plus"></i>
 				ajouter un fichier
 			</a>
-			<a href="#link" id="add-link" class="btn btn-success mt-1">
+			<a href="#link" id="add-link" class="btn btn-p-dark mt-1">
 				<i class="fas fa-plus"></i>
 				ajouter un lien
 			</a>
@@ -105,7 +107,7 @@
 				<p>
 					Vous devez aller sélectionner le fichier à ajouter et renseigner obligatoirement le
 					<strong>le titre</strong>.
-                    Le titre doit être explicite.
+						                    Le titre doit être explicite.
 				</p>
 				<div class="createTip__title">
 					Ajouter un lien
@@ -116,7 +118,7 @@
 						<li>
 							<strong>le titre</strong>
 							:
-														il doit être explicite</li>
+																					il doit être explicite</li>
 						<li>
 							<strong>l'adresse</strong>
 							mettre une URL. exemple : http://google.fr</li>

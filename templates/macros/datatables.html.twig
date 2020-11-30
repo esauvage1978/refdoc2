@@ -3,13 +3,14 @@
     {% set striped = options.striped|default(true) %}
 
     {% import _self as macro %}
-<div class="card card-secondary card-outline " id="datatable_{{ tableName }}">
-    <div class="card-body p-0 pt-2" >
     <div class="row" >
-    <div class="col-12" >
-<table class="table {% if striped %}table-striped {% endif %}table-hover dataTable " role="grid" id="dt_{{ tableName }}">
+<div class="col-12 border ">
+
+<table class="table {% if striped %}table-striped {% endif %}table-hover dataTable " role="grid" id="dt_{{ tableName }}  ">
+
     <thead>
-    <tr>
+<tr class="bg-p-dark text-p-light">
+
         {%- for title, headerOptions in columns -%}
             {% if not headerOptions is iterable %}
                 {% set headerOptions = {'class': headerOptions} %}
@@ -85,8 +86,6 @@
 </table>
     </div>
     </div>
-    </div>
-</div>
 {% endmacro %}
 
 {% macro datatable_javascript(tableName, numOrder,columns) %}

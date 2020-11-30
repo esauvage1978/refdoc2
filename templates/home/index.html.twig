@@ -18,16 +18,16 @@
 		{{user.messageEmailValidated(app.user)}}
 
 		<div class="row justify-content-center mb-5 d-flex align-items-center">
-			<div class="col-sm-12 col-lg-3 ">
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
 				{{ render(controller('App\\Controller\\SubscriptionController::myWidgetAction')) }}
 			</div>
-			<div class="col-sm-12 col-lg-3 ">
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
 				{{ render(controller('App\\Controller\\BackpackTreeController::widgetBackpackSubscriptionAction')) }}
 			</div>
-			<div class="col-sm-12 col-lg-3 ">
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
 				{{ render(controller('App\\Controller\\BackpackTreeController::widgetBackpacksAction')) }}
 			</div>
-			<div class="col-sm-12 col-lg-3 ">
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
 				{{ render(controller('App\\Controller\\BackpackTreeController::widgetBackpacksInProgressAction')) }}
 			</div>
 		</div>

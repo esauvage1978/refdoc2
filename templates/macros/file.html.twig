@@ -22,7 +22,7 @@
     {%- import _self as macro -%}
     {% for file in files %}
 
-        {% set color='text-gray' %}
+        {% set color='text-p-dark' %}
 
         {% if file.modifyAt %}
             {% set difference = date("today").diff(date(file.modifyAt)) %}
@@ -62,7 +62,7 @@
 {% macro showLinks(links) %}
     {% for link in links %}
 
-        {% set color='text-gray' %}
+        {% set color='text-p-dark' %}
 
         {% if link.modifyAt %}
             {% set difference = date("today").diff(date(link.modifyAt)) %}

@@ -15,7 +15,7 @@
 
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% block card_class %}
-					flat-shadow
+					flat-shadow bg-p-dark
 				{% endblock %}
 				{% block card_body_class %}
 					box-profile
@@ -25,10 +25,10 @@
 						<img class="profile-user-img img-fluid img-circle" style="width:60%" src="{{ asset(app.user.avatar) }}" alt="User profile picture">
 					</div>
 					<p>
-						<h3 class="profile-username text-center">{{ app.user.name }}</h3>
+						<h3 class="profile-username text-center text-p-light bold">{{ app.user.name }}</h3>
 					</p>
 					<p class="text-center">
-						<a href="mailto::{{ app.user.email }}">
+						<a href="mailto::{{ app.user.email }}" class="text-p-light">
 							{{ app.user.email }}
 						</a>
 					</p>
@@ -38,7 +38,7 @@
 
 
 			{% embed 'widgets/card-widget.html.twig' %}
-				{% block card_class %}flat mt-4
+				{% block card_class %}flat mt-4 bg-p-light
 				{% endblock %}
 
 				{% block card_title %}Habilitations
@@ -101,10 +101,11 @@
 
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% block card_class %}
-					border border-info mb-4
+					border border-def1 mb-4 bg-p-dark border-p-dark
+
 				{% endblock %}
 				{% block card_body_class %}
-					text-center
+					text-center text-p-light
 				{% endblock %}
 				{% block card_body %}
 					{{ form_row(form.userParam.iSsubscription) }}
@@ -242,9 +243,9 @@
 							{% endblock %}
 						{% endembed %}
 					{% endif %}
-
-<img src="{{ asset('img/profil.svg')}}" alt"choix des abonnements" style="width:100%"/>
-
+					<div class="col-12 d-flex justify-content-center mt-5">
+						<img src="{{ asset('img/profil.svg')}}" alt"choix des abonnements" style="width:70%"/>
+					</div>
 				</div>
 			</div>
 

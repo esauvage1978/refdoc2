@@ -74,12 +74,12 @@ class BackpackTree extends AbstractTree
             $this->Dir5($item);
 
             $filesNumber = $item->getBackpackFiles()->count() + $item->getBackpackLinks()->count();
-            $fileSpan = $filesNumber > 0 ? "&nbsp;<span class=\"small text-info ml-2 pl-1 pr-1 rounded border-bottom border-info\"><i class=\"fas fa-paperclip\"></i> {$filesNumber}</span>&nbsp;" : '';
+            $fileSpan = $filesNumber > 0 ? "&nbsp;<span class=\"small text-p-dark bg-p-light ml-2 pl-1 pr-1 rounded \"><i class=\"fas fa-paperclip\"></i> {$filesNumber}</span>&nbsp;" : '';
 
             $this->tree[] = [
                 'id' => $item->getid(),
                 'parent' => $this->getParent(),
-                'text' => '<span class="text-primary">' . $item->getName() . '</span> ' . $fileSpan . $this->checkNews($item) . $this->checkState($item),
+                'text' => '<span class="text-p-dark">' . $item->getName() . '</span> ' . $fileSpan . $this->checkNews($item) . $this->checkState($item),
                 'icon' => $item->getCategory()->getIcone() . ' category_' . $item->getCategory()->getId(),
                 'a_attr' => [
                     'href' => $this->generateUrl($item->getId()),
@@ -97,10 +97,11 @@ class BackpackTree extends AbstractTree
     {
         if (
             $item->getStateCurrent() === WorkflowData::STATE_PUBLISHED
-            && $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)
+            &&
+ $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)
         ) {
 
-            return '<i class="fas fa-certificate text-fuchsia"></i>';
+            return '<i class="fas fa-certificate text-p-light bd-p-dark"></i>';
         }
         return '';
     }

@@ -87,7 +87,7 @@ class BackpackType extends AppTypeAbstract
                 'updatedAt',
                 DateTimeType::class,
                 [
-                    self::LABEL            => 'dater',
+                    self::LABEL            => 'date de modification',
                     self::REQUIRED => false
                 ]
             )

@@ -70,7 +70,8 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
 
 
         $mailState = [
-            WorkflowData::STATE_TO_RESUME
+            WorkflowData::STATE_TO_RESUME,
+            WorkflowData::STATE_TO_VALIDATE,
         ];
 
         if (in_array($state, $mailState)) {
@@ -82,6 +83,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
     private function sendMailForBackpack(Backpack $backpack, string $state)
     {
         if (!$this->checkMailForState($state)) {
+            dump('checkMailForState ko');
             return -1;
         }
 
@@ -96,11 +98,14 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         ];
 
         if (in_array($state, $stateOwner)) {
+            dump('owner');
             $this->getOwner($backpack);
         }
         if (in_array($state, $stateForValidator)) {
+            dump('to validate');
             $this->getUserForValidator($backpack);
         }
+        dump($this->users);
         if ($this->users->isEmpty()) {
             return -1;
         }
@@ -117,12 +122,12 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
 
     private function saveHistoryOfMail(Backpack $backpack)
     {
-        $content = 'Notification lors du changement d\'état aux adresses suivantes :<br/> ';
-        
-        foreach($this->users as $user) {
-            $content = $content . ' ' . $user->getName() . ' (' . $user->getEmail() . ')'; 
-        }
+        $content = 'Notification lors du changement d\'état aux adresses suivantes :<br/><ul> ';
 
+        foreach ($this->users as $user) {
+            $content = $content . '<li>' . $user->getName() . ' (' . $user->getEmail() . ')</li>';
+        }
+        $content = $content . '</ul>';
         $backpackMailHistory = new BackpackMailHistory();
         $backpackMailHistory
             ->setBackpack($backpack)
@@ -144,9 +149,6 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
                 if (!$this->users->contains($user)) {
                     $this->users[] = $user;
                 }
-                //$this->users = array_merge([
-                //    $user->getEmail() => $user->getName(),
-                //], $this->users);
             }
         }
     }
@@ -161,31 +163,30 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
 
     public function getUserForValidator(Backpack $backpack)
     {
-        if( $backpack->getProcess()===null) {
+        if ($backpack->getProcess() !== null) {
             foreach ($backpack->getProcess()->getValidators() as $user) {
                 if ($user->getIsEnable()) {
-                    $this->users = array_merge([
-                        $user,
-                    ], $this->users);
+                    if (!$this->users->contains($user)) {
+                        $this->users[] = $user;
+                    }
                 }
             }
-        } elseif( $backpack->getCategory()->getIsValidatedByADD()) {
+        } elseif ($backpack->getCategory()->getIsValidatedByADD()) {
             foreach ($backpack->getMProcess()->getDirValidators() as $user) {
                 if ($user->getIsEnable()) {
-                    $this->users = array_merge([
-                        $user,
-                    ], $this->users);
+                    if (!$this->users->contains($user)) {
+                        $this->users[] = $user;
+                    }
                 }
             }
         } else {
             foreach ($backpack->getMProcess()->getPoleValidators() as $user) {
                 if ($user->getIsEnable()) {
-                    $this->users = array_merge([
-                        $user,
-                    ], $this->users);
+                    if (!$this->users->contains($user)) {
+                        $this->users[] = $user;
+                    }
                 }
             }
         }
-
     }
 }

@@ -16,15 +16,17 @@
 		<div class="col-lg-4 ">
 
 			<div class="card">
-				<div class="list-group list-group-flush">
+<div class="list-group list-group-flush">
+
 					{% for entry in general_entries %}
-						<a href="{{ path(entry.route)}}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow">
+<a href="{{ path(entry.route)}}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow ">
+
 							<div class="d-flex w-100 align-items-center">
 								<div class="col-4  text-center">
 									<i class="fa-3x {{entry.icon}}"></i>
 								</div>
 								<div class="">
-									<h5 class="mb-1 ">
+									<h5 class="mb-1 text-p-dark">
 										<strong>{{ entry.name }}</strong>
 									</h5>
 									<p class="mb-1">{{ entry.content | raw }}</p>
@@ -49,7 +51,7 @@
 									<i class="fa-3x {{entry.icon}}"></i>
 								</div>
 								<div class="">
-									<h5 class="mb-1 ">
+									<h5 class="mb-1 text-p-dark">
 										<strong>{{ entry.name }}</strong>
 									</h5>
 									<p class="mb-1">{{ entry.content | raw }}</p>
@@ -62,7 +64,7 @@
 			</div>
 		</div>
 		<div class="col-lg-4">
-<img src="{{ asset('img/admin.svg')}}" alt"choix des abonnements" style="width:100%"/>
+			<img src="{{ asset('img/admin.svg')}}" alt"choix des abonnements" style="width:100%"/>
 
 		</div>
 

@@ -34,7 +34,7 @@
 	{% import "macros/workflow.html.twig" as wkf %}
 
 
-	<div class="col-sm-12 d-flex justify-content-between">
+	<div class="col-sm-12 ">
 
 		<span>Etat actuel du porte-document :
 
@@ -45,30 +45,33 @@
 				{{item.category.workflowName}}
 			</span>
 		</span>
-		<span>
-		<a href="{{ path('workflow_backpack_history',{id:item.id}) }}">
-			{{widget.icon('history')}}
-			Historique
-		</a>
-		<a href="{{ path('workflow_backpack_notification',{id:item.id}) }}">
-			{{widget.icon('mail-sent')}}
-			Notifications
-		</a>
-</span>
+
 	</div>
 	<div class="col-sm-12 ">
 
 
 		{% if item.stateContent  %}
-			<div class="callout callout-info bg-white mt-4 mb-4">
+			<div class="callout callout-p-dark  mt-4 mb-4">
 				{{ item.stateContent | raw }}
 			</div>
 		{% endif %}
 	</div>
+	<div class="col-12 d-flex flex-row-reverse bd-highlight mt-3">
+
+		<a href="{{ path('workflow_backpack_history',{id:item.id}) }}" class="btn btn-p-dark ml-2">
+			{{widget.icon('history')}}
+			Historique
+		</a>
+		<a href="{{ path('workflow_backpack_notification',{id:item.id}) }}" class="btn btn-p-dark">
+
+			{{widget.icon('mail-sent')}}
+			Notifications
+		</a>
+	</div>
 {% endmacro %}
 
 {% macro card(item,transition,choice) %}
-	<div class="col-sm-12 col-md-6   mb-4">
+	<div class="col-sm-12    mb-4">
 		{% set data = (transition | workflowGetModalDataForTransition) %}
 		{% embed 'widgets/card-widget.html.twig' %}
 			{% import "macros/workflow.html.twig" as wkf %}

@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
 {% import "macros/datatables.html.twig" as tables %}
 {% set columns = {
-    '#': {'class': 'align-middle alwaysVisible text-center', 'orderBy': true},
-    'Total': {'class': 'align-middle alwaysVisible text-center', 'orderBy': true},
-	'Modifiable': {'class': 'align-middle alwaysVisible text-center', 'orderBy': true},
-	'Modifiable <br/> propriétaire': {'class': 'align-middle alwaysVisible text-center', 'orderBy': true},
+    '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+'Modifiable': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+'Modifiable
+<br/>
+propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
 } %}
 
 

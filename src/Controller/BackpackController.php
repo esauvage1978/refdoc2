@@ -9,6 +9,7 @@ use App\Entity\Backpack;
 use App\History\HistoryShow;
 use App\Security\BackpackVoter;
 use App\Manager\BackpackManager;
+use App\Service\BackpackForTree;
 use App\Form\Backpack\BackpackType;
 use App\Form\Backpack\BackpackNewType;
 use App\Repository\BackpackRepository;
@@ -26,14 +27,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class BackpackController extends AbstractGController
 {
 
-
+    /**
+     * @var BackpackForTree
+     */
+    private $backpackForTree;
 
     public function __construct(
         BackpackRepository $repository,
+        BackpackForTree $backpackForTree,
         backpackManager $manager
             ) {
         $this->repository = $repository;
         $this->manager = $manager;
+        $this->backpackForTree = $backpackForTree;
         $this->domaine = 'backpack';
     }
 
