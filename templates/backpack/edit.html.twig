@@ -4,8 +4,11 @@
 {% import "macros/submit.html.twig" as sub %}
 {% import "macros/save.html.twig" as save %}
 
-{% block page_subtitle %}Modification
+{% block page_subtitle %}
+	<small class="muted text-xs">Modification</small>
 {% endblock %}
+{% block page_title %}{% endblock %}
+
 
 {% block breadcrumb %}
 	{% import "backpack/_btn_actions.html.twig" as actions %}
@@ -19,11 +22,13 @@
     ) }}
 {% endblock %}
 
+
+
 {% block page_content %}
 
 
 	<div class="row justify-content-center">
-		<div class="col-11">
+		<div class="col-12">
 			{{ include(domaine ~ '/_show/_identification.html.twig') }}
 		</div>
 	</div>

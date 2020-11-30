@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Backpack;
 use App\Workflow\WorkflowData;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use App\Workflow\WorkflowBackpackTransitionManager;
@@ -45,14 +46,13 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
 
     private function onGuard(GuardEvent $event, string $transition)
     {
-        /** @var Action $action */
-        $action = $event->getSubject();
-        $workflowActionTransitionManager = new WorkflowBackpackTransitionManager(
-            $event->getSubject(),
+        /** @var Backpack $backpack */
+        $backpack = $event->getSubject();
+        $workflowBackpackTransitionManager = new WorkflowBackpackTransitionManager(
+            $backpack,
             $transition
         );
-
-        if (!$workflowActionTransitionManager->can()) {
+        if (!$workflowBackpackTransitionManager->can()) {
             $event->setBlocked(true);
         }
     }
@@ -63,9 +63,18 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'workflow.action.guard.goAbandonned' => ['onGuardGoAbandonned'],
-            'workflow.action.guard.goToResume' => ['onGuardGoToResume'],
-            'workflow.action.guard.goToValidate' => ['onGuardGoToValidate'],
+            'workflow.wkf_all.guard.goAbandonned' => ['onGuardGoAbandonned'],
+            'workflow.wkf_all.guard.goToResume' => ['onGuardGoToResume'],
+            'workflow.wkf_all.guard.goToValidate' => ['onGuardGoToValidate'],
+            'workflow.wkf_without_doc.guard.goAbandonned' => ['onGuardGoAbandonned'],
+            'workflow.wkf_without_doc.guard.goToResume' => ['onGuardGoToResume'],
+            'workflow.wkf_without_doc.guard.goToValidate' => ['onGuardGoToValidate'],
+            'workflow.wkf_without_control.guard.goAbandonned' => ['onGuardGoAbandonned'],
+            'workflow.wkf_without_control.guard.goToResume' => ['onGuardGoToResume'],
+            'workflow.wkf_without_control.guard.goToValidate' => ['onGuardGoToValidate'],
+            'workflow.wkf_without_doccontrol.guard.goAbandonned' => ['onGuardGoAbandonned'],
+            'workflow.wkf_without_doccontrol.guard.goToResume' => ['onGuardGoToResume'],
+            'workflow.wkf_without_doccontrol.guard.goToValidate' => ['onGuardGoToValidate'],
         ];
     }
 }

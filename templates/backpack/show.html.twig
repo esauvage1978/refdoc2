@@ -1,6 +1,9 @@
 {% extends 'backpack/layout.html.twig' %}
 
-{% block page_subtitle %}Modification
+{% block page_subtitle %} <small class="muted text-xs">Consultation</small>
+{% endblock %}
+{% block page_title %}
+	 
 {% endblock %}
 
 {% block breadcrumb %}
@@ -18,7 +21,7 @@
 {% block page_content %}
 
 <div class="row justify-content-center">
-<div class="col-11">
+<div class="col-12">
 {{ include(domaine ~ '/_show/_identification.html.twig') }}
 </div>
 </div>

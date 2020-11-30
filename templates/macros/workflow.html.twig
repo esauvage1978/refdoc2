@@ -62,11 +62,17 @@
 			{{widget.icon('history')}}
 			Historique
 		</a>
-		<a href="{{ path('workflow_backpack_notification',{id:item.id}) }}" class="btn btn-p-dark">
+		<a href="{{ path('workflow_backpack_notification',{id:item.id}) }}" class="btn btn-p-dark ml-2">
 
 			{{widget.icon('mail-sent')}}
 			Notifications
 		</a>
+		{% if is_granted('ROLE_GESTIONNAIRE') %}
+			<a href="{{ path('workflow_action_check',{id:item.id}) }}" class="btn btn-p-dark">
+				{{widget.icon('workflow')}}
+				Check workflow
+			</a>
+		{% endif %}
 	</div>
 {% endmacro %}
 
@@ -109,13 +115,13 @@
 
 					{% set checkMessages=item | workflowGetCheckMessages(data.transition) %}
 					{% if checkMessages | length >0 %}
-						<ul class="list-unstyled mt-1 p-2 rounded-1 bg-light">
+						<ul class="list-unstyled mt-1 p-2 rounded-1 bg-p-light ">
 							{% for checkMessage in checkMessages %}
 								<li>
 									<small>
 										{% if checkMessage.type == 'success' %}
 											<span class="text-success  ">
-												{{ iconSuccess | raw }}{{ checkMessage.message }}
+												{{ iconSuccess | raw }} {{ checkMessage.message }}
 											</span>
 										{% elseif checkMessage.type == 'danger' %}
 											<span class="text-danger">

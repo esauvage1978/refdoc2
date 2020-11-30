@@ -52,7 +52,7 @@ class TransitionAbstract implements Transition
     public function checkAll()
     {
         $this->backpackCheck->checkName();
-        $this->backpackCheck->checkContent();
+        $this->backpackCheck->checkContentOrFile();
     }
 
     public function intialiseBackpackForTransition(bool $automate=false)

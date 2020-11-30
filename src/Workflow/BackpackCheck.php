@@ -41,13 +41,12 @@ class BackpackCheck
         }
     }
 
-    public function checkContent()
+    public function checkContentOrFile()
     {
-        if (empty($this->backpack->getContent())) {
-            $this->backpackCheckMessage->addMessageError('Vous devez saisir une description');
-        } else {
-            $this->backpackCheckMessage->addMessageSuccess('Description');
-        }
+        $nbr = $this->backpack->getBackpackFiles()->count() + $this->backpack->getBackpackLinks()->count();
+        if (($this->backpack->getContent()==='<br>' or $this->backpack->getContent()===null) && $nbr== 0) {
+            $this->backpackCheckMessage->addMessageError('Vous devez saisir une description ou ajouter des fichiers ou des liens');
+        } 
     }
 
 }

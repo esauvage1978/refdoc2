@@ -83,7 +83,6 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
     private function sendMailForBackpack(Backpack $backpack, string $state)
     {
         if (!$this->checkMailForState($state)) {
-            dump('checkMailForState ko');
             return -1;
         }
 
@@ -98,14 +97,11 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         ];
 
         if (in_array($state, $stateOwner)) {
-            dump('owner');
             $this->getOwner($backpack);
         }
         if (in_array($state, $stateForValidator)) {
-            dump('to validate');
             $this->getUserForValidator($backpack);
         }
-        dump($this->users);
         if ($this->users->isEmpty()) {
             return -1;
         }
