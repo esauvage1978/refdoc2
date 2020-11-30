@@ -8,6 +8,6 @@ class TransitionGoAbandonned extends TransitionAbstract
 {
     public function getExplains(): array
     {
-        return ['Vous pouvez abandonner ce porte-document.'];
+        return ['<strong>ABANDONNER</strong> ce porte-document.'];
     }
 }

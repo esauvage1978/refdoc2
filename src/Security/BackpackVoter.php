@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\Backpack;
 use App\Entity\User;
+use App\Service\BackpackMakerDto;
 use App\Workflow\WorkflowData;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -152,6 +153,12 @@ class BackpackVoter extends Voter
             } elseif (!$backpack->getCategory()->getIsValidatedByADD() && in_array($Mprocess, $mprocesses_validators)) {
                 return true;
             }
+        }
+
+        //restriction pour les contrôleurs
+        if($stateCurrent=== WorkflowData::STATE_TO_CONTROL && $this->user->getUserParam()->getIsControl() )
+        {
+            return true;
         }
 
         return false;

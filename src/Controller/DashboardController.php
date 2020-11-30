@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Service\MakeDashboard;
 use App\Service\BackpackCounter;
 use App\Repository\BackpackDtoRepository;
+use App\Service\BackpackMakerDto;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,27 +24,32 @@ class DashboardController extends AbstractController
         $md = new MakeDashboard($backpackDtoRepository, $this->getUser());
 
         $draft = [
-            $md->getData(MakeDashboard::DRAFT),
-            $md->getData(MakeDashboard::DRAFT_UPDATABLE),
-            $md->getData(MakeDashboard::MY_DRAFT_UPDATABLE),
+            $md->getData(BackpackMakerDto::DRAFT),
+            $md->getData(BackpackMakerDto::DRAFT_UPDATABLE),
+            $md->getData(BackpackMakerDto::MY_DRAFT_UPDATABLE),
         ];
 
         $abandonned = [
-            $md->getData(MakeDashboard::ABANDONNED),
-            $md->getData(MakeDashboard::ABANDONNED_UPDATABLE),
-            $md->getData(MakeDashboard::MY_ABANDONNED_UPDATABLE),
+            $md->getData(BackpackMakerDto::ABANDONNED),
+            $md->getData(BackpackMakerDto::ABANDONNED_UPDATABLE),
+            $md->getData(BackpackMakerDto::MY_ABANDONNED_UPDATABLE),
         ];
 
         $toResume = [
-            $md->getData(MakeDashboard::TO_RESUME),
-            $md->getData(MakeDashboard::TO_RESUME_UPDATABLE),
-            $md->getData(MakeDashboard::MY_TO_RESUME_UPDATABLE),
+            $md->getData(BackpackMakerDto::TO_RESUME),
+            $md->getData(BackpackMakerDto::TO_RESUME_UPDATABLE),
+            $md->getData(BackpackMakerDto::MY_TO_RESUME_UPDATABLE),
         ];
 
         $toValidate = [
-            $md->getData(MakeDashboard::TO_VALIDATE),
-            $md->getData(MakeDashboard::TO_VALIDATE_UPDATABLE),
-            $md->getData(MakeDashboard::MY_TO_VALIDATE_UPDATABLE),
+            $md->getData(BackpackMakerDto::TO_VALIDATE),
+            $md->getData(BackpackMakerDto::TO_VALIDATE_UPDATABLE),
+            $md->getData(BackpackMakerDto::MY_TO_VALIDATE_UPDATABLE),
+        ];
+
+        $toControl = [
+            $md->getData(BackpackMakerDto::TO_CONTROL),
+
         ];
 
         return $this->render(
@@ -53,6 +59,7 @@ class DashboardController extends AbstractController
                 'abandonned' => $abandonned,
                 'toResume' => $toResume,
                 'toValidate' => $toValidate,
+                'toControl' => $toControl,
             ]
         );
     }

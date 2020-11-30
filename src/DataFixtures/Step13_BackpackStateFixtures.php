@@ -67,7 +67,7 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
              */
             $backpack = $this->backpacks[$i];
 
-            $nbr = $faker->numberBetween(0, 3);
+            $nbr = $faker->numberBetween(0, 4);
             switch ($nbr) {
                 case 1:
                     $transition = WorkflowData::TRANSITION_GO_ABANDONNED;
@@ -82,7 +82,15 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
                 case 3:
                     $transition = WorkflowData::TRANSITION_GO_TO_VALIDATE;
                     $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> validate', true);
-                    break;                    
+                    break;
+                case 4:
+                    if($backpack->getCategory()->getIsValidatedByControl()===true) {
+                        $transition = WorkflowData::TRANSITION_GO_TO_VALIDATE;
+                        $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> validate', true);
+                        $transition = WorkflowData::TRANSITION_GO_TO_CONTROL;
+                        $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> to control', true);
+                    }
+                    break;                                      
             }
 
             //$this->checkAndPersist($backpack);

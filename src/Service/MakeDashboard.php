@@ -25,21 +25,6 @@ class MakeDashboard
     private const ICONE = 'icone';
     private const NBR = 'nbr';
 
-    public const DRAFT = 'draft';
-    public const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
-    public const DRAFT_UPDATABLE = 'draft_updatable';
-
-    public const ABANDONNED = 'abandonned';
-    public const ABANDONNED_UPDATABLE = 'abandonned_updatable';
-    public const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
-
-    public const TO_RESUME = 'toResume';
-    public const TO_RESUME_UPDATABLE = 'toResume_updatable';
-    public const MY_TO_RESUME_UPDATABLE = 'mytoResume_updatable';
-
-    public const TO_VALIDATE = 'toValidate';
-    public const TO_VALIDATE_UPDATABLE = 'toValidate_updatable';
-    public const MY_TO_VALIDATE_UPDATABLE = 'mytoValidate_updatable';
 
 private const STATE='state';
 
@@ -47,54 +32,59 @@ private const STATE='state';
     public function getData(string $filter)
     {
         $datas = [
-            self::DRAFT => [
+            BackpackMakerDto::DRAFT => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Les brouillons',
             ],
-            self::DRAFT_UPDATABLE => [
+            BackpackMakerDto::DRAFT_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Les brouillons modifiables',
             ],
-            self::MY_DRAFT_UPDATABLE => [
+            BackpackMakerDto::MY_DRAFT_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Mes brouillons modifiables',
             ],
-            self::ABANDONNED => [
+            BackpackMakerDto::ABANDONNED => [
                 self::STATE =>  WorkflowData::STATE_ABANDONNED,
                 self::TITLE => 'Les abandonnés',
             ],
-            self::ABANDONNED_UPDATABLE => [
+            BackpackMakerDto::ABANDONNED_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_ABANDONNED,
                 self::TITLE => 'Les abandonnés modifiables',
             ],
-            self::MY_ABANDONNED_UPDATABLE => [
+            BackpackMakerDto::MY_ABANDONNED_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_ABANDONNED,
                 self::TITLE => 'Mes abandonnés modifiables',
             ],
-            self::TO_RESUME => [
+            BackpackMakerDto::TO_RESUME => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
                 self::TITLE => 'Les porte-documents à reprendre',
             ],
-            self::TO_RESUME_UPDATABLE => [
+            BackpackMakerDto::TO_RESUME_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
                 self::TITLE => 'A reprendre et modifiables',
             ],
-            self::MY_TO_RESUME_UPDATABLE => [
+            BackpackMakerDto::MY_TO_RESUME_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
                 self::TITLE => 'Mes porte-documents à reprendre',
             ],
-            self::TO_VALIDATE => [
+            BackpackMakerDto::TO_VALIDATE => [
                 self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
                 self::TITLE => 'Les porte-documents à valider',
             ],
-            self::TO_VALIDATE_UPDATABLE => [
+            BackpackMakerDto::TO_VALIDATE_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
                 self::TITLE => 'A valider et modifiables',
             ],
-            self::MY_TO_VALIDATE_UPDATABLE => [
+            BackpackMakerDto::MY_TO_VALIDATE_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
                 self::TITLE => 'Mes porte-documents à valider',
-            ],                           
+            ],
+            BackpackMakerDto::TO_CONTROL => [
+                self::STATE =>  WorkflowData::STATE_TO_CONTROL,
+                self::TITLE => 'Les porte-documents à contrôler',
+            ],
+                                     
         ];
 
 

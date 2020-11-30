@@ -21,6 +21,7 @@ class BackpackMail
 {
     public const TORESUME = 'workflow/toResume';
     public const TOVALIDATE = 'workflow/toValidate';
+    public const TOCONTROL = 'workflow/toControl';
 
     private $mail;
 
@@ -31,9 +32,15 @@ class BackpackMail
 
     public function send(User $user, Backpack $backpack, string $context, string $subject): int
     {
-        $context='workflow/'.$context;
+        $context = 'workflow/' . $context;
 
-        if (!in_array($context, [self::TORESUME, self::TOVALIDATE])) {
+        $contextValid = [
+            self::TORESUME,
+            self::TOVALIDATE,
+            self::TOCONTROL
+        ];
+
+        if (!in_array($context, $contextValid)) {
             throw new \exception('Le context n\est pas présente dans la liste UserMail : ' . $context);
         }
 

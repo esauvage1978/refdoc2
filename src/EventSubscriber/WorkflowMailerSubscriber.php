@@ -10,6 +10,7 @@ use App\Entity\BackpackMailHistory;
 use App\Event\WorkflowTransitionEvent;
 use App\Repository\BackpackRepository;
 use App\Manager\BackpackMailHistoryManager;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -35,19 +36,27 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
      */
     private $backpackMailHistoryManager;
 
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
     private $users;
 
     public function __construct(
         BackpackMail $backpackMail,
         BackpackRepository $backpackRepository,
         ParamsInServices $paramsInServices,
-        BackpackMailHistoryManager $backpackMailHistoryManager
+        BackpackMailHistoryManager $backpackMailHistoryManager,
+        UserRepository $userRepository
     ) {
         $this->backpackMail = $backpackMail;
         $this->backpackRepository = $backpackRepository;
         $this->paramsInServices = $paramsInServices;
         $this->users = new ArrayCollection();
         $this->backpackMailHistoryManager = $backpackMailHistoryManager;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -72,6 +81,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         $mailState = [
             WorkflowData::STATE_TO_RESUME,
             WorkflowData::STATE_TO_VALIDATE,
+            WorkflowData::STATE_TO_CONTROL,
         ];
 
         if (in_array($state, $mailState)) {
@@ -90,11 +100,13 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         $stateOwner = [
             WorkflowData::STATE_TO_RESUME,
             WorkflowData::STATE_TO_VALIDATE,
+            WorkflowData::STATE_TO_CONTROL,
         ];
 
         $stateForValidator = [
             WorkflowData::STATE_TO_VALIDATE,
         ];
+        
 
         if (in_array($state, $stateOwner)) {
             $this->getOwner($backpack);
@@ -102,6 +114,12 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         if (in_array($state, $stateForValidator)) {
             $this->getUserForValidator($backpack);
         }
+        if ($state === WorkflowData::STATE_TO_CONTROL) {
+            $this->getUsersControl();
+        }
+
+
+
         if ($this->users->isEmpty()) {
             return -1;
         }
@@ -153,6 +171,16 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         if ($backpack->getOwner()->getIsEnable()) {
             if (!$this->users->contains($backpack->getOwner())) {
                 $this->users[] = $backpack->getOwner();
+            }
+        }
+    }
+
+    public function getUsersControl()
+    {
+        $users = $this->userRepository->findAllForControl();
+        foreach ($users as $user) {
+            if (!$this->users->contains($user)) {
+                $this->users[] = $user;
             }
         }
     }

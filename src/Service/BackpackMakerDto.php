@@ -36,6 +36,8 @@ class BackpackMakerDto
     public const TO_VALIDATE_UPDATABLE = 'toValidate_updatable';
     public const MY_TO_VALIDATE_UPDATABLE = 'mytoValidate_updatable';
 
+    public const TO_CONTROL = 'toControl';
+
     const HIDE = 'hide';
 
     /**
@@ -170,7 +172,13 @@ class BackpackMakerDto
                     ->setIsValidatorForCategory(BackpackDto::TRUE)
                     ->setStateCurrent(WorkflowData::STATE_TO_VALIDATE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                
+                break;
+            case self::TO_CONTROL:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_CONTROL)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+                             
         }
 
         return $dto;

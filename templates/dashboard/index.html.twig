@@ -96,6 +96,33 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 				{% endfor %}
 			</tr>
 
+			<tr>
+				{{ wkf.state_table_td('toControl') }}
+				{% for  item in toControl %}
+
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+					{% if app.user.userParam.isControl %}
+						<td class="align-middle text-center text-lg">
+							<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+								<span class=''>
+									{{ item.data}}
+								</span>
+							</a>
+						</td>
+					{% else %}
+						<td class="align-middle text-center text-lg"></td>
+					{% endif %}
+				{% endfor %}
+<td class="align-middle text-center text-lg"></td>
+
+			</tr>
+
 
 			{{ tables.datatable_footer('dsb',1) }}
 

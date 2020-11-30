@@ -47,6 +47,11 @@ class BackpackDto extends AbstractDto
     /**
      * @var ?string
      */
+    private $isControl;
+
+    /**
+     * @var ?string
+     */
     private $isContributor;
 
     /**
@@ -153,13 +158,6 @@ class BackpackDto extends AbstractDto
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIsNew()
-    {
-        return $this->isNew;
-    }
 
     /**
      * @param mixed $stateInProgress
@@ -205,7 +203,32 @@ class BackpackDto extends AbstractDto
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIsNew()
+    {
+        return $this->isNew;
+    }
 
+    /**
+     * @param mixed $isControl
+     * @return BackpackDto
+     */
+    public function setIsControl($isControl)
+    {
+        $this->checkBool($isControl);
+        $this->isControl = $isControl;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsControl()
+    {
+        return $this->isControl;
+    }
     /**
      * @return mixed
      */

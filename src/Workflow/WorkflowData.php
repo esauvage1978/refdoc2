@@ -8,12 +8,14 @@ class WorkflowData
 {
     const STATE_DRAFT = 'draft';
     const STATE_TO_VALIDATE = 'toValidate';
+    const STATE_TO_CONTROL = 'toControl';
     const STATE_PUBLISHED = 'published';
     const STATE_ABANDONNED = 'abandonned';
     const STATE_TO_RESUME = 'toResume';
 
     const TRANSITION_GO_TO_RESUME = 'goToResume';
     const TRANSITION_GO_TO_VALIDATE = 'goToValidate';
+    const TRANSITION_GO_TO_CONTROL = 'goToControl';
     const TRANSITION_GO_ABANDONNED = 'goAbandonned';
 
     const WORKFLOW_IS_SAME = 'same';
@@ -52,10 +54,12 @@ class WorkflowData
                 self::TRANSITIONS => [
                     WorkflowNames::WORKFLOW_ALL => [
                         self::TRANSITION_GO_TO_RESUME,
-                        self::TRANSITION_GO_ABANDONNED
+                        self::TRANSITION_GO_ABANDONNED,
+                        self::TRANSITION_GO_TO_CONTROL,
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_DOC => [
                         self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_TO_CONTROL,
                         self::TRANSITION_GO_ABANDONNED
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_CONTROL => [
@@ -68,6 +72,31 @@ class WorkflowData
                     ],
                 ]
             ],
+            self::STATE_TO_CONTROL =>
+            [
+                self::NAME => ' A contrôler',
+                self::ICON => 'fab fa-product-hunt',
+                self::TITLE_MAIL => ' Un porte-document est à valider par le service contrôle',
+                self::BGCOLOR => '#794A8D',
+                self::FORECOLOR => '#ffffff',
+                self::TRANSITIONS => [
+                    WorkflowNames::WORKFLOW_ALL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_DOC => [
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_CONTROL => [
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+
+                ]
+            ],            
             self::STATE_ABANDONNED =>
             [
                 self::NAME => ' Abandonné',
@@ -104,7 +133,8 @@ class WorkflowData
         $datas = [
             self::TRANSITION_GO_TO_VALIDATE,
             self::TRANSITION_GO_ABANDONNED,
-            self::TRANSITION_GO_TO_RESUME
+            self::TRANSITION_GO_TO_RESUME,
+            self::TRANSITION_GO_TO_CONTROL
         ];
 
         if (in_array($data, $datas)) {
@@ -118,7 +148,8 @@ class WorkflowData
             self::STATE_TO_VALIDATE,
             self::STATE_DRAFT,
             self::STATE_TO_RESUME,
-            self::STATE_ABANDONNED
+            self::STATE_ABANDONNED,
+            self::STATE_TO_CONTROL
         ];
 
         if (in_array($data, $datas)) {
@@ -206,6 +237,11 @@ class WorkflowData
                 $data['state'] = self::STATE_TO_RESUME;
                 $data['titre'] = 'Le document est à reprendre';
                 $data['btn_label'] = 'A reprendre';
+                break;
+            case self::TRANSITION_GO_TO_CONTROL:
+                $data['state'] = self::STATE_TO_CONTROL;
+                $data['titre'] = 'Mettre à la validation du service contrôle';
+                $data['btn_label'] = 'A contrôler';
                 break;
         }
 

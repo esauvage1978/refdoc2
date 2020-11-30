@@ -32,6 +32,7 @@ class ParamsInServices
     public const ES_TREE_UNDEVELOPPED_NBR = 'es.tree.undevelopped.nbr';
     public const ES_MAILER_WORKFLOW_TORESUME = 'es.mailer.workflow.toResume';
     public const ES_MAILER_WORKFLOW_TOVALIDATE = 'es.mailer.workflow.toValidate';
+    public const ES_MAILER_WORKFLOW_TOCONTROL = 'es.mailer.workflow.toControl';
 
     /** @var ParameterBagInterface */
     private $params;
@@ -57,6 +58,7 @@ class ParamsInServices
             self::ES_TREE_UNDEVELOPPED_NBR,
             self::ES_MAILER_WORKFLOW_TORESUME,
             self::ES_MAILER_WORKFLOW_TOVALIDATE,
+            self::ES_MAILER_WORKFLOW_TOCONTROL,
         ];
     }
 

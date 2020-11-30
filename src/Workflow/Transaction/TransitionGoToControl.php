@@ -4,14 +4,14 @@
 namespace App\Workflow\Transaction;
 
 
-class TransitionGoToValidate  extends TransitionAbstract
+class TransitionGoToControl  extends TransitionAbstract
 {
 
     public function getExplains(): array
     {
         return
             [
-                '<strong>ENVOYER A LA VALIDATION</strong> hiérarchique ce porte document.'
+                '<strong>APPROUVER</strong> ce porte-document en l\'envoyant à la validation du service contrôle.'
             ];
     }
 

@@ -8,6 +8,6 @@ class TransitionGoToResume extends TransitionAbstract
 {
     public function getExplains(): array
     {
-        return ['Vous pouvez mettre ce porte-document dans l\'état <strong>A reprendre</strong>.'];
+        return ['<strong>REJETER</strong> ce porte-document en l\'envoyant à l\'état "à reprendre".'];
     }
 }
