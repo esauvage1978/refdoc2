@@ -44,4 +44,8 @@ final class CurrentUser
     }
 
 
+    public function isDoc(): bool
+    {
+        return $this->user->getUserParam()->getIsDoc();
+    }
 }

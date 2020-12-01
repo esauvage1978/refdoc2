@@ -49,7 +49,10 @@ class DashboardController extends AbstractController
 
         $toControl = [
             $md->getData(BackpackMakerDto::TO_CONTROL),
+        ];
 
+        $toCheck = [
+            $md->getData(BackpackMakerDto::TO_CHECK),
         ];
 
         return $this->render(
@@ -60,6 +63,7 @@ class DashboardController extends AbstractController
                 'toResume' => $toResume,
                 'toValidate' => $toValidate,
                 'toControl' => $toControl,
+                'toCheck' => $toCheck,
             ]
         );
     }

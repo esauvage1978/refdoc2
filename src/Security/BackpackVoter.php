@@ -161,6 +161,11 @@ class BackpackVoter extends Voter
             return true;
         }
 
+        //restriction pour les contrôleurs
+        if ($stateCurrent === WorkflowData::STATE_TO_CHECK && $this->user->getUserParam()->getIsDoc()) {
+            return true;
+        }
+
         return false;
     }
 

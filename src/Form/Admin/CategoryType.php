@@ -31,6 +31,11 @@ class CategoryType extends AppTypeAbstract
                     self::REQUIRED => false,
                 ]
             )
+            ->add('ref', TextType::class, [
+                self::LABEL => 'Référence',
+                self::REQUIRED => true,
+                self::ATTR => [self::PLACEHOLDER => '___', self::MAXLENGTH => 3],
+            ])
             ->add(
                 'isValidatedByControl',
                 CheckboxType::class,

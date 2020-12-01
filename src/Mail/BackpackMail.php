@@ -22,7 +22,7 @@ class BackpackMail
     public const TORESUME = 'workflow/toResume';
     public const TOVALIDATE = 'workflow/toValidate';
     public const TOCONTROL = 'workflow/toControl';
-
+    public const TOCHECK = 'workflow/toCheck';
     private $mail;
 
     public function __construct(Mail $mail)
@@ -37,7 +37,8 @@ class BackpackMail
         $contextValid = [
             self::TORESUME,
             self::TOVALIDATE,
-            self::TOCONTROL
+            self::TOCONTROL,
+            self::TOCHECK,
         ];
 
         if (!in_array($context, $contextValid)) {

@@ -82,6 +82,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
             WorkflowData::STATE_TO_RESUME,
             WorkflowData::STATE_TO_VALIDATE,
             WorkflowData::STATE_TO_CONTROL,
+            WorkflowData::STATE_TO_CHECK,
         ];
 
         if (in_array($state, $mailState)) {
@@ -101,12 +102,13 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
             WorkflowData::STATE_TO_RESUME,
             WorkflowData::STATE_TO_VALIDATE,
             WorkflowData::STATE_TO_CONTROL,
+            WorkflowData::STATE_TO_CHECK,
         ];
 
         $stateForValidator = [
             WorkflowData::STATE_TO_VALIDATE,
         ];
-        
+
 
         if (in_array($state, $stateOwner)) {
             $this->getOwner($backpack);
@@ -117,7 +119,9 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         if ($state === WorkflowData::STATE_TO_CONTROL) {
             $this->getUsersControl();
         }
-
+        if ($state === WorkflowData::STATE_TO_CHECK) {
+            $this->getUsersDoc();
+        }
 
 
         if ($this->users->isEmpty()) {
@@ -178,6 +182,16 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
     public function getUsersControl()
     {
         $users = $this->userRepository->findAllForControl();
+        foreach ($users as $user) {
+            if (!$this->users->contains($user)) {
+                $this->users[] = $user;
+            }
+        }
+    }
+
+    public function getUsersDoc()
+    {
+        $users = $this->userRepository->findAllForDoc();
         foreach ($users as $user) {
             if (!$this->users->contains($user)) {
                 $this->users[] = $user;

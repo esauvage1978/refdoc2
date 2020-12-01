@@ -35,6 +35,22 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
         $this->onGuard($event, WorkflowData::TRANSITION_GO_TO_RESUME);
     }
 
+    /**
+     * @param GuardEvent $event
+     */
+    public function onGuardGoToControl(GuardEvent $event)
+    {
+        $this->onGuard($event, WorkflowData::TRANSITION_GO_TO_CONTROL);
+    }
+
+    /**
+     * @param GuardEvent $event
+     */
+    public function onGuardGoToCheck(GuardEvent $event)
+    {
+        $this->onGuard($event, WorkflowData::TRANSITION_GO_TO_CHECK);
+    }
+
 
     /**
      * @param GuardEvent $event
@@ -75,6 +91,10 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
             'workflow.wkf_without_doccontrol.guard.goAbandonned' => ['onGuardGoAbandonned'],
             'workflow.wkf_without_doccontrol.guard.goToResume' => ['onGuardGoToResume'],
             'workflow.wkf_without_doccontrol.guard.goToValidate' => ['onGuardGoToValidate'],
+            'workflow.wkf_all.guard.goToControl' => ['onGuardGoToControl'],
+            'workflow.wkf_without_doc.guard.goToControl' => ['onGuardGoToControl'],
+            'workflow.wkf_all.guard.goToCheck' => ['onGuardGoToCheck'],
+            'workflow.wkf_without_control.guard.goToCheck' => ['onGuardGoToCheck'],
         ];
     }
 }

@@ -9,6 +9,7 @@ class WorkflowData
     const STATE_DRAFT = 'draft';
     const STATE_TO_VALIDATE = 'toValidate';
     const STATE_TO_CONTROL = 'toControl';
+    const STATE_TO_CHECK = 'toCheck';
     const STATE_PUBLISHED = 'published';
     const STATE_ABANDONNED = 'abandonned';
     const STATE_TO_RESUME = 'toResume';
@@ -16,6 +17,7 @@ class WorkflowData
     const TRANSITION_GO_TO_RESUME = 'goToResume';
     const TRANSITION_GO_TO_VALIDATE = 'goToValidate';
     const TRANSITION_GO_TO_CONTROL = 'goToControl';
+    const TRANSITION_GO_TO_CHECK = 'goToCheck';
     const TRANSITION_GO_ABANDONNED = 'goAbandonned';
 
     const WORKFLOW_IS_SAME = 'same';
@@ -53,16 +55,17 @@ class WorkflowData
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     WorkflowNames::WORKFLOW_ALL => [
+                        self::TRANSITION_GO_TO_CONTROL,
                         self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED,
-                        self::TRANSITION_GO_TO_CONTROL,
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_DOC => [
-                        self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_TO_CONTROL,
+                        self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_CONTROL => [
+                        self::TRANSITION_GO_TO_CHECK,
                         self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
@@ -81,13 +84,16 @@ class WorkflowData
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     WorkflowNames::WORKFLOW_ALL => [
+                        self::TRANSITION_GO_TO_CHECK,
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED,
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_DOC => [
                         self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
-                    WorkflowNames::WORKFLOW_WITHOUT_DOC => [
-                        self::TRANSITION_GO_ABANDONNED
-                    ],
                     WorkflowNames::WORKFLOW_WITHOUT_CONTROL => [
+                        self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL => [
@@ -124,6 +130,32 @@ class WorkflowData
                     ]
                 ]
             ],
+            self::STATE_TO_CHECK =>
+            [
+                self::NAME => ' A vérifier',
+                self::ICON => 'fab fa-product-hunt',
+                self::TITLE_MAIL => ' Un porte-document est à valider par le service documentation',
+                self::BGCOLOR => '#9974AA',
+                self::FORECOLOR => '#ffffff',
+                self::TRANSITIONS => [
+                    WorkflowNames::WORKFLOW_ALL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_CONTROL => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                    WorkflowNames::WORKFLOW_WITHOUT_DOC => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_ABANDONNED
+                    ],
+                ]
+            ],
 
         ];
     }
@@ -134,7 +166,8 @@ class WorkflowData
             self::TRANSITION_GO_TO_VALIDATE,
             self::TRANSITION_GO_ABANDONNED,
             self::TRANSITION_GO_TO_RESUME,
-            self::TRANSITION_GO_TO_CONTROL
+            self::TRANSITION_GO_TO_CONTROL,
+            self::TRANSITION_GO_TO_CHECK,
         ];
 
         if (in_array($data, $datas)) {
@@ -149,7 +182,8 @@ class WorkflowData
             self::STATE_DRAFT,
             self::STATE_TO_RESUME,
             self::STATE_ABANDONNED,
-            self::STATE_TO_CONTROL
+            self::STATE_TO_CONTROL,
+            self::STATE_TO_CHECK
         ];
 
         if (in_array($data, $datas)) {
@@ -242,6 +276,11 @@ class WorkflowData
                 $data['state'] = self::STATE_TO_CONTROL;
                 $data['titre'] = 'Mettre à la validation du service contrôle';
                 $data['btn_label'] = 'A contrôler';
+                break;
+            case self::TRANSITION_GO_TO_CHECK:
+                $data['state'] = self::STATE_TO_CHECK;
+                $data['titre'] = 'Vérifier la forme des documents';
+                $data['btn_label'] = 'Vérifier';
                 break;
         }
 

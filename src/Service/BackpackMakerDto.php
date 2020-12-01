@@ -38,6 +38,8 @@ class BackpackMakerDto
 
     public const TO_CONTROL = 'toControl';
 
+    public const TO_CHECK = 'toCheck';
+
     const HIDE = 'hide';
 
     /**
@@ -178,7 +180,12 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_TO_CONTROL)
                     ->setVisible(BackpackDto::TRUE);
                 break;
-                             
+            case self::TO_CHECK:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_CHECK)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+                                        
         }
 
         return $dto;

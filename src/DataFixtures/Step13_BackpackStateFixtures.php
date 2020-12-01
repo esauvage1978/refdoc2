@@ -67,11 +67,11 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
              */
             $backpack = $this->backpacks[$i];
 
-            $nbr = $faker->numberBetween(0, 4);
+            $nbr = $faker->numberBetween(0, 5);
             switch ($nbr) {
                 case 1:
                     $transition = WorkflowData::TRANSITION_GO_ABANDONNED;
-                    $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> resume',true);
+                    $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> resume', true);
                     break;
                 case 2:
                     $transition = WorkflowData::TRANSITION_GO_ABANDONNED;
@@ -84,13 +84,28 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
                     $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> validate', true);
                     break;
                 case 4:
-                    if($backpack->getCategory()->getIsValidatedByControl()===true) {
+                    if ($backpack->getCategory()->getIsValidatedByControl() === true) {
                         $transition = WorkflowData::TRANSITION_GO_TO_VALIDATE;
                         $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> validate', true);
                         $transition = WorkflowData::TRANSITION_GO_TO_CONTROL;
                         $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> to control', true);
                     }
-                    break;                                      
+                    break;
+                case 5:
+                    if ($backpack->getCategory()->getIsValidatedByDoc() === true && $backpack->getCategory()->getIsValidatedByControl() === false) {
+                        $transition = WorkflowData::TRANSITION_GO_TO_VALIDATE;
+                        $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> validate', true);
+                        $transition = WorkflowData::TRANSITION_GO_TO_CHECK;
+                        $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> to check', true);
+                    } elseif ($backpack->getCategory()->getIsValidatedByDoc() === true && $backpack->getCategory()->getIsValidatedByControl() === true) {
+                        $transition = WorkflowData::TRANSITION_GO_TO_VALIDATE;
+                        $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> validate', true);
+                        $transition = WorkflowData::TRANSITION_GO_TO_CONTROL;
+                        $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> to control', true);
+                        $transition = WorkflowData::TRANSITION_GO_TO_CHECK;
+                        $this->workflow->applyTransition($backpack, $transition, 'Modification effectuée lors de la fixtures -> to check', true);
+                    }
+                    break;
             }
 
             //$this->checkAndPersist($backpack);

@@ -80,6 +80,11 @@ class Category implements EntityInterface
      */
     private $isValidatedByADD;
 
+    /**
+     * @ORM\Column(type="string", length=3)
+     */
+    private $ref;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -259,6 +264,18 @@ class Category implements EntityInterface
     public function setIsValidatedByADD(bool $isValidatedByADD): self
     {
         $this->isValidatedByADD = $isValidatedByADD;
+
+        return $this;
+    }
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(string $ref): self
+    {
+        $this->ref = $ref;
 
         return $this;
     }

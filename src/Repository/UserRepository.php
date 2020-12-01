@@ -59,6 +59,19 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    public function findAllForDoc()
+    {
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS,
+                UserParamRepository::ALIAS
+            )
+            ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
+            ->where(self::ALIAS . '.isEnable=1')
+            ->andWhere(UserParamRepository::ALIAS . '.isDoc=1')
+            ->orderBy(self::ALIAS . '.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
 }

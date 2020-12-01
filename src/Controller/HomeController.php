@@ -37,6 +37,10 @@ class HomeController extends AbstractController
             $dash_options=array_merge($dash_options,[$md->getData(BackpackMakerDto::TO_CONTROL)]);
         }
 
+        if ($user->isDoc()) {
+            $dash_options = array_merge($dash_options, [$md->getData(BackpackMakerDto::TO_CHECK)]);
+        }
+
         return $this->render('home/index.html.twig', ['dash_options' => $dash_options]);
     }
 

@@ -246,4 +246,14 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
+    /**
+     * @Route("/backpacks/tocheck", name="backpacks_toCheck", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_tocheck(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::TO_CHECK);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
 }

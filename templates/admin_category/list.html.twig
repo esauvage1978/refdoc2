@@ -2,6 +2,7 @@
 {% import "macros/datatables.html.twig" as tables %}
 {% set columns = {
     'Libellé': {'class': 'alwaysVisible', 'orderBy': true},
+	'Référence': {'class': 'alwaysVisible', 'orderBy': true},
     'Description': {'class': 'alwaysVisible', 'orderBy': true},
 '<i class="fas fa-user-tie" data-toggle="tooltip" data-placement="top" title="Validation par un agent de Direction"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
 '<i class="fas fa-user-shield" data-toggle="tooltip" data-placement="top" title="Passage par le service contrôle"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
@@ -45,6 +46,7 @@
 					</a>
 				</div>
 			</td>
+			<td class="align-middle">{{ item.ref }}</td>
 			<td class="align-middle">{{ item.content | raw }}</td>
 			<td class="align-middle text-center p-0 m-0">
 				{% if item.isValidatedByADD == false %}

@@ -24,7 +24,7 @@ parameters:
     es.mailer.workflow.toResume: '%env(ES_MAILER_WORKFLOW_TORESUME)%'
     es.mailer.workflow.toValidate: '%env(ES_MAILER_WORKFLOW_TOVALIDATE)%'
     es.mailer.workflow.toControl: '%env(ES_MAILER_WORKFLOW_TOCONTROL)%'
-    
+    es.mailer.workflow.toCheck: '%env(ES_MAILER_WORKFLOW_TOCHECK)%'   
 
 services:
     # default configuration for services in *this* file

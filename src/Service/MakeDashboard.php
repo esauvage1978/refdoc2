@@ -84,6 +84,10 @@ private const STATE='state';
                 self::STATE =>  WorkflowData::STATE_TO_CONTROL,
                 self::TITLE => 'Les porte-documents à contrôler',
             ],
+            BackpackMakerDto::TO_CHECK => [
+                self::STATE =>  WorkflowData::STATE_TO_CHECK,
+                self::TITLE => 'Les porte-documents à vérifier',
+            ],
                                      
         ];
 

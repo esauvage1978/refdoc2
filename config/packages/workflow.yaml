@@ -15,6 +15,7 @@ framework:
                 - draft
                 - toValidate
                 - toControl
+                - toCheck
                 - toResume
                 - abandonned
             transitions:
@@ -23,12 +24,15 @@ framework:
                     to: toValidate
                 goToControl:
                     from: toValidate
-                    to: toControl                
+                    to: toControl 
+                goToCheck:
+                    from: toControl
+                    to: toCheck                                   
                 goToResume:
-                    from: [toValidate, toControl, abandonned]
+                    from: [toValidate, toControl, toCheck, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [toValidate, toControl, draft, toResume]
+                    from: [toValidate, toControl, toCheck, draft, toResume]
                     to: abandonned
         wkf_without_doc:
             type: 'state_machine' # or 'state_machine'
@@ -72,6 +76,7 @@ framework:
             places:
                 - draft
                 - toValidate
+                - toCheck
                 - toResume
                 - abandonned
             transitions:
@@ -79,10 +84,13 @@ framework:
                     from: [draft, toResume]
                     to: toValidate                
                 goToResume:
-                    from: [toValidate, abandonned]
+                    from: [toValidate, toCheck, abandonned]
                     to: toResume
+                goToCheck:
+                    from: toValidate
+                    to: toCheck                   
                 goAbandonned:
-                    from: [toValidate, draft, toResume]
+                    from: [toValidate, toCheck, draft, toResume]
                     to: abandonned                 
         wkf_without_doccontrol:
             type: 'state_machine' # or 'state_machine'
