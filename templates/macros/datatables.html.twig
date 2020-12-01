@@ -4,13 +4,11 @@
 
     {% import _self as macro %}
     <div class="row" >
-<div class="col-12 border ">
+<div class="col-12 border">
 
-<table class="table {% if striped %}table-striped {% endif %}table-hover dataTable " role="grid" id="dt_{{ tableName }}  ">
-
+<table class="table {% if striped %}table-striped {% endif %}table-hover dataTable " role="grid" id="dt_{{ tableName }}">
     <thead>
-<tr class="bg-p-dark text-p-light">
-
+    <tr class="bg-p-dark text-p-light">
         {%- for title, headerOptions in columns -%}
             {% if not headerOptions is iterable %}
                 {% set headerOptions = {'class': headerOptions} %}
@@ -41,7 +39,6 @@
 {% apply spaceless %}
     {% set class = '' %}
     {% set always = false %}
-
     {% if columns[column] is defined %}
         {% set classes = columns[column] %}
         {# change the next if, once data_table_header_options() will be deleted #}
@@ -56,18 +53,15 @@
                 {% endif %}
             {% endfor %}
         {% else %}
-
             {# needs to be a foreach, as classes like "hidden-xs" would match in: if 'hidden' in classes #}
             {% for tmp in classes|split(' ') %}
                 {% if 'hidden' in tmp %}
                     {% set classes = classes|replace({(tmp): ''}) %}
                 {% endif %}
             {% endfor %}
-
             {% set class = classes %}
         {% endif %}
     {% endif %}
-
     {% if not class is empty %}
         {{ class }}
     {% endif %}
@@ -75,9 +69,7 @@
 {% endmacro %}
 
 {% macro datatable_data_else(columns) %}
-    <tr>
-        <td colspan="{{ columns | length }}">Aucun d'enregistrement</td>
-    </tr>
+    <tr><td colspan="{{ columns | length }}">Aucun d'enregistrement</td></tr>
 {% endmacro %}
 
 
@@ -90,58 +82,57 @@
 
 {% macro datatable_javascript(tableName, numOrder,columns) %}
 <script>
-    $(document).ready( function () {
+$('#dt_{{ tableName }}').DataTable({
+    stateSave: true,
+    responsive:true,
+    scrollCollapse: true,
+    paging: false,
+    scrollX: false,
+    ordering: true,
+    "order": [[{{ numOrder }}, 'asc']],
+    "columns": [
+    {%- for title, headerOptions in columns -%}
+        {{ loop.index>1?',':'' }}
+        {% if headerOptions.orderBy  is same as(false) %}
+            {"orderable": false}
+        {% else %}
+            null
+        {% endif %}
+    {%- endfor -%}
 
-        $('#dt_{{ tableName }}').DataTable({
-            stateSave: true,
-            responsive:true,
-            scrollCollapse: true,
-            paging: false,
-            scrollX: false,
-            ordering: true,
-            "order": [[{{ numOrder }}, 'asc']],
-            "columns": [
-                {%- for title, headerOptions in columns -%}
-                    {{ loop.index>1?',':'' }}
-                    {% if headerOptions.orderBy  is same as(false) %}
-                {"orderable": false}
-                    {% else %}
-                null
-                    {% endif %}
-                {%- endfor -%}
-
-            ],
-            "language":{
-                "sEmptyTable":     "Aucune donnée disponible dans le tableau",
-                "sInfo":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
-                "sInfoEmpty":      "Affichage de l'élément 0 à 0 sur 0 élément",
-                "sInfoFiltered":   "(filtré à partir de _MAX_ éléments au total)",
-                "sInfoPostFix":    "",
-                "sInfoThousands":  ",",
-                "sLengthMenu":     "Afficher _MENU_ éléments",
-                "sLoadingRecords": "Chargement...",
-                "sProcessing":     "Traitement...",
-                "sSearch":         "<i class='fas fa-filter'></i>",
-                "sZeroRecords":    "Aucun élément correspondant trouvé",
-                "oPaginate": {
-                    "sFirst":    "Premier",
-                    "sLast":     "Dernier",
-                    "sNext":     "Suivant",
-                    "sPrevious": "Précédent"
-                },
-                "oAria": {
-                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-                    "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
-                },
-                "select": {
-                    "rows": {
-                        "_": "%d lignes sélectionnées",
-                        "0": "Aucune ligne sélectionnée",
-                        "1": "1 ligne sélectionnée"
-                    }
+    ],
+    "language":{
+        "sEmptyTable":     "Aucune donnée disponible dans le tableau",
+        "sInfo":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+        "sInfoEmpty":      "Affichage de l'élément 0 à 0 sur 0 élément",
+        "sInfoFiltered":   "(filtré à partir de _MAX_ éléments au total)",
+        "sInfoPostFix":    "",
+        "sInfoThousands":  ",",
+        "sLengthMenu":     "Afficher _MENU_ éléments",
+        "sLoadingRecords": "Chargement...",
+        "sProcessing":     "Traitement...",
+        "sSearch":         "<i class='fas fa-filter'></i>",
+            "sZeroRecords":    "Aucun élément correspondant trouvé",
+            "oPaginate": {
+                "sFirst":    "Premier",
+                "sLast":     "Dernier",
+                "sNext":     "Suivant",
+                "sPrevious": "Précédent"
+            },
+            "oAria": {
+                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+            },
+            "select": {
+                "rows": {
+                    "_": "%d lignes sélectionnées",
+                    "0": "Aucune ligne sélectionnée",
+                    "1": "1 ligne sélectionnée"
                 }
-            } });
+            }
+        } });
 
-    });
+
+
 </script>
 {% endmacro %}
