@@ -73,13 +73,13 @@ class BackpackTree extends AbstractTree
             $this->Dir4($item);
             $this->Dir5($item);
 
-            $filesNumber = $item->getBackpackFiles()->count() + $item->getBackpackLinks()->count();
-            $fileSpan = $filesNumber > 0 ? "&nbsp;<span class=\"small text-p-dark bg-p-light ml-2 pl-1 pr-1 rounded \"><i class=\"fas fa-paperclip\"></i> {$filesNumber}</span>&nbsp;" : '';
+
+
 
             $this->tree[] = [
                 'id' => $item->getid(),
                 'parent' => $this->getParent(),
-                'text' => '<span class="text-p-dark">' . $item->getName() . '</span> ' . $fileSpan . $this->checkNews($item) . $this->checkState($item),
+                'text' => $this->getText($item),
                 'icon' => $item->getCategory()->getIcone() . ' category_' . $item->getCategory()->getId(),
                 'a_attr' => [
                     'href' => $this->generateUrl($item->getId()),
@@ -91,6 +91,18 @@ class BackpackTree extends AbstractTree
             ];
         }
         return json_encode($this->tree);
+    }
+
+    private function getText(Backpack $item)
+    {
+        $text = '';
+        if (null !== $item->getRef()) {
+            $text = $text . '<small class="muted">' . $item->getRef() . '</small> ';
+        }
+        $filesNumber = $item->getBackpackFiles()->count() + $item->getBackpackLinks()->count();
+        $fileSpan = $filesNumber > 0 ? "&nbsp;<span class=\"small text-p-dark bg-p-light ml-2 pl-1 pr-1 rounded \"><i class=\"fas fa-paperclip\"></i> {$filesNumber}</span>&nbsp;" : '';
+
+        return  $text . '<span class="text-p-dark">' . $item->getName() . '</span> ' . $fileSpan . $this->checkNews($item) . $this->checkState($item);
     }
 
     private function checkNews(Backpack $item): string

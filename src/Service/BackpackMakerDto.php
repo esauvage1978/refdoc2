@@ -36,6 +36,11 @@ class BackpackMakerDto
     public const TO_VALIDATE_UPDATABLE = 'toValidate_updatable';
     public const MY_TO_VALIDATE_UPDATABLE = 'mytoValidate_updatable';
 
+    public const PUBLISHED = 'published';
+    public const PUBLISHED_UPDATABLE = 'published_updatable';
+    public const MY_PUBLISHED_UPDATABLE = 'mypublished_updatable';
+
+
     public const TO_CONTROL = 'toControl';
 
     public const TO_CHECK = 'toCheck';
@@ -77,7 +82,7 @@ class BackpackMakerDto
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setStateCurrent(WorkflowData::STATE_DRAFT)
+                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
                     ->setIsForSubscription(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
@@ -185,6 +190,29 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_TO_CHECK)
                     ->setVisible(BackpackDto::TRUE);
                 break;
+            case self::PUBLISHED:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::PUBLISHED_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsValidatorForCategory(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::MY_PUBLISHED_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                
                                         
         }
 

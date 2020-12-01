@@ -81,7 +81,7 @@ class BackpackTreeController extends AbstractGController
     public function widgetBackpacksAction(): Response
     {
         $md = new BackpackCounter($this->backpackDtoRepository, $this->getUser());
-        $nbr = $md->get(BackpackMakerDto::DRAFT);
+        $nbr = $md->get(BackpackMakerDto::PUBLISHED);
         return $this->render('backpack/_widgetBackpacks.html.twig', ['nbr' => $nbr]);
     }
 
@@ -256,4 +256,32 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
+    /**
+     * @Route("/backpacks/published", name="backpacks_published", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_published(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::PUBLISHED);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/publishedupdatable", name="backpacks_published_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_published_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::PUBLISHED_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/mypublishedupdatable", name="backpacks_mypublished_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_mypublished_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_PUBLISHED_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
 }

@@ -20,7 +20,7 @@ use App\Workflow\WorkflowNames;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterface
+class Step14_BackpackRefFixtures extends Fixture implements FixtureGroupInterface
 {
     /**
      * @var BackpackManager
@@ -29,9 +29,15 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
 
 
     /**
+     * @var backpackRepository
+     */
+    private $backpackRepository;
+
+    /**
      * @var BackpackValidator
      */
     private $validator;
+
 
     /**
      * @var EntityManagerInterface
@@ -57,6 +63,7 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
         $this->entityManagerInterface = $entityManagerI;
         $this->backpacks = $backpackRepository->findAll();
         $this->workflow = $workflow;
+        $this->backpackRepository= $backpackRepository;
     }
 
 
@@ -69,44 +76,13 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
              * var Backpack
              */
             $backpack = $this->backpacks[$i];
-
-            $nbr = $faker->numberBetween(0, 6);
-            switch ($nbr) {
-                case 1:
-                    $backpack->setStateCurrent(WorkflowData::STATE_ABANDONNED);
-                    break;
-                case 2:
-                    $backpack->setStateCurrent(WorkflowData::STATE_TO_RESUME);
-                    break;
-                case 3:
-                    $backpack->setStateCurrent(WorkflowData::STATE_TO_VALIDATE);
-                    break;
-                case 4:
-                    if (
-                        $backpack->getCategory()->getWorkflowName() === WorkflowNames::WORKFLOW_ALL ||
-                        $backpack->getCategory()->getWorkflowName() === WorkflowNames::WORKFLOW_WITHOUT_DOC
-                    ) {
-                        $backpack->setStateCurrent(WorkflowData::STATE_TO_CONTROL);
-                    }
-                    break;
-                case 5:
-                    if (
-                        $backpack->getCategory()->getWorkflowName() === WorkflowNames::WORKFLOW_WITHOUT_CONTROL ||
-                        $backpack->getCategory()->getWorkflowName() === WorkflowNames::WORKFLOW_ALL
-                    ) {
-                        $backpack->setStateCurrent(WorkflowData::STATE_TO_CHECK);
-                    }
-                    break;
-                case 6:
-                    $backpack->setStateCurrent(WorkflowData::STATE_PUBLISHED);
-                    break;
+            if($backpack->getStateCurrent()==WorkflowData::STATE_PUBLISHED) {
+                $bgr=new BackpackGenerateRef($this->backpackRepository,$backpack);
+                $backpack
+                    ->setRef($bgr->get());
+                $this->checkAndPersist($backpack);
+                $this->entityManagerInterface->flush();
             }
-            $backpack
-                ->setStateContent('Forçage de l\'état dans les fixtures sans passer par le cycle normal')
-                ->setStateAt(new \DateTime())
-                ->setUpdatedAt($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null));
-            $this->checkAndPersist($backpack);
-            $this->entityManagerInterface->flush();
         }
     }
 
@@ -123,6 +99,6 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
 
     public static function getGroups(): array
     {
-        return ['step13'];
+        return ['step14'];
     }
 }

@@ -5,6 +5,8 @@
 	<a href="{{ path('backpack_show',{id: item.id})}}" class="text-p-dark">
 
 		{{ widgets.icon('backpack') }}
+		{% if item.ref %}<span class="text-muted">{{ item.ref }}</span>{% endif %}
+		
 		{{ item.name }}
 	</a>
 

@@ -25,9 +25,7 @@ class BackpackRepository extends ServiceEntityRepository
     public function findAllFillComboboxDir1(string $idMp, string $idP)
     {
         $builder = $this->createQueryBuilder(self::ALIAS)
-            ->select('distinct ' . self::ALIAS . '.dir1 as id ,' . self::ALIAS . '.dir1 as name');
-
-        $builder
+            ->select('distinct ' . self::ALIAS . '.dir1 as id ,' . self::ALIAS . '.dir1 as name')
             ->Where(self::ALIAS . '.mProcess = :mp')
             ->andWhere(self::ALIAS . '.dir1 is not null');
 
@@ -47,6 +45,33 @@ class BackpackRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findCountForRefPattern(string $refPattern)
+    {
+        $builder = $this->createQueryBuilder(self::ALIAS)
+            ->select('count(\'ref\')');
+
+        $builder
+            ->Where(self::ALIAS . '.stateCurrent = \'published\'')
+            ->andWhere(self::ALIAS . '.ref like :pattern')
+            ->setParameter('pattern', '%' . $refPattern . '%');
+
+        return $builder->getQuery()->getSingleScalarResult();
+    }
+    public function findCountForRefPatternCheck(string $refPattern,$id)
+    {
+        $builder = $this->createQueryBuilder(self::ALIAS)
+            ->select('count(\'ref\')');
+
+        $builder
+            ->Where(self::ALIAS . '.stateCurrent = \'published\'')
+            ->andWhere(self::ALIAS . '.ref like :pattern')
+            ->andWhere(self::ALIAS . '.id != :id')
+            ->setParameters(['pattern'=> '%' . $refPattern . '%','id'=>$id]);
+
+        return $builder->getQuery()->getSingleScalarResult();
+    }
+
     public function findAllFillComboboxDirOther(string $idMp, string $idP, string $data, int $numDir)
     {
         $dirCourant = 'dir' . $numDir;

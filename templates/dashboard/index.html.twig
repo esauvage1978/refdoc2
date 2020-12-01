@@ -149,6 +149,20 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 				<td class="align-middle text-center text-lg"></td>
 
 			</tr>
+<tr>
+	{{ wkf.state_table_td('published') }}
+	{% for  item in published %}
+
+		<td class="align-middle text-center text-lg">
+			<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+				<span class=''>
+					{{ item.data}}
+				</span>
+			</a>
+		</td>
+	{% endfor %}
+</tr>
+
 
 
 			{{ tables.datatable_footer('dsb',1) }}

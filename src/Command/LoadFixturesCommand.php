@@ -46,6 +46,7 @@ class LoadFixturesCommand extends Command
         $this->loadFixtures('11');
         $this->loadFixtures('12');
         $this->loadFixtures('13');
+        $this->loadFixtures('14');
 
         $fin = microtime(true);
 

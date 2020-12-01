@@ -17,6 +17,7 @@ framework:
                 - toControl
                 - toCheck
                 - toResume
+                - published
                 - abandonned
             transitions:
                 goToValidate:
@@ -27,12 +28,15 @@ framework:
                     to: toControl 
                 goToCheck:
                     from: toControl
-                    to: toCheck                                   
+                    to: toCheck
+                goPublished:
+                    from: toCheck
+                    to: published                                   
                 goToResume:
-                    from: [toValidate, toControl, toCheck, abandonned]
+                    from: [published,toValidate, toControl, toCheck, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [toValidate, toControl, toCheck, draft, toResume]
+                    from: [published,toValidate, toControl, toCheck, draft, toResume]
                     to: abandonned
         wkf_without_doc:
             type: 'state_machine' # or 'state_machine'
@@ -49,6 +53,7 @@ framework:
                 - toValidate
                 - toControl                
                 - toResume
+                - published
                 - abandonned
             transitions:
                 goToValidate:
@@ -56,12 +61,15 @@ framework:
                     to: toValidate  
                 goToControl:
                     from: toValidate
-                    to: toControl                                   
+                    to: toControl 
+                goPublished:
+                    from: toControl
+                    to: published                                  
                 goToResume:
-                    from: [toValidate, toControl, abandonned]
+                    from: [published, toValidate, toControl, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [toValidate, toControl, draft, toResume]
+                    from: [published, toValidate, toControl, draft, toResume]
                     to: abandonned              
         wkf_without_control:
             type: 'state_machine' # or 'state_machine'
@@ -78,19 +86,23 @@ framework:
                 - toValidate
                 - toCheck
                 - toResume
+                - published
                 - abandonned
             transitions:
                 goToValidate:
                     from: [draft, toResume]
                     to: toValidate                
                 goToResume:
-                    from: [toValidate, toCheck, abandonned]
+                    from: [published, toValidate, toCheck, abandonned]
                     to: toResume
+                goPublished:
+                    from: toCheck
+                    to: published
                 goToCheck:
                     from: toValidate
                     to: toCheck                   
                 goAbandonned:
-                    from: [toValidate, toCheck, draft, toResume]
+                    from: [published, toValidate, toCheck, draft, toResume]
                     to: abandonned                 
         wkf_without_doccontrol:
             type: 'state_machine' # or 'state_machine'
@@ -106,16 +118,20 @@ framework:
                 - draft
                 - toValidate
                 - toResume
+                - published
                 - abandonned
             transitions:
                 goToValidate:
                     from: [draft, toResume]
                     to: toValidate                
                 goToResume:
-                    from: [toValidate, abandonned]
+                    from: [published, toValidate, abandonned]
                     to: toResume
+                goPublished:
+                    from: toValidate
+                    to: published                    
                 goAbandonned:
-                    from: [toValidate, draft, toResume]
+                    from: [published, toValidate, draft, toResume]
                     to: abandonned
 
 

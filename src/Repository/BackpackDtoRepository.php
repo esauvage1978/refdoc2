@@ -368,7 +368,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
     {
         if (!empty($this->dto->getStateInProgress())) {
             $states = implode('\',\'', $this->dto->getStateInProgressData());
-            $this->builder->andwhere(self::ALIAS . '.stateCurrent in (\''. $states .'\')');
+            $this->builder->andwhere(self::ALIAS . '.stateCurrent in (\'' . $states . '\')');
         }
     }
 
@@ -471,6 +471,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
             ->addOrderBy(self::ALIAS . '.dir3', 'ASC')
             ->addOrderBy(self::ALIAS . '.dir4', 'ASC')
             ->addOrderBy(self::ALIAS . '.dir5', 'ASC')
+            ->addOrderBy(self::ALIAS . '.ref', 'ASC')
             ->addOrderBy(self::ALIAS . '.name', 'ASC');
     }
 }

@@ -87,7 +87,7 @@ class WorkflowBackpackManager
 
             return true;
         } else {
-            dump('not apply' . $item->getStateCurrent() . ' ' . $transition);
+            dump('ERROR can:not. Workflow : ' . $item->getCategory()->getWorkflowName() .'.Current state : ' . $item->getStateCurrent() . '. Transition : ' . $transition);
         }
 
         return false;

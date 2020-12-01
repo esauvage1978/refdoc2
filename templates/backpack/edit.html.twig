@@ -23,7 +23,6 @@
 {% endblock %}
 
 
-
 {% block page_content %}
 
 
@@ -69,6 +68,10 @@
 				<div class="tab-content " id="custom-tabs-one-tabContent">
 
 					<div class="tab-pane fade active show " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+
+						{% if item.stateCurrent in ["draft","toResume","toCheck"] %}
+							{{ include(domaine ~ '/_edit/_reference.html.twig') }}
+						{% endif %}
 						{% if item is defined %}
 							{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
 							{{ include(domaine ~ '/_edit/_process.html.twig') }}
@@ -153,6 +156,42 @@
 		</div>
 	</div>
 </div></div>{% endblock %}{%  block javascripts %}{{ parent() }}<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script><script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script><script type="text/javascript">
+
+
+function getBackpackRef(id) {
+var url = '/ajax/backpack/getref/' + id;
+let ref = $('#backpack_ref');
+
+
+axios.get(url).then(function (response) {
+setVal(ref, response.data.value);
+
+}).catch(function (error) {
+console.log(error);
+});
+}
+
+function getBackpackRefCheck(id) {
+
+let ref = $('#backpack_ref');
+let result = $('#refcheck');
+
+    $.ajax({
+        method: "POST",
+url: "{{ path('ajax_backpack_getg_ref_check') }}",
+
+data: { 'id': id, 'pattern': getVal(ref) },
+
+
+        dataType: 'json',
+        success: function (json) {
+html(result,json.value);
+
+
+        }
+    });
+}
+
 
 $(document).on('change', '.custom-file-input', function () {
 let fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');

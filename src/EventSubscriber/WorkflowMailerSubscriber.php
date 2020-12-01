@@ -83,6 +83,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
             WorkflowData::STATE_TO_VALIDATE,
             WorkflowData::STATE_TO_CONTROL,
             WorkflowData::STATE_TO_CHECK,
+            WorkflowData::STATE_PUBLISHED,
         ];
 
         if (in_array($state, $mailState)) {
@@ -103,10 +104,12 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
             WorkflowData::STATE_TO_VALIDATE,
             WorkflowData::STATE_TO_CONTROL,
             WorkflowData::STATE_TO_CHECK,
+            WorkflowData::STATE_PUBLISHED,
         ];
 
         $stateForValidator = [
             WorkflowData::STATE_TO_VALIDATE,
+            WorkflowData::STATE_PUBLISHED,
         ];
 
 

@@ -19,6 +19,7 @@ class WorkflowData
     const TRANSITION_GO_TO_CONTROL = 'goToControl';
     const TRANSITION_GO_TO_CHECK = 'goToCheck';
     const TRANSITION_GO_ABANDONNED = 'goAbandonned';
+    const TRANSITION_GO_PUBLISHED = 'goPublished';
 
     const WORKFLOW_IS_SAME = 'same';
     
@@ -70,6 +71,7 @@ class WorkflowData
                         self::TRANSITION_GO_ABANDONNED
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL => [
+                        self::TRANSITION_GO_PUBLISHED,
                         self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
@@ -78,7 +80,7 @@ class WorkflowData
             self::STATE_TO_CONTROL =>
             [
                 self::NAME => ' A contrôler',
-                self::ICON => 'fab fa-product-hunt',
+                self::ICON => 'fas fa-copyright',
                 self::TITLE_MAIL => ' Un porte-document est à valider par le service contrôle',
                 self::BGCOLOR => '#794A8D',
                 self::FORECOLOR => '#ffffff',
@@ -89,6 +91,7 @@ class WorkflowData
                         self::TRANSITION_GO_ABANDONNED,
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_DOC => [
+                        self::TRANSITION_GO_PUBLISHED,
                         self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
@@ -133,12 +136,13 @@ class WorkflowData
             self::STATE_TO_CHECK =>
             [
                 self::NAME => ' A vérifier',
-                self::ICON => 'fab fa-product-hunt',
+                self::ICON => 'fas fa-barcode',
                 self::TITLE_MAIL => ' Un porte-document est à valider par le service documentation',
                 self::BGCOLOR => '#9974AA',
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     WorkflowNames::WORKFLOW_ALL => [
+                        self::TRANSITION_GO_PUBLISHED,
                         self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
@@ -147,6 +151,7 @@ class WorkflowData
                         self::TRANSITION_GO_ABANDONNED
                     ],
                     WorkflowNames::WORKFLOW_WITHOUT_CONTROL => [
+                        self::TRANSITION_GO_PUBLISHED,
                         self::TRANSITION_GO_TO_RESUME,
                         self::TRANSITION_GO_ABANDONNED
                     ],
@@ -156,7 +161,19 @@ class WorkflowData
                     ],
                 ]
             ],
-
+            self::STATE_PUBLISHED =>
+            [
+                self::NAME => ' Publié',
+                self::ICON => 'fab fa-product-hunt',
+                self::TITLE_MAIL => ' Un porte-document est publié',
+                self::BGCOLOR => '#297B48',
+                self::FORECOLOR => '#ffffff',
+                self::TRANSITIONS => [
+                    self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_ABANDONNED
+                    ]
+                ]
+            ],
         ];
     }
 
@@ -168,6 +185,7 @@ class WorkflowData
             self::TRANSITION_GO_TO_RESUME,
             self::TRANSITION_GO_TO_CONTROL,
             self::TRANSITION_GO_TO_CHECK,
+            self::TRANSITION_GO_PUBLISHED,
         ];
 
         if (in_array($data, $datas)) {
@@ -183,7 +201,8 @@ class WorkflowData
             self::STATE_TO_RESUME,
             self::STATE_ABANDONNED,
             self::STATE_TO_CONTROL,
-            self::STATE_TO_CHECK
+            self::STATE_TO_CHECK,
+            self::STATE_PUBLISHED,
         ];
 
         if (in_array($data, $datas)) {
@@ -281,6 +300,11 @@ class WorkflowData
                 $data['state'] = self::STATE_TO_CHECK;
                 $data['titre'] = 'Vérifier la forme des documents';
                 $data['btn_label'] = 'Vérifier';
+                break;
+            case self::TRANSITION_GO_PUBLISHED:
+                $data['state'] = self::STATE_PUBLISHED;
+                $data['titre'] = 'Publier le document';
+                $data['btn_label'] = 'Publier';
                 break;
         }
 

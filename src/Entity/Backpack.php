@@ -131,6 +131,11 @@ class Backpack implements EntityInterface
      */
     private $backpackMailHistories;
 
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $ref;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -496,6 +501,18 @@ class Backpack implements EntityInterface
                 $backpackMailHistory->setBackpack(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(string $ref): self
+    {
+        $this->ref = $ref;
 
         return $this;
     }

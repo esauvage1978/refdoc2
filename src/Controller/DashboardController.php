@@ -55,6 +55,12 @@ class DashboardController extends AbstractController
             $md->getData(BackpackMakerDto::TO_CHECK),
         ];
 
+        $published = [
+            $md->getData(BackpackMakerDto::PUBLISHED),
+            $md->getData(BackpackMakerDto::PUBLISHED_UPDATABLE),
+            $md->getData(BackpackMakerDto::MY_PUBLISHED_UPDATABLE),
+        ];
+
         return $this->render(
             'dashboard/index.html.twig',
             [
@@ -64,6 +70,7 @@ class DashboardController extends AbstractController
                 'toValidate' => $toValidate,
                 'toControl' => $toControl,
                 'toCheck' => $toCheck,
+                'published'=> $published
             ]
         );
     }

@@ -61,7 +61,7 @@ class Step8_ProcessContributorsFixtures extends Fixture implements FixtureGroupI
         ['BOISMARTEL Laurence', ''],
         ['BUNIET Fanny', ''],
         ['CATELIN Isabelle', ''],
-        ['DESPALIER Margot', 'M4-13-AJAP;M4-9-IJ AT/MP;M4-8-IJ AS'],
+        ['DESPALIER Margot', 'M4-13-AJAP;M4-9-IJ-AT/MP;M4-8-IJ-AS'],
         ['DUPLESSY Laurent', ''],
         ['LIEKENS Ghislaine', ''],
         ['MARCQ David', ''], 
@@ -81,10 +81,14 @@ class Step8_ProcessContributorsFixtures extends Fixture implements FixtureGroupI
                 $refs=explode(';', $this->data[$i][1]);
                 foreach($refs as $ref){
                     $process = $this->processRepository->findOneBy(['ref'=>$ref]);
+                    if($process!==null) {
                     $process
                         ->addContributor($user);
                     $this->processManager->initialise($process);
                     $this->checkAndPersist($process);
+                    } else {
+                        dump('ref');
+                    }
                 }
             }
         }

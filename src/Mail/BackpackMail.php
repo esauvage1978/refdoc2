@@ -23,6 +23,8 @@ class BackpackMail
     public const TOVALIDATE = 'workflow/toValidate';
     public const TOCONTROL = 'workflow/toControl';
     public const TOCHECK = 'workflow/toCheck';
+    public const PUBLISHED = 'workflow/published';
+
     private $mail;
 
     public function __construct(Mail $mail)
@@ -39,6 +41,7 @@ class BackpackMail
             self::TOVALIDATE,
             self::TOCONTROL,
             self::TOCHECK,
+            self::PUBLISHED,
         ];
 
         if (!in_array($context, $contextValid)) {

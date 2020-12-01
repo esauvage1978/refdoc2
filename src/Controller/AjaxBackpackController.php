@@ -8,7 +8,9 @@ use App\Dto\UserDto;
 use App\Entity\User;
 use App\Dto\ProcessDto;
 use App\Dto\MProcessDto;
+use App\Entity\Backpack;
 use App\Entity\Category;
+use App\Service\BackpackGenerateRef;
 use App\Repository\BackpackRepository;
 use App\Repository\ProcessDtoRepository;
 use App\Repository\MProcessDtoRepository;
@@ -19,7 +21,40 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class AjaxBackpackController extends AbstractGController
 {
+    /**
+     * @Route("/ajax/backpack/getrefcheck", name="ajax_backpack_getg_ref_check", methods={"GET","POST"})
+     *
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function AjaxBackpackGetRefCheck(Request $request, BackpackRepository $backpackRepository): Response
+    {
+        $pattern= $request->request->has('pattern') ? $request->request->get('pattern') : null;
+        $id = $request->request->has('id') ? $request->request->get('id') : null;
+        $nbr=$backpackRepository->findCountForRefPatternCheck($pattern,$id);    
+        return $this->json([
+            'code' => 200,
+            'value' => $nbr==0?'OK':'Attention, présente de doublon',
+            'message' => 'données transmises'
+        ], 200);
+    }
 
+    /**
+     * @Route("/ajax/backpack/getref/{id}", name="ajax_backpack_getg_ref", methods={"GET","POST"})
+     *
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function AjaxBackpackGetRef(Request $request, BackpackRepository $backpackRepository, Backpack $backpack): Response
+    {
+        $bgr=new BackpackGenerateRef($backpackRepository,$backpack);
+
+        return $this->json([
+            'code' => 200,
+            'value' => $bgr->get(),
+            'message' => 'données transmises'
+        ], 200);
+    }
 
     /**
      * @Route("/ajax/getmpforcontribute", name="ajax_cmb_mp_for_contribute", methods={"GET","POST"})

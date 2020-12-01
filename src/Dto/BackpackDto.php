@@ -181,7 +181,9 @@ class BackpackDto extends AbstractDto
             WorkflowData::STATE_DRAFT,
             WorkflowData::STATE_TO_RESUME,
             WorkflowData::STATE_TO_VALIDATE,
-        ];;
+            WorkflowData::STATE_TO_CHECK,
+            WorkflowData::STATE_TO_CONTROL,
+        ];
     }
 
     /**

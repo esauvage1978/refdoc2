@@ -58,18 +58,18 @@ class Step7_ProcessValidatorsFixtures extends Fixture implements FixtureGroupInt
     [
         ['AMEDRO Jeremy', ''],
         ['BEAUCAMPS Sabine', ''],
-        ['BOISMARTEL Laurence', 'S1-2-ACF TC;S1-4-ACF-GOP'],
+        ['BOISMARTEL Laurence', 'S1-2-ACF-TC;S1-4-ACF-GOP'],
         ['BUNIET Fanny', ''],
         ['CATELIN Isabelle', ''],
         ['DESPALIER Margot', ''],
         ['DUPLESSY Laurent', ''],
         ['LIEKENS Ghislaine', ''],
-        ['MARCQ David', 'M4-13-AJAP;M4-9-IJ AT/MP;M4-8-IJ AS'], 
-        ['MIGNOT Bruno', 'M4-13-AJAP;M3-1;M4-9-IJ AT/MP;M4-8-IJ AS'],
-        ['PASZ Romarik', 'M3-4;M4-12-CD;M3-3;M4-2-FSP;M4-1-FSE B2 SEFI;S1-1-ACF TRESO'],
+        ['MARCQ David', 'M4-13-AJAP;M4-9-IJ-AT/MP;M4-8-IJ-AS'], 
+        ['MIGNOT Bruno', 'M4-13-AJAP;M3-1;M4-9-IJ-AT/MP;M4-8-IJ-AS'],
+        ['PASZ Romarik', 'M3-4;M4-12-CD;M3-3;M4-2-FSP;M4-1-FSE-B2-SEFI;S1-1-ACF-TRESO'],
         ['ROSE Hélène', 'S2-1-RH-DS;S2-1-RH-GEC'],
         ['SAUVAGE Emmanuel', ''],
-        ['WILLEMS Gregory', 'M3-4;M4-12-CD;M3-3;M4-2-FSP;M4-1-FSE B2 SEFI;S1-1-ACF TRESO'],
+        ['WILLEMS Gregory', 'M3-4;M4-12-CD;M3-3;M4-2-FSP;M4-1-FSE-B2-SEFI;S1-1-ACF-TRESO'],
     ];
 
     public function load(ObjectManager $manager)

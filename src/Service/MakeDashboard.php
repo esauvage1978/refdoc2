@@ -88,6 +88,18 @@ private const STATE='state';
                 self::STATE =>  WorkflowData::STATE_TO_CHECK,
                 self::TITLE => 'Les porte-documents à vérifier',
             ],
+            BackpackMakerDto::PUBLISHED => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les publiés',
+            ],
+            BackpackMakerDto::PUBLISHED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les publiés modifiables',
+            ],
+            BackpackMakerDto::MY_PUBLISHED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Mes publiés modifiables',
+            ],            
                                      
         ];
 

@@ -30,7 +30,6 @@ class HomeController extends AbstractController
             $md->getData(BackpackMakerDto::TO_RESUME_UPDATABLE),
             $md->getData(BackpackMakerDto::MY_TO_RESUME_UPDATABLE),
             $md->getData(BackpackMakerDto::TO_VALIDATE_UPDATABLE),
-            
         ];
 
         if($user->isControl()) {

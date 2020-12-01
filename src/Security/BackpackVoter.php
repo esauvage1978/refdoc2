@@ -101,12 +101,13 @@ class BackpackVoter extends Voter
         $restrict_contributer =
             [
                 WorkflowData::STATE_DRAFT,
-                WorkflowData::STATE_TO_RESUME
+                WorkflowData::STATE_TO_RESUME,
             ];
 
         $restrict_All =
             [
                 WorkflowData::STATE_ABANDONNED,
+                WorkflowData::STATE_PUBLISHED,
             ];
 
         $restrict_ValidatorByCat =
