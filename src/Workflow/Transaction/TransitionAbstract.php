@@ -5,6 +5,7 @@ namespace App\Workflow\Transaction;
 
 
 use App\Entity\Backpack;
+use App\Repository\BackpackRepository;
 use App\Workflow\BackpackCheck;
 
 class TransitionAbstract implements Transition
@@ -21,10 +22,10 @@ class TransitionAbstract implements Transition
      */
     protected $backpackCheck;
 
-    public function __construct(Backpack $item)
+    public function __construct(Backpack $item, BackpackRepository $backpackRepository)
     {
         $this->backpack=$item;
-        $this->backpackCheck=new BackpackCheck($item);
+        $this->backpackCheck=new BackpackCheck($item, $backpackRepository);
     }
 
     public function can(): bool

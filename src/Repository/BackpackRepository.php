@@ -52,7 +52,7 @@ class BackpackRepository extends ServiceEntityRepository
             ->select('count(\'ref\')');
 
         $builder
-            ->Where(self::ALIAS . '.stateCurrent = \'published\'')
+            ->Where(self::ALIAS . '.stateCurrent != \'abandonned\'')
             ->andWhere(self::ALIAS . '.ref like :pattern')
             ->setParameter('pattern', '%' . $refPattern . '%');
 
@@ -64,7 +64,7 @@ class BackpackRepository extends ServiceEntityRepository
             ->select('count(\'ref\')');
 
         $builder
-            ->Where(self::ALIAS . '.stateCurrent = \'published\'')
+            ->Where(self::ALIAS . '.stateCurrent != \'abandonned\'')
             ->andWhere(self::ALIAS . '.ref like :pattern')
             ->andWhere(self::ALIAS . '.id != :id')
             ->setParameters(['pattern'=> '%' . $refPattern . '%','id'=>$id]);

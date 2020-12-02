@@ -3,6 +3,7 @@
 namespace App\Workflow;
 
 use App\Entity\Backpack;
+use App\Repository\BackpackRepository;
 
 class BackpackCheck
 {
@@ -16,10 +17,16 @@ class BackpackCheck
      */
     private $backpackCheckMessage;
 
-    public function __construct(Backpack $backpack)
+    /**
+     * @var BackpackRepository
+     */
+    private $backpackRepository;
+
+    public function __construct(Backpack $backpack, BackpackRepository $backpackRepository)
     {
         $this->backpack = $backpack;
         $this->backpackCheckMessage = new  BackpackCheckMessage();
+        $this->backpackRepository= $backpackRepository;
     }
 
     public function hasMessageError(): bool
@@ -57,6 +64,22 @@ class BackpackCheck
             $this->backpackCheckMessage->addMessageError('Référence non renseignée');
         } else {
             $this->backpackCheckMessage->addMessageSuccess('Référence');
+        }
+    }
+
+    public function checkRefUnique()
+    {
+        if (empty($this->backpack->getRef())) {
+            return;
+        }
+        $nbr=$this->backpackRepository->findCountForRefPatternCheck(
+            $this->backpack->getRef(),
+            $this->backpack->getId()
+        );
+        if ($nbr>0) {
+            $this->backpackCheckMessage->addMessageError('Référence non unique');
+        } else {
+            $this->backpackCheckMessage->addMessageSuccess('Référence unique');
         }
     }
 

@@ -93,7 +93,7 @@ class BackpackType extends AppTypeAbstract
             )
             ->add('ref', TextType::class, [
                 self::LABEL => 'Référence',
-                self::REQUIRED => true,
+                self::REQUIRED => false,
                 self::ATTR => [self::PLACEHOLDER => '__-__-__', self::MAXLENGTH => 30, self::CSS_CLASS =>'text-lg bold'],
             ])
             ->add('backpackFiles', CollectionType::class, [

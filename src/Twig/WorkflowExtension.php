@@ -4,16 +4,23 @@
 namespace App\Twig;
 
 
+use Twig\TwigFilter;
 use App\Entity\Action;
 use App\Entity\Backpack;
 use App\Workflow\WorkflowData;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
+use App\Repository\BackpackRepository;
 
 class WorkflowExtension extends AbstractExtension
 {
-    public function __construct()
+    /**
+     * @var BackpackRepository
+     */
+    private $BackpackRepository;
+
+    public function __construct(BackpackRepository $backpackRepository)
     {
+        $this->backpackRepository = $backpackRepository;
     }
 
     public function getFilters()
@@ -68,7 +75,7 @@ class WorkflowExtension extends AbstractExtension
     public function workflowGetExplains(Backpack $backpack, string $transition)
     {
         $object =  'App\Workflow\Transaction\Transition' . ucfirst($transition);
-        $instance = new $object($backpack);
+        $instance = new $object($backpack, $this->backpackRepository);
         return $instance->getExplains();
     }
 
@@ -76,7 +83,7 @@ class WorkflowExtension extends AbstractExtension
     public function workflowGetCheckMessages(Backpack $backpack, string $transition)
     {
         $object =  'App\Workflow\Transaction\Transition' . ucfirst($transition);
-        $instance = new $object($backpack);
+        $instance = new $object($backpack, $this->backpackRepository);
         return $instance->getCheckMessages();
     }
 

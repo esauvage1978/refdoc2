@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Backpack;
 use App\Workflow\WorkflowData;
+use App\Repository\BackpackRepository;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use App\Workflow\WorkflowBackpackTransitionManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,9 +15,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
 {
 
-
-    public function __construct()
+    /**
+     * @var BackpackRepository
+     */
+    private $BackpackRepository;
+    
+    public function __construct(BackpackRepository $backpackRepository)
     {
+        $this->backpackRepository= $backpackRepository;
     }
 
     /**
@@ -74,6 +80,7 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
         $backpack = $event->getSubject();
         $workflowBackpackTransitionManager = new WorkflowBackpackTransitionManager(
             $backpack,
+            $this->backpackRepository,
             $transition
         );
         if (!$workflowBackpackTransitionManager->can()) {

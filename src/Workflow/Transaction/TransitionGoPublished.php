@@ -19,6 +19,7 @@ class TransitionGoPublished  extends TransitionAbstract
     {
         $this->checkAll();
         $this->backpackCheck->checkRef();
+        $this->backpackCheck->checkRefUnique();
     }
 
 }

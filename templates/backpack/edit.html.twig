@@ -69,10 +69,8 @@
 
 					<div class="tab-pane fade active show " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
 
-						{% if item.stateCurrent in ["draft","toResume","toCheck"] %}
-							{{ include(domaine ~ '/_edit/_reference.html.twig') }}
-						{% endif %}
 						{% if item is defined %}
+							{{ include(domaine ~ '/_edit/_reference.html.twig') }}
 							{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
 							{{ include(domaine ~ '/_edit/_process.html.twig') }}
 							{{ include(domaine ~ '/_edit/_arborescence.html.twig') }}
