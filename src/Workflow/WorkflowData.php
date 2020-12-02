@@ -166,7 +166,7 @@ class WorkflowData
                 self::NAME => ' Publié',
                 self::ICON => 'fab fa-product-hunt',
                 self::TITLE_MAIL => ' Un porte-document est publié',
-                self::BGCOLOR => '#297B48',
+                self::BGCOLOR => '#ff6584',
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
@@ -284,7 +284,7 @@ class WorkflowData
             case self::TRANSITION_GO_ABANDONNED:
                 $data['state'] = self::STATE_ABANDONNED;
                 $data['titre'] = 'Abandonner le porte-document';
-                $data['btn_label'] = 'Abandonner';
+                $data['btn_label'] = 'A abandonner';
                 break;
             case self::TRANSITION_GO_TO_RESUME:
                 $data['state'] = self::STATE_TO_RESUME;
@@ -299,12 +299,12 @@ class WorkflowData
             case self::TRANSITION_GO_TO_CHECK:
                 $data['state'] = self::STATE_TO_CHECK;
                 $data['titre'] = 'Vérifier la forme des documents';
-                $data['btn_label'] = 'Vérifier';
+                $data['btn_label'] = 'A vérifier';
                 break;
             case self::TRANSITION_GO_PUBLISHED:
                 $data['state'] = self::STATE_PUBLISHED;
                 $data['titre'] = 'Publier le document';
-                $data['btn_label'] = 'Publier';
+                $data['btn_label'] = 'A publier';
                 break;
         }
 

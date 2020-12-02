@@ -27,6 +27,11 @@ body {
     color:#675ef2 !important;
 }
 
+.text-p-dark2
+{
+    color:#ff6584 !important;
+}
+
 .text-p-light {
     color: #e6e7f9 !important;
 }
@@ -37,6 +42,9 @@ body {
 
 .bg-p-dark {
     background-color: #675ef2 !important;
+}
+.bg-p-dark2 {
+    background-color: #ff6584 !important;
 }
 
 .border-p-dark {

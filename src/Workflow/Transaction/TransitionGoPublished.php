@@ -18,6 +18,7 @@ class TransitionGoPublished  extends TransitionAbstract
     public function check()
     {
         $this->checkAll();
+        $this->backpackCheck->checkRef();
     }
 
 }

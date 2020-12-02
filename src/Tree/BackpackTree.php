@@ -113,7 +113,7 @@ class BackpackTree extends AbstractTree
             $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)
         ) {
 
-            return '<i class="fas fa-certificate text-p-dark bg-p-light"></i>';
+            return '<i class="fas fa-certificate text-p-dark2 bg-p-light"></i>';
         }
         return '';
     }
