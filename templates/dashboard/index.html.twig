@@ -69,6 +69,20 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 
 
 			<tr>
+				{{ wkf.state_table_td('toValidate') }}
+				{% for  item in toValidate %}
+
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
+
+			<tr>
 				{{ wkf.state_table_td('toResume') }}
 				{% for  item in toResume %}
 
@@ -82,19 +96,6 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 				{% endfor %}
 			</tr>
 
-			<tr>
-				{{ wkf.state_table_td('toValidate') }}
-				{% for  item in toValidate %}
-
-					<td class="align-middle text-center text-lg">
-						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
-							<span class=''>
-								{{ item.data}}
-							</span>
-						</a>
-					</td>
-				{% endfor %}
-			</tr>
 
 			<tr>
 				{{ wkf.state_table_td('toControl') }}
@@ -149,20 +150,19 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 				<td class="align-middle text-center text-lg"></td>
 
 			</tr>
-<tr>
-	{{ wkf.state_table_td('published') }}
-	{% for  item in published %}
+			<tr>
+				{{ wkf.state_table_td('published') }}
+				{% for  item in published %}
 
-		<td class="align-middle text-center text-lg">
-			<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
-				<span class=''>
-					{{ item.data}}
-				</span>
-			</a>
-		</td>
-	{% endfor %}
-</tr>
-
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
 
 
 			{{ tables.datatable_footer('dsb',1) }}

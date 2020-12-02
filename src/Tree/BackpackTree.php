@@ -110,10 +110,10 @@ class BackpackTree extends AbstractTree
         if (
             $item->getStateCurrent() === WorkflowData::STATE_PUBLISHED
             &&
- $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)
+            $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)
         ) {
 
-            return '<i class="fas fa-certificate text-p-light bd-p-dark"></i>';
+            return '<i class="fas fa-certificate text-p-dark bg-p-light"></i>';
         }
         return '';
     }

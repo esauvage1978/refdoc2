@@ -90,7 +90,8 @@
 
 					</div>
 				</div>
-			{% elseif item.stateCurrent in ["abandonned","toValidate","toControl"] %}
+{% elseif item.stateCurrent in ["abandonned","toValidate","toControl","published"] %}
+
 				{{ include(domaine ~ '/_show/_process.html.twig') }}
 				{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
 				{{ include(domaine ~ '/_show/_content.html.twig') }}
