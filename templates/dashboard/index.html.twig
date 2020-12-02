@@ -168,9 +168,42 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 			{{ tables.datatable_footer('dsb',1) }}
 
 		</div>
-		<div class="col-sm-12 col-lg-6 ">
-			<img src="{{ asset('img/dashboard.svg')}}" alt"choix des abonnements" style="width:100%"/>
+		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
 
+			<img src="{{ asset('img/dashboard.svg')}}" alt"choix des abonnements" style="width:80%"/>
+
+		</div>
+	</div>
+	{% set columns = {
+    '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+} %}
+
+<div class="row justify-content-center   d-flex align-items-center">
+
+		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
+
+			<img src="{{ asset('img/news.svg')}}" alt"choix des abonnements" style="width:80%"/>
+
+		</div>
+		<div class="col-sm-12 col-lg-6 ">
+			{{ tables.datatable_header('dsb2', columns,  {'striped': true}) }}
+			{% for  item in news %}
+				<tr>
+					<td class="align-middle text-p-dark bg-p-light" style="width:50%">
+						{{ item.title }}
+					</td>
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+			{{ tables.datatable_footer('dsb2',1) }}
 		</div>
 	</div>
 {% endblock %}

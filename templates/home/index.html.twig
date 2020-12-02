@@ -37,14 +37,18 @@
 			<div class="col-sm-12 col-lg-8 row">
 				{% if news | length==0 %}
 					<div class="col-sm-12 col-lg-3 ">
-						<h5 class="text-p-dark">Il n'y a pas encore d'actualité</h5>
+						<h5 class="text-p-dark">Il n'y a pas encore d'actualité pour vos abonnements</h5>
+<a href="{{ path('backpacks_news') }}" class=" text-p-dark2 text-lg mb-2 text-center ">Toutes les actualités</a>
+
 					</div>
 					<div class="col-sm-12 col-xl-9  d-flex justify-content-center mt-3 mb-3">
 						<img src="{{ asset('img/notnews.svg')}}" alt"choix des abonnements" style="width:80%"/>
 					</div>
 				{% else %}
 					<div class="col-sm-12 col-lg-6">
-						{{ include('backpack/_show/_news.html.twig') }}
+
+
+						{{ include('backpack/_widgetNewsSubscription.html.twig') }}
 					</div>
 					<div class="col-sm-12 col-xl-6  d-flex justify-content-center mt-3 mb-3">
 						<img src="{{ asset('img/news.svg')}}" alt"choix des abonnements" style="width:80%"/>
@@ -54,6 +58,9 @@
 
 
 			<div class="col-sm-12 col-lg-4 ">
+
+
+
 				{{bkp.listBackpack(dash_options)}}
 
 				<div class="mt-5">

@@ -16,6 +16,7 @@ class BackpackMakerDto
     const HOME_SUBSCRIPTION = 'home_subscription';
     const HOME_ALL = 'home_all';
     const HOME_NEWS_SUBSCRIPTION = 'news_subscription';
+    const HOME_NEWS = 'news';
 
     public const BACKPACK_IN_PROGRESS = 'backpack_in_progress';
 
@@ -87,7 +88,16 @@ class BackpackMakerDto
                     ->setIsForSubscription(BackpackDto::TRUE)
                     ->setIsNew(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                
+                break;
+            case self::HOME_NEWS:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsNew(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                            
             case self::HOME_SUBSCRIPTION:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));

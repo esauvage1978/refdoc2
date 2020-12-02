@@ -1,6 +1,11 @@
 
 {% import "macros/widgets.html.twig" as widgets %}
-<h3 class="text-p-dark">Les actualités</h3>
+<div class="d-flex justify-content-between">
+
+
+<h3 class="text-p-dark">Actualités / Abonnement</h3>
+<a href="{{ path('backpacks_news') }}" class=" text-p-dark2 text-lg mb-2 text-center ">Toutes les actualités</a>
+</div>
 <ul class="list-group list-group-flush">
 
 {% for item in news %}

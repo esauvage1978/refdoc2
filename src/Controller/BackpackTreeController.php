@@ -113,6 +113,25 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
+    /**
+     * @Route("/backpacks/newssubscription", name="backpacks_news_subscription", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function newsSubscription(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::HOME_NEWS_SUBSCRIPTION);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/news", name="backpacks_news", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function news(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::HOME_NEWS);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
 
     /**
      * @Route("/backpacks/draftupdatable", name="backpacks_draft_updatable", methods={"GET"})

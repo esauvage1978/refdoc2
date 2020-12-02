@@ -32,6 +32,14 @@ private const STATE='state';
     public function getData(string $filter)
     {
         $datas = [
+            BackpackMakerDto::HOME_NEWS => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les actualités',
+            ],
+            BackpackMakerDto::HOME_NEWS_SUBSCRIPTION => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les actualités / Abonnement',
+            ],
             BackpackMakerDto::DRAFT => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Les brouillons',

@@ -61,6 +61,11 @@ class DashboardController extends AbstractController
             $md->getData(BackpackMakerDto::MY_PUBLISHED_UPDATABLE),
         ];
 
+        $news = [
+            $md->getData(BackpackMakerDto::HOME_NEWS),
+            $md->getData(BackpackMakerDto::HOME_NEWS_SUBSCRIPTION),
+        ];
+
         return $this->render(
             'dashboard/index.html.twig',
             [
@@ -70,7 +75,8 @@ class DashboardController extends AbstractController
                 'toValidate' => $toValidate,
                 'toControl' => $toControl,
                 'toCheck' => $toCheck,
-                'published'=> $published
+                'published'=> $published,
+                'news' => $news
             ]
         );
     }
