@@ -1,19 +1,24 @@
 {% import "macros/widgets.html.twig" as widgets %}
 {% import "macros/workflow.html.twig" as workflow %}
+{% import "macros/widgets.html.twig" as widgets %}
 {% import "macros/backpack.html.twig" as bpk %}
 
 <h3 class="text-bold text-p-dark">
 	<a href="{{ path('backpack_show',{id: item.id})}}" class="text-p-dark">
 
 		{{ widgets.icon('backpack') }}
-		{% if item.ref %}<span class="text-muted">{{ item.ref }}</span>{% endif %}
-		
-{{ item.name }}
-{{ bpk.isNew(item.updatedat)}}
+		{% if item.ref %}
+			<span class="text-muted">{{ item.ref }}</span>
+		{% endif %}
+
+		{{ item.name }}
+		{{ bpk.isNew(item.updatedat)}}
 
 	</a>
 
 </h3>
+
+
 <div class="row d-flex justify-content-end">
 	<div class="bg-p-light  mr-4 text-p-dark shadow">
 		<span class=" bg-p-light p-1  text-p-dark h-100">

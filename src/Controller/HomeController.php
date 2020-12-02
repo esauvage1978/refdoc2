@@ -22,7 +22,8 @@ class HomeController extends AbstractController
      */
     public function index(BackpackDtoRepository $backpackDtoRepository, CurrentUser $user)
     {
-        $md = new MakeDashboard($backpackDtoRepository, $this->getUser());
+        $md = new MakeDashboard($backpackDtoRepository, $user->getUser());
+        $m=new BackpackMakerDto($user->getUser());
 
         $dash_options = [
             $md->getData(BackpackMakerDto::DRAFT_UPDATABLE),
@@ -32,6 +33,8 @@ class HomeController extends AbstractController
             $md->getData(BackpackMakerDto::TO_VALIDATE_UPDATABLE),
         ];
 
+        $news = $backpackDtoRepository->findAllForDto($m->get(BackpackMakerDto::HOME_NEWS_SUBSCRIPTION));
+
         if($user->isControl()) {
             $dash_options=array_merge($dash_options,[$md->getData(BackpackMakerDto::TO_CONTROL)]);
         }
@@ -40,7 +43,7 @@ class HomeController extends AbstractController
             $dash_options = array_merge($dash_options, [$md->getData(BackpackMakerDto::TO_CHECK)]);
         }
 
-        return $this->render('home/index.html.twig', ['dash_options' => $dash_options]);
+        return $this->render('home/index.html.twig', ['dash_options' => $dash_options,'news'=>$news]);
     }
 
 }
