@@ -40,14 +40,30 @@ class AjaxBackpackController extends AbstractGController
     }
 
     /**
-     * @Route("/ajax/backpack/getref/{id}", name="ajax_backpack_getg_ref", methods={"GET","POST"})
+     * @Route("/ajax/backpack/{id}", name="ajax_backpack_get_ref", methods={"GET","POST"})
+     *
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function AjaxBackpackGetData(Request $request, BackpackRepository $backpackRepository, Backpack $backpack): Response
+    {
+
+        return $this->json([
+            'code' => 200,
+            'value' => $this->renderView('backpack/_show/_treeContent.html.twig', ['item' => $backpack]),
+            'message' => 'données transmises'
+        ], 200);
+    }
+
+    /**
+     * @Route("/ajax/backpack/getref/{id}", name="ajax_backpack_get_data", methods={"GET","POST"})
      *
      * @return Response
      * @IsGranted("ROLE_USER")
      */
     public function AjaxBackpackGetRef(Request $request, BackpackRepository $backpackRepository, Backpack $backpack): Response
     {
-        $bgr=new BackpackGenerateRef($backpackRepository,$backpack);
+        $bgr = new BackpackGenerateRef($backpackRepository, $backpack);
 
         return $this->json([
             'code' => 200,
@@ -55,6 +71,7 @@ class AjaxBackpackController extends AbstractGController
             'message' => 'données transmises'
         ], 200);
     }
+
 
     /**
      * @Route("/ajax/getmpforcontribute", name="ajax_cmb_mp_for_contribute", methods={"GET","POST"})

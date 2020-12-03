@@ -42,15 +42,15 @@ private const STATE='state';
             ],
             BackpackMakerDto::DRAFT => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
-                self::TITLE => 'Les brouillons',
+                self::TITLE => 'Tous les brouillons',
             ],
             BackpackMakerDto::DRAFT_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
-                self::TITLE => 'Les brouillons modifiables',
+                self::TITLE => 'Les brouillons',
             ],
             BackpackMakerDto::MY_DRAFT_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
-                self::TITLE => 'Mes brouillons modifiables',
+                self::TITLE => 'Mes brouillons',
             ],
             BackpackMakerDto::ABANDONNED => [
                 self::STATE =>  WorkflowData::STATE_ABANDONNED,
@@ -58,43 +58,43 @@ private const STATE='state';
             ],
             BackpackMakerDto::ABANDONNED_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_ABANDONNED,
-                self::TITLE => 'Les abandonnés modifiables',
+                self::TITLE => 'Les abandonnés',
             ],
             BackpackMakerDto::MY_ABANDONNED_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_ABANDONNED,
-                self::TITLE => 'Mes abandonnés modifiables',
+                self::TITLE => 'Mes abandonnés',
             ],
             BackpackMakerDto::TO_RESUME => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
-                self::TITLE => 'Les porte-documents à reprendre',
+                self::TITLE => 'Tous ceux à reprendre',
             ],
             BackpackMakerDto::TO_RESUME_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
-                self::TITLE => 'A reprendre et modifiables',
+                self::TITLE => 'A reprendre',
             ],
             BackpackMakerDto::MY_TO_RESUME_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
-                self::TITLE => 'Mes porte-documents à reprendre',
+                self::TITLE => 'A reprendre (vos porte-documents)',
             ],
             BackpackMakerDto::TO_VALIDATE => [
                 self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
-                self::TITLE => 'Les porte-documents à valider',
+                self::TITLE => 'Tous ceux à valider',
             ],
             BackpackMakerDto::TO_VALIDATE_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
-                self::TITLE => 'A valider et modifiables',
+                self::TITLE => 'A valider',
             ],
             BackpackMakerDto::MY_TO_VALIDATE_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
-                self::TITLE => 'Mes porte-documents à valider',
+                self::TITLE => 'A valider  (vos porte-documents)',
             ],
             BackpackMakerDto::TO_CONTROL => [
                 self::STATE =>  WorkflowData::STATE_TO_CONTROL,
-                self::TITLE => 'Les porte-documents à contrôler',
+                self::TITLE => 'A contrôler',
             ],
             BackpackMakerDto::TO_CHECK => [
                 self::STATE =>  WorkflowData::STATE_TO_CHECK,
-                self::TITLE => 'Les porte-documents à vérifier',
+                self::TITLE => 'A vérifier',
             ],
             BackpackMakerDto::PUBLISHED => [
                 self::STATE =>  WorkflowData::STATE_PUBLISHED,

@@ -154,7 +154,17 @@
 			</div>
 		</div>
 	</div>
-</div></div>{% endblock %}{%  block javascripts %}{{ parent() }}<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script><script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script><script type="text/javascript">
+</div></div>{% endblock %}
+
+{%  block javascripts %}
+{{ parent() }}
+<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
+<script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script>
+<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
+<script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script>
+<script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script>
+<script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script>
+<script type="text/javascript">
 
 
 function getBackpackRef(id) {

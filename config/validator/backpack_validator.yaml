@@ -4,6 +4,10 @@ App\Entity\Backpack:
         fields: [mProcess, process, category, name]
         errorPath: name
         message: 'Le nom du porte document "{{ value }}" est déjà déclaré dans cette arborescence.'
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: ref
+        errorPath: ref
+        message: 'La référence {{ value }" est déjà déclarée.'        
   properties:
     name:
       - NotBlank: ~

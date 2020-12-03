@@ -4,6 +4,7 @@ namespace App\Workflow;
 
 use App\Entity\Backpack;
 use App\Repository\BackpackRepository;
+use App\Service\BackpackGenerateRef;
 
 class BackpackCheck
 {
@@ -80,6 +81,20 @@ class BackpackCheck
             $this->backpackCheckMessage->addMessageError('Référence non unique');
         } else {
             $this->backpackCheckMessage->addMessageSuccess('Référence unique');
+        }
+    }
+
+    public function checkRefCoherent()
+    {
+        if (empty($this->backpack->getRef())) {
+            return;
+        }
+        $pattern=(new BackpackGenerateRef($this->backpackRepository,$this->backpack))->getPattern();
+
+        if (strpos ($pattern,$this->backpack->getRef()) ==false) {
+            $this->backpackCheckMessage->addMessageError('La référence n\'est pas cohérente. Elle doit commencer par : ' . $pattern);
+        } else {
+            $this->backpackCheckMessage->addMessageSuccess('Référence cohérente');
         }
     }
 

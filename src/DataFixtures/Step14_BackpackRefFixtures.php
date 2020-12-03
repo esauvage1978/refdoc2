@@ -76,7 +76,7 @@ class Step14_BackpackRefFixtures extends Fixture implements FixtureGroupInterfac
              * var Backpack
              */
             $backpack = $this->backpacks[$i];
-            if($backpack->getStateCurrent()==WorkflowData::STATE_PUBLISHED) {
+            if($backpack->getStateCurrent()!==WorkflowData::STATE_ABANDONNED) {
                 $bgr=new BackpackGenerateRef($this->backpackRepository,$backpack);
                 $backpack
                     ->setRef($bgr->get());

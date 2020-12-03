@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class BackpackRepository extends ServiceEntityRepository
 {
     const ALIAS = 'b';
-    
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Backpack::class);
@@ -46,19 +46,26 @@ class BackpackRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findCountForRefPattern(string $refPattern)
+    public function findCountForRefPattern(string $refPattern, $id=null)
     {
         $builder = $this->createQueryBuilder(self::ALIAS)
             ->select('count(\'ref\')');
 
         $builder
             ->Where(self::ALIAS . '.stateCurrent != \'abandonned\'')
-            ->andWhere(self::ALIAS . '.ref like :pattern')
-            ->setParameter('pattern', '%' . $refPattern . '%');
+            ->andWhere(self::ALIAS . '.ref like :pattern');
+
+        if ($id === null) {
+            $builder->setParameter('pattern', '%' . $refPattern . '%');
+        } else {
+            $builder
+                ->andWhere(self::ALIAS . '.id != :id')
+                ->setParameters(['pattern' => '%' . $refPattern . '%', 'id' => $id]);
+        }
 
         return $builder->getQuery()->getSingleScalarResult();
     }
-    public function findCountForRefPatternCheck(string $refPattern,$id)
+    public function findCountForRefPatternCheck(string $refPattern, $id)
     {
         $builder = $this->createQueryBuilder(self::ALIAS)
             ->select('count(\'ref\')');
@@ -67,7 +74,7 @@ class BackpackRepository extends ServiceEntityRepository
             ->Where(self::ALIAS . '.stateCurrent != \'abandonned\'')
             ->andWhere(self::ALIAS . '.ref like :pattern')
             ->andWhere(self::ALIAS . '.id != :id')
-            ->setParameters(['pattern'=> '%' . $refPattern . '%','id'=>$id]);
+            ->setParameters(['pattern' => '%' . $refPattern . '%', 'id' => $id]);
 
         return $builder->getQuery()->getSingleScalarResult();
     }
@@ -101,6 +108,4 @@ class BackpackRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 }

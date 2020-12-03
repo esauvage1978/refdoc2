@@ -8,6 +8,7 @@ use App\Security\CurrentUser;
 use App\Repository\UserRepository;
 use App\Manager\BackpackStateManager;
 use App\Event\WorkflowTransitionEvent;
+use App\Repository\BackpackRepository;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\StateMachine;
 use Symfony\Component\Security\Core\Security;
@@ -49,18 +50,25 @@ class WorkflowBackpackManager
      */
     private $userRepository;
 
+    /**
+     * @var BackpackRepository
+     */
+    private $backpackRepository;
+
     public function __construct(
         BackpackStateManager $backpackStateManager,
         Registry $workflow,
         CurrentUser $currentUser,
         EventDispatcherInterface $dispatcher,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        BackpackRepository $backpackRepository
     ) {
         $this->backpackStateManager = $backpackStateManager;
         $this->currentUser = $currentUser;
         $this->workflow = $workflow;
         $this->dispatcher = $dispatcher;
         $this->userRepository = $userRepository;
+        $this->backpackRepository= $backpackRepository;
     }
 
     private function initialiseStateMachine(Backpack $item)
@@ -95,7 +103,7 @@ class WorkflowBackpackManager
 
     private function apply_change_state(Backpack $item, string $transition, bool $automate, string $content)
     {
-        $this->workflowBackpackTransitionManager = new WorkflowBackpackTransitionManager($item, $transition);
+        $this->workflowBackpackTransitionManager = new WorkflowBackpackTransitionManager($item, $this->backpackRepository, $transition);
         $this->workflowBackpackTransitionManager->intialiseBackpackForTransition($content, $automate);
         $this->stateMachine->apply($item, $transition);
     }

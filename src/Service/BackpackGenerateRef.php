@@ -32,8 +32,11 @@ class BackpackGenerateRef
     public function get()
     {
         $pattern=$this->getPattern();
-
-        return $pattern . ($this->backpackRepository->findCountForRefPattern($pattern)+1);
+        if($this->backpack->getId()===null) {
+            return $pattern . ($this->backpackRepository->findCountForRefPattern($pattern)+1);
+        } else {
+            return $pattern . ($this->backpackRepository->findCountForRefPattern($pattern, $this->backpack->getId()) + 1);
+        }
     }
 
     public function getPattern()

@@ -510,7 +510,7 @@ class Backpack implements EntityInterface
         return $this->ref;
     }
 
-    public function setRef(string $ref): self
+    public function setRef(?string $ref): self
     {
         $this->ref = $ref;
 
