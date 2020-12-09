@@ -2,15 +2,16 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\User;
 use App\Entity\Backpack;
 use App\Mail\BackpackMail;
 use App\Workflow\WorkflowData;
 use App\Helper\ParamsInServices;
+use App\Repository\UserRepository;
 use App\Entity\BackpackMailHistory;
 use App\Event\WorkflowTransitionEvent;
 use App\Repository\BackpackRepository;
 use App\Manager\BackpackMailHistoryManager;
-use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -84,6 +85,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
             WorkflowData::STATE_TO_CONTROL,
             WorkflowData::STATE_TO_CHECK,
             WorkflowData::STATE_PUBLISHED,
+            WorkflowData::STATE_TO_REVISE,
         ];
 
         if (in_array($state, $mailState)) {
@@ -105,6 +107,12 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
             WorkflowData::STATE_TO_CONTROL,
             WorkflowData::STATE_TO_CHECK,
             WorkflowData::STATE_PUBLISHED,
+            WorkflowData::STATE_TO_REVISE,
+        ];
+
+        $stateForContributor = [
+            WorkflowData::STATE_TO_RESUME,
+            WorkflowData::STATE_TO_REVISE,
         ];
 
         $stateForValidator = [
@@ -118,6 +126,9 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
         }
         if (in_array($state, $stateForValidator)) {
             $this->getUserForValidator($backpack);
+        }
+        if (in_array($state, $stateForContributor)) {
+            $this->getUserForContributor($backpack);
         }
         if ($state === WorkflowData::STATE_TO_CONTROL) {
             $this->getUsersControl();
@@ -165,69 +176,57 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
 
     public function getUserMprocessValider(Backpack $backpack)
     {
-        foreach ($backpack->getMProcess()->getDirValidators() as $user) {
-            if ($user->getIsEnable()) {
-                if (!$this->users->contains($user)) {
-                    $this->users[] = $user;
-                }
-            }
-        }
+        $this->addUsers($backpack->getMProcess()->getDirValidators());
     }
     public function getOwner(Backpack $backpack)
     {
-        if ($backpack->getOwner()->getIsEnable()) {
-            if (!$this->users->contains($backpack->getOwner())) {
-                $this->users[] = $backpack->getOwner();
-            }
-        }
+
+        $this->addUser($backpack->getOwner());
     }
 
     public function getUsersControl()
     {
-        $users = $this->userRepository->findAllForControl();
-        foreach ($users as $user) {
-            if (!$this->users->contains($user)) {
-                $this->users[] = $user;
-            }
-        }
+        $this->addUsers($this->userRepository->findAllForControl());
     }
 
     public function getUsersDoc()
     {
-        $users = $this->userRepository->findAllForDoc();
-        foreach ($users as $user) {
-            if (!$this->users->contains($user)) {
-                $this->users[] = $user;
-            }
-        }
+        $this->addUsers($this->userRepository->findAllForDoc());
     }
 
     public function getUserForValidator(Backpack $backpack)
     {
         if ($backpack->getProcess() !== null) {
-            foreach ($backpack->getProcess()->getValidators() as $user) {
-                if ($user->getIsEnable()) {
-                    if (!$this->users->contains($user)) {
-                        $this->users[] = $user;
-                    }
-                }
-            }
+            $this->addUsers($backpack->getProcess()->getValidators());
         } elseif ($backpack->getCategory()->getIsValidatedByADD()) {
-            foreach ($backpack->getMProcess()->getDirValidators() as $user) {
-                if ($user->getIsEnable()) {
-                    if (!$this->users->contains($user)) {
-                        $this->users[] = $user;
-                    }
-                }
-            }
+            $this->addUsers($backpack->getMProcess()->getDirValidators());
         } else {
-            foreach ($backpack->getMProcess()->getPoleValidators() as $user) {
-                if ($user->getIsEnable()) {
-                    if (!$this->users->contains($user)) {
-                        $this->users[] = $user;
-                    }
-                }
+            $this->addUsers($backpack->getMProcess()->getPoleValidators());
+        }
+    }
+
+    public function getUserForContributor(Backpack $backpack)
+    {
+        if ($backpack->getProcess() !== null) {
+            $this->addUsers($backpack->getProcess()->getContributors());
+        } else {
+            $this->addUsers($backpack->getMProcess()->getContributors());
+        }
+    }
+
+    private function addUser(User $user)
+    {
+        if ($user->getIsEnable()) {
+            if (!$this->users->contains($user)) {
+                $this->users[] = $user;
             }
+        }
+    }
+
+    private function addUsers($users)
+    {
+        foreach ($users as $user) {
+            $this->addUser($user);
         }
     }
 }

@@ -1,4 +1,8 @@
 {% extends 'backpack/layout.html.twig' %}
+{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+{% import "macros/delele.html.twig" as del %}
+{% import "macros/submit.html.twig" as sub %}
+{% import "macros/save.html.twig" as save %}
 
 
 {% block page_subtitle %}Création
@@ -24,10 +28,6 @@
 
 			{% if item is defined %}
 
-				{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
-				{% import "macros/delele.html.twig" as del %}
-				{% import "macros/submit.html.twig" as sub %}
-				{% import "macros/save.html.twig" as save %}
 
 				{{ form_start(form) }}
 
@@ -39,7 +39,7 @@
 					{{ include(domaine ~ '/_edit/_process.html.twig') }}
 
 					{{ include(domaine ~ '/_edit/_name.html.twig') }}
-{{ save.btn()}}
+					{{ save.btn()}}
 
 
 					<p class="mt-5 mb-5"></p>

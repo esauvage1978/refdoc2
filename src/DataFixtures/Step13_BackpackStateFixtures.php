@@ -12,7 +12,7 @@ use App\Repository\ProcessRepository;
 use App\Repository\BackpackRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\MProcessRepository;
-use App\Service\BackpackGenerateRef;
+use App\Service\BackpackRefGenerator;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Workflow\WorkflowBackpackManager;
@@ -103,7 +103,7 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
             }
             $backpack
                 ->setStateContent('Forçage de l\'état dans les fixtures sans passer par le cycle normal')
-                ->setStateAt(new \DateTime())
+                ->setStateAt($faker->dateTimeBetween($startDate = '-2 years', $endDate = 'now', $timezone = null))
                 ->setUpdatedAt($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null));
             $this->checkAndPersist($backpack);
             $this->entityManagerInterface->flush();

@@ -10,10 +10,11 @@ use App\Dto\ProcessDto;
 use App\Dto\MProcessDto;
 use App\Entity\Backpack;
 use App\Entity\Category;
-use App\Service\BackpackGenerateRef;
+use App\Service\BackpackRefGenerator;
 use App\Repository\BackpackRepository;
 use App\Repository\ProcessDtoRepository;
 use App\Repository\MProcessDtoRepository;
+use App\Service\BackpackRefControllator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,12 +30,18 @@ class AjaxBackpackController extends AbstractGController
      */
     public function AjaxBackpackGetRefCheck(Request $request, BackpackRepository $backpackRepository): Response
     {
-        $pattern= $request->request->has('pattern') ? $request->request->get('pattern') : null;
-        $id = $request->request->has('id') ? $request->request->get('id') : null;
-        $nbr=$backpackRepository->findCountForRefPatternCheck($pattern,$id);    
+        $ref =  $request->request->get('ref');
+        $id =  $request->request->get('id');
+
+        $backpack = $backpackRepository->find($id);
+        $brc = new BackpackRefControllator($backpackRepository, $backpack);
+        
+        $msgOK="<span class='alert alert-success'>".$ref . " est utilisable</span>";
+        $msgK0 = "<span class='alert alert-danger'>" . $ref . " est déjà utilisé</span>";
+
         return $this->json([
             'code' => 200,
-            'value' => $nbr==0?'OK':'Attention, présente de doublon',
+            'value' => $brc->isUnique($ref)===true ? $msgOK : $msgK0,
             'message' => 'données transmises'
         ], 200);
     }
@@ -63,7 +70,7 @@ class AjaxBackpackController extends AbstractGController
      */
     public function AjaxBackpackGetRef(Request $request, BackpackRepository $backpackRepository, Backpack $backpack): Response
     {
-        $bgr = new BackpackGenerateRef($backpackRepository, $backpack);
+        $bgr = new BackpackRefGenerator($backpackRepository, $backpack);
 
         return $this->json([
             'code' => 200,

@@ -57,18 +57,7 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
-    /**
-     * @Route("/backpack/{id}/history", name="backpack_history", methods={"GET","POST"})
-     * @return Response
-     * @IsGranted("ROLE_USER")
-     */
-    public function history(Request $request, Backpack $item): Response
-    {
-        return $this->render('backpack/history.html.twig', [
-            'item' => $item,
-            'histories' => null
-        ]);
-    }
+
 
 
     public function widgetBackpackSubscriptionAction(): Response
@@ -81,7 +70,7 @@ class BackpackTreeController extends AbstractGController
     public function widgetBackpacksAction(): Response
     {
         $md = new BackpackCounter($this->backpackDtoRepository, $this->getUser());
-        $nbr = $md->get(BackpackMakerDto::PUBLISHED);
+        $nbr = $md->get(BackpackMakerDto::BACKPACK_SHOW);
         return $this->render('backpack/_widgetBackpacks.html.twig', ['nbr' => $nbr]);
     }
 
@@ -92,7 +81,15 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/_widgetBackpacksInProgress.html.twig', ['nbr' => $nbr]);
     }
 
-
+    /**
+     * @Route("/backpacks/show", name="backpacks_show", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function backpacks_show(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::BACKPACK_SHOW);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
     /**
      * @Route("/backpacks/in_progress", name="backpacks_in_progress", methods={"GET"})
      * @IsGranted("ROLE_USER")
@@ -100,6 +97,15 @@ class BackpackTreeController extends AbstractGController
     public function backpacks_in_progress(Request $request)
     {
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::BACKPACK_IN_PROGRESS);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/go_to_revise", name="backpacks_goToRevise", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function backpacks_go_to_revise(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::GO_TO_REVISE);
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
@@ -303,4 +309,34 @@ class BackpackTreeController extends AbstractGController
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_PUBLISHED_UPDATABLE);
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
+
+    /**
+     * @Route("/backpacks/torevise", name="backpacks_toRevise", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_torevise(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::TO_REVISE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/toreviseupdatable", name="backpacks_toRevise_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_torevise_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::TO_REVISE_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/toreviseupdatable", name="backpacks_mytoRevise_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_mytorevise_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_TO_REVISE_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
 }

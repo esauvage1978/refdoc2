@@ -3,6 +3,7 @@
 {% import "macros/delele.html.twig" as del %}
 {% import "macros/submit.html.twig" as sub %}
 {% import "macros/save.html.twig" as save %}
+{% import "macros/workflow.html.twig" as wfl %}
 
 {% block page_subtitle %}
 	<small class="muted text-xs">Modification</small>
@@ -26,17 +27,13 @@
 {% block page_content %}
 
 
-	<div class="row justify-content-center">
-		<div class="col-12">
-			{{ include(domaine ~ '/_show/_identification.html.twig') }}
-		</div>
-	</div>
 	{{ form_start(form) }}
 	{{ form_errors(form) }}
 
-	<div class="row justify-content-center mt-5">
+	<div class="row justify-content-center">
 		<div class="col-lg-12 col-xl-8">
 
+			{{ include(domaine ~ '/_show/_identification.html.twig') }}
 
 			{% if item.stateCurrent in ["draft","toResume","toCheck"] %}
 				{% set nbrL=item.backpackLinks | length %}
@@ -88,8 +85,7 @@
 
 					</div>
 				</div>
-{% elseif item.stateCurrent in ["abandonned","toValidate","toControl","published"] %}
-
+			{% elseif item.stateCurrent in ["abandonned","toValidate","toControl","published","toRevise"] %}
 				{{ include(domaine ~ '/_show/_process.html.twig') }}
 				{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
 				{{ include(domaine ~ '/_show/_content.html.twig') }}
@@ -97,17 +93,14 @@
 
 		</div>
 		<div class="col-lg-12 col-xl-4 ">
-			<h4 class="text-p-dark bg-p-light p-2 rounded">Etat du porte-document</h4>
-
-			{% import "macros/workflow.html.twig" as wfl %}
-
+			<h4 class="text-p-dark  p-2 rounded">Etat du porte-document</h4>
+			<hr/>
 
 			{{ wfl.cards(item) }}
-
 		</div>
 	</div>
 
-	{% import "macros/submit.html.twig" as sub %}
+
 	<div class="d-none">
 		{{form_rest(form)}}
 		{{ sub.btn() }}
@@ -154,17 +147,7 @@
 			</div>
 		</div>
 	</div>
-</div></div>{% endblock %}
-
-{%  block javascripts %}
-{{ parent() }}
-<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
-<script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script>
-<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
-<script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script>
-<script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script>
-<script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script>
-<script type="text/javascript">
+</div></div>{% endblock %}{%  block javascripts %}{{ parent() }}<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script><script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script><script type="text/javascript">
 
 
 function getBackpackRef(id) {
@@ -185,20 +168,23 @@ function getBackpackRefCheck(id) {
 let ref = $('#backpack_ref');
 let result = $('#refcheck');
 
-    $.ajax({
-        method: "POST",
+$.ajax({
+method: "POST",
 url: "{{ path('ajax_backpack_getg_ref_check') }}",
 
-data: { 'id': id, 'pattern': getVal(ref) },
+data: {
+'id': id,
+'ref': getVal(ref)
+},
 
 
-        dataType: 'json',
-        success: function (json) {
-html(result,json.value);
+dataType: 'json',
+success: function (json) {
+html(result, json.value);
 
 
-        }
-    });
+}
+});
 }
 
 

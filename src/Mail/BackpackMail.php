@@ -24,6 +24,7 @@ class BackpackMail
     public const TOCONTROL = 'workflow/toControl';
     public const TOCHECK = 'workflow/toCheck';
     public const PUBLISHED = 'workflow/published';
+    public const TOREVISE = 'workflow/toRevise';
 
     private $mail;
 
@@ -42,6 +43,7 @@ class BackpackMail
             self::TOCONTROL,
             self::TOCHECK,
             self::PUBLISHED,
+            self::TOREVISE
         ];
 
         if (!in_array($context, $contextValid)) {

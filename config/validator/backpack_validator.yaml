@@ -7,7 +7,7 @@ App\Entity\Backpack:
     - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
         fields: ref
         errorPath: ref
-        message: 'La référence {{ value }" est déjà déclarée.'        
+        message: 'La référence {{ value }} est déjà déclarée.'        
   properties:
     name:
       - NotBlank: ~

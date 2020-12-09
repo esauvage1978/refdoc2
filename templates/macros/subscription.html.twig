@@ -20,13 +20,9 @@
 			{% set nbr=nbr+1 %}
 		{% endif %}
 	{% endfor %}
-<div class="p-2 {{ nbr==0 ? 'badge badge-light text-light' :'badge badge-success ' }}">
-
-{{ nbr }}
-
-</div>
-
-
+	<div class="p-2 {{ nbr==0 ? 'badge badge-light text-light' :'badge badge-success ' }}">
+		{{ nbr }}
+	</div>
 {% endmacro %}
 
 {% macro MessageCurrentUser() %}
@@ -62,7 +58,7 @@
 	{% endfor %}
 
 	<div class="small-box bg-p-dark">
-        <div class="inner js-subscription-nbr text-p-light">
+		<div class="inner js-subscription-nbr text-p-light">
 			<h3 class=''>{{ nbr }}</h3>
 			<p>Abonnement{{ nbr > 1 ? 's':'' }}</p>
 		</div>

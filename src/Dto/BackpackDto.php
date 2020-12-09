@@ -37,7 +37,12 @@ class BackpackDto extends AbstractDto
     /**
      * @var ?string
      */
-    private $stateInProgress;
+    private $isInProgress;
+
+    /**
+     * @var ?string
+     */
+    private $isShow;
 
     /**
      * @var ?string
@@ -69,6 +74,17 @@ class BackpackDto extends AbstractDto
      * @var ?string
      */
     private $isForSubscription;
+
+
+    /**
+     * @var ?string
+     */
+    private $isGoToRevise;
+
+    /**
+     * @var ?string
+     */
+    private $isGoToReviseSoon;
 
     /**
      * @return mixed
@@ -158,23 +174,87 @@ class BackpackDto extends AbstractDto
         return $this;
     }
 
-
     /**
-     * @param mixed $stateInProgress
+     * @param mixed $isGoToRevise
      * @return BackpackDto
      */
-    public function setStatInProgress($stateInProgress)
+    public function setIsGoToRevise($isGoToRevise)
     {
-        $this->checkBool($stateInProgress);
-        $this->stateInProgress = $stateInProgress;
+        $this->checkBool($isGoToRevise);
+        $this->isGoToRevise = $isGoToRevise;
+        return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getIsGoToRevise()
+    {
+        return $this->isGoToRevise;
+    }
+
+    /**
+     * @param mixed $isGoToReviseSoon
+     * @return BackpackDto
+     */
+    public function setIsGoToReviseSoon($isGoToReviseSoon)
+    {
+        $this->checkBool($isGoToReviseSoon);
+        $this->isGoToReviseSoon = $isGoToReviseSoon;
+        return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getIsGoToReviseSoon()
+    {
+        return $this->isGoToReviseSoon;
+    }
+
+    /**
+     * @param mixed $IsInProgress
+     * @return BackpackDto
+     */
+    public function setIsInProgress($isInProgress)
+    {
+        $this->checkBool($isInProgress);
+        $this->isInProgress = $isInProgress;
         return $this;
     }
 
+    /**
+     * @param mixed $isShow
+     * @return BackpackDto
+     */
+    public function setIsShow($isShow)
+    {
+        $this->checkBool($isShow);
+        $this->isShow = $isShow;
+        return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getIsShow()
+    {
+        return $this->isShow;
+    }
 
     /**
      * @return mixed
      */
-    public function getStateInProgressData()
+    public function getStatesShow()
+    {
+        return
+            [
+                WorkflowData::STATE_PUBLISHED,
+                WorkflowData::STATE_TO_REVISE,
+            ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatesInProgress()
     {
         return
         [
@@ -189,9 +269,9 @@ class BackpackDto extends AbstractDto
     /**
      * @return mixed
      */
-    public function getStateInProgress()
+    public function getIsInProgress()
     {
-        return $this->stateInProgress;
+        return $this->isInProgress;
     }
 
     /**

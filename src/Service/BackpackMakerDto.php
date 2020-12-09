@@ -20,15 +20,15 @@ class BackpackMakerDto
 
     public const BACKPACK_IN_PROGRESS = 'backpack_in_progress';
 
-    const SEARCH = 'search';
+    public const SEARCH = 'search';
 
-    const DRAFT = 'draft';
-    const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
-    const DRAFT_UPDATABLE = 'draft_updatable';
+    public const DRAFT = 'draft';
+    public const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
+    public const DRAFT_UPDATABLE = 'draft_updatable';
 
-    const ABANDONNED = 'abandonned';
-    const ABANDONNED_UPDATABLE = 'abandonned_updatable';
-    const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
+    public const ABANDONNED = 'abandonned';
+    public const ABANDONNED_UPDATABLE = 'abandonned_updatable';
+    public const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
 
     public const TO_RESUME = 'toResume';
     public const TO_RESUME_UPDATABLE = 'toResume_updatable';
@@ -42,10 +42,18 @@ class BackpackMakerDto
     public const PUBLISHED_UPDATABLE = 'published_updatable';
     public const MY_PUBLISHED_UPDATABLE = 'mypublished_updatable';
 
+    public const GO_TO_REVISE = 'goToRevise';
+    public const GO_TO_REVISE_SOON = 'goToReviseSoon';
+
+    public const TO_REVISE = 'toRevise';
+    public const TO_REVISE_UPDATABLE = 'toRevise_updatable';
+    public const MY_TO_REVISE_UPDATABLE = 'mytoRevise_updatable';
 
     public const TO_CONTROL = 'toControl';
 
     public const TO_CHECK = 'toCheck';
+
+    public const BACKPACK_SHOW = 'show';
 
     const HIDE = 'hide';
 
@@ -76,7 +84,7 @@ class BackpackMakerDto
                     $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setStatInProgress(BackpackDto::TRUE)
+                    ->setIsInProgress(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
             case self::HOME_NEWS_SUBSCRIPTION:
@@ -84,7 +92,7 @@ class BackpackMakerDto
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsShow(BackpackDto::TRUE)
                     ->setIsForSubscription(BackpackDto::TRUE)
                     ->setIsNew(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
@@ -94,7 +102,7 @@ class BackpackMakerDto
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsShow(BackpackDto::TRUE)
                     ->setIsNew(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;                            
@@ -103,7 +111,7 @@ class BackpackMakerDto
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
                 }
                 $dto
-                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsShow(BackpackDto::TRUE)
                     ->setIsForSubscription(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
@@ -211,11 +219,28 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_TO_CHECK)
                     ->setVisible(BackpackDto::TRUE);
                 break;
+            case self::BACKPACK_SHOW:
+                $dto
+                    ->setIsShow(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                
             case self::PUBLISHED:
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
                     ->setVisible(BackpackDto::TRUE);
                 break;
+            case self::GO_TO_REVISE:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsGoToRevise(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::GO_TO_REVISE_SOON:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
+                    ->setIsGoToReviseSoon(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                
             case self::PUBLISHED_UPDATABLE:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
@@ -223,6 +248,7 @@ class BackpackMakerDto
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
                     ->setIsValidatorForCategory(BackpackDto::TRUE)
+                    ->setIsContributor(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;
             case self::MY_PUBLISHED_UPDATABLE:
@@ -233,8 +259,31 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
                     ->setIsContributor(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                
-                                        
+                break;
+            case self::TO_REVISE:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_REVISE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::TO_REVISE_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_REVISE)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setIsValidator(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::MY_TO_REVISE_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_TO_REVISE)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;                                        
         }
 
         return $dto;

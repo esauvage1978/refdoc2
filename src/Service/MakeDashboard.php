@@ -40,6 +40,10 @@ private const STATE='state';
                 self::STATE =>  WorkflowData::STATE_PUBLISHED,
                 self::TITLE => 'Les actualités / Abonnement',
             ],
+            BackpackMakerDto::GO_TO_REVISE => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'A réviser',
+            ],
             BackpackMakerDto::DRAFT => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Tous les brouillons',
@@ -107,7 +111,19 @@ private const STATE='state';
             BackpackMakerDto::MY_PUBLISHED_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_PUBLISHED,
                 self::TITLE => 'Mes publiés modifiables',
-            ],            
+            ],
+            BackpackMakerDto::TO_REVISE => [
+                self::STATE =>  WorkflowData::STATE_TO_REVISE,
+                self::TITLE => 'A réviser',
+            ],
+            BackpackMakerDto::TO_REVISE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_REVISE,
+                self::TITLE => 'A réviser',
+            ],
+            BackpackMakerDto::MY_TO_REVISE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_REVISE,
+                self::TITLE => 'A réviser (Mes porte-documents)',
+            ],        
                                      
         ];
 

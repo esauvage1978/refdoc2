@@ -95,7 +95,7 @@ class WorkflowBackpackManager
 
             return true;
         } else {
-            dump('ERROR can:not. Workflow : ' . $item->getCategory()->getWorkflowName() .'.Current state : ' . $item->getStateCurrent() . '. Transition : ' . $transition);
+            dump('ERROR ' . $item->getId() . ' can:not. Workflow : ' . $item->getCategory()->getWorkflowName() .'.Current state : ' . $item->getStateCurrent() . '. Transition : ' . $transition);
         }
 
         return false;

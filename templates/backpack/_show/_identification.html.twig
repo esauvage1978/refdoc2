@@ -3,67 +3,70 @@
 {% import "macros/widgets.html.twig" as widgets %}
 {% import "macros/backpack.html.twig" as bpk %}
 <section>
-	<h3 class="text-bold text-p-dark">
-		<a href="{{ path('backpack_show',{id: item.id})}}" class="text-p-dark">
+	<div class="row col-12 ">
 
-			{{ widgets.icon('backpack') }}
-			{% if item.ref %}
-				<span class="text-muted">{{ item.ref }}</span>
-			{% endif %}
+		<h3 class="text-bold text-p-dark ">
 
-			{{ item.name }}
-			{{ bpk.isNew(item.updatedat)}}
+			<a href="{{ path('backpack_show',{id: item.id})}}" class="text-p-dark">
 
-		</a>
+				{{ widgets.icon('backpack') }}
+				{% if item.ref %}
+					<span class="text-muted">{{ item.ref }}</span>
+				{% endif %}
 
-	</h3>
+				{{ item.name }}
+				{% if item.stateCurrent=='published' %}
+					{{ bpk.isNew(item.updatedat)}}
+				{% endif %}
+			</a>
+		</h3>
+	</div>
 
-	<div class="row d-flex justify-content-end">
-		<div class="bg-p-light  mr-4 text-p-dark shadow">
-			<span class=" bg-p-light p-1  text-p-dark h-100">
-
-				<i class="{{ item.category.icone }} " style="
-													{% if item.category.forecolor is defined %}
-														color:{{ item.category.forecolor }};
-													{% endif %}
-													{% if item.category.bgcolor is defined %}
-														background-color:{{ item.category.bgcolor }};
-													{% endif %}"></i>
-				{{ item.category.name }}
-
-			</span>
-			|<span class=" bg-p-light p-1  pl-2 text-p-dark">
-
-				{{ widgets.icon('user','text-p-dark') }}
-				{{item.owner.name}}
-			</span>
-
-			{% if item.updatedat %}
-				|<span class=" bg-p-light p-1  pl-2 text-p-dark">
+	<div class="row  d-flex justify-content-end mr-1 pb-2 text-gray">
 
 
-					{{ widgets.icon('calendar','text-p-dark') }}
+		<div class="badge">
+			<i class="{{ item.category.icone }} " style="
+							{% if item.category.forecolor is defined %}
+								color:{{ item.category.forecolor }};
+							{% endif %}
+							{% if item.category.bgcolor is defined %}
+								background-color:{{ item.category.bgcolor }};
+							{% endif %}"></i>
+			{{ item.category.name }}
+		</div>
+		<div class="badge">
 
-					<small class="text-muted">Modifié
-					</small>
-					{{ widgets.showShortDate(item.updatedat) }}
-				</span>
+			{{ widgets.icon('user','text-p-dark2') }}
+			{{item.owner.name}}
+		</div>
+
+		{% if item.updatedat %}
+			<div class="badge">
+
+				{{ widgets.icon('calendar','text-p-dark2') }}
+
+				<small class="text-muted">Modifié le
+				</small>
+				{{ widgets.showShortDate(item.updatedat) }}
+			</div>
 
 
-			{% else %}
-				|<span class=" bg-p-light p-1  pl-2 text-p-dark">
-					{{ widgets.icon('calendar','text-p-dark') }}
+		{% else %}
+			<div class="badge">
 
-					<small class="text-muted">Créé
-					</small>
-					{{ widgets.showShortDate(item.createdat) }}
-				</span>
+				{{ widgets.icon('calendar','text-p-dark2') }}
 
-			{% endif %}
+				<small class="text-muted">Créé le
+				</small>
+				{{ widgets.showShortDate(item.createdat) }}
+			</div>
 
-			|<span class=" bg-p-light p-1 pl-2 text-p-dark">
-				{{ workflow.badge_state(item.stateCurrent) }}
-			</span>
+		{% endif %}
+
+		<div class="badge">
+
+			{{ workflow.badge_state(item.stateCurrent) }}
 		</div>
 	</div>
 </section>

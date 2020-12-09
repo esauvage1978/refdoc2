@@ -1,6 +1,8 @@
 {% extends 'user/layout.html.twig' %}
 {% import "macros/datatables.html.twig" as tables %}
 {% import "macros/subscription.html.twig" as sub %}
+{% import "@AdminLTE/Macros/default.html.twig" as macro %}
+{% import "macros/user.html.twig" as usr %}
 
 {% set columns = {
     '#': {'class': 'all', 'orderBy': true},
@@ -37,8 +39,6 @@
 {% block page_content %}
 
 
-	{% import "@AdminLTE/Macros/default.html.twig" as macro %}
-	{% import "macros/user.html.twig" as usr %}
 
 	{{ tables.datatable_header(tableName, columns,  {'striped': true}) }}
 	{% for item in items %}
@@ -49,7 +49,7 @@
 				</div>
 			</td>
 			<td class="align-middle">
-				<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+				<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'p-dark' : 'danger text-bold' }}">
 					{{ item.name }}
 				</a>
 				<br/>

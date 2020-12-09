@@ -203,6 +203,10 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
 
         $this->initialise_where_state_in_progress();
 
+        $this->initialise_where_states_show();
+
+        $this->initialise_where_go_to_revise();
+
         $this->initialise_where_search();
 
         if (count($this->params) > 0) {
@@ -303,6 +307,19 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                                 self::ALIAS . '.id IN (' . $rqtPValidator->getDQL() . ')' .
                                 '))'
                         );
+                } elseif ($contributor && !$validator && $validatorForCategory) {
+
+                    $this->builder
+                        ->andWhere(
+                            '(( ' . self::ALIAS . '.process is null AND (' .
+                                self::ALIAS . '.id IN (' . $rqtMPContributor->getDQL() . ') OR ' .
+                                self::ALIAS . '.id IN (' . $rqtMPValidatorADDByCategory->getDQL() . ') OR ' .
+                                self::ALIAS . '.id IN (' . $rqtMPValidatorMSByCategory->getDQL() . ') ' .
+                                ')) OR (' .
+                                self::ALIAS . '.id IN (' . $rqtPContributor->getDQL() . ') OR ' .
+                                self::ALIAS . '.id IN (' . $rqtPValidator->getDQL() . ')' .
+                                '))'
+                        );                        
                 } elseif (!$contributor && !$validator && $validatorForCategory) {
                     $this->builder
                         ->andWhere(
@@ -366,19 +383,34 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
 
     private function initialise_where_state_in_progress()
     {
-        if (!empty($this->dto->getStateInProgress())) {
-            $states = implode('\',\'', $this->dto->getStateInProgressData());
+        if (!empty($this->dto->getIsInProgress())) {
+            $states = implode('\',\'', $this->dto->getStatesInProgress());
             $this->builder->andwhere(self::ALIAS . '.stateCurrent in (\'' . $states . '\')');
         }
     }
 
+
+    private function initialise_where_states_show()
+    {
+        if (!empty($this->dto->getIsShow())) {
+            $states = implode('\',\'', $this->dto->getStatesShow());
+            $this->builder->andwhere(self::ALIAS . '.stateCurrent in (\'' . $states . '\')');
+        }
+    }
+
+    private function initialise_where_go_to_revise()
+    {
+        if (!empty($this->dto->getIsGoToRevise())) {
+            $this->builder->andWhere(' CURRENT_DATE() >= DATE_ADD('. self::ALIAS. '.stateAt,'. CategoryRepository::ALIAS.'.timeBeforeRevision,\'month\')');
+        }
+    }
 
     private function initialise_where_enable()
     {
 
         if (!empty($this->dto->getVisible())) {
             $this->builder->andwhere(MProcessRepository::ALIAS . '.isEnable= true');
-            $this->builder->andWhere('(' . ProcessRepository::ALIAS . '.isEnable= true or ' . ProcessRepository::ALIAS . ' . isEnable is null)');
+            $this->builder->andWhere('(' . ProcessRepository::ALIAS . '.isEnable= true or ' . ProcessRepository::ALIAS . '.isEnable is null)');
         } else if (!empty($this->dto->getHide())) {
             $this->builder->andWhere(
                 MProcessRepository::ALIAS . '.isEnable= false OR ' .

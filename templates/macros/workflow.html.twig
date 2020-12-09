@@ -44,8 +44,19 @@
 				-
 				{{item.category.workflowName}}
 			</span>
+			<small>
+				Le
+				{{ widget.showXShortDate(item.stateAt) }}
+			</small>
 		</span>
-
+	</div>
+	<div class="col-sm-12 ">
+		{% if item.stateCurrent=="published" %}
+			<small class="text-xs">
+				Sera à réviser le
+				{{ widget.showXShortDate(item | workflowDateGoToRevise )}}
+			</small>
+		{% endif %}
 	</div>
 	<div class="col-sm-12 ">
 
@@ -121,7 +132,8 @@
 									<small>
 										{% if checkMessage.type == 'success' %}
 											<span class="text-success  ">
-												{{ iconSuccess | raw }} {{ checkMessage.message }}
+												{{ iconSuccess | raw }}
+												{{ checkMessage.message }}
 											</span>
 										{% elseif checkMessage.type == 'danger' %}
 											<span class="text-danger">

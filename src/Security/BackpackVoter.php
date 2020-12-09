@@ -102,12 +102,14 @@ class BackpackVoter extends Voter
             [
                 WorkflowData::STATE_DRAFT,
                 WorkflowData::STATE_TO_RESUME,
+                WorkflowData::STATE_TO_REVISE,
             ];
 
         $restrict_All =
             [
                 WorkflowData::STATE_ABANDONNED,
                 WorkflowData::STATE_PUBLISHED,
+                WorkflowData::STATE_TO_REVISE,
             ];
 
         $restrict_ValidatorByCat =

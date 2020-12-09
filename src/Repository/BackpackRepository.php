@@ -46,7 +46,7 @@ class BackpackRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findCountForRefPattern(string $refPattern, $id=null)
+    public function findCountForRefPattern(string $refPattern)
     {
         $builder = $this->createQueryBuilder(self::ALIAS)
             ->select('count(\'ref\')');
@@ -54,27 +54,20 @@ class BackpackRepository extends ServiceEntityRepository
         $builder
             ->Where(self::ALIAS . '.stateCurrent != \'abandonned\'')
             ->andWhere(self::ALIAS . '.ref like :pattern');
-
-        if ($id === null) {
             $builder->setParameter('pattern', '%' . $refPattern . '%');
-        } else {
-            $builder
-                ->andWhere(self::ALIAS . '.id != :id')
-                ->setParameters(['pattern' => '%' . $refPattern . '%', 'id' => $id]);
-        }
 
         return $builder->getQuery()->getSingleScalarResult();
     }
-    public function findCountForRefPatternCheck(string $refPattern, $id)
+    public function findCountForRef(string $ref, $id)
     {
         $builder = $this->createQueryBuilder(self::ALIAS)
             ->select('count(\'ref\')');
 
         $builder
             ->Where(self::ALIAS . '.stateCurrent != \'abandonned\'')
-            ->andWhere(self::ALIAS . '.ref like :pattern')
+            ->andWhere(self::ALIAS . '.ref = :ref')
             ->andWhere(self::ALIAS . '.id != :id')
-            ->setParameters(['pattern' => '%' . $refPattern . '%', 'id' => $id]);
+            ->setParameters(['ref' => $ref , 'id' => $id]);
 
         return $builder->getQuery()->getSingleScalarResult();
     }

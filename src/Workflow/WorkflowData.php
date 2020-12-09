@@ -13,8 +13,11 @@ class WorkflowData
     const STATE_PUBLISHED = 'published';
     const STATE_ABANDONNED = 'abandonned';
     const STATE_TO_RESUME = 'toResume';
+    const STATE_TO_REVISE = 'toRevise';
+    const STATE_IN_REVIEW = 'inReview';
 
     const TRANSITION_GO_TO_RESUME = 'goToResume';
+    const TRANSITION_GO_TO_REVISE = 'goToRevise';
     const TRANSITION_GO_TO_VALIDATE = 'goToValidate';
     const TRANSITION_GO_TO_CONTROL = 'goToControl';
     const TRANSITION_GO_TO_CHECK = 'goToCheck';
@@ -133,6 +136,32 @@ class WorkflowData
                     ]
                 ]
             ],
+            self::STATE_TO_REVISE =>
+            [
+                self::NAME => ' A réviser',
+                self::ICON => 'fas fa-recycle',
+                self::TITLE_MAIL => ' Un porte-document est à réviser',
+                self::BGCOLOR => '#E851BB',
+                self::FORECOLOR => '#ffffff',
+                self::TRANSITIONS => [
+                    self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_ABANDONNED
+                    ]
+                ]
+            ],
+            self::STATE_IN_REVIEW =>
+            [
+                self::NAME => ' A réviser',
+                self::ICON => 'fab fa-product-hunt',
+                self::TITLE_MAIL => ' Un porte-document est à réviser',
+                self::BGCOLOR => '#ED59FF',
+                self::FORECOLOR => '#ffffff',
+                self::TRANSITIONS => [
+                    self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_ABANDONNED
+                    ]
+                ]
+            ],           
             self::STATE_TO_CHECK =>
             [
                 self::NAME => ' A vérifier',
@@ -170,6 +199,7 @@ class WorkflowData
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_TO_REVISE,
                         self::TRANSITION_GO_ABANDONNED
                     ]
                 ]
@@ -186,6 +216,7 @@ class WorkflowData
             self::TRANSITION_GO_TO_CONTROL,
             self::TRANSITION_GO_TO_CHECK,
             self::TRANSITION_GO_PUBLISHED,
+            self::TRANSITION_GO_TO_REVISE
         ];
 
         if (in_array($data, $datas)) {
@@ -193,6 +224,7 @@ class WorkflowData
         }
         return false;
     }
+
     public static function hasState(string $data): bool
     {
         $datas = [
@@ -203,6 +235,7 @@ class WorkflowData
             self::STATE_TO_CONTROL,
             self::STATE_TO_CHECK,
             self::STATE_PUBLISHED,
+            self::STATE_TO_REVISE
         ];
 
         if (in_array($data, $datas)) {
@@ -306,6 +339,11 @@ class WorkflowData
                 $data['titre'] = 'Publier le document';
                 $data['btn_label'] = 'A publier';
                 break;
+            case self::TRANSITION_GO_TO_REVISE:
+                $data['state'] = self::STATE_TO_REVISE;
+                $data['titre'] = 'Mettre à réviser';
+                $data['btn_label'] = 'A réviser';
+                break;                
         }
 
         return $data;

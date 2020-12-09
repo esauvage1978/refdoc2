@@ -28,6 +28,7 @@ class BackpackHistory extends HistoryAbstract
         $this->compareFieldOneToOne('Macro-processus','FullName', $backpackOld->getMProcess(), $backpackNew->getMProcess()) && $diffPresent = true;
         $this->compareFieldOneToOne('Processus', 'FullName', $backpackOld->getProcess(), $backpackNew->getProcess()) && $diffPresent = true;
         $this->compareField('Nom', $backpackOld->getName(), $backpackNew->getName()) && $diffPresent = true;
+        $this->compareField('Référence', $backpackOld->getRef(), $backpackNew->getRef()) && $diffPresent = true;
         $this->compareField('Description', $backpackOld->getContent(), $backpackNew->getContent()) && $diffPresent = true;
         $this->compareField('Niveau 1', $backpackOld->getDir1(), $backpackNew->getDir1()) && $diffPresent = true;
         $this->compareField('Niveau 2', $backpackOld->getDir2(), $backpackNew->getDir2()) && $diffPresent = true;

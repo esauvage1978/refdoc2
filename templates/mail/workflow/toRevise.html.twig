@@ -1,19 +1,18 @@
 {% extends './mail/template.html.twig' %}
 
 {% block title %}
-	Le porte document est publié
+	Le porte document est à réviser
 {% endblock %}
 {% block title_content %}
-	Publication du porte-document
+	Porte-document à réviser
 {% endblock %}
 
 {% block body %}
 	<p>
-votre porte-document
-<strong>{{ backpack.ref }}
-	-
-	{{ backpack.name }}</strong>
-est publié. La personne qui l'a envoyé dans cet été a laissé le commentaire suivant
+le porte-document
+<strong>{{ backpack.ref }} - {{ backpack.name }}</strong>
+est à réviser. La personne qui l'a envoyé dans cet été a laissé le commentaire suivant
+
 
 	</p>
 	<p>
@@ -29,7 +28,4 @@ est publié. La personne qui l'a envoyé dans cet été a laissé le commentaire
 			{{ url('backpack_show', {'id': backpack.id}) }}
 		</span>
 	</p>
-<p>Ce porte-document sera automatiquement basculé en révision dans
-	{{ backpack.category.timeBeforeRevision }} mois.</p>
-
 {% endblock %}

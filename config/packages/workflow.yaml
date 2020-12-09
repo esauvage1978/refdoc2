@@ -17,6 +17,7 @@ framework:
                 - toControl
                 - toCheck
                 - toResume
+                - toRevise                
                 - published
                 - abandonned
             transitions:
@@ -31,12 +32,15 @@ framework:
                     to: toCheck
                 goPublished:
                     from: toCheck
-                    to: published                                   
+                    to: published    
+                goToRevise:
+                    from: published
+                    to: toRevise                                                   
                 goToResume:
                     from: [published,toValidate, toControl, toCheck, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [published,toValidate, toControl, toCheck, draft, toResume]
+                    from: [published,toValidate,toRevise, toControl, toCheck, draft, toResume]
                     to: abandonned
         wkf_without_doc:
             type: 'state_machine' # or 'state_machine'
@@ -54,6 +58,7 @@ framework:
                 - toControl                
                 - toResume
                 - published
+                - toRevise    
                 - abandonned
             transitions:
                 goToValidate:
@@ -64,12 +69,15 @@ framework:
                     to: toControl 
                 goPublished:
                     from: toControl
-                    to: published                                  
+                    to: published 
+                goToRevise:
+                    from: published
+                    to: toRevise                                   
                 goToResume:
                     from: [published, toValidate, toControl, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [published, toValidate, toControl, draft, toResume]
+                    from: [published, toValidate,toRevise, toControl, draft, toResume]
                     to: abandonned              
         wkf_without_control:
             type: 'state_machine' # or 'state_machine'
@@ -87,17 +95,21 @@ framework:
                 - toCheck
                 - toResume
                 - published
+                - toRevise  
                 - abandonned
             transitions:
                 goToValidate:
                     from: [draft, toResume]
                     to: toValidate                
                 goToResume:
-                    from: [published, toValidate, toCheck, abandonned]
+                    from: [published,toRevise, toValidate, toCheck, abandonned]
                     to: toResume
                 goPublished:
                     from: toCheck
                     to: published
+                goToRevise:
+                    from: published
+                    to: toRevise  
                 goToCheck:
                     from: toValidate
                     to: toCheck                   
@@ -119,6 +131,7 @@ framework:
                 - toValidate
                 - toResume
                 - published
+                - toRevise  
                 - abandonned
             transitions:
                 goToValidate:
@@ -129,9 +142,12 @@ framework:
                     to: toResume
                 goPublished:
                     from: toValidate
-                    to: published                    
+                    to: published
+                goToRevise:
+                    from: published
+                    to: toRevise                      
                 goAbandonned:
-                    from: [published, toValidate, draft, toResume]
+                    from: [published,toRevise, toValidate, draft, toResume]
                     to: abandonned
 
 

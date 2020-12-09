@@ -19,7 +19,7 @@ class LoadFixturesCommand extends Command
     {
         $this
             ->setDescription('load les fixtures.')
-            ->setHelp('Cette commande peremet d\'afficher des occurences de la suite de fiboncci.');
+            ->setHelp('.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

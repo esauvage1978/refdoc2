@@ -10,6 +10,7 @@ use App\Entity\Backpack;
 use App\Workflow\WorkflowData;
 use Twig\Extension\AbstractExtension;
 use App\Repository\BackpackRepository;
+use DateInterval;
 
 class WorkflowExtension extends AbstractExtension
 {
@@ -35,6 +36,7 @@ class WorkflowExtension extends AbstractExtension
             new TwigFilter('workflowGetExplains', [$this, 'workflowGetExplains']),
             new TwigFilter('workflowGetCheckMessages', [$this, 'workflowGetCheckMessages']),
             new TwigFilter('workflowGetIconOfState', [$this, 'workflowGetIconOfState']),
+            new TwigFilter('workflowDateGoToRevise', [$this, 'workflowDateGoToRevise']),
         ];
     }
 
@@ -87,4 +89,11 @@ class WorkflowExtension extends AbstractExtension
         return $instance->getCheckMessages();
     }
 
+    public function workflowDateGoToRevise(Backpack $backpack)
+    {
+        $duree = $backpack->getCategory()->getTimeBeforeRevision();
+        $dateDepart =  $backpack->getStateAt()->getTimestamp();
+        $dateFin=date('Y-m-d', strtotime('+'.$duree.' month', $dateDepart));
+        return $dateFin;
+    }
 }

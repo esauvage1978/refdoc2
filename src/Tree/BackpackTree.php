@@ -74,8 +74,6 @@ class BackpackTree extends AbstractTree
             $this->Dir5($item);
 
 
-
-
             $this->tree[] = [
                 'id' => $item->getid(),
                 'parent' => $this->getParent(),
@@ -121,11 +119,11 @@ class BackpackTree extends AbstractTree
     private function checkState(Backpack $item): string
     {
         if ($item->getStateCurrent() !== null && $this->hideState === false) {
-            return "<span class='badge' style='background-color:" .
-                WorkflowData::getBGColorOfState($item->getStateCurrent()) . 
-                ";color:" . WorkflowData::getForeColorOfState($item->getStateCurrent()) .
-                "'><i class='" . WorkflowData::getIconOfState($item->getStateCurrent()) . "'></i>" .
-                 WorkflowData::getNameOfState($item->getStateCurrent()) . "</span>";
+            return "<span class='badge' style='color:" .
+                WorkflowData::getBGColorOfState($item->getStateCurrent()) .
+            ";background-color:" . WorkflowData::getForeColorOfState($item->getStateCurrent()) .
+                "'><i class='" . WorkflowData::getIconOfState($item->getStateCurrent()) . "'></i>" 
+                  . "</span>";//WorkflowData::getNameOfState($item->getStateCurrent())
         }
         return '';
     }

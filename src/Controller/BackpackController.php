@@ -68,6 +68,7 @@ class BackpackController extends AbstractGController
         ]);
     }
 
+
     /**
      * @Route("/backpack/test/{id}", name="backpack_test", methods={"GET"})
      * @IsGranted("ROLE_USER")
@@ -130,18 +131,6 @@ class BackpackController extends AbstractGController
     }
 
 
-    /**
-     * @Route("/backpack/{id}/history", name="backpack_history", methods={"GET","POST"})
-     * @return Response
-     * @IsGranted("ROLE_USER")
-     */
-    public function history(Request $request, Backpack $item): Response
-    {
-        return $this->render('backpack/history.html.twig', [
-            'item' => $item,
-            'histories' => null
-        ]);
-    }
 
     /**
      * @Route("/backpack/{id}", name="backpack_del", methods={"DELETE"})

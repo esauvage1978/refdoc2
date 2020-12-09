@@ -26,6 +26,7 @@ parameters:
     es.mailer.workflow.toControl: '%env(ES_MAILER_WORKFLOW_TOCONTROL)%'
     es.mailer.workflow.toCheck: '%env(ES_MAILER_WORKFLOW_TOCHECK)%'   
     es.mailer.workflow.published: '%env(ES_MAILER_WORKFLOW_PUBLISHED)%'   
+    es.mailer.workflow.toRevise: '%env(ES_MAILER_WORKFLOW_TOREVISE)%'
 
 services:
     # default configuration for services in *this* file

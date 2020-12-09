@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import "macros/datatables.html.twig" as tables %}
+{% import "macros/backpack.html.twig" as bkp %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/workflow.html.twig" as wkf %}
+
+
 {% set columns = {
     '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
 'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
@@ -20,15 +25,9 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 {% block page_title %}
 	<i class="fas fa-dashboard"></i>
 	Tableau de bord
-
 {% endblock %}
 
 {% block page_content %}
-
-
-	{% import "macros/backpack.html.twig" as bkp %}
-	{% import "macros/widgets.html.twig" as widgets %}
-	{% import "macros/workflow.html.twig" as wkf %}
 
 
 	<div class="row justify-content-center mt-2">
@@ -163,24 +162,34 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 					</td>
 				{% endfor %}
 			</tr>
+			<tr>
+				{{ wkf.state_table_td('toRevise') }}
+				{% for  item in toRevise %}
 
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
 
 			{{ tables.datatable_footer('dsb',1) }}
 
 		</div>
 		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
-
 			<img src="{{ asset('img/dashboard.svg')}}" alt"choix des abonnements" style="width:80%"/>
-
 		</div>
 	</div>
 	{% set columns = {
     '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
-'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+	'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
 
-} %}
+	} %}
 
-<div class="row justify-content-center   d-flex align-items-center">
+	<div class="row justify-content-center   d-flex align-items-center">
 
 		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
 
@@ -206,4 +215,38 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 			{{ tables.datatable_footer('dsb2',1) }}
 		</div>
 	</div>
+	{% set columns = {
+    '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+	'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+	} %}
+
+	<div class="row justify-content-center   d-flex align-items-center">
+
+
+		<div class="col-sm-12 col-lg-6 ">
+			{{ tables.datatable_header('dsb3', columns,  {'striped': true}) }}
+			{% for  item in goToRevise %}
+
+				<tr>
+					<td class="align-middle text-p-dark bg-p-light" style="width:50%">
+						{{ item.title }}
+					</td>
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+			{{ tables.datatable_footer('dsb3',1) }}
+		</div>
+		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
+			<img src="{{ asset('img/revision.svg')}}" alt"révisions" style="width:80%"/>
+		</div>
+
+	</div>
+
 {% endblock %}

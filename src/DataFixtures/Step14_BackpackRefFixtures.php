@@ -12,7 +12,7 @@ use App\Repository\ProcessRepository;
 use App\Repository\BackpackRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\MProcessRepository;
-use App\Service\BackpackGenerateRef;
+use App\Service\BackpackRefGenerator;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Workflow\WorkflowBackpackManager;
@@ -77,7 +77,7 @@ class Step14_BackpackRefFixtures extends Fixture implements FixtureGroupInterfac
              */
             $backpack = $this->backpacks[$i];
             if($backpack->getStateCurrent()!==WorkflowData::STATE_ABANDONNED) {
-                $bgr=new BackpackGenerateRef($this->backpackRepository,$backpack);
+                $bgr=new BackpackRefGenerator($this->backpackRepository,$backpack);
                 $backpack
                     ->setRef($bgr->get());
                 $this->checkAndPersist($backpack);

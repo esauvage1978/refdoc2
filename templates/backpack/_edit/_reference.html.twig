@@ -7,8 +7,10 @@
 			<label for="" class="col-sm-2 col-form-label">Référence</label>
 			<div class="col-sm-3">
 				{{ form_widget(form.ref) }}
+				{{ form_errors(form.ref) }}
 			</div>
 			<div class="col-sm-7">
+
 				<a class="btn btn-p-dark" onclick="getBackpackRef('{{item.id}}');">Générer</a>
 				<a class="btn btn-p-dark" onclick="getBackpackRefCheck('{{item.id}}');">Vérifier</a>
 				<span id='refcheck'></span>

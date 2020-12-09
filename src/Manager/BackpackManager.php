@@ -8,7 +8,7 @@ use App\Security\CurrentUser;
 use App\Entity\EntityInterface;
 use App\History\BackpackHistory;
 use App\Repository\BackpackRepository;
-use App\Service\BackpackGenerateRef;
+use App\Service\BackpackRefGenerator;
 use App\Validator\BackpackValidator;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -70,7 +70,7 @@ class BackpackManager extends AbstractManager
         }
 
         if($bp->getRef()===null) {
-            $ref=(new BackpackGenerateRef($this->backpackRepository, $bp))->get();
+            $ref=(new BackpackRefGenerator($this->backpackRepository, $bp))->get();
             $bp->setRef($ref);
         }
     }

@@ -37,6 +37,7 @@ class WorkflowBackpackTransitionManager
     {
         $this->backpack->setStateAt(new \DateTime());
         $this->backpack->setStateContent($content);
+
         $object = __NAMESPACE__ . '\Transaction\Transition' . ucfirst( $this->transition);
         $instance=new $object($this->backpack, $this->backpackRepository);
         $instance->intialiseBackpackForTransition($automate);

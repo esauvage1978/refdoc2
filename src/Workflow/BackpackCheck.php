@@ -4,7 +4,8 @@ namespace App\Workflow;
 
 use App\Entity\Backpack;
 use App\Repository\BackpackRepository;
-use App\Service\BackpackGenerateRef;
+use App\Service\BackpackRefControllator;
+use App\Service\BackpackRefGenerator;
 
 class BackpackCheck
 {
@@ -73,14 +74,12 @@ class BackpackCheck
         if (empty($this->backpack->getRef())) {
             return;
         }
-        $nbr=$this->backpackRepository->findCountForRefPatternCheck(
-            $this->backpack->getRef(),
-            $this->backpack->getId()
-        );
-        if ($nbr>0) {
-            $this->backpackCheckMessage->addMessageError('Référence non unique');
-        } else {
+        $brc= new BackpackRefControllator($this->backpackRepository,$this->backpack);
+
+        if ($brc->isUnique($this->backpack->getRef())) {
             $this->backpackCheckMessage->addMessageSuccess('Référence unique');
+        } else {
+            $this->backpackCheckMessage->addMessageError('Référence non unique');
         }
     }
 
@@ -89,12 +88,12 @@ class BackpackCheck
         if (empty($this->backpack->getRef())) {
             return;
         }
-        $pattern=(new BackpackGenerateRef($this->backpackRepository,$this->backpack))->getPattern();
+        $brc = new BackpackRefControllator($this->backpackRepository, $this->backpack);
 
-        if (strpos ($pattern,$this->backpack->getRef()) ==false) {
-            $this->backpackCheckMessage->addMessageError('La référence n\'est pas cohérente. Elle doit commencer par : ' . $pattern);
-        } else {
+        if ($brc->isCoherent()) {
             $this->backpackCheckMessage->addMessageSuccess('Référence cohérente');
+        } else {
+            $this->backpackCheckMessage->addMessageError('La référence n\'est pas cohérente. Elle doit commencer par : ' . $pattern );
         }
     }
 

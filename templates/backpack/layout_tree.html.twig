@@ -68,13 +68,20 @@ function getBackpackData(id) {
 var url = '/ajax/backpack/' + id;
 let showData = $('#showdata');
 let hideData = $('#hidedata');
+showData.fadeOut();
+hideData.fadeOut();
 
-html(hideData, '');
 
 
 
 axios.get(url).then(function (response) {
+showData.fadeIn(300);
 html(showData, response.data.value);
+html(hideData, '');
+
+
+
+
 }).catch(function (error) {
 console.log(error);
 });
