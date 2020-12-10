@@ -39,7 +39,7 @@
             <td class="align-middle ">{{ item.ref }}</td>
             <td class="align-middle">
                 <a href="{{ path(route_show,{id:item.id}) }}"
-                   class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+                   class="text-{{ item.isEnable ? 'p-dark' : 'danger text-bold' }}">
                     {{ item.name }}
                     {% if item.grouping %}
                         <br><small class="text-muted">{{ item.grouping }}</small>
@@ -48,7 +48,7 @@
             </td>
             <td class="align-middle small">
                 <a href="{{ path('admin_mprocess_show',{id:item.mprocess.id}) }}"
-                   class="text-{{ item.mprocess.isEnable ? 'primary' : 'danger text-bold' }}">
+                   class="text-{{ item.mprocess.isEnable ? 'p-dark' : 'danger text-bold' }}">
                     {{ item.mprocess.fullname | raw }}
                 </a>
             </td>
@@ -85,8 +85,8 @@
                         'Modifier',
                         path(route_edit,{id:item.id}),
                         'fa fa-edit',
-                        'purple',
-                        'primary btn-sm'
+                        'p-dark',
+                        'p-dark btn-sm'
                     ) }}
                 {% endif %}
             </td>

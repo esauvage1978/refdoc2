@@ -41,7 +41,7 @@
 				<div class=" d-flex align-items-center">
 					<i class="{{item.icone}} fa-2x mr-3" style="background-color:{{item.bgcolor}};color:{{item.forecolor}};"></i>
 
-					<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+					<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'p-dark' : 'danger text-bold' }}">
 						{{ item.name }}
 					</a>
 				</div>
@@ -92,8 +92,8 @@
                         'Modifier',
                         path(route_edit,{id:item.id}),
                         'fa fa-edit',
-                        'purple',
-                        'primary btn-sm'
+                        'p-dark',
+                        'p-dark btn-sm'
                     ) }}
 				{% endif %}
 			</td>

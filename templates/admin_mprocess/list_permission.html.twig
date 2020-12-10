@@ -85,8 +85,8 @@
 						{% set striped = striped == true ? false : true  %}
 
 						<tr>
-							<td class="align-middle  {{ striped == true ? 'table-primary' : '' }}" rowspan="{{nbr_user}}">
-								<a href="{{ path(route_show,{id:item.id}) }}">
+							<td class="align-middle  {{ striped == true ? 'bg-p-light' : '' }}" rowspan="{{nbr_user}}">
+								<a href="{{ path(route_show,{id:item.id}) }}" class="text-p-dark">
 									{{ item.fullname | raw }}
 									{{nbr}}
 								</a>

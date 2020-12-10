@@ -2,14 +2,13 @@
     {% import "macros/delele.html.twig" as del %}
     {% import "macros/btn_actions.html.twig" as btn_actions %}
 
+        {% set save={ 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
     {% if item %}
         {% set permissions='' %}
-{% set subscription={ 'subscription': {url: path('subscription',{id:item.id}),class:'btn-p-dark',attr:{title:'Modification des abonnements'}}} %}
-
+        {% set subscription={ 'subscription': {url: path('subscription',{id:item.id}),class:'btn-p-dark',attr:{title:'Modification des abonnements'}}} %}
         {% set delete={ 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
         {% set show={ 'show': {url: path(domaine~'_show',{id:item.id}),class:'btn-p-dark',attr:{title:'Consulter'}}} %}
         {% set edit={ 'edit': {url: path(domaine~'_edit',{id:item.id}),class:'btn-p-dark',attr:{title:'Modifier'}}} %}
-        {% set save={ 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
     {% endif %}
 {% set create={ 'create': {url: path(domaine~'_add'),class:'btn-p-dark',attr:{title:'Ajouter un élément'}}} %}
 

@@ -5,9 +5,7 @@ namespace App\Listener;
 use App\Entity\User;
 use App\Mail\UserMail;
 use App\Manager\UserManager;
-use App\Helper\ParamsInServices;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserLoginListener
 {
