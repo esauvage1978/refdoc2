@@ -10,6 +10,7 @@ use App\Manager\BackpackStateManager;
 use App\Event\WorkflowTransitionEvent;
 use App\Repository\BackpackRepository;
 use Symfony\Component\Workflow\Registry;
+use App\Manager\BackpackDuplicatorManager;
 use Symfony\Component\Workflow\StateMachine;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -20,6 +21,11 @@ class WorkflowBackpackManager
      * @var BackpackStateManager
      */
     private $backpackStateManager;
+
+    /**
+     * @var BackpackDuplicatorManager
+     */
+    private $backpackDuplicatorManager;
 
     /**
      * @var Registry
@@ -57,6 +63,7 @@ class WorkflowBackpackManager
 
     public function __construct(
         BackpackStateManager $backpackStateManager,
+        BackpackDuplicatorManager $backpackDuplicatorManager,
         Registry $workflow,
         CurrentUser $currentUser,
         EventDispatcherInterface $dispatcher,
@@ -64,6 +71,7 @@ class WorkflowBackpackManager
         BackpackRepository $backpackRepository
     ) {
         $this->backpackStateManager = $backpackStateManager;
+        $this->backpackDuplicatorManager= $backpackDuplicatorManager;
         $this->currentUser = $currentUser;
         $this->workflow = $workflow;
         $this->dispatcher = $dispatcher;
@@ -89,9 +97,12 @@ class WorkflowBackpackManager
 
             $user = $this->loadUser($automate);
 
-            $this->send_mails($user, $item, $automate);
-
+            
             $this->historisation($user, $item, $stateOld);
+            
+            $this->duplicator($user,$item,$stateOld);
+            
+            $this->send_mails($user, $item, $automate);
 
             return true;
         } else {
@@ -119,6 +130,18 @@ class WorkflowBackpackManager
     private function historisation(User $user, Backpack $item, string $stateOld)
     {
         $this->backpackStateManager->saveActionInHistory($item, $stateOld, $user);
+    }
+
+
+    private function duplicator(User $user, Backpack $item, string $stateOld)
+    {
+        if($stateOld=== WorkflowData::STATE_TO_REVISE) {
+            $this->backpackDuplicatorManager->duplicate($item, $user);
+        }
+
+        if ($item->getStateCurrent() === WorkflowData::STATE_PUBLISHED && null!== $item->getBackpackSlave() ) {
+            $this->backpackDuplicatorManager->remove($item->getBackpackSlave());
+        }
     }
 
     private function loadUser(bool $automate)

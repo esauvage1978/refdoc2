@@ -49,6 +49,10 @@ class BackpackMakerDto
     public const TO_REVISE_UPDATABLE = 'toRevise_updatable';
     public const MY_TO_REVISE_UPDATABLE = 'mytoRevise_updatable';
 
+    public const IN_REVIEW = 'inReview';
+    public const IN_REVIEW_UPDATABLE = 'inReview_updatable';
+    public const MY_IN_REVIEW_UPDATABLE = 'myinReview_updatable';
+
     public const TO_CONTROL = 'toControl';
 
     public const TO_CHECK = 'toCheck';
@@ -281,6 +285,30 @@ class BackpackMakerDto
                 }
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_TO_REVISE)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::IN_REVIEW:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_IN_REVIEW)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::IN_REVIEW_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_IN_REVIEW)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setIsValidator(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::MY_IN_REVIEW_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_IN_REVIEW)
                     ->setIsContributor(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
                 break;                                        

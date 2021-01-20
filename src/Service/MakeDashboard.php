@@ -42,7 +42,7 @@ private const STATE='state';
             ],
             BackpackMakerDto::GO_TO_REVISE => [
                 self::STATE =>  WorkflowData::STATE_PUBLISHED,
-                self::TITLE => 'A réviser',
+                self::TITLE => 'Sera basculé à l\'état à réviser',
             ],
             BackpackMakerDto::DRAFT => [
                 self::STATE =>  WorkflowData::STATE_DRAFT,
@@ -123,8 +123,19 @@ private const STATE='state';
             BackpackMakerDto::MY_TO_REVISE_UPDATABLE => [
                 self::STATE =>  WorkflowData::STATE_TO_REVISE,
                 self::TITLE => 'A réviser (Mes porte-documents)',
-            ],        
-                                     
+            ],
+            BackpackMakerDto::IN_REVIEW => [
+                self::STATE =>  WorkflowData::STATE_IN_REVIEW,
+                self::TITLE => 'En révision',
+            ],
+            BackpackMakerDto::IN_REVIEW_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_IN_REVIEW,
+                self::TITLE => 'En révision',
+            ],
+            BackpackMakerDto::MY_IN_REVIEW_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_IN_REVIEW,
+                self::TITLE => 'En révision (Mes porte-documents)',
+            ],                            
         ];
 
 

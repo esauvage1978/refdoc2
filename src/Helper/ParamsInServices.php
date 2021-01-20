@@ -36,6 +36,7 @@ class ParamsInServices
     public const ES_MAILER_WORKFLOW_TOCHECK = 'es.mailer.workflow.toCheck';
     public const ES_MAILER_WORKFLOW_PUBLISHED = 'es.mailer.workflow.published';
     public const ES_MAILER_WORKFLOW_TOREVISE = 'es.mailer.workflow.toRevise';
+    public const ES_MAILER_WORKFLOW_INREVIEW = 'es.mailer.workflow.inReview';
 
     /** @var ParameterBagInterface */
     private $params;
@@ -64,7 +65,8 @@ class ParamsInServices
             self::ES_MAILER_WORKFLOW_TOCONTROL,
             self::ES_MAILER_WORKFLOW_TOCHECK,
             self::ES_MAILER_WORKFLOW_PUBLISHED,
-            self::ES_MAILER_WORKFLOW_TOREVISE
+            self::ES_MAILER_WORKFLOW_TOREVISE,
+            self::ES_MAILER_WORKFLOW_INREVIEW
         ];
     }
 

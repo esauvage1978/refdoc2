@@ -68,6 +68,12 @@ class DashboardController extends AbstractController
             $md->getData(BackpackMakerDto::MY_TO_REVISE_UPDATABLE),
         ];
 
+        $inReview = [
+            $md->getData(BackpackMakerDto::IN_REVIEW),
+            $md->getData(BackpackMakerDto::IN_REVIEW_UPDATABLE),
+            $md->getData(BackpackMakerDto::MY_IN_REVIEW_UPDATABLE),
+        ];
+
         $news = [
             $md->getData(BackpackMakerDto::HOME_NEWS),
             $md->getData(BackpackMakerDto::HOME_NEWS_SUBSCRIPTION),
@@ -90,6 +96,7 @@ class DashboardController extends AbstractController
                 'news' => $news,
                 'toRevise' => $toRevise,
                 'goToRevise' => $goToRevise,
+                'inReview' => $inReview,
             ]
         );
     }

@@ -27,46 +27,47 @@
 
 		<div class="badge">
 			<i class="{{ item.category.icone }} " style="
-							{% if item.category.forecolor is defined %}
-								color:{{ item.category.forecolor }};
-							{% endif %}
-							{% if item.category.bgcolor is defined %}
-								background-color:{{ item.category.bgcolor }};
-							{% endif %}"></i>
+															{% if item.category.forecolor is defined %}
+																color:{{ item.category.forecolor }};
+															{% endif %}
+															{% if item.category.bgcolor is defined %}
+																background-color:{{ item.category.bgcolor }};
+															{% endif %}"></i>
 			{{ item.category.name }}
 		</div>
 		<div class="badge">
-
-			{{ widgets.icon('user','text-p-dark2') }}
+			{{ widgets.icon('user') }}
 			{{item.owner.name}}
 		</div>
 
 		{% if item.updatedat %}
 			<div class="badge">
-
-				{{ widgets.icon('calendar','text-p-dark2') }}
-
+				{{ widgets.icon('calendar') }}
 				<small class="text-muted">Modifié le
 				</small>
 				{{ widgets.showShortDate(item.updatedat) }}
 			</div>
-
-
 		{% else %}
 			<div class="badge">
-
-				{{ widgets.icon('calendar','text-p-dark2') }}
-
+				{{ widgets.icon('calendar') }}
 				<small class="text-muted">Créé le
 				</small>
 				{{ widgets.showShortDate(item.createdat) }}
 			</div>
-
 		{% endif %}
 
 		<div class="badge">
-
 			{{ workflow.badge_state(item.stateCurrent) }}
 		</div>
+
+		<div class="badge">
+			{% if item.backpackSlave %}
+				<a href="{{ path('backpack_show',{id:item.backpackSlave.id}) }}">Porte-document en révision</a>
+			{% endif %}
+			{% if item.backpackMaster %}
+				<a href="{{ path('backpack_show',{id:item.backpackMaster.id}) }}">Porte-document principal</a>
+			{% endif %}
+		</div>
+
 	</div>
 </section>

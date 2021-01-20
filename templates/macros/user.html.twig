@@ -64,11 +64,13 @@
 {% endmacro %}
 
 {% macro vignette(item) %}
-	<a class="list-inline-item hvr-float-shadow " href="{{ path('user_show', {'id': item.id}) }}">
+	<a class="list-inline-item  hvr-grow-shadow " href="{{ path('user_show', {'id': item.id}) }}">
+
 		<div class="text-center">
 			<img class="profile-user-img img-bordered-sm img-circle " src="{{ asset(item.avatar) }}" alt="User Image">
 		</div>
-		<div class="text-center small">
+		<div class="text-center align-center  text-p-dark" style="height:50px;width:110px">
+
 			{{ item.name }}
 		</div>
 	</a>

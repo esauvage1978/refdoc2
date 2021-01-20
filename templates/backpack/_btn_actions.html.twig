@@ -10,7 +10,7 @@
 	{% set actions = actions|merge(home) %}
 	{% set actions = actions|merge({'divider': null}) %}
 
-	{% set save = { 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
+	{% set _save = { 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
 
 	{% if item %}
 
@@ -18,62 +18,70 @@
 		{% set url=path('backpacks',{visible:'true',stateCurrent:stateCurrent,idItem:item.id}) %}
 
 		{% if  item | backpackCanUpdate %}
-			{% set edit = { 'edit': {url: path('backpack_edit',{id:item.id}),class:'btn-p-dark',attr:{title:'Modifier'}}} %}
+			{% set _edit = { 'edit': {url: path('backpack_edit',{id:item.id}),class:'btn-p-dark',attr:{title:'Modifier'}}} %}
 
 		{% else %}
-			{% set edit = 'not' %}
+			{% set _edit = 'not' %}
 		{% endif %}
 
-		{% if   item.stateCurrent  in ['published','toRevise'] %}
-			{% set save = 'not' %}
-		{% endif %}
 
 		{% if  item | backpackCanDelete %}
-			{% set delete = { 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
+			{% set _delete = { 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
 		{% else %}
-			{% set delete = 'not' %}
+			{% set _delete = 'not' %}
 		{% endif %}
 
-		{% set show = { 'show': {url: path('backpack_show',{id:item.id}),class:'btn-p-dark',attr:{title:'Consulter'}}} %}
+		{% set _show = { 'show': {url: path('backpack_show',{id:item.id}),class:'btn-p-dark',attr:{title:'Consulter'}}} %}
 
-		{% set history = { 'history': {url: path('backpack_history',{id:item.id}),class:'btn-p-dark',attr:{title:'historique des modifications'}}} %}
-		{% set actions = actions|merge({'divider2': null}) %}
+		{% set _history = { 'history': {url: path('backpack_history',{id:item.id}),class:'btn-p-dark',attr:{title:'historique des modifications'}}} %}
+		{% set _mail_sent = { 'mail-sent': {url: path('mailer_backpack_composer',{id:item.id}),class:'btn-p-dark',attr:{title:'Envoyer un message'}}} %}
+
+
+
 
 
 		{% if twigTemplace=='comment_add' or twigTemplace=='comments' %}
-			{% if  edit != 'not' %}
-				{% set actions = actions|merge(edit) %}
+			{% if  _edit != 'not' %}
+				{% set actions = actions|merge(_edit) %}
 			{% endif %}
-			{% if  save != 'not' %}
-				{% set actions = actions|merge(save) %}
+			{% if  _save != 'not' %}
+				{% set actions = actions|merge(_save) %}
 			{% endif %}
 		{% elseif twigTemplace in ['workflow','history'] %}
-			{% set actions = actions|merge(show) %}
-			{% if  edit != 'not' %}
-				{% set actions = actions|merge(edit) %}
+			{% set actions = actions|merge(_show) %}
+			{% if  _edit != 'not' %}
+				{% set actions = actions|merge(_edit) %}
 			{% endif %}
 		{% elseif twigTemplace=='show' %}
-			{% set actions = actions|merge(history) %}
-			{% if  edit != 'not' %}
-				{% set actions = actions|merge(edit) %}
+			{% set actions = actions|merge(_mail_sent) %}
+
+			{% set actions = actions|merge({'divider3': null}) %}
+
+			{% set actions = actions|merge(_history) %}
+			{% if  _edit != 'not' %}
+				{% set actions = actions|merge(_edit) %}
 			{% endif %}
-			{% if  delete !='not' %}
-				{% set actions = actions|merge(delete) %}
+			{% if  _delete !='not' %}
+				{% set actions = actions|merge(_delete) %}
 				{{ del.delete_form('backpack_del',item.id, null) }}
 			{% endif %}
 		{% elseif twigTemplace=='edit' %}
-			{% set actions = actions|merge(history) %}
-			{% set actions = actions|merge(show) %}
-			{% if  delete !='not' %}
-				{% set actions = actions|merge(delete) %}
+			{% set actions = actions|merge(_mail_sent) %}
+			{% set actions = actions|merge({'divider3': null}) %}
+
+			{% set actions = actions|merge(_history) %}
+			{% set actions = actions|merge(_show) %}
+			{% if  _delete !='not' %}
+				{% set actions = actions|merge(_delete) %}
 				{{ del.delete_form('backpack_del',item.id, null) }}
 			{% endif %}
-			{% if  save != 'not' %}
-				{% set actions = actions|merge(save) %}
+			{% if  _save != 'not' %}
+				{% set actions = actions|merge(_save) %}
 			{% endif %}
 		{% endif %}
 	{% elseif twigTemplace=='add' %}
-		{% set actions = actions|merge(save) %}
+		{% set actions = actions|merge(_save) %}
 	{% endif %}
 	{{ btn_actions.show(actions) }}
 {% endmacro %}
+

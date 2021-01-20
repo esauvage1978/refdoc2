@@ -56,6 +56,15 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
     {
         $this->onGuard($event, WorkflowData::TRANSITION_GO_TO_REVISE);
     }
+
+    /**
+     * @param GuardEvent $event
+     */
+    public function onGuardGoInReview(GuardEvent $event)
+    {
+        $this->onGuard($event, WorkflowData::TRANSITION_GO_IN_REVIEW);
+    }
+
     /**
      * @param GuardEvent $event
      */
@@ -108,23 +117,27 @@ class WorkflowBackpackEventSubscriber implements EventSubscriberInterface
             'workflow.wkf_all.guard.goToCheck' => ['onGuardGoToCheck'],
             'workflow.wkf_all.guard.goPublished' => ['onGuardGoPublished'],
             'workflow.wkf_all.guard.goToRevise' => ['onGuardGoToRevise'],
+            'workflow.wkf_all.guard.goInReview' => ['onGuardGoInReview'],
             'workflow.wkf_without_doc.guard.goAbandonned' => ['onGuardGoAbandonned'],
             'workflow.wkf_without_doc.guard.goToResume' => ['onGuardGoToResume'],
             'workflow.wkf_without_doc.guard.goToValidate' => ['onGuardGoToValidate'],
             'workflow.wkf_without_doc.guard.goToControl' => ['onGuardGoToControl'],
             'workflow.wkf_without_doc.guard.goPublished' => ['onGuardGoPublished'],
             'workflow.wkf_without_doc.guard.goToRevise' => ['onGuardGoToRevise'],
+            'workflow.wkf_without_doc.guard.goInReview' => ['onGuardGoInReview'],
             'workflow.wkf_without_control.guard.goAbandonned' => ['onGuardGoAbandonned'],
             'workflow.wkf_without_control.guard.goToResume' => ['onGuardGoToResume'],
             'workflow.wkf_without_control.guard.goToValidate' => ['onGuardGoToValidate'],
             'workflow.wkf_without_control.guard.goToCheck' => ['onGuardGoToCheck'],
             'workflow.wkf_without_control.guard.goPublished' => ['onGuardGoPublished'],
             'workflow.wkf_without_control.guard.goToRevise' => ['onGuardGoToRevise'],
+            'workflow.wkf_without_control.guard.goInReview' => ['onGuardGoInReview'],
             'workflow.wkf_without_doccontrol.guard.goAbandonned' => ['onGuardGoAbandonned'],
             'workflow.wkf_without_doccontrol.guard.goToResume' => ['onGuardGoToResume'],
             'workflow.wkf_without_doccontrol.guard.goToValidate' => ['onGuardGoToValidate'],
             'workflow.wkf_without_doccontrol.guard.goPublished' => ['onGuardGoPublished'],
             'workflow.wkf_without_doccontrol.guard.goToRevise' => ['onGuardGoToRevise'],
+            'workflow.wkf_without_doccontrol.guard.goInReview' => ['onGuardGoInReview'],
         ];
     }
 }

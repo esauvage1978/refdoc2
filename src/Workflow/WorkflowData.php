@@ -18,6 +18,7 @@ class WorkflowData
 
     const TRANSITION_GO_TO_RESUME = 'goToResume';
     const TRANSITION_GO_TO_REVISE = 'goToRevise';
+    const TRANSITION_GO_IN_REVIEW = 'goInReview';
     const TRANSITION_GO_TO_VALIDATE = 'goToValidate';
     const TRANSITION_GO_TO_CONTROL = 'goToControl';
     const TRANSITION_GO_TO_CHECK = 'goToCheck';
@@ -145,14 +146,15 @@ class WorkflowData
                 self::FORECOLOR => '#ffffff',
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_IN_REVIEW,
                         self::TRANSITION_GO_ABANDONNED
                     ]
                 ]
             ],
             self::STATE_IN_REVIEW =>
             [
-                self::NAME => ' A réviser',
-                self::ICON => 'fab fa-product-hunt',
+                self::NAME => ' En révision',
+                self::ICON => 'fas fa-crosshairs',
                 self::TITLE_MAIL => ' Un porte-document est à réviser',
                 self::BGCOLOR => '#ED59FF',
                 self::FORECOLOR => '#ffffff',
@@ -216,7 +218,8 @@ class WorkflowData
             self::TRANSITION_GO_TO_CONTROL,
             self::TRANSITION_GO_TO_CHECK,
             self::TRANSITION_GO_PUBLISHED,
-            self::TRANSITION_GO_TO_REVISE
+            self::TRANSITION_GO_TO_REVISE,
+            self::TRANSITION_GO_IN_REVIEW
         ];
 
         if (in_array($data, $datas)) {
@@ -235,7 +238,8 @@ class WorkflowData
             self::STATE_TO_CONTROL,
             self::STATE_TO_CHECK,
             self::STATE_PUBLISHED,
-            self::STATE_TO_REVISE
+            self::STATE_TO_REVISE,
+            self::STATE_IN_REVIEW
         ];
 
         if (in_array($data, $datas)) {
@@ -343,7 +347,12 @@ class WorkflowData
                 $data['state'] = self::STATE_TO_REVISE;
                 $data['titre'] = 'Mettre à réviser';
                 $data['btn_label'] = 'A réviser';
-                break;                
+                break;
+            case self::TRANSITION_GO_IN_REVIEW:
+                $data['state'] = self::STATE_IN_REVIEW;
+                $data['titre'] = 'Mettre en révision';
+                $data['btn_label'] = 'En révision';
+                break;                                 
         }
 
         return $data;

@@ -1,6 +1,4 @@
 {% extends 'backpack/layout.html.twig' %}
-{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
-{% import "macros/delele.html.twig" as del %}
 {% import "macros/submit.html.twig" as sub %}
 {% import "macros/save.html.twig" as save %}
 
@@ -26,31 +24,25 @@
 		<div class="" style="width:960px">
 
 
-			{% if item is defined %}
+			{{ form_start(form) }}
 
 
-				{{ form_start(form) }}
+			<div style="width:630px">
+
+				{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
+
+				{{ include(domaine ~ '/_edit/_process.html.twig') }}
+
+				{{ include(domaine ~ '/_edit/_name.html.twig') }}
+				{{ save.btn()}}
 
 
-				<div style="width:630px">
+				<p class="mt-5 mb-5"></p>
+				<p class="mt-5 mb-5"></p>
+			</div>
+			{% import "macros/submit.html.twig" as sub %}<div class="d-none">{{ sub.btn() }}{{form_rest(form)}}</div>
+			{{ form_end(form) }}
 
-					{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
-
-					{{ include(domaine ~ '/_edit/_process.html.twig') }}
-
-					{{ include(domaine ~ '/_edit/_name.html.twig') }}
-					{{ save.btn()}}
-
-
-					<p class="mt-5 mb-5"></p>
-					<p class="mt-5 mb-5"></p>
-				</div>
-				{% import "macros/submit.html.twig" as sub %}<div class="d-none">{{ sub.btn() }}{{form_rest(form)}}</div>
-				{{ form_end(form) }}
-				{% if item.id is not null %}
-					{{ del.delete_form(route_del,item.id, 'show') }}
-				{% endif %}
-			{% endif %}
 
 
 		</div>

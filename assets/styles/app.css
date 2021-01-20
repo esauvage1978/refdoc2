@@ -16,6 +16,10 @@ body {
     color:#6c63ff;
 }
 
+.select2-selection__choice {
+    background-color: #ff6584 !important;
+}
+
 .btn-p-dark {
     color: #e6e7f9 !important;
     background-color: #675ef2 !important;

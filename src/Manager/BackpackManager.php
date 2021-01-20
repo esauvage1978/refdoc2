@@ -69,7 +69,7 @@ class BackpackManager extends AbstractManager
             $bp->setMProcess($bp->getProcess()->getMProcess());
         }
 
-        if($bp->getRef()===null) {
+        if($bp->getRef()===null && null !== $entity->getId()) {
             $ref=(new BackpackRefGenerator($this->backpackRepository, $bp))->get();
             $bp->setRef($ref);
         }

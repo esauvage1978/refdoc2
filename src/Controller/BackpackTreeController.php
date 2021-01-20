@@ -330,12 +330,41 @@ class BackpackTreeController extends AbstractGController
     }
 
     /**
-     * @Route("/backpacks/toreviseupdatable", name="backpacks_mytoRevise_updatable", methods={"GET"})
+     * @Route("/backpacks/mytoreviseupdatable", name="backpacks_mytoRevise_updatable", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
     public function state_mytorevise_updatable(Request $request)
     {
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_TO_REVISE_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/inreview", name="backpacks_inReview", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_inreview(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::IN_REVIEW);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/inreviewupdatable", name="backpacks_inReview_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_inreview_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::IN_REVIEW_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/myinreviewupdatable", name="backpacks_myinReview_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_myinreview_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_IN_REVIEW_UPDATABLE);
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 

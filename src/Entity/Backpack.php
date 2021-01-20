@@ -122,7 +122,7 @@ class Backpack implements EntityInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BackpackState", mappedBy="backpack")
+     * @ORM\OneToMany(targetEntity="App\Entity\BackpackState", mappedBy="backpack", cascade={"persist", "remove"})
      */
     private $backpackStates;
 
@@ -136,7 +136,21 @@ class Backpack implements EntityInterface
      */
     private $ref;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Backpack::class, cascade={"persist"})
+     */
+    private $backpackMaster;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Backpack::class, cascade={"persist"})
+     */
+    private $backpackSlave;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Mailer", mappedBy="backpack", orphanRemoval=true)
+     */
+    private $mailers;
 
     public function __construct()
     {
@@ -148,6 +162,7 @@ class Backpack implements EntityInterface
         $this->histories = new ArrayCollection();
         $this->backpackStates = new ArrayCollection();
         $this->backpackMailHistories = new ArrayCollection();
+        $this->mailers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -519,6 +534,59 @@ class Backpack implements EntityInterface
         return $this;
     }
 
+    public function getBackpackMaster(): ?self
+    {
+        return $this->backpackMaster;
+    }
+
+    public function setBackpackMaster(?self $backpackMaster): self
+    {
+        $this->backpackMaster = $backpackMaster;
+
+        return $this;
+    }
+
+    public function getBackpackSlave(): ?self
+    {
+        return $this->backpackSlave;
+    }
+
+    public function setBackpackSlave(?self $backpackSlave): self
+    {
+        $this->backpackSlave = $backpackSlave;
+
+        return $this;
+    }
 
 
+    /**
+     * @return Collection|Mailer[]
+     */
+    public function getMailers(): Collection
+    {
+        return $this->mailers;
+    }
+
+    public function addMailer(Mailer $mailer): self
+    {
+        if (!$this->mailers->contains($mailer)) {
+            $this->mailers[] = $mailer;
+            $mailer->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMailer(Mailer $mailer): self
+    {
+        if ($this->mailers->contains($mailer)) {
+            $this->mailers->removeElement($mailer);
+            // set the owning side to null (unless already changed)
+            if ($mailer->getBackpack() === $this) {
+                $mailer->setBackpack(null);
+            }
+        }
+
+        return $this;
+    }
 }

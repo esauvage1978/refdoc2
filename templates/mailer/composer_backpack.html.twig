@@ -1,0 +1,49 @@
+{% extends 'mailer/layout.html.twig' %}
+
+{% import "macros/submit.html.twig" as sub %}
+{% import "macros/widgets.html.twig" as widgets %}
+
+
+{% block page_subtitle %}Envoi d'un message pour le porte document
+{% endblock %}
+
+{% block breadcrumb %}
+	{% import "mailer/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'edit',
+        item
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+	{{ form_start(form) }}
+
+	<div class="row justify-content-center">
+		<div class="row col-12">
+			<div class="col-sm-12 col-md-12 col-lg-6 col-xl-3 ">
+				{% include "mailer/_edit/_backpack_destinataire.html.twig" %}
+
+			</div>
+			<div class="col-sm-12  col-md-12 col-lg-12  col-xl-6  h-100">
+				{% include "mailer/_edit/_mail.html.twig" %}
+
+				<span class="btn btn-p-dark mt-3 " onclick="$('#submit_1').click();">
+					{{ widgets.icon('mail-sent') }}
+					Envoyer
+				</span>
+
+			</div>
+			<div class="col-sm-12 col-md-12 col-lg-6 col-xl-3 d-flex d-flex flex-column bd-highlight mb-3 align-items-center justify-content-center ">
+
+				<a href="{{ path('mailer_backpack_history',{id:item.id}) }}" class="btn btn-p-dark">Historique des envois</a>
+
+			</div>
+		</div>
+
+
+	</div>
+	<div class="d-none">{{ sub.btn() }}{{form_rest(form)}}</div>
+
+	{{ form_end(form) }}
+{% endblock %}
+

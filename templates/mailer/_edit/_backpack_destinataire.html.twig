@@ -1,0 +1,30 @@
+<!-- Intervenants -->
+<section>
+	<h5 class="text-p-dark2 p-1  text-center ">
+		Destinataires
+	</h5>
+	<div class="card-body">
+		<div class="form-group row">
+			<label for="{{ form.admp.vars.id }}">
+				Agent de Direction du macro-processus
+			</label>
+			{{ form_widget(form.admp) }}
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="form-group row">
+			<label for="{{ form.pilotemp.vars.id }}">
+				Pilotes du macro-processus
+			</label>
+			{{ form_widget(form.pilotemp) }}
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="form-group row">
+			<label for="{{ form.pilotep.vars.id }}">
+				Pilotes du processus
+			</label>
+			{{ form_widget(form.pilotep) }}
+		</div>
+	</div>
+</section>

@@ -70,7 +70,7 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
              */
             $backpack = $this->backpacks[$i];
 
-            $nbr = $faker->numberBetween(0, 6);
+            $nbr = $faker->numberBetween(0, 7);
             switch ($nbr) {
                 case 1:
                     $backpack->setStateCurrent(WorkflowData::STATE_ABANDONNED);
@@ -99,6 +99,10 @@ class Step13_BackpackStateFixtures extends Fixture implements FixtureGroupInterf
                     break;
                 case 6:
                     $backpack->setStateCurrent(WorkflowData::STATE_PUBLISHED);
+                    break;
+
+                case 7:
+                    $backpack->setStateCurrent(WorkflowData::STATE_TO_REVISE);
                     break;
             }
             $backpack

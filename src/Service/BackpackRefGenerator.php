@@ -15,6 +15,12 @@ class BackpackRefGenerator
      */
     private $backpackRepository;
 
+
+    /**
+     * @var BackpackRefControllator
+     */
+    private $controllator;
+
     private $backpackMakerDto;
 
     /**
@@ -28,12 +34,20 @@ class BackpackRefGenerator
     ) {
         $this->backpackRepository = $backpackRepository;
         $this->backpack=$backpack;
+
+        $this->controllator=new BackpackRefControllator($backpackRepository,$backpack);
     }
 
     public function get()
     {
         $pattern=$this->getPattern();
-            return $pattern . ($this->backpackRepository->findCountForRefPattern($pattern)+1);
+
+        $nbr= ($this->backpackRepository->findCountForRefPattern($pattern)+1);
+
+        while(!$this->controllator->isUnique($pattern.$nbr)) {
+            $nbr=$nbr+1;
+        }
+        return $pattern . $nbr;
     }
 
 }

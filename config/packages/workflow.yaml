@@ -2,12 +2,12 @@
 framework:
     workflows:
         wkf_all:
-            type: 'state_machine' # or 'state_machine'
+            type: "state_machine" # or 'state_machine'
             audit_trail:
                 enabled: true
             marking_store:
-                type: 'method'
-                property: 'stateCurrent'
+                type: "method"
+                property: "stateCurrent"
             supports:
                 - App\Entity\Backpack
             initial_marking: draft
@@ -17,7 +17,8 @@ framework:
                 - toControl
                 - toCheck
                 - toResume
-                - toRevise                
+                - toRevise
+                - inReview
                 - published
                 - abandonned
             transitions:
@@ -26,66 +27,93 @@ framework:
                     to: toValidate
                 goToControl:
                     from: toValidate
-                    to: toControl 
+                    to: toControl
                 goToCheck:
                     from: toControl
                     to: toCheck
                 goPublished:
                     from: toCheck
-                    to: published    
+                    to: published
                 goToRevise:
                     from: published
-                    to: toRevise                                                   
+                    to: toRevise
+                goInReview:
+                    from: toRevise
+                    to: inReview
                 goToResume:
-                    from: [published,toValidate, toControl, toCheck, abandonned]
+                    from:
+                        [published, toValidate, toControl, toCheck, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [published,toValidate,toRevise, toControl, toCheck, draft, toResume]
+                    from:
+                        [
+                            published,
+                            toValidate,
+                            inReview,
+                            toRevise,
+                            toControl,
+                            toCheck,
+                            draft,
+                            toResume,
+                        ]
                     to: abandonned
         wkf_without_doc:
-            type: 'state_machine' # or 'state_machine'
+            type: "state_machine" # or 'state_machine'
             audit_trail:
                 enabled: true
             marking_store:
-                type: 'method'
-                property: 'stateCurrent'
+                type: "method"
+                property: "stateCurrent"
             supports:
                 - App\Entity\Backpack
             initial_marking: draft
             places:
                 - draft
                 - toValidate
-                - toControl                
+                - toControl
                 - toResume
                 - published
-                - toRevise    
+                - toRevise
+                - inReview
                 - abandonned
             transitions:
                 goToValidate:
                     from: [draft, toResume]
-                    to: toValidate  
+                    to: toValidate
                 goToControl:
                     from: toValidate
-                    to: toControl 
+                    to: toControl
                 goPublished:
                     from: toControl
-                    to: published 
+                    to: published
                 goToRevise:
                     from: published
-                    to: toRevise                                   
+                    to: toRevise
+                goInReview:
+                    from: toRevise
+                    to: inReview
                 goToResume:
                     from: [published, toValidate, toControl, abandonned]
                     to: toResume
                 goAbandonned:
-                    from: [published, toValidate,toRevise, toControl, draft, toResume]
-                    to: abandonned              
+                    from:
+                        [
+                            published,
+                            toValidate,
+                            toRevise,
+                            inReview,
+                            toControl,
+                            draft,
+                            toResume,
+                        ]
+                    to: abandonned
         wkf_without_control:
-            type: 'state_machine' # or 'state_machine'
+            type: "state_machine" # or 'state_machine'
             audit_trail:
                 enabled: true
             marking_store:
-                type: 'method'
-                property: 'stateCurrent'
+                type: "method"
+                property: "stateCurrent"
             supports:
                 - App\Entity\Backpack
             initial_marking: draft
@@ -95,34 +123,47 @@ framework:
                 - toCheck
                 - toResume
                 - published
-                - toRevise  
+                - toRevise
+                - inReview
                 - abandonned
             transitions:
                 goToValidate:
                     from: [draft, toResume]
-                    to: toValidate                
+                    to: toValidate
                 goToResume:
-                    from: [published,toRevise, toValidate, toCheck, abandonned]
+                    from: [published, toRevise, toValidate, toCheck, abandonned]
                     to: toResume
                 goPublished:
                     from: toCheck
                     to: published
                 goToRevise:
                     from: published
-                    to: toRevise  
+                    to: toRevise
+                goInReview:
+                    from: toRevise
+                    to: inReview
                 goToCheck:
                     from: toValidate
-                    to: toCheck                   
+                    to: toCheck
                 goAbandonned:
-                    from: [published, toValidate, toCheck, draft, toResume]
-                    to: abandonned                 
+                    from:
+                        [
+                            published,
+                            toRevise,
+                            toValidate,
+                            inReview,
+                            toCheck,
+                            draft,
+                            toResume,
+                        ]
+                    to: abandonned
         wkf_without_doccontrol:
-            type: 'state_machine' # or 'state_machine'
+            type: "state_machine" # or 'state_machine'
             audit_trail:
                 enabled: true
             marking_store:
-                type: 'method'
-                property: 'stateCurrent'
+                type: "method"
+                property: "stateCurrent"
             supports:
                 - App\Entity\Backpack
             initial_marking: draft
@@ -131,12 +172,13 @@ framework:
                 - toValidate
                 - toResume
                 - published
-                - toRevise  
+                - toRevise
+                - inReview
                 - abandonned
             transitions:
                 goToValidate:
                     from: [draft, toResume]
-                    to: toValidate                
+                    to: toValidate
                 goToResume:
                     from: [published, toValidate, abandonned]
                     to: toResume
@@ -145,11 +187,18 @@ framework:
                     to: published
                 goToRevise:
                     from: published
-                    to: toRevise                      
+                    to: toRevise
+                goInReview:
+                    from: toRevise
+                    to: inReview
                 goAbandonned:
-                    from: [published,toRevise, toValidate, draft, toResume]
+                    from:
+                        [
+                            published,
+                            toRevise,
+                            inReview,
+                            toValidate,
+                            draft,
+                            toResume,
+                        ]
                     to: abandonned
-
-
-
-
