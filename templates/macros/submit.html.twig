@@ -1,0 +1,16 @@
+{% macro btn_onclick(label, size,name) %}
+    {% set _size = size|default('') %}
+    <span class="btn bg-gradient-success btn-success {{ _size }}"
+          onclick="$('#submit{{ name is not null ? '_'~name : '_1' }}').click();">
+            <i class="fas fa-save"></i>
+        {% if label %}
+            <span>{{ label }}</span>
+        {% endif %}
+    </span>
+{% endmacro %}
+
+{% macro btn(name) %}
+    <button class="btn btn-success bg-gradient-success" type="submit" id="submit{{ name is not null ? '_'~name : '_1' }}">
+        <i class="fas fa-save"></i> Enregistrer
+    </button>
+{% endmacro %}

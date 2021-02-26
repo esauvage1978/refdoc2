@@ -1,0 +1,77 @@
+{% macro messageEmailValidated(item) %}
+	{% if item.emailvalidated == false %}
+		<div class="alert alert-danger alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h5>
+				<i class="icon fas fa-ban"></i>
+				Adresse mail non vérifiée !</h5>
+			<p>
+				Attention votre adresse mail n'a pas encore été vérifiée.
+			</p>
+			<p>
+				<a href="{{ path('profil_sendmail_email_validated') }}" class="text-primary">Cliquer ici</a>
+				pour renvoyer le lien de vérification.
+			</p>
+		</div>
+	{% endif %}
+{% endmacro %}
+
+
+{% macro lastConnexion(item) %}
+	{% if item.loginAt %}
+		{% set difference = date("today").diff(date(item.loginAt)) %}
+
+		{% set leftDays = difference.days %}
+		{% if leftDays > 396 %}
+			<span class="text-danger font-weight-bold">
+				{{ leftDays }}
+				jours
+			</span>
+		{% elseif leftDays > 185 %}
+			<span class="text-warning font-weight-bold">
+				{{ leftDays }}
+				jours
+			</span>
+		{% elseif leftDays == 0 %}
+			<span class="text-success">
+				Aujourd'hui
+			</span>
+		{% elseif leftDays == 1 %}
+			<span class="text-success">
+				Hier
+			</span>
+		{% else %}
+			<span class="text-success">
+				{{ leftDays }}
+				jours
+			</span>
+
+
+		{% endif %}
+	{% else %}
+		--/--/----
+	{% endif %}
+
+{% endmacro %}
+
+{% macro vignettes(items)%}
+	{% import _self as usr %}
+	<div class="p-2 text-center">
+		{% for item in items %}
+			{{ usr.vignette(item) }}
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro vignette(item) %}
+	<a class="list-inline-item  hvr-grow-shadow " href="{{ path('user_show', {'id': item.id}) }}">
+
+		<div class="text-center">
+			<img class="profile-user-img img-bordered-sm img-circle " src="{{ asset(item.avatar) }}" alt="User Image">
+		</div>
+		<div class="text-center align-center  text-p-dark" style="height:50px;width:110px">
+
+			{{ item.name }}
+		</div>
+	</a>
+{% endmacro %}

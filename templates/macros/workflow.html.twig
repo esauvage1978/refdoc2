@@ -1,0 +1,237 @@
+{% macro get_style_color(state) %}
+	style="background-color:{{ state | workflowGetBGColorOfState }};color:{{ state | workflowGetForeColorOfState }}"
+{% endmacro %}
+
+{% macro badge_state(state) %}
+	{% import "macros/widgets.html.twig" as widgets %}
+	{{ widgets.badge( '<i class="' ~ (state | workflowGetIconOfState) ~ '"></i> ' ~ (state | workflowGetNameOfState) , state | workflowGetBGColorOfState, state | workflowGetForeColorOfState) }}
+{% endmacro %}
+
+{% macro state_table_td(state) %}
+	<td class="align-middle" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+		<i class="{{ state | workflowGetIconOfState}}"></i>
+		{{ state | workflowGetNameOfState }}
+	</td>
+{% endmacro %}
+
+
+{% macro cards(item,choice) %}
+	{% import "macros/workflow.html.twig" as macro %}
+
+	<div class="row">
+		{{ macro.current_card(item) }}
+	</div>
+	<div class="row justify-content-center mt-4">
+		{% for transition in item.category.workflowname|  workflowGetTransitionsForState(item.stateCurrent) %}
+
+			{{ macro.card(item,transition,choice) }}
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+{% macro current_card(item) %}
+	{% import "macros/widgets.html.twig" as widget %}
+	{% import "macros/workflow.html.twig" as wkf %}
+
+	<div class="col-sm-12 ">
+		<div class="card  flat shadow">
+			<div class="card-header">
+				{{ wkf.badge_state(item.stateCurrent) }}
+				<span class="d-none">
+					{{item.stateCurrent}}
+					-
+					{{item.category.workflowName}}
+				</span>
+				<small class="text-muted">
+					depuis le
+					{{ widget.showLongDate(item.stateAt) }}
+				</small>
+			</div>
+			<div class="card-body">
+				<p>
+					{% if item.stateCurrent=="published" %}
+						<small class="text-xs">
+							Sera à réviser le
+							{{ widget.showLongDate(item | workflowDateGoToRevise )}}
+						</small>
+					{% endif %}
+				</p>
+				<p>
+					{% if item.stateContent  %}
+						{{ item.stateContent | raw }}
+					{% endif %}
+				</p>
+			</div>
+			<div class="card-footer text-muted text-xs d-flex flex-row-reverse bd-highlight">
+				<a href="{{ path('workflow_backpack_history',{id:item.id}) }}" class="text-p-dark ml-2">
+					{{widget.icon('history')}}
+					Historique
+				</a>
+				<a href="{{ path('workflow_backpack_notification',{id:item.id}) }}" class="text-p-dark ml-2">
+
+					{{widget.icon('mail-sent')}}
+					Notifications
+				</a>
+				{% if is_granted('ROLE_GESTIONNAIRE') %}
+					<a href="{{ path('workflow_action_check',{id:item.id}) }}" class="text-p-dark">
+						{{widget.icon('workflow')}}
+						Check workflow
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	{% endmacro %}
+
+	{% macro card(item,transition,choice) %}
+		<div class="col-sm-12    mb-4">
+			{% set data = (transition | workflowGetModalDataForTransition) %}
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% import "macros/workflow.html.twig" as wkf %}
+				{% import "macros/widgets.html.twig" as widgets %}
+				{% block card_class %}h-100 bg-gray
+				{% endblock %}
+				{% block card_body_ribbon_text %}
+					{{ data.state | workflowGetShortNameOfState }}
+				{% endblock %}
+				{% block card_body_ribbon_class %}ribbon-lg
+				{% endblock %}
+				{% block card_body_ribbon_attr %}
+					{{ wkf.get_style_color(data.state) }}
+				{% endblock %}
+				{% block card_body %}
+					{% if workflow_can(item, data.transition,item.category.workflowName ) %}
+						<p class="text-center text-success">
+							{{ widgets.icon('check_big') }}
+						</p>
+						{% for message in item | workflowGetExplains(data.transition) %}
+							<p>
+								<small>
+									{{ message | raw}}
+								</small>
+							</p>
+						{% endfor %}
+					{% else %}
+						<p class="text-center text-warning">
+							{{ widgets.icon('nocheck_big') }}
+						</p>
+
+						<span class="text-warning">Les conditions ne sont pas réunies</span>
+						{% set iconSuccess='<i class="fa fa-check-circle"></i>' %}
+						{% set iconDanger='<i class="fa fa-stop-circle"></i>' %}
+
+						{% set checkMessages=item | workflowGetCheckMessages(data.transition) %}
+						{% if checkMessages | length >0 %}
+							<ul class="list-unstyled mt-1 p-2 rounded-1 bg-p-light ">
+								{% for checkMessage in checkMessages %}
+									<li>
+										<small>
+											{% if checkMessage.type == 'success' %}
+												<span class="text-success  ">
+													{{ iconSuccess | raw }}
+													{{ checkMessage.message }}
+												</span>
+											{% elseif checkMessage.type == 'danger' %}
+												<span class="text-danger">
+													{{ iconDanger | raw }}
+													{{ checkMessage.message  | raw }}
+
+												</span>
+											{% elseif checkMessage.type == 'info' %}
+												<span class="text-info  ">
+													{{ checkMessage.message }}
+												</span>
+											{% else %}
+												{{ checkMessage.message  | raw}}
+
+											{% endif %}
+										</small>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					{% endif %}
+				{% endblock %}
+
+				{% block card_footer %}
+
+					{% if workflow_can(item, data.transition,item.category.workflowName ) %}
+
+						<div class="col text-center">
+							<button type="button" class="btn {{ css | default('') }}" {{ wkf.get_style_color(data.state) }} data-toggle="modal" data-target="#modal-{{ transition }}">
+
+								<i class="fas fa-external-link-alt "></i>
+								{{ data.btn_label }}
+							</button>
+						</div>
+					{% endif %}
+				{% endblock %}
+
+			{% endembed %}
+		</div>
+	{% endmacro %}
+
+	{% macro timeline(data) %}
+		{% embed 'widgets/timeline-item-widget.html.twig' %}
+			{% import "macros/widgets.html.twig" as widgets %}
+			{% import "macros/workflow.html.twig" as wkf %}
+
+			{% block timeline_item_icon %}fas fa-bezier-curve
+			{% endblock %}
+			{% block timeline_item_icon_class %}
+				{{ wkf.get_style_color(data.state) }}
+
+
+			{% endblock %}
+			{% block timeline_item_class %}
+				{{ wkf.get_style_color(data.stateNew) }}
+
+
+			{% endblock %}
+			{% block timeline_item_body_class %}mt-1
+			{% endblock %}
+			{% block  timeline_item_tool %}
+				<i class="fas fa-clock"></i>
+				{{ data.changeAt |format_datetime('full', 'short', locale='fr') }}
+			{% endblock %}
+			{% block timeline_item_header %}
+				<img class="img-circle img-bordered-sm" src=" {{ asset( data.user.avatar) }}" alt="user image" style="width: 48px">
+				<a href="{{ path('user_show',{'id':data.user.id }) }}">{{ data.user.name }}</a>
+			{% endblock %}
+			{% block timeline_item_body %}
+				<div class="row">
+					<div class="col-sm-12 col-md-6 col-lg-4">
+						<div class="row">
+							<div class="col-lg-12 col-xl-6">
+								<div class=" info-box bg-light">
+									<div class="info-box-content">
+										<span class="info-box-text text-center text-muted">De</span>
+										<span class="info-box-number text-center  text-lg mb-0">
+											{{ wkf.badge_state(data.stateOld) }}
+
+
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-12 col-xl-6">
+
+								<div class=" info-box bg-light">
+									<div class="info-box-content">
+										<span class="info-box-text text-center text-muted">Vers</span>
+										<span class="info-box-number text-center  text-lg mb-0">
+											{{ wkf.badge_state(data.stateNew) }}
+
+
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-6 col-lg-8">
+						{{ data.content | raw }}
+					</div>
+				</div>
+			{% endblock %}
+		{% endembed %}
+	{% endmacro %}

@@ -1,0 +1,46 @@
+{% extends 'backpack/layout.html.twig' %}
+
+{% block page_subtitle %}
+	<small class="muted text-xs">Consultation</small>
+{% endblock %}
+{% block page_title %}{% endblock %}
+
+{% block breadcrumb %}
+	{% import "backpack/_btn_actions.html.twig" as actions %}
+	{{ actions.backpack(
+
+        'show',
+        item.stateCurrent,
+        item.owner==app.user,
+        item,
+        null
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+
+
+	<div class="row justify-content-center">
+		<div class="col-lg-12 col-xl-8">
+			{{ include(domaine ~ '/_show/_identification.html.twig') }}
+
+
+			{{ include(domaine ~ '/_show/_process.html.twig') }}
+			{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
+			{{ include(domaine ~ '/_show/_content.html.twig') }}
+			{{ include(domaine ~ '/_show/_files.html.twig') }}
+
+
+		</div>
+		<div class="col-lg-12 col-xl-4 ">
+
+			{% import "macros/workflow.html.twig" as wfl %}
+			<h4 class="text-p-dark  p-2 rounded">Etat du porte-document</h4>
+			<hr/>
+			{{ wfl.current_card(item) }}
+
+		</div>
+
+
+	</div>
+{% endblock %}

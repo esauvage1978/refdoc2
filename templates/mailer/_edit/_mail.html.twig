@@ -1,0 +1,47 @@
+{% embed 'widgets/card-widget.html.twig' %}
+	{% block card_class %}flat
+	{% endblock %}
+	{% block card_body %}
+
+
+		<div class="form-group row m-2 js-createTip-wrapper">
+            <p>{{ form_label(form.subject) }}</p>
+
+            {{ form_widget(form.subject) }}
+
+			<div class="createTip  mt-4">
+
+				<div class="createTip__title">
+					Objet
+				</div>
+				<p>
+					Merci de saisir l'objet de votre message.
+				</p>
+
+			</div>
+		</div>
+
+		<div class="form-group row m-2 js-createTip-wrapper">
+
+
+			<p>{{ form_label(form.content) }}</p>
+			{{ form_widget(form.content) }}
+			<div class="createTip   mt-5">
+
+				<div class="createTip__title">
+					Informations complémentaires
+
+				</div>
+				<p>
+					La saisie n'est pas obligatoire.
+				</p>
+
+
+			</div>
+
+		</div>
+
+	{% endblock %}
+
+{% endembed %}
+

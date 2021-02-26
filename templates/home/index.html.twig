@@ -3,16 +3,61 @@
 	{{ app_name }}
 	- Page d'accueil
 {% endblock %}
-{% block page_title %}
-	<i class="fas fa-home"></i>
-	Page d'accueil
-{% endblock %}
+{% block page_title %}{% endblock %}
 
 {% block page_content %}
+	{% import "macros/default.html.twig" as dft %}
 	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-		{% import "macros/default.html.twig" as dft %}
 		{{ dft.no_connexion() }}
 	{% else %}
+		{% import "macros/user.html.twig" as user %}
+		{% import "macros/widgets.html.twig" as widgets %}
+		{% import "macros/backpack.html.twig" as bkp %}
 
+
+		{{user.messageEmailValidated(app.user)}}
+
+		<div class="row justify-content-center mb-5 d-flex align-items-center">
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
+				{{ render(controller('App\\Controller\\SubscriptionController::myWidgetAction')) }}
+			</div>
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
+				{{ render(controller('App\\Controller\\BackpackTreeController::widgetBackpackSubscriptionAction')) }}
+			</div>
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
+				{{ render(controller('App\\Controller\\BackpackTreeController::widgetBackpacksAction')) }}
+			</div>
+			<div class="col-sm-12 col-md-6 col-xl-3 ">
+				{{ render(controller('App\\Controller\\BackpackTreeController::widgetBackpacksInProgressAction')) }}
+			</div>
+		</div>
+
+		<div class="row justify-content-center mt-2  d-flex align-items-center ">
+			<div class="col-sm-12 col-lg-8 row">
+				{% if news | length==0 %}
+					<div class="col-sm-12 col-lg-4 ">
+						<h5 class="text-p-dark">Aucune actualité pour vos abonnements</h5>
+						<a href="{{ path('backpacks_news') }}" class=" text-p-dark2 text-lg mb-2 text-center ">Toutes les actualités</a>
+					</div>
+					<div class="col-sm-12 col-xl-8  d-flex justify-content-center mt-3 mb-3">
+						<img src="{{ asset('img/notnews.svg')}}" alt"choix des abonnements" style="width:80%"/>
+					</div>
+				{% else %}
+					<div class="col-sm-12 col-lg-6">
+						{{ include('backpack/_widgetNewsSubscription.html.twig') }}
+					</div>
+					<div class="col-sm-12 col-xl-6  d-flex justify-content-center mt-3 mb-3">
+						<img src="{{ asset('img/news.svg')}}" alt"choix des abonnements" style="width:80%"/>
+					</div>
+				{% endif %}
+			</div>
+
+			<div class="col-sm-12 col-lg-4 ">
+				{{bkp.listBackpack(dash_options)}}
+				<div class="mt-5">
+					{{ render(controller('App\\Controller\\UserController::myWidgetNotificationAction')) }}
+				</div>
+			</div>
+		</div>
 	{% endif %}
 {% endblock %}

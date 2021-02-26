@@ -1,0 +1,90 @@
+{% extends 'backpack/layout.html.twig' %}
+
+
+
+{% block page_content %}
+    {% embed 'widgets/tree-widget.html.twig' %}
+        {% block tree_body %}
+        <div id="hidedata">
+            {{ include('backpack/_show/_treeContent.html.twig') }}
+        </div>
+        <div id="showdata"></div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
+<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
+
+    <script src="{{ absolute_url( asset('/vendor/split.js/dist/split.min.js')) }}"></script>
+    <script>
+        $(function () {
+            var to = false;
+            $('#demo_q').keyup(function () {
+                if(to) { clearTimeout(to); }
+                to = setTimeout(function () {
+                    var v = $('#demo_q').val();
+                    $('#tree').jstree(true).search(v);
+                }, 250);
+            });
+            $('#tree').jstree(
+                {
+                    'core':
+                        {
+                            'data': treedata
+                        },
+                    'plugins' : ["search" ]
+                }
+            ).on('changed.jstree', function (e, data) {
+                if (data.node) {
+                    if(isNaN(data.node.id) == false)
+{
+getBackpackData(data.node.id);
+} 
+                    //document.location = data.node.a_attr.href;
+                }
+            });
+        });
+        var sizes = localStorage.getItem('split-sizes')
+
+        if (sizes) {
+            sizes = JSON.parse(sizes)
+        } else {
+            sizes = [25, 75] // default sizes
+        }
+        Split(['#tree_left', '#tree_right']
+            , {
+                sizes: sizes,
+                onDragEnd: function(sizes) {
+                    localStorage.setItem('split-sizes', JSON.stringify(sizes))
+                },
+            });
+
+
+function getBackpackData(id) {
+
+var url = '/ajax/backpack/' + id;
+let showData = $('#showdata');
+let hideData = $('#hidedata');
+showData.fadeOut();
+hideData.fadeOut();
+
+
+
+
+axios.get(url).then(function (response) {
+showData.fadeIn(300);
+html(showData, response.data.value);
+html(hideData, '');
+
+
+
+
+}).catch(function (error) {
+console.log(error);
+});
+}
+    </script>
+{% endblock %}

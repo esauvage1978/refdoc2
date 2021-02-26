@@ -1,0 +1,96 @@
+{%- macro show(tools) -%}
+
+	{% import _self as macro %}
+	<div class="box-tools btn-toolbar  float-right">
+		{{ macro.button_group(tools) }}
+	</div>
+{%- endmacro -%}
+
+{% macro button_group(actions, type) %}
+	{%- import _self as macro -%}
+	<div class="btn-group">
+		{%- apply spaceless -%}
+		{%- for icon,values in actions %}
+			{% if values.children is defined %}
+				<div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						{{ macro.icon(icon) }}&nbsp;
+						<span class="caret"></span>
+						<span class="sr-only">{{ 'label.toggle_dropdown'|trans }}</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu">
+						{% for childIcon,childValues in values.children %}
+							<li>{{ macro.action_button(childIcon, childValues, false) }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% else %}
+				{{ macro.action_button(icon, values, type) }}
+			{% endif %}
+		{% endfor -%}
+		{% endapply %}
+	</div>
+{% endmacro %}
+
+{% macro action_button(icon, values, type) %}
+	{%- import 'macros/widgets.html.twig' as widgets -%}
+
+	{%- apply spaceless -%}
+	{% set id = null %}
+	{% set onclick = null %}
+	{% set modal = null %}
+	{% set toggle = null %}
+	{% set url = null %}
+	{% set target = null %}
+	{% set title = null %}
+	{% set disabled = false %}
+	{% set attr = {} %}
+
+	{% if type is same as (false) %}
+		{% set class = "" %}
+	{% elseif type is null %}
+		{% set class = "btn btn-default btn-" ~ icon ~ " " %}
+	{% else %}
+		{% set class = "btn btn-" ~ type ~ " btn-" ~ icon ~ " " %}
+	{% endif %}
+
+	{% if not values is iterable %}
+		{% set url = values %}
+		{% if 'onclick:' in url %}
+			{% set onclick = url|replace({'onclick:': ''}) %}
+			{% set url = '#' %}
+		{% endif %}
+		{% if '#collapse' in url %}
+			{% set toggle = 'collapse' %}
+		{% endif %}
+		{% if '#modal' in url %}
+			{% set modal = url %}
+			{% set url = '#' %}
+		{% endif %}
+	{% else %}
+		{% set disabled = values.disabled ?? false %}
+		{% set url = values.url ?? '#' %}
+		{% set onclick = values.onclick ?? null %}
+		{% set modal = values.modal ?? null %}
+		{% set toggle = values.toggle ?? null %}
+		{% set target = values.target ?? null %}
+		{% set id = values.id ?? null %}
+		{% set title = values.title ?? null %}
+		{% set class = class ~ ( values.class | default("")) %}
+		{% set attr = values.attr ?? {} %}
+	{% endif %}
+
+	{% if disabled is same as (true) %}
+		{% set class = class ~ " disabled"  %}
+	{% endif %}
+
+	<a class="{{ class | trim }}" href="{{ url }}" {%- if disabled is same as (true) %} disabled="disabled" {% endif %} {%- if id is not empty %} id="{{ id }}" {% endif %} {%- if toggle is not empty %} data-toggle="{{ toggle }}" {% endif %} {%- if modal is not empty %} data-toggle="modal" data-target="{{ modal }}" {% endif %} {%- if onclick is not empty %} onclick="{{ onclick }}" {% endif %} {%- if target is not empty %} target="{{ target }}" {% endif %} {%- if attr is not empty %} {% for name, value in attr %} {{ ' ' ~ name }}={% if '"' in value %} '{{ value|raw }}' {% else %} "{{ value|raw }}" {% endif %} {% endfor %} {% endif %}>
+		{% if title is not null %}
+			{{ title }}
+		{% else %}
+			{{ widgets.icon(icon) }}
+
+		{% endif %}
+	</a>
+	{% endapply %}
+{% endmacro %}

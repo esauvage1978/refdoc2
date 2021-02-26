@@ -1,0 +1,19 @@
+{% import "macros/widgets.html.twig" as widgets %}
+
+{% if nbr>1 %}
+	<div class="small-box bg-p-dark ">
+<div class="inner  text-p-light">
+
+			<h3 class=''>{{ nbr }}</h3>
+			<p>En cours de publication</p>
+		</div>
+		<div class="icon">
+{{ widgets.icon('workflow') }}
+
+		</div>
+<a href="{{ path('backpacks_in_progress')}}" class="small-box-footer ">Consulter
+
+			<i class="fas fa-arrow-circle-right"></i>
+		</a>
+	</div>
+{% endif %}

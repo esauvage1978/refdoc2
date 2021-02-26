@@ -1,0 +1,73 @@
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/workflow.html.twig" as workflow %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/backpack.html.twig" as bpk %}
+<section>
+	<div class="row col-12 ">
+
+		<h3 class="text-bold text-p-dark ">
+
+			<a href="{{ path('backpack_show',{id: item.id})}}" class="text-p-dark">
+
+				{{ widgets.icon('backpack') }}
+				{% if item.ref %}
+					<span class="text-muted">{{ item.ref }}</span>
+				{% endif %}
+
+				{{ item.name }}
+				{% if item.stateCurrent=='published' %}
+					{{ bpk.isNew(item.updatedat)}}
+				{% endif %}
+			</a>
+		</h3>
+	</div>
+
+	<div class="row  d-flex justify-content-end mr-1 pb-2 text-gray">
+
+
+		<div class="badge">
+			<i class="{{ item.category.icone }} " style="
+															{% if item.category.forecolor is defined %}
+																color:{{ item.category.forecolor }};
+															{% endif %}
+															{% if item.category.bgcolor is defined %}
+																background-color:{{ item.category.bgcolor }};
+															{% endif %}"></i>
+			{{ item.category.name }}
+		</div>
+		<div class="badge">
+			{{ widgets.icon('user') }}
+			{{item.owner.name}}
+		</div>
+
+		{% if item.updatedat %}
+			<div class="badge">
+				{{ widgets.icon('calendar') }}
+				<small class="text-muted">Modifié le
+				</small>
+				{{ widgets.showShortDate(item.updatedat) }}
+			</div>
+		{% else %}
+			<div class="badge">
+				{{ widgets.icon('calendar') }}
+				<small class="text-muted">Créé le
+				</small>
+				{{ widgets.showShortDate(item.createdat) }}
+			</div>
+		{% endif %}
+
+		<div class="badge">
+			{{ workflow.badge_state(item.stateCurrent) }}
+		</div>
+
+		<div class="badge">
+			{% if item.backpackSlave %}
+				<a href="{{ path('backpack_show',{id:item.backpackSlave.id}) }}">Porte-document en révision</a>
+			{% endif %}
+			{% if item.backpackMaster %}
+				<a href="{{ path('backpack_show',{id:item.backpackMaster.id}) }}">Porte-document principal</a>
+			{% endif %}
+		</div>
+
+	</div>
+</section>

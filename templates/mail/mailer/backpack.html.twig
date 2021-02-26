@@ -1,0 +1,30 @@
+{% extends './mail/template.html.twig' %}
+
+{% block title %}
+	{{ mailer.subject }}
+{% endblock %}
+
+{% block title_content %}
+	Message envoyé depuis l'application
+{% endblock %}
+
+{% block body %}
+	<p>Un message pour le porte-document ci-dessous vous est envoyé depuis l'application :</p>
+	<p>
+		{{ mailer.content | raw }}
+
+	</p>
+	<p>
+		Vous pouvez aller consulter le porte document à reprendre en cliquant sur le lien ou en saisissant l'adresse
+		<a style="color:#57a7fe;text-decoration: none" href="{{ url('backpack_show', {'id': mailer.backpack.id}) }}">cliquez-ici</a>
+
+
+		ou
+		collez le lien suivant dans votre navigateur
+		<span style="color:#57a7fe;">
+			{{ url('backpack_show', {'id': mailer.backpack.id}) }}
+
+		</span>
+	</p>
+
+{% endblock %}

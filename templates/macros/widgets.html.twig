@@ -1,0 +1,23 @@
+{% macro icon(icon, addclass) %}
+	<i class="{{ icon|icon(icon) }} {{ addclass }}"></i>
+{% endmacro %}
+
+{% macro showLongDate(date) %}
+	{{ date |format_datetime('full', 'short', locale='fr') }}
+{% endmacro %}
+
+{% macro showShortDate(date) %}
+	{{ date |format_datetime('medium', 'short', locale='fr') }}
+{% endmacro %}
+
+{% macro showXShortDate(date) %}
+{{ date |format_datetime('medium', 'none', locale='fr') }}
+
+{% endmacro %}
+
+
+{% macro badge(title, bgcolor, forecolor) %}
+	<span class="badge" style="background-color:{{ bgcolor }}{{ forecolor ? " ;color:" ~ forecolor :'' }}">{{ title | raw }}</span>
+{% endmacro %}
+
+

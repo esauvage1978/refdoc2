@@ -1,0 +1,142 @@
+{% embed 'widgets/card-widget.html.twig' %}
+	{% import "macros/file.html.twig" as file %}
+	{% import "macros/widgets.html.twig" as widgets %}
+
+	{% block card_class %}h-100
+	{% endblock %}
+	{% block card_body_class %}p-1
+	{% endblock %}
+	{% block card_body %}
+		<input type="hidden" id="filecount" value="{{ item.backpackFiles | length }}"/>
+		<input type="hidden" id="linkcount" value="{{ item.backpackLinks | length }}"/>
+		<table id="file-media" class="table table-striped table-condensed " style="width:100%">
+			{% for backpackFile in item.backpackFiles %}
+				<tr id="media-{{ backpackFile.fileName }}">
+					<td>
+						<a type="button" class="text-p-dark" target="_blank" href="{{ absolute_url( asset(backpackFile.href)) }}">
+							{{ file.icon(backpackFile.fileExtension) }}
+
+							{{ backpackFile.title }}
+						</a>
+					</td>
+					<td>
+						{{ backpackFile.content  | raw }}
+					</td>
+					<td>
+						<small>
+							{{ widgets.showLongDate(backpackFile.modifyAt) }}
+						</small>
+					</td>
+					<td class="float-right" style="width: 100px">
+						<button class="media-delete btn btn-danger btn-sm " data-msg="backpackFile_{{ loop.index0 }}" data-media="{{ backpackFile.fileName }}">
+							<i class="fas fa-trash"></i>
+						</button>
+						<span class="media-edit btn btn-info  btn-sm" onclick="showOtherFile({{ loop.index0 }})">
+							<i class="fas fa-edit"></i>
+						</span>
+					</td>
+				</tr>
+				<tr id="backpackFile_{{ loop.index0 }}" class="d-none">
+					<td colspan="4">
+						{{ form_widget(form.backpackFiles[loop.index0]) }}
+					</td>
+				</tr>
+			{% endfor %}
+			{% for backpackLink in item.backpackLinks %}
+				<tr id="media-{{ backpackLink.id }}">
+					<td>
+						<a type="button" class="text-p-dark" target="_blank" href="{{ backpackLink.link }}">
+							<i class="fas fa-globe"></i>
+							{{ backpackLink.title }}
+						</a>
+						<br/>
+						<span class="text-muted">
+							{{ backpackLink.link }}
+						</span>
+					</td>
+					<td>
+						{{ backpackLink.content | raw }}
+					</td>
+					<td>
+						<small>
+							{{ widgets.showLongDate(backpackLink.modifyAt) }}
+						</small>
+					</td>
+					<td class="float-right" style="width: 100px">
+						<button class="media-delete btn btn-danger btn-sm " data-msg="backpackLink_{{ loop.index0 }}" data-media="{{ backpackLink.id }}">
+							<i class="fas fa-trash"></i>
+						</button>
+						<span class="media-edit btn btn-info  btn-sm" onclick="showOtherLink({{ loop.index0 }})">
+							<i class="fas fa-edit"></i>
+						</span>
+					</td>
+				</tr>
+				<tr id="backpackLink_{{ loop.index0 }}" class="d-none">
+					<td colspan="4 ">
+						<div class="card-body shadow">
+							{{ form_widget(form.backpackLinks[loop.index0]) }}
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endblock %}
+{% endembed %}
+
+{% embed 'widgets/card-widget.html.twig' %}
+	{% block card_class %}flat
+	{% endblock %}
+	{% block card_body %}
+
+
+		<div class="row justify-content-around js-createTip-wrapper">
+
+			<a href="#file" id="add-file" class="btn btn-p-dark mt-1">
+				<i class="fas fa-plus"></i>
+				ajouter un fichier
+			</a>
+			<a href="#link" id="add-link" class="btn btn-p-dark mt-1">
+				<i class="fas fa-plus"></i>
+				ajouter un lien
+			</a>
+			<div class="createTip ">
+
+				<div class="createTip__title">
+					Ajouter un fichier
+				</div>
+				<p>
+					Vous devez aller sélectionner le fichier à ajouter et renseigner obligatoirement le
+					<strong>le titre</strong>.
+						                    Le titre doit être explicite.
+				</p>
+				<div class="createTip__title">
+					Ajouter un lien
+				</div>
+				<p>
+					Lors de l'ajout d'un lien, vous devez obligatoirement renseigner :
+					<ul>
+						<li>
+							<strong>le titre</strong>
+							:
+																					il doit être explicite</li>
+						<li>
+							<strong>l'adresse</strong>
+							mettre une URL. exemple : http://google.fr</li>
+
+					</ul>
+				</p>
+				<p>
+					La description du lien ou du fichier est facultative mais elle peut apporter une aide à l'utilisateur
+				</p>
+			</div>
+		</div>
+
+		<div id="media-new">
+			<div class="row">
+				<div class="col-12 media-add" id="media-add-file" data-prototype="{{ form_row(form.backpackFiles.vars.prototype) | e('html_attr') }}"></div>
+				<div class="col-12 media-add" id="media-add-link" data-prototype="{{ form_row(form.backpackLinks.vars.prototype) | e('html_attr') }}"></div>
+			</div>
+		</div>
+
+	{% endblock %}
+{% endembed %}

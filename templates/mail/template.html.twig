@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTDXHTML1.0Transitional//EN"          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<!--
+		    /* VERSION 1.0.0 */
+		    /* EMMANUEL SAUVAGE */
+		    /* https://manuso.fr */
+		    -->
+		<title>{{application_name}}
+			{% block title %}{% endblock %}
+		</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta content="width=device-width">
+		<style>
+			type="text/css"
+			/* Fonts and Content */
+			body,
+			td,
+			p {
+				font-family: Roboto, Calibri, Arial, sans-serif;
+				font-size: 14px;
+			}
+
+			body {
+				background-color: #2A374E;
+				margin: 0;
+				padding: 0;
+				-webkit-text-size-adjust: none;
+				-ms-text-size-adjust: none;
+			}
+
+			h2 {
+				font-family: Roboto, Calibri, Arial, sans-serif;
+				padding-top: 12px;
+				color: #0E7693;
+				font-size: 22px;
+			}
+
+			@media only screen and(max-width: 480px) {
+
+				table[class=w275],
+				td[class=w275],
+				img[class=w275] {
+					width: 135px !important;
+				}
+
+				table[class=w30],
+				td[class=w30],
+				img[class=w30] {
+					width: 10px !important;
+				}
+
+				table[class=w580],
+				td[class=w580],
+				img[class=w580] {
+					width: 280px !important;
+				}
+
+				table[class=w640],
+				td[class=w640],
+				img[class=w640] {
+					width: 300px !important;
+				}
+
+				img {
+					height: auto;
+				}
+
+				/*illisible, on passe donc sur 3 lignes */
+				table[class=w180],
+				td[class=w180],
+				img[class=w180] {
+					width: 280px !important;
+					display: block;
+				}
+
+				td[class=w20] {
+					display: none;
+				}
+			}
+		</style>
+
+	</head>
+	<body style="margin:0px; padding:0px; -webkit-text-size-adjust:none;">
+
+		<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:rgb(42, 55, 78)">
+			<tbody>
+				<tr>
+					<td align="center" bgcolor="#2A374E">
+						<table cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td class="w640" width="640" height="10"></td>
+								</tr>
+
+								<tr>
+									<td align="center" class="w640" width="640" height="20">
+
+										<a style="color:#ffffff; font-size:12px;" href="#">
+											<span style="color:#ffffff; font-size:12px;"></span>
+										</a>
+
+									</td>
+								</tr>
+								<tr>
+									<td class="w640" width="640" height="10"></td>
+								</tr>
+
+
+								<!-- entete -->
+								<tr class="pagetoplogo">
+									<td class="w640" width="640">
+										<table class="w640" width="640" cellpadding="0" cellspacing="0" border="0" bgcolor="#F2F0F0">
+											<tbody>
+												<tr>
+													<td class="w30" width="30"></td>
+													<td align="center" class="w580" width="580" valign="middle">
+														<p>
+															&nbsp;
+														</p>
+														<h1 style="color:#0E7693; font-size:25px; padding-top:12px;padding-bottom:20px;">
+															{{application_name}}
+														</h1>
+														<p>
+															&nbsp;
+														</p>
+													</td>
+													<td class="w30" width="30"></td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td class="esd-structure es-p15t es-p15b es-p20r es-p20l" style="background-position: center center; background-color: #efefef;" esd-custom-block-id="56363" bgcolor="#efefef" align="left">
+										<table width="100%" cellspacing="0" cellpadding="0">
+											<tbody>
+												<tr>
+													<td class="esd-container-frame" width="560" valign="top" align="center">
+														<table width="100%" cellspacing="0" cellpadding="0">
+															<tbody>
+																<tr>
+																	<td class="esd-block-menu">
+																		<table class="es-menu" width="100%" cellspacing="0" cellpadding="0">
+																			<tbody>
+																				<tr class="links">
+																					<td class="es-p10t es-p10b es-p5r es-p5l" style="padding-bottom: 10px; padding-top: 10px; " width="33%" valign="top" bgcolor="transparent" align="center">
+																						<a target="_blank" href="{{ absolute_url(path('home')) }}" style=" font-size: 16px; color:#57a7fe; text-transform: uppercase; text-decoration: none;font-weight: bolder">
+																							Page d'accueil
+																						</a>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td class="w640" width="640" height="1" bgcolor="#d7d6d6"></td>
+								</tr>
+								<tr class="content">
+									<td class="w640" class="w640" width="640" bgcolor="#ffffff">
+										<table class="w640" width="640" cellpadding="0" cellspacing="0" border="0">
+											<tbody>
+												<tr>
+													<td class="w30" width="30"></td>
+													<td class="w580" width="580">
+
+														<table class="w580" width="580" cellpadding="0" cellspacing="0" border="0">
+															<tbody>
+																<tr>
+																	<td class="w580" width="580">
+																		<p>
+																			&nbsp;
+																		</p>
+																		<h2 style="color:#0E7693; font-size:22px; padding-top:12px;"> {% block title_content %}{% endblock %}
+																			</h2>
+																			<p>
+																				&nbsp;
+																			</p>
+																			<div align="left" class="article-content">
+																				{% if user.name is defined %}
+																					<p>Bonjour
+																						<b>{{ user.name }},</b>
+																					{% else %}
+																						<p>Bonjour,</p>
+																					{% endif %}
+																				</p>
+																				{% block body %}{% endblock %}
+																				<p>
+																					&nbsp;
+																				</p>
+																				<p>
+																					Merci d'utiliser
+																					<b>{{application_name}}</b>
+																					et à bientôt
+																				</p>
+																				<p>
+																					&nbsp;
+																				</p>
+																			</div>
+																		</td>
+																	</tr>
+
+																</tbody>
+															</table>
+
+															<br/><br/>
+
+
+														</td>
+														<td class="w30" class="w30" width="30"></td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td class="w640" width="640" height="15" bgcolor="#ffffff"></td>
+									</tr>
+									<tr class="pagebottom">
+										<td class="w640" width="640">
+											<table class="w640" width="640" cellpadding="0" cellspacing="0" border="0" bgcolor="#c7c7c7">
+												<tbody>
+													<tr>
+														<td colspan="5" height="10"></td>
+													</tr>
+													<tr>
+														<td class="w30" width="30"></td>
+														<td class="w580" width="580" valign="top">
+															<table width="100%" cellspacing="0" cellpadding="0">
+																<tbody>
+																	<tr>
+																		<td class="esd-block-spacer es-p20" style="font-size:0" align="center">
+																			<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+																				<tbody>
+																					<tr>
+																						<td style="border-bottom: 1px solid #cccccc; background:none; height:1px; width:100%; margin:0px 0px 0px 0px;"></td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="esd-block-text es-p10b" esdev-links-color="#666666" align="left">
+																			<p style="color: #666666;">Cet e-mail est envoyé depuis l'application
+																				{{application_name}}<br></p>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="esd-block-text es-p10b" esdev-links-color="#666666" align="left">
+																			<p style="color: #666666;">
+																				<a target="_blank" style="color: #666666;" href="{{ absolute_url(path('home')) }}">Page d'accueil</a>
+																				|
+																				<a target="_blank" style="color: #666666;" href="mailto:{{app_contact}}">Emmanuel SAUVAGE</a><br></p>
+
+																		</td>
+																	</tr>
+																	<tr>
+																		<td esdev-links-color="#666666" class="esd-block-text" align="left">
+																			<p style="color: #666666;">Copyright © 2020
+																				{{app_name}}
+																				- Emmanuel SAUVAGE<br></p>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+
+														<td class="w30" width="30"></td>
+													</tr>
+													<tr>
+														<td colspan="5" height="10"></td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td class="w640" width="640" height="60"></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</body>
+	</html>

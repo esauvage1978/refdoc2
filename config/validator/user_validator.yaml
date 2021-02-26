@@ -1,0 +1,37 @@
+App\Entity\User:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+  properties:
+    name:
+      - NotBlank: ~
+      - Length:
+          min: 4
+          max: 100
+          minMessage: 'Le nom "{{ value }}" doit avoir plus de 3 caractères'
+          maxMessage: 'Le nom "{{ value }}" ne peut pas avoir plus de 100 caractères'
+    email:
+      - Email:
+          message: 'The email "{{ value }}" is not a valid email.'
+      - NotBlank: ~
+      - Length:
+          min: 8
+          max: 255
+          minMessage: 'The Email "{{ value }}" must be more than 6 characters'
+          maxMessage: 'The Email "{{ value }}" can not be more than 255 characters'
+    phone:
+      - Length:
+          max: 20
+          maxMessage: 'Le numéro de téléphone "{{ value }}" ne peut pas avoir plus de 20 caractères'
+    plainPassword:
+      - Length:
+          min: 8
+          max: 20
+          minMessage: 'Le mot de passe doit avoir au minimum "{{ limit }}" caractères.'
+      - Regex:
+          pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/i'
+          message: 'Le mot de passe doit contenir au moins une lettre, un chiffre et avoir au moins 8 caractères'
+    plainPasswordConfirmation:
+      - EqualTo:
+          propertyPath: 'plainPassword'
+          message: 'La confirmation et le mot de passe ne correspondent pas !'
