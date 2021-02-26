@@ -1,20 +1,19 @@
 {% import "macros/widgets.html.twig" as widgets %}
 
+{% if nbr>1 %}
+	<div class="small-box bg-p-dark ">
+<div class="inner  text-p-light">
 
-<a href="{{ path('backpacks') }}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow h-100">
+			<h3>{{ nbr }}</h3>
+<p>Publié{{nbr>1?'s':''}}</p>
 
-	<div class="d-flex w-100 align-items-center">
-		<div class="col-4  text-center">
-			{{ widgets.icon('backpack', 'fa-5x ') }}
 		</div>
-		<div class="">
-			<h5 class="mb-1 ">
-
-				<strong>Porte-documents</strong>
-			</h5>
-			<p class="mb-1"></p>
-				<small>Consulter l'ensemble des porte-documents</small>
+		<div class="icon">
+			{{ widgets.icon('backpack') }}
 		</div>
+		<a href="{{ path('backpacks_show')}}" class="small-box-footer ">Consulter
+			<i class="fas fa-arrow-circle-right"></i>
+		</a>
 	</div>
-</a>
+{% endif %}
 

@@ -30,6 +30,13 @@ class ParamsInServices
     public const ES_MAILER_SMTP_PORT = 'es.mailer.smtp.port';
     public const ES_NEWS_TIME = 'es.news.time';
     public const ES_TREE_UNDEVELOPPED_NBR = 'es.tree.undevelopped.nbr';
+    public const ES_MAILER_WORKFLOW_TORESUME = 'es.mailer.workflow.toResume';
+    public const ES_MAILER_WORKFLOW_TOVALIDATE = 'es.mailer.workflow.toValidate';
+    public const ES_MAILER_WORKFLOW_TOCONTROL = 'es.mailer.workflow.toControl';
+    public const ES_MAILER_WORKFLOW_TOCHECK = 'es.mailer.workflow.toCheck';
+    public const ES_MAILER_WORKFLOW_PUBLISHED = 'es.mailer.workflow.published';
+    public const ES_MAILER_WORKFLOW_TOREVISE = 'es.mailer.workflow.toRevise';
+    public const ES_MAILER_WORKFLOW_INREVIEW = 'es.mailer.workflow.inReview';
 
     /** @var ParameterBagInterface */
     private $params;
@@ -53,6 +60,13 @@ class ParamsInServices
             self::ES_MAILER_SMTP_PORT,
             self::ES_NEWS_TIME,
             self::ES_TREE_UNDEVELOPPED_NBR,
+            self::ES_MAILER_WORKFLOW_TORESUME,
+            self::ES_MAILER_WORKFLOW_TOVALIDATE,
+            self::ES_MAILER_WORKFLOW_TOCONTROL,
+            self::ES_MAILER_WORKFLOW_TOCHECK,
+            self::ES_MAILER_WORKFLOW_PUBLISHED,
+            self::ES_MAILER_WORKFLOW_TOREVISE,
+            self::ES_MAILER_WORKFLOW_INREVIEW
         ];
     }
 

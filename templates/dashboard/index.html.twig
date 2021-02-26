@@ -1,4 +1,23 @@
 {% extends 'base.html.twig' %}
+{% import "macros/datatables.html.twig" as tables %}
+{% import "macros/backpack.html.twig" as bkp %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/workflow.html.twig" as wkf %}
+
+
+{% set columns = {
+    '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+'Modifiable': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+'Modifiable
+<br/>
+propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+} %}
+
+
 {% block title %}
 	{{ app_name }}
 	- Tableau de bord
@@ -6,74 +25,240 @@
 {% block page_title %}
 	<i class="fas fa-dashboard"></i>
 	Tableau de bord
-
 {% endblock %}
 
 {% block page_content %}
 
 
-		{% import "macros/backpack.html.twig" as bkp %}
-{% import "macros/widgets.html.twig" as widgets %}
+	<div class="row justify-content-center mt-2">
+		<div class="col-sm-12 col-lg-6 ">
+
+			{{ tables.datatable_header('dsb', columns,  {'striped': true}) }}
+			<tr>
+				{{ wkf.state_table_td('abandonned') }}
 
 
-		<div class="row justify-content-center mt-2">
-			<div class="col-sm-12 col-lg-6 ">
-				<div class="card card-info card-outline ">
-					<div class="card-header ">
+				{% for  item in abandonned %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
 
-						<div class="card-title  m-0">
-							<h4 class="text-bold text-info">Porte-documents</h4>
-						</div>
+			</tr>
 
-					</div>
-					<div class="card-body">
-						<table class='table'>
-<thead>
-<tr>
-	<td></td>
-	<td>Total</td>
-	<td>Modifiable</td>
-	<td>Mes porte-documents</td>
+			<tr>
+				{{ wkf.state_table_td('draft') }}
 
+				{% for  item in draft %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
 
+				{% endfor %}
 
-</tr>
-</thead>
-
-							<tbody>
-								<tr>
-<td style="background-color:{{ 'draft' | workflowGetBGColorOfState }};color: {{ 'draft' | workflowGetForeColorOfState}};">
-
-<i class="{{ 'draft' | workflowGetIconOfState}}"></i> {{ 'draft' | workflowGetNameOfState }}
+			</tr>
 
 
+			<tr>
+				{{ wkf.state_table_td('toValidate') }}
+				{% for  item in toValidate %}
 
-									</td>
-									{% for  item in draft %}
-										<td>
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
 
-											<a class=" hvr-float-shadow   align-items-center" href="{{ path(item.route) }}">
-												<span class=''>
-													{{ item.data}}
-												</span>
-											</a>
-										</td>
+			<tr>
+				{{ wkf.state_table_td('toResume') }}
+				{% for  item in toResume %}
 
-									{% endfor %}
-
-								</tr>
-
-							</tbody>
-
-						</div>
-					</div>
-
-				</div>
-				<div class="col-sm-12 col-lg-6 "></div>
-
-			</div>
-
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
 
 
+			<tr>
+				{{ wkf.state_table_td('toControl') }}
+				{% for  item in toControl %}
 
-	{% endblock %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+					{% if app.user.userParam.isControl %}
+						<td class="align-middle text-center text-lg">
+							<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+								<span class=''>
+									{{ item.data}}
+								</span>
+							</a>
+						</td>
+					{% else %}
+						<td class="align-middle text-center text-lg"></td>
+					{% endif %}
+				{% endfor %}
+				<td class="align-middle text-center text-lg"></td>
+
+			</tr>
+			<tr>
+				{{ wkf.state_table_td('toCheck') }}
+				{% for  item in toCheck %}
+
+
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+					{% if app.user.userParam.isDoc %}
+						<td class="align-middle text-center text-lg">
+							<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+								<span class=''>
+									{{ item.data}}
+								</span>
+							</a>
+						</td>
+					{% else %}
+						<td class="align-middle text-center text-lg"></td>
+					{% endif %}
+				{% endfor %}
+				<td class="align-middle text-center text-lg"></td>
+
+			</tr>
+			<tr>
+				{{ wkf.state_table_td('published') }}
+				{% for  item in published %}
+
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				{{ wkf.state_table_td('toRevise') }}
+				{% for  item in toRevise %}
+
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				{{ wkf.state_table_td('inReview') }}
+				{% for  item in inReview %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+			</tr>
+
+			{{ tables.datatable_footer('dsb',1) }}
+
+		</div>
+		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
+			<img src="{{ asset('img/dashboard.svg')}}" alt"choix des abonnements" style="width:80%"/>
+		</div>
+	</div>
+	{% set columns = {
+    '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+	'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+	} %}
+
+	<div class="row justify-content-center   d-flex align-items-center">
+
+		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
+
+			<img src="{{ asset('img/news.svg')}}" alt"choix des abonnements" style="width:80%"/>
+
+		</div>
+		<div class="col-sm-12 col-lg-6 ">
+			{{ tables.datatable_header('dsb2', columns,  {'striped': true}) }}
+			{% for  item in news %}
+				<tr>
+					<td class="align-middle text-p-dark bg-p-light" style="width:50%">
+						{{ item.title }}
+					</td>
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+			{{ tables.datatable_footer('dsb2',1) }}
+		</div>
+	</div>
+	{% set columns = {
+    '#': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+	'Total': {'class': 'align-middle alwaysVisible text-center bg-def1 text-def1', 'orderBy': true},
+
+	} %}
+
+	<div class="row justify-content-center   d-flex align-items-center">
+
+
+		<div class="col-sm-12 col-lg-6 ">
+			{{ tables.datatable_header('dsb3', columns,  {'striped': true}) }}
+			{% for  item in goToRevise %}
+
+				<tr>
+					<td class="align-middle text-p-dark bg-p-light" style="width:50%">
+						{{ item.title }}
+					</td>
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+			{{ tables.datatable_footer('dsb3',1) }}
+		</div>
+		<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
+			<img src="{{ asset('img/revision.svg')}}" alt"révisions" style="width:80%"/>
+		</div>
+
+	</div>
+
+{% endblock %}

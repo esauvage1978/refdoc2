@@ -1,0 +1,75 @@
+{% extends 'mailer/layout.html.twig' %}
+
+
+{% block page_subtitle %}Historique des messages pour l'action
+{% endblock %}
+
+{% block breadcrumb %}
+	{% import "mailer/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'history',
+        item
+    ) }}
+{% endblock %}
+
+
+{% block page_content %}
+	<div class="row justify-content-center ">
+		<div class="col-10">
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% block card_body_class %}h-100 bg-light shadow
+				{% endblock %}
+				{% block card_body %}
+					{{ include('backpack/_show/_identification.html.twig') }}
+					{{ include('backpack/_show/_content.html.twig') }}
+
+					{% embed 'widgets/timeline-widget.html.twig' %}
+						{% block timeline_title %}Messages
+						{% endblock %}
+						{% block timeline_title_class %}bg-gray
+						{% endblock %}
+						{% block timeline_body %}
+							{% import "macros/widgets.html.twig" as widgets %}
+
+							{% for data in item.mailers %}
+								<div>
+									<i class="fas fa-external-link-alt bg-p-dark2 text-p-light"></i>
+									<div class="timeline-item  bg-p-light">
+
+										<div class="timeline-body mt-1">
+											<div class="mailbox-read-info">
+												<h5 class="mb-3">
+													<strong>Sujet du message :</strong>
+													{{ data.subject }}
+													<span class="mailbox-read-time float-right">{{ widgets.showLongDate(data.sentAt) }}</span>
+
+												</h5>
+												<h6>
+													<strong>De :</strong>
+													{{ data.userFrom }}</h6>
+												<h6>
+													<strong>A :</strong>
+													{{ data.usersTo | raw }}</h6>
+											</div>
+											<div class="mailbox-read-message bg-white">
+												<div class=" p-3">
+													<small>
+														{{ data.content | raw }}
+													</small>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+							{% endfor %}
+
+						{% endblock %}
+					{% endembed %}
+
+				{% endblock %}
+			{% endembed %}
+		</div>
+	</div>
+{% endblock %}

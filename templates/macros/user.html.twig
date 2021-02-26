@@ -17,8 +17,6 @@
 {% endmacro %}
 
 
-
-
 {% macro lastConnexion(item) %}
 	{% if item.loginAt %}
 		{% set difference = date("today").diff(date(item.loginAt)) %}
@@ -34,11 +32,21 @@
 				{{ leftDays }}
 				jours
 			</span>
+		{% elseif leftDays == 0 %}
+			<span class="text-success">
+				Aujourd'hui
+			</span>
+		{% elseif leftDays == 1 %}
+			<span class="text-success">
+				Hier
+			</span>
 		{% else %}
 			<span class="text-success">
 				{{ leftDays }}
 				jours
 			</span>
+
+
 		{% endif %}
 	{% else %}
 		--/--/----
@@ -56,11 +64,13 @@
 {% endmacro %}
 
 {% macro vignette(item) %}
-	<a class="list-inline-item hvr-float-shadow " href="{{ path('user_show', {'id': item.id}) }}">
+	<a class="list-inline-item  hvr-grow-shadow " href="{{ path('user_show', {'id': item.id}) }}">
+
 		<div class="text-center">
 			<img class="profile-user-img img-bordered-sm img-circle " src="{{ asset(item.avatar) }}" alt="User Image">
 		</div>
-		<div class="text-center small">
+		<div class="text-center align-center  text-p-dark" style="height:50px;width:110px">
+
 			{{ item.name }}
 		</div>
 	</a>

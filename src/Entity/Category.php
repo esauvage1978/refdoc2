@@ -75,11 +75,22 @@ class Category implements EntityInterface
      */
     private $backpacks;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isValidatedByADD;
+
+    /**
+     * @ORM\Column(type="string", length=3)
+     */
+    private $ref;
+
     public function __construct()
     {
         $this->setIsEnable(true);
         $this->setIsValidatedByControl(false);
         $this->setIsValidatedByDoc(true);
+        $this->setIsValidatedByADD(false);
         $this->setTimeBeforeRevision(6);
         $this->setIcone("fas fa-clipboard-list");
         $this->setBgColor("#ffffff");
@@ -243,5 +254,35 @@ class Category implements EntityInterface
         }
 
         return $this;
+    }
+
+    public function getIsValidatedByADD(): ?bool
+    {
+        return $this->isValidatedByADD;
+    }
+
+    public function setIsValidatedByADD(bool $isValidatedByADD): self
+    {
+        $this->isValidatedByADD = $isValidatedByADD;
+
+        return $this;
+    }
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(string $ref): self
+    {
+        $this->ref = $ref;
+
+        return $this;
+    }
+
+
+    public function getFullName(): ?string
+    {
+        return $this->getRef() . ' - ' . $this->getName();
     }
 }

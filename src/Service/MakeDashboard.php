@@ -25,46 +25,121 @@ class MakeDashboard
     private const ICONE = 'icone';
     private const NBR = 'nbr';
 
-    public const DRAFT = 'draft';
-    public const MY_DRAFT_UPDATABLE = 'mydraft_updatable';
-    public const DRAFT_UPDATABLE = 'draft_updatable';
-    public const TO_VALIDATE = 'to_validate';
 
-    public function getData(string $data)
+private const STATE='state';
+
+
+    public function getData(string $filter)
     {
         $datas = [
-            self::DRAFT => [
-                self::ROUTE => 'backpacks_' . self::DRAFT,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_DRAFT),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_DRAFT),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_DRAFT),
+            BackpackMakerDto::HOME_NEWS => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les actualités',
+            ],
+            BackpackMakerDto::HOME_NEWS_SUBSCRIPTION => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les actualités / Abonnement',
+            ],
+            BackpackMakerDto::GO_TO_REVISE => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Sera basculé à l\'état à réviser',
+            ],
+            BackpackMakerDto::DRAFT => [
+                self::STATE =>  WorkflowData::STATE_DRAFT,
+                self::TITLE => 'Tous les brouillons',
+            ],
+            BackpackMakerDto::DRAFT_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_DRAFT,
                 self::TITLE => 'Les brouillons',
-                self::NBR => $this->counter->get(BackpackMakerDto::DRAFT),
             ],
-            self::DRAFT_UPDATABLE => [
-                self::ROUTE => 'backpacks_' . self::DRAFT_UPDATABLE,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_DRAFT),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_DRAFT),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_DRAFT),
-                self::TITLE => 'Les brouillons modifiables',
-                self::NBR => $this->counter->get(BackpackMakerDto::DRAFT_UPDATABLE),
+            BackpackMakerDto::MY_DRAFT_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_DRAFT,
+                self::TITLE => 'Mes brouillons',
             ],
-            self::MY_DRAFT_UPDATABLE => [
-                self::ROUTE => 'backpacks_' . self::MY_DRAFT_UPDATABLE,
-                self::ROUTE_OPTIONS => null,
-                self::BG_COLOR => WorkflowData::getBGColorOfState(WorkflowData::STATE_DRAFT),
-                self::FORE_COLOR => WorkflowData::getForeColorOfState(WorkflowData::STATE_DRAFT),
-                self::ICONE => WorkflowData::getIconOfState(WorkflowData::STATE_DRAFT),
-                self::TITLE => 'Mes brouillons modifiables',
-                self::NBR => $this->counter->get(BackpackMakerDto::MY_DRAFT_UPDATABLE),
+            BackpackMakerDto::ABANDONNED => [
+                self::STATE =>  WorkflowData::STATE_ABANDONNED,
+                self::TITLE => 'Les abandonnés',
             ],
-         
+            BackpackMakerDto::ABANDONNED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_ABANDONNED,
+                self::TITLE => 'Les abandonnés',
+            ],
+            BackpackMakerDto::MY_ABANDONNED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_ABANDONNED,
+                self::TITLE => 'Mes abandonnés',
+            ],
+            BackpackMakerDto::TO_RESUME => [
+                self::STATE =>  WorkflowData::STATE_TO_RESUME,
+                self::TITLE => 'Tous ceux à reprendre',
+            ],
+            BackpackMakerDto::TO_RESUME_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_RESUME,
+                self::TITLE => 'A reprendre',
+            ],
+            BackpackMakerDto::MY_TO_RESUME_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_RESUME,
+                self::TITLE => 'A reprendre (vos porte-documents)',
+            ],
+            BackpackMakerDto::TO_VALIDATE => [
+                self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
+                self::TITLE => 'Tous ceux à valider',
+            ],
+            BackpackMakerDto::TO_VALIDATE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
+                self::TITLE => 'A valider',
+            ],
+            BackpackMakerDto::MY_TO_VALIDATE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_VALIDATE,
+                self::TITLE => 'A valider  (vos porte-documents)',
+            ],
+            BackpackMakerDto::TO_CONTROL => [
+                self::STATE =>  WorkflowData::STATE_TO_CONTROL,
+                self::TITLE => 'A contrôler',
+            ],
+            BackpackMakerDto::TO_CHECK => [
+                self::STATE =>  WorkflowData::STATE_TO_CHECK,
+                self::TITLE => 'A vérifier',
+            ],
+            BackpackMakerDto::PUBLISHED => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les publiés',
+            ],
+            BackpackMakerDto::PUBLISHED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Les publiés modifiables',
+            ],
+            BackpackMakerDto::MY_PUBLISHED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_PUBLISHED,
+                self::TITLE => 'Mes publiés modifiables',
+            ],
+            BackpackMakerDto::TO_REVISE => [
+                self::STATE =>  WorkflowData::STATE_TO_REVISE,
+                self::TITLE => 'A réviser',
+            ],
+            BackpackMakerDto::TO_REVISE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_REVISE,
+                self::TITLE => 'A réviser',
+            ],
+            BackpackMakerDto::MY_TO_REVISE_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_TO_REVISE,
+                self::TITLE => 'A réviser (Mes porte-documents)',
+            ],
+            BackpackMakerDto::IN_REVIEW => [
+                self::STATE =>  WorkflowData::STATE_IN_REVIEW,
+                self::TITLE => 'En révision',
+            ],
+            BackpackMakerDto::IN_REVIEW_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_IN_REVIEW,
+                self::TITLE => 'En révision',
+            ],
+            BackpackMakerDto::MY_IN_REVIEW_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_IN_REVIEW,
+                self::TITLE => 'En révision (Mes porte-documents)',
+            ],                            
         ];
 
 
-        return $this->getArray($datas[$data]);
+        return $this->getArray($datas[$filter],$filter);
     }
 
     public function __construct(
@@ -74,18 +149,18 @@ class MakeDashboard
         $this->counter = new BackpackCounter($backpackDtoRepository, $user);
     }
 
-    private function getArray($datas)
+    private function getArray($datas,$filter)
     {
         $ib = new WidgetInfoBox();
 
         return $ib
-            ->setRoute($datas[self::ROUTE])
-            ->setRouteOptions($datas[self::ROUTE_OPTIONS])
-            ->setBgColor($datas[self::BG_COLOR])
-            ->setForeColor($datas[self::FORE_COLOR])
-            ->setIcone($datas[self::ICONE])
+            ->setRoute('backpacks_' . $filter)
+            ->setRouteOptions(key_exists(self::ROUTE_OPTIONS,$datas)? $datas[self::ROUTE_OPTIONS]:null)
+            ->setBgColor(WorkflowData::getBGColorOfState($datas[self::STATE]))
+            ->setForeColor(WorkflowData::getForeColorOfState($datas[self::STATE]))
+            ->setIcone(WorkflowData::getIconOfState($datas[self::STATE]))
             ->setTitle($datas[self::TITLE])
-            ->setData($datas[self::NBR])
+            ->setData($this->counter->get($filter))
             ->createArray();
     }
 

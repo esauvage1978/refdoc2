@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class BackpackRepository extends ServiceEntityRepository
 {
     const ALIAS = 'b';
-    
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Backpack::class);
@@ -25,9 +25,7 @@ class BackpackRepository extends ServiceEntityRepository
     public function findAllFillComboboxDir1(string $idMp, string $idP)
     {
         $builder = $this->createQueryBuilder(self::ALIAS)
-            ->select('distinct ' . self::ALIAS . '.dir1 as id ,' . self::ALIAS . '.dir1 as name');
-
-        $builder
+            ->select('distinct ' . self::ALIAS . '.dir1 as id ,' . self::ALIAS . '.dir1 as name')
             ->Where(self::ALIAS . '.mProcess = :mp')
             ->andWhere(self::ALIAS . '.dir1 is not null');
 
@@ -47,6 +45,33 @@ class BackpackRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findCountForRefPattern(string $refPattern)
+    {
+        $builder = $this->createQueryBuilder(self::ALIAS)
+            ->select('count(\'ref\')');
+
+        $builder
+            ->Where(self::ALIAS . '.stateCurrent != \'abandonned\' and '. self::ALIAS . '.stateCurrent != \'inReview\'')
+            ->andWhere(self::ALIAS . '.ref like :pattern');
+            $builder->setParameter('pattern', '%' . $refPattern . '%');
+
+        return $builder->getQuery()->getSingleScalarResult();
+    }
+    public function findCountForRef(string $ref, $id)
+    {
+        $builder = $this->createQueryBuilder(self::ALIAS)
+            ->select('count(\'ref\')');
+
+        $builder
+            ->Where(self::ALIAS . '.stateCurrent != \'abandonned\' and ' . self::ALIAS . '.stateCurrent != \'inReview\'')
+            ->andWhere(self::ALIAS . '.ref = :ref')
+            ->andWhere(self::ALIAS . '.id != :id')
+            ->setParameters(['ref' => $ref , 'id' => $id]);
+
+        return $builder->getQuery()->getSingleScalarResult();
+    }
+
     public function findAllFillComboboxDirOther(string $idMp, string $idP, string $data, int $numDir)
     {
         $dirCourant = 'dir' . $numDir;
@@ -76,6 +101,4 @@ class BackpackRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 }

@@ -4,16 +4,24 @@
 namespace App\Twig;
 
 
+use Twig\TwigFilter;
 use App\Entity\Action;
 use App\Entity\Backpack;
 use App\Workflow\WorkflowData;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
+use App\Repository\BackpackRepository;
+use DateInterval;
 
 class WorkflowExtension extends AbstractExtension
 {
-    public function __construct()
+    /**
+     * @var BackpackRepository
+     */
+    private $BackpackRepository;
+
+    public function __construct(BackpackRepository $backpackRepository)
     {
+        $this->backpackRepository = $backpackRepository;
     }
 
     public function getFilters()
@@ -28,6 +36,7 @@ class WorkflowExtension extends AbstractExtension
             new TwigFilter('workflowGetExplains', [$this, 'workflowGetExplains']),
             new TwigFilter('workflowGetCheckMessages', [$this, 'workflowGetCheckMessages']),
             new TwigFilter('workflowGetIconOfState', [$this, 'workflowGetIconOfState']),
+            new TwigFilter('workflowDateGoToRevise', [$this, 'workflowDateGoToRevise']),
         ];
     }
 
@@ -53,5 +62,38 @@ class WorkflowExtension extends AbstractExtension
     public function workflowGetIconOfState(string $state)
     {
         return WorkflowData::getIconOfState($state);
+    }
+
+    public function workflowGetTransitionsForState(string $workflow, string $state)
+    {
+        return WorkflowData::getTransitionsForState($workflow, $state);
+    }
+
+    public function workflowGetModalDataForTransition(string $transition)
+    {
+        return WorkflowData::getModalDataForTransition($transition);
+    }
+
+    public function workflowGetExplains(Backpack $backpack, string $transition)
+    {
+        $object =  'App\Workflow\Transaction\Transition' . ucfirst($transition);
+        $instance = new $object($backpack, $this->backpackRepository);
+        return $instance->getExplains();
+    }
+
+
+    public function workflowGetCheckMessages(Backpack $backpack, string $transition)
+    {
+        $object =  'App\Workflow\Transaction\Transition' . ucfirst($transition);
+        $instance = new $object($backpack, $this->backpackRepository);
+        return $instance->getCheckMessages();
+    }
+
+    public function workflowDateGoToRevise(Backpack $backpack)
+    {
+        $duree = $backpack->getCategory()->getTimeBeforeRevision();
+        $dateDepart =  $backpack->getStateAt()->getTimestamp();
+        $dateFin=date('Y-m-d', strtotime('+'.$duree.' month', $dateDepart));
+        return $dateFin;
     }
 }

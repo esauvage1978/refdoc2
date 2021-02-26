@@ -10,9 +10,9 @@ use Symfony\Component\Security\Core\Security;
 
 abstract class HistoryAbstract
 {
-    CONST TYPE_STRING='string';
-    CONST TYPE_BOOL='bool';
-
+    const TYPE_STRING = 'string';
+    const TYPE_BOOL = 'bool';
+    const TYPE_DATE = 'date';
     /**
      * @var HistoryManager
      */
@@ -24,7 +24,7 @@ abstract class HistoryAbstract
     protected $history;
 
     /**
-     * @var array
+     * @var StackArray
      */
     private $stack;
 
@@ -36,32 +36,34 @@ abstract class HistoryAbstract
     public function __construct(
         HistoryManager $manager,
         CurrentUser $currentUser
-    )
-    {
+    ) {
         $this->manager = $manager;
         $this->currentUser = $currentUser;
-        $this->history=new History();
-        $this->stack=new StackArray();
+        $this->history = new History();
+        $this->stack = new StackArray();
     }
 
-    protected function compareField(string $field, ?string $oldData, ?string $newData,string $type=self::TYPE_STRING): bool
+    protected function compareField($field, $oldData, $newData, $type = self::TYPE_STRING): bool
     {
-        if (!isset($oldData) && !isset($newData) ) {
+        if (!isset($oldData) && !isset($newData)) {
             return false;
         }
 
-        $oldData!==$newData?$add=true:$add=false;
+        $oldData !== $newData ? $add = true : $add = false;
 
-        switch ($type)
-        {
+        switch ($type) {
             case self::TYPE_BOOL:
-                $oldData=$oldData?'Oui':'Non';
-                $newData=$newData?'Oui':'Non';
+                $oldData = $oldData ? 'Oui' : 'Non';
+                $newData = $newData ? 'Oui' : 'Non';
+                break;
+            case self::TYPE_DATE:
+                $oldData = $oldData->format('d/m/Y H:i:s');
+                $newData = $newData->format('d/m/Y H:i:s');
                 break;
         }
 
-        if($add) {
-            $this->addContent($field,$oldData,$newData);
+        if ($add) {
+            $this->addContent($field, $oldData, $newData);
             return true;
         }
 
@@ -69,13 +71,13 @@ abstract class HistoryAbstract
     }
 
 
-    protected function compareFieldOneToOne(string $field,string $fieldEntity, ?object $oldData, ?object $newData): bool
+    protected function compareFieldOneToOne(string $field, string $fieldEntity, ?object $oldData, ?object $newData): bool
     {
-        if($oldData!==$newData) {
-            $func='get'. $fieldEntity;
-            $oldDataValue=empty($oldData)?'':($oldData->$func());
-            $newDataValue=empty($newData)?'':($newData->$func());
-            $this->addContent($field,$oldDataValue,$newDataValue);
+        if ($oldData !== $newData) {
+            $func = 'get' . $fieldEntity;
+            $oldDataValue = empty($oldData) ? '' : ($oldData->$func());
+            $newDataValue = empty($newData) ? '' : ($newData->$func());
+            $this->addContent($field, $oldDataValue, $newDataValue);
             return true;
         }
         return false;
@@ -85,9 +87,9 @@ abstract class HistoryAbstract
     protected function addContent(string $field, ?string $oldData, ?string $newData)
     {
         $this->stack->push([
-           'field'=>$field,
-            'oldData'=>(empty($oldData)?'':$oldData),
-            'newData'=>(empty($newData)?'':$newData)
+            'field' => $field,
+            'oldData' => (empty($oldData) ? '' : $oldData),
+            'newData' => (empty($newData) ? '' : $newData)
         ]);
     }
 

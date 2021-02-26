@@ -24,10 +24,23 @@ class CategoryType extends AppTypeAbstract
 
         $builder
             ->add(
+                'isValidatedByADD',
+                CheckboxType::class,
+                [
+                    self::LABEL => "Validation par un agent de Direction",
+                    self::REQUIRED => false,
+                ]
+            )
+            ->add('ref', TextType::class, [
+                self::LABEL => 'Référence',
+                self::REQUIRED => true,
+                self::ATTR => [self::PLACEHOLDER => '___', self::MAXLENGTH => 3],
+            ])
+            ->add(
                 'isValidatedByControl',
                 CheckboxType::class,
                 [
-                    self::LABEL => "Validation par le service contrôle",
+                    self::LABEL => "Passage par le service contrôle",
                     self::REQUIRED => false,
                 ]
             )
@@ -48,7 +61,7 @@ class CategoryType extends AppTypeAbstract
                 'isValidatedByDoc',
                 CheckboxType::class,
                 [
-                    self::LABEL => "Validation par le service documentation",
+                    self::LABEL => "Passage par le service documentation",
                     self::REQUIRED => false,
                 ]
             )

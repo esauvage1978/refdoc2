@@ -40,20 +40,20 @@ class Step1_UserFixtures extends Fixture implements FixtureGroupInterface
 
     private $data =
     [
-        ['AMEDRO Jeremy', 'jeremy.amedro@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
-        ['BEAUCAMPS Sabine', 'sabine.beaucamps@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['BOISMARTEL Laurence', 'laurence.boismartel@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['BUNIET Fanny', 'fanny.bunniet@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['CATELIN Isabelle', 'isabelle.catelin@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['DESPALIER Margot', 'margot.despalier@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['DUPLESSY Laurent', 'laurent.duplessy@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['LIEKENS Ghislaine', 'ghislaine.liekens@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['MARCQ David', 'david.marcq@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['MIGNOT Bruno', 'bruno.mignot@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
-        ['PASZ Romarik', 'romarik.pasz@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
-        ['ROSE Hélène', 'helene.rose@assurance-maladie.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['AMEDRO Jeremy', 'contact@manuso.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
+        ['BEAUCAMPS Sabine', 'esauvage1978@gmail.com', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['BOISMARTEL Laurence', 'amz_kergava@outlook.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['BUNIET Fanny', 'kergava_amz@outlook.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['CATELIN Isabelle', 'contact@robot-educatif.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['DESPALIER Margot', 'contact@par.manuso.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['DUPLESSY Laurent', 'contact2@manuso.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['LIEKENS Ghislaine', 'admin@avocat-parafiniuk.com', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['MARCQ David', 'contact3@manuso.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['MIGNOT Bruno', 'contact4@manuso.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_GESTIONNAIRE"]],
+        ['PASZ Romarik', 'contact5@manuso.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
+        ['ROSE Hélène', 'contact6@manuso.fr', 'Fckgwrhqq101', true, true, false, ["ROLE_USER"]],
         ['SAUVAGE Emmanuel', 'emmanuel.sauvage@live.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER", "ROLE_ADMIN"]],
-        ['WILLEMS Gregory', 'gregory.willems@live.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER", "ROLE_ADMIN"]],
+        ['WILLEMS Gregory', 'contact7@manuso.fr', 'Fckgwrhqq101', true, true, true, ["ROLE_USER", "ROLE_ADMIN"]],
     ];
 
     public function load(ObjectManager $manager)

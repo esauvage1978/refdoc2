@@ -1,6 +1,106 @@
+/***********************************
+** BLOC GLOBAL
+**********************************/
+
+
+
 body {
     background-color: lightgray;
 }
+
+.navbar-dark,
+.sidebar-dark-primary,
+.brand-link {
+    background-color: #30374e ! important;
+}
+
+.sidebar a {
+    color: #e6e7f9;
+}
+
+.nav-icon {
+    color: #6c63ff;
+}
+
+.select2-selection__choice {
+    background-color: #ff6584 !important;
+}
+
+.btn-p-dark {
+    color: #e6e7f9 !important;
+    background-color: #675ef2 !important;
+    border-color: #675ef2 !important;
+}
+
+.btn-p-dark2 {
+    color: #e6e7f9 !important;
+    background-color: #ff6584 !important;
+    border-color: #ff6584 !important;
+}
+
+
+.text-p-dark {
+    color: #675ef2 !important;
+}
+
+.text-p-dark2 {
+    color: #ff6584 !important;
+}
+
+.text-p-light {
+    color: #e6e7f9 !important;
+}
+
+.bg-p-light {
+    background-color: #e6e7f9 !important;
+}
+
+.bg-p-dark {
+    background-color: #675ef2 !important;
+}
+
+.bg-p-dark2 {
+    background-color: #ff6584 !important;
+}
+
+.border-p-dark {
+    border-color: #675ef2 !important;
+}
+
+.border-p-light {
+    border-color: #e6e7f9 !important;
+}
+
+.card-p-dark:not(.card-outline)>.card-header {
+    background-color: #675ef2;
+}
+
+.card-p-light:not(.card-outline)>.card-header {
+    background-color: #e6e7f9;
+}
+
+.card-p-dark:not(.card-outline)>.card-header a {
+    color: #e6e7f9;
+}
+
+.card-p-light:not(.card-outline)>.card-header a {
+    color: #675ef2;
+}
+
+.nav-tabs .nav-link.active {
+    color: #675ef2 !important;
+    background-color: #e6e7f9;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.callout.callout-p-dark {
+    border-left-color: #675ef2;
+}
+
+.callout.callout-p-light {
+    border-left-color: #e6e7f9;
+}
+
 
 .flat {
     box-shadow: 0 0 0 0 !important;
@@ -23,9 +123,9 @@ body {
     border-radius: 2px;
     font-size: 15px;
     line-height: 20px;
-    color: #fff;
+    color: #e6e7f9;
     opacity: 0;
-    background: #343a40;
+    background: #30374e;
     box-shadow: 0 4px 14px 0 rgba(0, 0, 0, .1);
     transition: opacity .15s ease .15s;
 }
@@ -65,7 +165,7 @@ body {
 .createTip__title {
     margin-bottom: 16px;
     font-weight: 600;
-    color: var(--blue);
+    color: #6c63ff;
 }
 
 .createTip ul {
@@ -110,7 +210,7 @@ body {
 
 .gutter {
     margin-right: 30px;
-    background-color: #5d6166;
+    background-color: #e6e7f9;
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -122,3 +222,4 @@ body {
 #tree_left {
     background-color: #fff;
 }
+

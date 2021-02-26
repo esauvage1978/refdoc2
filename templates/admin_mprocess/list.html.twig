@@ -7,14 +7,11 @@
     'Macro processus': {'class': 'alwaysVisible', 'orderBy': true},
     'Description': {'class': 'alwaysVisible', 'orderBy': true},
     '<i class="fas fa-square"  data-toggle="tooltip" data-placement="top" title="Nombre de processus"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
-'<i class="fas fa-user-tie" data-toggle="tooltip" data-placement="top" title="Agents de Direciton"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
-
-'<i class="fas fa-user-check" data-toggle="tooltip" data-placement="top" title="Managers stratégiques"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
-
-'<i class="fas fa-user-edit" data-toggle="tooltip" data-placement="top" title="Contributeurs"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
-
-'<i class="fab fa-chromecast" data-toggle="tooltip" data-placement="top" title="Abonnés"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
-
+	'<i class="fas fa-user-tie" data-toggle="tooltip" data-placement="top" title="Agents de Direciton"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fas fa-user-check" data-toggle="tooltip" data-placement="top" title="Managers stratégiques"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fas fa-user-edit" data-toggle="tooltip" data-placement="top" title="Contributeurs"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fab fa-chromecast" data-toggle="tooltip" data-placement="top" title="Abonnés"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fas fa-suitcase " data-toggle="tooltip" data-placement="top" title="Porte-documents"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
     'actions': {'class': 'alwaysVisible', 'orderBy': false}
 } %}
 {% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
@@ -43,7 +40,7 @@
 		<tr>
 			<td class="align-middle text-center ">{{ item.ref }}</td>
 			<td class="align-middle">
-				<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+				<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'p-dark' : 'danger text-bold' }}">
 					{{ item.name }}
 				</a>
 			</td>
@@ -103,8 +100,8 @@
                         'Modifier',
                         path(route_edit,{id:item.id}),
                         'fa fa-edit',
-                        'purple',
-                        'primary btn-sm'
+                        'p-dark',
+                        'p-dark btn-sm'
                     ) }}
 				{% endif %}
 			</td>

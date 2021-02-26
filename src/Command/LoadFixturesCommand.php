@@ -19,7 +19,7 @@ class LoadFixturesCommand extends Command
     {
         $this
             ->setDescription('load les fixtures.')
-            ->setHelp('Cette commande peremet d\'afficher des occurences de la suite de fiboncci.');
+            ->setHelp('.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -45,6 +45,8 @@ class LoadFixturesCommand extends Command
         $this->loadFixtures('10');
         $this->loadFixtures('11');
         $this->loadFixtures('12');
+        $this->loadFixtures('13');
+        $this->loadFixtures('14');
 
         $fin = microtime(true);
 

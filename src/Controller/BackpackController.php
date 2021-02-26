@@ -2,24 +2,17 @@
 
 namespace App\Controller;
 
-use App\Dto\UserDto;
-use App\Security\Role;
 use App\Helper\Slugger;
 use App\Dto\BackpackDto;
 use App\Dto\MProcessDto;
 use App\Entity\Backpack;
-use App\Tree\BackpackTree;
 use App\History\HistoryShow;
-use App\Security\CurrentUser;
 use App\Security\BackpackVoter;
-use App\Helper\ParamsInServices;
 use App\Manager\BackpackManager;
 use App\Service\BackpackForTree;
-use App\Service\BackpackMakerDto;
 use App\Form\Backpack\BackpackType;
 use App\Form\Backpack\BackpackNewType;
 use App\Repository\BackpackRepository;
-use App\Repository\BackpackDtoRepository;
 use App\Repository\BackpackFileRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,8 +27,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class BackpackController extends AbstractGController
 {
 
-
-
     /**
      * @var BackpackForTree
      */
@@ -43,13 +34,13 @@ class BackpackController extends AbstractGController
 
     public function __construct(
         BackpackRepository $repository,
-        backpackManager $manager,
-        BackpackForTree $backpackForTree
-    ) {
+        BackpackForTree $backpackForTree,
+        backpackManager $manager
+            ) {
         $this->repository = $repository;
         $this->manager = $manager;
-        $this->domaine = 'backpack';
         $this->backpackForTree = $backpackForTree;
+        $this->domaine = 'backpack';
     }
 
     /**
@@ -63,6 +54,33 @@ class BackpackController extends AbstractGController
         return $this->editAction($request, new Backpack(), BackpackNewType::class, false);
     }
 
+
+    /**
+     * @Route("/backpack/{id}", name="backpack_show", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function show( Backpack $item)
+    {
+        $this->denyAccessUnlessGranted(BackpackVoter::READ, $item);
+
+        return $this->render('backpack/show.html.twig', [
+            'item' => $item
+        ]);
+    }
+
+
+    /**
+     * @Route("/backpack/test/{id}", name="backpack_test", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function test(Backpack $item)
+    {
+        $this->denyAccessUnlessGranted(BackpackVoter::READ, $item);
+
+        return $this->render('backpack/test.html.twig', [
+            'item' => $item
+        ]);
+    }
 
     /**
      * @Route("/backpack/{id}/edit", name="backpack_edit", methods={"GET","POST"})
@@ -112,28 +130,7 @@ class BackpackController extends AbstractGController
         ]);
     }
 
-    /**
-     * @Route("/backpacks", name="backpacks", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
-    public function treeView(Request $request, BackpackDto $dto)
-    {
-        $renderArray = $this->backpackForTree->getDatas($this->container, $request, null, $dto);
-        return $this->render('backpack/tree.html.twig', $renderArray);
-    }
 
-    /**
-     * @Route("/backpack/{id}/history", name="backpack_history", methods={"GET","POST"})
-     * @return Response
-     * @IsGranted("ROLE_USER")
-     */
-    public function history(Request $request, Backpack $item): Response
-    {
-        return $this->render('backpack/history.html.twig', [
-            'item' => $item,
-            'histories' => null
-        ]);
-    }
 
     /**
      * @Route("/backpack/{id}", name="backpack_del", methods={"DELETE"})
@@ -158,11 +155,7 @@ class BackpackController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
-    public function widgetBackpacksAction(): Response
-    {
-        return $this->render('backpack/_widgetBackpacks.html.twig');
-    }
-
+ 
     /**
      * @Route("/backpack/{id}/file/{fileId}", name="backpack_file_show", methods={"GET"})
      * @IsGranted("ROLE_USER")
@@ -180,36 +173,6 @@ class BackpackController extends AbstractGController
 
         return $this->file($file, Slugger::slugify($actionFile->getTitle()) . '.' . $actionFile->getFileExtension());
     }
+ 
 
-    /**
-     * @Route("/backpacks/draftupdatable", name="backpacks_draft_updatable", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
-    public function state_draft_updatable(Request $request)
-    {
-        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::DRAFT_UPDATABLE);
-        return $this->render('backpack/tree.html.twig', $renderArray);
-    }
-
-
-    /**
-     * @Route("/backpacks/mydraftupdatable", name="backpacks_mydraft_updatable", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
-    public function state_mydraft_updatable(Request $request)
-    {
-        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_DRAFT_UPDATABLE);
-        return $this->render('backpack/tree.html.twig', $renderArray);
-    }
-
-
-    /**
-     * @Route("/backpacks/draft", name="backpacks_draft", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
-    public function state_draft(Request $request)
-    {
-        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::DRAFT);
-        return $this->render('backpack/tree.html.twig', $renderArray);
-    }
 }

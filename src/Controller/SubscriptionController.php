@@ -72,7 +72,7 @@ class SubscriptionController extends AbstractController
     {
         return $this->render('subscription/_myWidget.html.twig', $this->getDatas($this->user));
     }
-
+ 
     private function getDatas(User $user, bool $admin = false): array
     {
         $dto_MP = new MProcessDto();

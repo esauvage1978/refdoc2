@@ -1,7 +1,7 @@
 {% extends 'backpack/layout_tree.html.twig' %}
 {% import "macros/widgets.html.twig" as widgets %}
 {% import "macros/workflow.html.twig" as workflow %}
-{% import "macros/default.html.twig" as new %}
+{% import "macros/backpack.html.twig" as new %}
 
 {% block title %}Porte-document
 {% endblock %}
@@ -22,9 +22,8 @@
 {% endblock %}
 
 
-{% import "backpack/_btn_actions.html.twig" as actions %}
 {% block breadcrumb %}
-	{{ actions.backpack('tree','','',item) }}
+	
 {% endblock %}
 
 {% block page_content %}

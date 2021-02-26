@@ -53,6 +53,18 @@
 			{% endembed %}
 		</div>
 		<div class="{{ col_2_2 }}">
+			<div class="alert alert-info alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h5>
+					<i class="icon fas fa-info"></i>
+					Valideur</h5>
+				Les agents de Direction valident les types de porte-document qui ont l'option
+				<strong>validation par un agent de Direction</strong>
+				activée.
+				 Sinon ils seront validés par les managers stratégiques.
+
+			</div>
+
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% block card_title %}Agent de Direction
 				{% endblock %}
@@ -76,6 +88,13 @@
 				{% endblock %}
 
 			{% endembed %}
+			<div class="alert alert-info alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h5>
+					<i class="icon fas fa-info"></i>
+					Contributeur</h5>
+				Le contributeur est celui qui peut ajouter des porte-documents. L'agent qui ajoute le porte-document en est le propriétaire.
+			</div>
 
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% block card_title %}Contributeurs

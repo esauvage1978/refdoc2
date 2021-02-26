@@ -36,7 +36,7 @@ class BackpackType extends AppTypeAbstract
         $builder
             ->add('category', EntityType::class, [
                 self::CSS_CLASS => Category::class,
-                self::CHOICE_LABEL => 'name',
+                self::CHOICE_LABEL => 'fullname',
                 self::LABEL => 'Type de porte-document',
                 self::MULTIPLE => false,
                 self::REQUIRED => false,
@@ -87,10 +87,15 @@ class BackpackType extends AppTypeAbstract
                 'updatedAt',
                 DateTimeType::class,
                 [
-                    self::LABEL            => 'dater',
+                    self::LABEL            => 'date de modification',
                     self::REQUIRED => false
                 ]
             )
+            ->add('ref', TextType::class, [
+                self::LABEL => 'Référence',
+                self::REQUIRED => false,
+                self::ATTR => [self::PLACEHOLDER => '__-__-__', self::MAXLENGTH => 30, self::CSS_CLASS =>'text-lg bold'],
+            ])
             ->add('backpackFiles', CollectionType::class, [
                 'entry_type' => BackpackFileType::class,
                 'allow_add' => true,

@@ -2,11 +2,11 @@
 {% import "macros/datatables.html.twig" as tables %}
 {% set columns = {
     'Libellé': {'class': 'alwaysVisible', 'orderBy': true},
+	'Référence': {'class': 'alwaysVisible', 'orderBy': true},
     'Description': {'class': 'alwaysVisible', 'orderBy': true},
-'<i class="fas fa-user-shield" data-toggle="tooltip" data-placement="top" title="Validation par le service contrôle"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
-
-
-'<i class="fas fa-user-tag" data-toggle="tooltip" data-placement="top" title="Validation par le service documentation"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+'<i class="fas fa-user-tie" data-toggle="tooltip" data-placement="top" title="Validation par un agent de Direction"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+'<i class="fas fa-user-shield" data-toggle="tooltip" data-placement="top" title="Passage par le service contrôle"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
+'<i class="fas fa-user-tag" data-toggle="tooltip" data-placement="top" title="Passage par le service documentation"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
 '<i class="fas fa-glasses" data-toggle="tooltip" data-placement="top" title="Délai avant révision des porte-documents de ce type"></i>': {'class': 'alwaysVisible align-middle p-0 m-0 text-center', 'orderBy': false},
 
 
@@ -41,14 +41,27 @@
 				<div class=" d-flex align-items-center">
 					<i class="{{item.icone}} fa-2x mr-3" style="background-color:{{item.bgcolor}};color:{{item.forecolor}};"></i>
 
-					<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'primary' : 'danger text-bold' }}">
+					<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'p-dark' : 'danger text-bold' }}">
 						{{ item.name }}
 					</a>
 				</div>
 			</td>
+			<td class="align-middle">{{ item.ref }}</td>
 			<td class="align-middle">{{ item.content | raw }}</td>
 			<td class="align-middle text-center p-0 m-0">
-				{% if item.isValidatedByControl %}
+				{% if item.isValidatedByADD == false %}
+					<div class="p-2 badge badge-info text-info">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success text-success">
+						1
+					</div>
+				{% endif %}
+			</td>
+
+			<td class="align-middle text-center p-0 m-0">
+				{% if item.isValidatedByControl == false %}
 					<div class="p-2 badge badge-light text-light">
 						0
 					</div>
@@ -59,7 +72,7 @@
 				{% endif %}
 			</td>
 			<td class="align-middle text-center p-0 m-0">
-				{% if item.isValidatedByDoc %}
+				{% if item.isValidatedByDoc == false %}
 					<div class="p-2 badge badge-light text-light">
 						0
 					</div>
@@ -79,8 +92,8 @@
                         'Modifier',
                         path(route_edit,{id:item.id}),
                         'fa fa-edit',
-                        'purple',
-                        'primary btn-sm'
+                        'p-dark',
+                        'p-dark btn-sm'
                     ) }}
 				{% endif %}
 			</td>

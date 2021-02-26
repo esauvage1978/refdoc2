@@ -4,12 +4,14 @@ namespace App\Manager;
 
 use App\Entity\Backpack;
 use App\Security\CurrentUser;
-use App\Workflow\WorkflowData;
+
 use App\Entity\EntityInterface;
 use App\History\BackpackHistory;
+use App\Repository\BackpackRepository;
+use App\Service\BackpackRefGenerator;
 use App\Validator\BackpackValidator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Security;
+
 
 class BackpackManager extends AbstractManager
 {
@@ -23,15 +25,22 @@ class BackpackManager extends AbstractManager
      */
     private $backpackHistory;
 
+    /**
+     * @var BackpackRepository
+     */
+    private $backpackRepository;
+
     public function __construct(
         EntityManagerInterface $manager,
         BackpackValidator $validator,
         CurrentUser $currentUser,
-        BackpackHistory $backpackHistory
+        BackpackHistory $backpackHistory,
+        BackpackRepository $backpackRepository
     ) {
         parent::__construct($manager, $validator);
         $this->currentUser = $currentUser;
         $this->backpackHistory = $backpackHistory;
+        $this->backpackRepository= $backpackRepository;
     }
 
     public function initialise(EntityInterface $entity): void
@@ -58,6 +67,11 @@ class BackpackManager extends AbstractManager
 
         if ($bp->getProcess() !== null) {
             $bp->setMProcess($bp->getProcess()->getMProcess());
+        }
+
+        if($bp->getRef()===null && null !== $entity->getId()) {
+            $ref=(new BackpackRefGenerator($this->backpackRepository, $bp))->get();
+            $bp->setRef($ref);
         }
     }
 

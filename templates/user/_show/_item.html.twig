@@ -55,6 +55,8 @@
 
 			{% embed 'widgets/card-widget.html.twig' %}
 				{% import "macros/widgets.html.twig" as widgets %}
+				{% import "macros/user.html.twig" as usr %}
+
 				{% block card_body %}
 					{% if item.phone %}
 						<div class="row">
@@ -74,7 +76,8 @@
 							</div>
 							<div class="col-9">
 								{% if item.loginat %}
-									{{ widgets.showLongDate(item.loginat) }}
+									{{ usr.lastConnexion(item)  }}
+
 								{% endif %}
 							</div>
 						</div>
@@ -159,117 +162,117 @@
 									Utilisateur</span>
 							{% endif %}
 						</div>
-<div class="list-group-item list-group-item-action">
-	{% if item.userParam.isDoc %}
-		<span class="text-success">
-			<i class="fas fa-check"></i>
-			Service documentation</span>
-	{% else %}
-		<span class="text-danger">
-			<i class="fas fa-times"></i>
-			Service documentation</span>
+						<div class="list-group-item list-group-item-action">
+							{% if item.userParam.isDoc %}
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Service documentation</span>
+							{% else %}
+								<span class="text-danger">
+									<i class="fas fa-times"></i>
+									Service documentation</span>
 
-	{% endif %}
-</div>
+							{% endif %}
+						</div>
 
-<div class="list-group-item list-group-item-action">
-	{% if  item.userParam.isControl %}
-		<span class="text-success">
-			<i class="fas fa-check"></i>
-			Service contrôle</span>
-	{% else %}
-		<span class="text-danger">
-			<i class="fas fa-times"></i>
-			Service contrôle</span>
+						<div class="list-group-item list-group-item-action">
+							{% if  item.userParam.isControl %}
+								<span class="text-success">
+									<i class="fas fa-check"></i>
+									Service contrôle</span>
+							{% else %}
+								<span class="text-danger">
+									<i class="fas fa-times"></i>
+									Service contrôle</span>
 
-	{% endif %}
-</div>
+							{% endif %}
+						</div>
 
 					</div>
 				{% endblock %}
 			{% endembed %}
 		</div>
 		<div class="{{ col_2_2 }}">
-{% if item.mProcessDirValidators | length >0 or  item.mProcessPoleValidators | length >0 or item.mProcessContributors | length >0 %}
-	{% embed 'widgets/card-widget.html.twig' %}
-		{% import "macros/widgets.html.twig" as widgets %}
-		{% block card_title %}Macro processus
-		{% endblock %}
-		{% block card_body_class %}p-0
-		{% endblock %}
-		{% block card_body %}
-			<div class="list-group">
-				{% for mp in mps %}
-					{% if mp in item.mProcessDirValidators or mp in item.mProcessPoleValidators or mp in item.mProcessContributors %}
-<a href="{{path('admin_mprocess_show',{id:mp.id})}}" class="list-group-item list-group-item-action  hvr-float-shadow  d-flex justify-content-between align-items-center ">
+			{% if item.mProcessDirValidators | length >0 or  item.mProcessPoleValidators | length >0 or item.mProcessContributors | length >0 %}
+				{% embed 'widgets/card-widget.html.twig' %}
+					{% import "macros/widgets.html.twig" as widgets %}
+					{% block card_title %}Macro processus
+					{% endblock %}
+					{% block card_body_class %}p-0
+					{% endblock %}
+					{% block card_body %}
+						<div class="list-group">
+							{% for mp in mps %}
+								{% if mp in item.mProcessDirValidators or mp in item.mProcessPoleValidators or mp in item.mProcessContributors %}
+									<a href="{{path('admin_mprocess_show',{id:mp.id})}}" class="list-group-item list-group-item-action  hvr-float-shadow  d-flex justify-content-between align-items-center ">
 
-							<span class='text-primary mr-5'>
-								{{ widgets.icon('mprocess') }}
-								{{ mp.fullname | raw}}
-							</span>
-							<span>
-								{% if mp in item.mProcessDirValidators %}
-									<i class="fas fa-user-tie mr-1 text-success" title='Agent de Direction'></i>
-								{% else %}
-									<i class="fas fa-user-tie mr-1 text-light"></i>
+										<span class='text-primary mr-5'>
+											{{ widgets.icon('mprocess') }}
+											{{ mp.fullname | raw}}
+										</span>
+										<span>
+											{% if mp in item.mProcessDirValidators %}
+												<i class="fas fa-user-tie mr-1 text-success" title='Agent de Direction'></i>
+											{% else %}
+												<i class="fas fa-user-tie mr-1 text-light"></i>
+											{% endif %}
+											{% if mp in item.mProcessPoleValidators %}
+												<i class="fas fa-user-check text-success" title='Manager stratégique'></i>
+											{% else %}
+												<i class="fas fa-user-check text-light"></i>
+											{% endif %}
+											{% if mp in item.mProcessContributors %}
+												<i class="fas fa-user-edit text-success" title='Contributeur'></i>
+											{% else %}
+												<i class="fas fa-user-edit text-light"></i>
+											{% endif %}
+										</span>
+									</a>
 								{% endif %}
-								{% if mp in item.mProcessPoleValidators %}
-									<i class="fas fa-user-check text-success" title='Manager stratégique'></i>
-								{% else %}
-									<i class="fas fa-user-check text-light"></i>
-								{% endif %}
-								{% if mp in item.mProcessContributors %}
-									<i class="fas fa-user-edit text-success" title='Contributeur'></i>
-								{% else %}
-									<i class="fas fa-user-edit text-light"></i>
-								{% endif %}
-							</span>
-						</a>
-					{% endif %}
-				{% endfor %}
-			</div>
+							{% endfor %}
+						</div>
 
-		{% endblock %}
-	{% endembed %}
-{% endif %}
+					{% endblock %}
+				{% endembed %}
+			{% endif %}
 
-{% if  item.processValidators | length >0 or item.processContributors | length >0 %}
-	{% embed 'widgets/card-widget.html.twig' %}
-		{% import "macros/widgets.html.twig" as widgets %}
-		{% block card_title %}Macro processus
-		{% endblock %}
-		{% block card_body_class %}p-0
-		{% endblock %}
-		{% block card_body %}
-			<div class="list-group">
-				{% for p in ps %}
-					{% if p in item.processValidators or p in item.processContributors %}
-<a href="{{path('admin_process_show',{id:p.id})}}" class="list-group-item list-group-item-action  d-flex justify-content-between align-items-center  hvr-float-shadow">
+			{% if  item.processValidators | length >0 or item.processContributors | length >0 %}
+				{% embed 'widgets/card-widget.html.twig' %}
+					{% import "macros/widgets.html.twig" as widgets %}
+					{% block card_title %}Macro processus
+					{% endblock %}
+					{% block card_body_class %}p-0
+					{% endblock %}
+					{% block card_body %}
+						<div class="list-group">
+							{% for p in ps %}
+								{% if p in item.processValidators or p in item.processContributors %}
+									<a href="{{path('admin_process_show',{id:p.id})}}" class="list-group-item list-group-item-action  d-flex justify-content-between align-items-center  hvr-float-shadow">
 
-							<span class='text-primary mr-5'>
-								{{ widgets.icon('process') }}
-								{{ p.fullname | raw}}
-							</span>
-							<span>
-								{% if p in item.processValidators %}
-									<i class="fas fa-user-check text-success" title='Valideur'></i>
-								{% else %}
-									<i class="fas fa-user-check text-light"></i>
+										<span class='text-primary mr-5'>
+											{{ widgets.icon('process') }}
+											{{ p.fullname | raw}}
+										</span>
+										<span>
+											{% if p in item.processValidators %}
+												<i class="fas fa-user-check text-success" title='Valideur'></i>
+											{% else %}
+												<i class="fas fa-user-check text-light"></i>
+											{% endif %}
+											{% if p in item.processContributors %}
+												<i class="fas fa-user-edit text-success" title='Contributeur'></i>
+											{% else %}
+												<i class="fas fa-user-edit text-light"></i>
+											{% endif %}
+										</span>
+									</a>
 								{% endif %}
-								{% if p in item.processContributors %}
-									<i class="fas fa-user-edit text-success" title='Contributeur'></i>
-								{% else %}
-									<i class="fas fa-user-edit text-light"></i>
-								{% endif %}
-							</span>
-						</a>
-					{% endif %}
-				{% endfor %}
-			</div>
+							{% endfor %}
+						</div>
 
-		{% endblock %}
-	{% endembed %}
-{% endif %}
+					{% endblock %}
+				{% endembed %}
+			{% endif %}
 
 
 		</div>

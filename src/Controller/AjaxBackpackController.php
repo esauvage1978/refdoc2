@@ -8,10 +8,13 @@ use App\Dto\UserDto;
 use App\Entity\User;
 use App\Dto\ProcessDto;
 use App\Dto\MProcessDto;
+use App\Entity\Backpack;
 use App\Entity\Category;
+use App\Service\BackpackRefGenerator;
 use App\Repository\BackpackRepository;
 use App\Repository\ProcessDtoRepository;
 use App\Repository\MProcessDtoRepository;
+use App\Service\BackpackRefControllator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +22,62 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class AjaxBackpackController extends AbstractGController
 {
+    /**
+     * @Route("/ajax/backpack/getrefcheck", name="ajax_backpack_getg_ref_check", methods={"GET","POST"})
+     *
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function AjaxBackpackGetRefCheck(Request $request, BackpackRepository $backpackRepository): Response
+    {
+        $ref =  $request->request->get('ref');
+        $id =  $request->request->get('id');
+
+        $backpack = $backpackRepository->find($id);
+        $brc = new BackpackRefControllator($backpackRepository, $backpack);
+        
+        $msgOK="<span class='alert alert-success'>".$ref . " est utilisable</span>";
+        $msgK0 = "<span class='alert alert-danger'>" . $ref . " est déjà utilisé</span>";
+
+        return $this->json([
+            'code' => 200,
+            'value' => $brc->isUnique($ref)===true ? $msgOK : $msgK0,
+            'message' => 'données transmises'
+        ], 200);
+    }
+
+    /**
+     * @Route("/ajax/backpack/{id}", name="ajax_backpack_get_ref", methods={"GET","POST"})
+     *
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function AjaxBackpackGetData(Request $request, BackpackRepository $backpackRepository, Backpack $backpack): Response
+    {
+
+        return $this->json([
+            'code' => 200,
+            'value' => $this->renderView('backpack/_show/_treeContent.html.twig', ['item' => $backpack]),
+            'message' => 'données transmises'
+        ], 200);
+    }
+
+    /**
+     * @Route("/ajax/backpack/getref/{id}", name="ajax_backpack_get_data", methods={"GET","POST"})
+     *
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function AjaxBackpackGetRef(Request $request, BackpackRepository $backpackRepository, Backpack $backpack): Response
+    {
+        $bgr = new BackpackRefGenerator($backpackRepository, $backpack);
+
+        return $this->json([
+            'code' => 200,
+            'value' => $bgr->get(),
+            'message' => 'données transmises'
+        ], 200);
+    }
 
 
     /**

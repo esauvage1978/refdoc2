@@ -4,6 +4,10 @@ App\Entity\Backpack:
         fields: [mProcess, process, category, name]
         errorPath: name
         message: 'Le nom du porte document "{{ value }}" est déjà déclaré dans cette arborescence.'
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: ref
+        errorPath: ref
+        message: 'La référence {{ value }} est déjà déclarée.'        
   properties:
     name:
       - NotBlank: ~
@@ -48,3 +52,7 @@ App\Entity\Backpack:
           max: 100
           minMessage: 'Le nom du répertoire "{{ value }}" doit avoir plus de 2 caractères'
           maxMessage: 'Le nom du répertoire "{{ value }}" ne peut pas avoir plus de 100 caractères'
+    ref:
+      - Length:
+          max: 30
+          maxMessage: 'La référence "{{ value }}" ne peut pas avoir plus de 30 caractères'          

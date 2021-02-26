@@ -43,12 +43,12 @@ class Step11_CategoryFixtures extends Fixture implements FixtureGroupInterface
 
     private $data =
     [
-        ['Consigne', '<p>Les consignes sont des données <b>éphémères </b>et <b>succinctes</b>. </p><p>Une consigne <b>pérenne </b>doit être insérer dans un mode opératoire.<br></p>',false, false,12, 'fas fa-clipboard-check', '#ffffff', '#8e4d97', WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL],
-        ['Consigne validée', '<p>Les consignes sont des données <b>éphémères </b>et <b>succinctes</b>. </p><p>Une consigne <b>pérenne </b>doit être insérer dans un mode opératoire.<br></p>', true, false, 12, 'fas fa-clipboard-check', '#ffffff', '#8e4d97', WorkflowNames::WORKFLOW_WITHOUT_DOC],
-        ['Mode opératoire', '', false, true, 12, 'fas fa-clipboard-list', '#ffffff', '#e28e24', WorkflowNames::WORKFLOW_WITHOUT_CONTROL],
-        ['Mode opératoire validé', '', true, true, 12, 'fas fa-clipboard-list', '#ffffff', '#e28e24', WorkflowNames::WORKFLOW_ALL],
-        ['Procédure stratégique', '<p>Définition de la note stratégique à définir ici<br></p>', false, true, 12, 'fas fa-journal-whills', '#ffffff', '#039be5', WorkflowNames::WORKFLOW_WITHOUT_CONTROL],
-        ['Note de procédure', '', false, true, 12, 'fas fa-book', '#ffffff', '#35b124', WorkflowNames::WORKFLOW_WITHOUT_CONTROL],
+        ['Consigne','CO', '<p>Les consignes sont des données <b>éphémères </b>et <b>succinctes</b>. </p><p>Une consigne <b>pérenne </b>doit être insérer dans un mode opératoire.<br></p>',false, false,12, 'fas fa-clipboard-check', '#ffffff', '#8e4d97', WorkflowNames::WORKFLOW_WITHOUT_DOCCONTROL,false],
+        ['Consigne validée','CO', '<p>Les consignes sont des données <b>éphémères </b>et <b>succinctes</b>. </p><p>Une consigne <b>pérenne </b>doit être insérer dans un mode opératoire.<br></p>', true, false, 12, 'fas fa-clipboard-check', '#ffffff', '#8e4d97', WorkflowNames::WORKFLOW_WITHOUT_DOC,false],
+        ['Mode opératoire','MO', '', false, true, 12, 'fas fa-clipboard-list', '#ffffff', '#e28e24', WorkflowNames::WORKFLOW_WITHOUT_CONTROL,false],
+        ['Mode opératoire validé','MO', '', true, true, 12, 'fas fa-clipboard-list', '#ffffff', '#e28e24', WorkflowNames::WORKFLOW_ALL,false],
+        ['Procédure stratégique','PS', '<p>Définition de la note stratégique à définir ici<br></p>', false, true, 12, 'fas fa-journal-whills', '#ffffff', '#039be5', WorkflowNames::WORKFLOW_WITHOUT_CONTROL,true],
+        ['Note de procédure','NP', '', false, true, 12, 'fas fa-book', '#ffffff', '#35b124', WorkflowNames::WORKFLOW_WITHOUT_CONTROL,false],
     ];
 
     public function load(ObjectManager $manager)
@@ -59,14 +59,16 @@ class Step11_CategoryFixtures extends Fixture implements FixtureGroupInterface
                 $entity = new Category();
                 $entity
                     ->setName($this->data[$i][0])
-                    ->setContent($this->data[$i][1])
-                    ->setIsValidatedByControl($this->data[$i][2])
-                    ->setIsValidatedByDoc($this->data[$i][3])
-                    ->setTimeBeforeRevision($this->data[$i][4])
-                    ->setIcone($this->data[$i][5])
-                    ->setBgColor($this->data[$i][6])
-                    ->setForeColor($this->data[$i][7])
-                    ->setWorkflowName($this->data[$i][8]);
+                    ->setRef($this->data[$i][1])
+                    ->setContent($this->data[$i][2])
+                    ->setIsValidatedByControl($this->data[$i][3])
+                    ->setIsValidatedByDoc($this->data[$i][4])
+                    ->setTimeBeforeRevision($this->data[$i][5])
+                    ->setIcone($this->data[$i][6])
+                    ->setBgColor($this->data[$i][7])
+                    ->setForeColor($this->data[$i][8])
+                    ->setWorkflowName($this->data[$i][9])
+                    ->setIsValidatedByADD($this->data[$i][10]);
 
                 $this->checkAndPersist($entity);
             }

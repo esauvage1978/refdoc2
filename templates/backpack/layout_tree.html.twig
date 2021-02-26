@@ -5,15 +5,19 @@
 {% block page_content %}
     {% embed 'widgets/tree-widget.html.twig' %}
         {% block tree_body %}
-            {{ include('backpack/_show/_identification.html.twig') }}
-            {{ include('backpack/_show/_content.html.twig') }}
-            {{ include('backpack/_show/_files.html.twig') }}
+        <div id="hidedata">
+            {{ include('backpack/_show/_treeContent.html.twig') }}
+        </div>
+        <div id="showdata"></div>
         {% endblock %}
     {% endembed %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
+<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
+
     <script src="{{ absolute_url( asset('/vendor/split.js/dist/split.min.js')) }}"></script>
     <script>
         $(function () {
@@ -35,7 +39,11 @@
                 }
             ).on('changed.jstree', function (e, data) {
                 if (data.node) {
-                    document.location = data.node.a_attr.href;
+                    if(isNaN(data.node.id) == false)
+{
+getBackpackData(data.node.id);
+} 
+                    //document.location = data.node.a_attr.href;
                 }
             });
         });
@@ -54,5 +62,29 @@
                 },
             });
 
+
+function getBackpackData(id) {
+
+var url = '/ajax/backpack/' + id;
+let showData = $('#showdata');
+let hideData = $('#hidedata');
+showData.fadeOut();
+hideData.fadeOut();
+
+
+
+
+axios.get(url).then(function (response) {
+showData.fadeIn(300);
+html(showData, response.data.value);
+html(hideData, '');
+
+
+
+
+}).catch(function (error) {
+console.log(error);
+});
+}
     </script>
 {% endblock %}

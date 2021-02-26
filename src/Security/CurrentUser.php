@@ -37,4 +37,15 @@ final class CurrentUser
     {
         return $this->security->isGranted('IS_AUTHENTICATED_REMEMBERED');
     }
+
+    public function isControl(): bool
+    {
+        return $this->user->getUserParam()->getIsControl();
+    }
+
+
+    public function isDoc(): bool
+    {
+        return $this->user->getUserParam()->getIsDoc();
+    }
 }

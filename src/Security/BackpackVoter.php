@@ -4,6 +4,8 @@ namespace App\Security;
 
 use App\Entity\Backpack;
 use App\Entity\User;
+use App\Service\BackpackMakerDto;
+use App\Workflow\WorkflowData;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -60,7 +62,7 @@ class BackpackVoter extends Voter
             case self::DELETE:
                 return $this->canDelete($backpack, $this->user);
             case self::CREATE:
-                return $this->canCreate( $this->user);
+                return $this->canCreate($this->user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -77,7 +79,7 @@ class BackpackVoter extends Voter
 
     public function canUpdate(Backpack $backpack, User $user)
     {
-        if($user->getUserparam()->getIsDoc()) {
+        if ($user->getUserparam()->getIsDoc()) {
             return true;
         }
 
@@ -85,16 +87,85 @@ class BackpackVoter extends Voter
             return true;
         }
 
-
+        $stateCurrent = $backpack->getStateCurrent();
         $process = $backpack->getProcess();
         $Mprocess = $backpack->getMProcess();
 
-        $processes = $user->getProcessContributors()->toArray();
-        $Mprocesses = $user->getMProcessContributors()->toArray();
+        $processes_contributors = $user->getProcessContributors()->toArray();
+        $mprocesses_contributors = $user->getMProcessContributors()->toArray();
+        $mprocesses_ADDs = $user->getMProcessDirValidators()->toArray();
+        $processes_validators = $user->getProcessValidators()->toArray();
+        $mprocesses_validators = $user->getMProcessPoleValidators()->toArray();
 
-        if ($process !== null && in_array($process, $processes)) {
+
+        $restrict_contributer =
+            [
+                WorkflowData::STATE_DRAFT,
+                WorkflowData::STATE_TO_RESUME,
+                WorkflowData::STATE_TO_REVISE,
+            ];
+
+        $restrict_All =
+            [
+                WorkflowData::STATE_ABANDONNED,
+                WorkflowData::STATE_PUBLISHED,
+                WorkflowData::STATE_TO_REVISE,
+            ];
+
+        $restrict_ValidatorByCat =
+            [
+                WorkflowData::STATE_TO_VALIDATE,
+            ];
+
+        //restriction de la modification aux contributeurs
+        if (in_array($stateCurrent, $restrict_contributer)) {
+
+            if ($process !== null && in_array($process, $processes_contributors)) {
+                return true;
+            } elseif (in_array($Mprocess, $mprocesses_contributors)) {
+                return true;
+            }
+        }
+
+        //restriction de la modification aux personne ayant des droits
+        if (in_array($stateCurrent, $restrict_All)) {
+
+            if (
+                $process !== null &&
+                (in_array($process, $processes_contributors) ||
+                    in_array($process, $processes_validators))
+            ) {
+                return true;
+            } elseif (
+                in_array($Mprocess, $mprocesses_contributors) ||
+                in_array($Mprocess, $mprocesses_ADDs) ||
+                in_array($Mprocess, $mprocesses_validators)
+            ) {
+                return true;
+            }
+        }
+
+
+        //restriction de la modification aux personne ayant des droits
+        if (in_array($stateCurrent, $restrict_ValidatorByCat)) {
+
+            if ($process !== null && in_array($process, $processes_validators)) {
+                return true;
+            } elseif ($backpack->getCategory()->getIsValidatedByADD() && in_array($Mprocess, $mprocesses_ADDs)) {
+                return true;
+            } elseif (!$backpack->getCategory()->getIsValidatedByADD() && in_array($Mprocess, $mprocesses_validators)) {
+                return true;
+            }
+        }
+
+        //restriction pour les contrôleurs
+        if($stateCurrent=== WorkflowData::STATE_TO_CONTROL && $this->user->getUserParam()->getIsControl() )
+        {
             return true;
-        } elseif (in_array($Mprocess, $Mprocesses)) {
+        }
+
+        //restriction pour les contrôleurs
+        if ($stateCurrent === WorkflowData::STATE_TO_CHECK && $this->user->getUserParam()->getIsDoc()) {
             return true;
         }
 
@@ -103,7 +174,7 @@ class BackpackVoter extends Voter
 
     public function canDelete(Backpack $backpack, User $user)
     {
-        if ($user->getUserparam()->getIsDoc() || Role::isAdmin($user) ) {
+        if ($user->getUserparam()->getIsDoc() || Role::isAdmin($user)) {
             return true;
         }
 

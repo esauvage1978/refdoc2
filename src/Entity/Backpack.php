@@ -120,6 +120,38 @@ class Backpack implements EntityInterface
      */
     private $histories;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BackpackState", mappedBy="backpack", cascade={"persist", "remove"})
+     */
+    private $backpackStates;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BackpackMailHistory::class, mappedBy="backpack", orphanRemoval=true)
+     */
+    private $backpackMailHistories;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $ref;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Backpack::class, cascade={"persist"})
+     */
+    private $backpackMaster;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Backpack::class, cascade={"persist"})
+     */
+    private $backpackSlave;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Mailer", mappedBy="backpack", orphanRemoval=true)
+     */
+    private $mailers;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -128,6 +160,9 @@ class Backpack implements EntityInterface
         $this->backpackFiles = new ArrayCollection();
         $this->backpackLinks = new ArrayCollection();
         $this->histories = new ArrayCollection();
+        $this->backpackStates = new ArrayCollection();
+        $this->backpackMailHistories = new ArrayCollection();
+        $this->mailers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -419,6 +454,136 @@ class Backpack implements EntityInterface
             // set the owning side to null (unless already changed)
             if ($history->getBackpack() === $this) {
                 $history->setBackpack(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|BackpackState[]
+     */
+    public function getBackpackStates(): Collection
+    {
+        return $this->backpackStates;
+    }
+
+    public function addBackpackState(BackpackState $backpackState): self
+    {
+        if (!$this->backpackStates->contains($backpackState)) {
+            $this->backpackStates[] = $backpackState;
+            $backpackState->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpackState(BackpackState $backpackState): self
+    {
+        if ($this->backpackStates->contains($backpackState)) {
+            $this->backpackStates->removeElement($backpackState);
+            // set the owning side to null (unless already changed)
+            if ($backpackState->getBackpack() === $this) {
+                $backpackState->setBackpack(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BackpackMailHistory[]
+     */
+    public function getBackpackMailHistories(): Collection
+    {
+        return $this->backpackMailHistories;
+    }
+
+    public function addBackpackMailHistory(BackpackMailHistory $backpackMailHistory): self
+    {
+        if (!$this->backpackMailHistories->contains($backpackMailHistory)) {
+            $this->backpackMailHistories[] = $backpackMailHistory;
+            $backpackMailHistory->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackpackMailHistory(BackpackMailHistory $backpackMailHistory): self
+    {
+        if ($this->backpackMailHistories->removeElement($backpackMailHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($backpackMailHistory->getBackpack() === $this) {
+                $backpackMailHistory->setBackpack(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(?string $ref): self
+    {
+        $this->ref = $ref;
+
+        return $this;
+    }
+
+    public function getBackpackMaster(): ?self
+    {
+        return $this->backpackMaster;
+    }
+
+    public function setBackpackMaster(?self $backpackMaster): self
+    {
+        $this->backpackMaster = $backpackMaster;
+
+        return $this;
+    }
+
+    public function getBackpackSlave(): ?self
+    {
+        return $this->backpackSlave;
+    }
+
+    public function setBackpackSlave(?self $backpackSlave): self
+    {
+        $this->backpackSlave = $backpackSlave;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|Mailer[]
+     */
+    public function getMailers(): Collection
+    {
+        return $this->mailers;
+    }
+
+    public function addMailer(Mailer $mailer): self
+    {
+        if (!$this->mailers->contains($mailer)) {
+            $this->mailers[] = $mailer;
+            $mailer->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMailer(Mailer $mailer): self
+    {
+        if ($this->mailers->contains($mailer)) {
+            $this->mailers->removeElement($mailer);
+            // set the owning side to null (unless already changed)
+            if ($mailer->getBackpack() === $this) {
+                $mailer->setBackpack(null);
             }
         }
 

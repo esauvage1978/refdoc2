@@ -1,0 +1,28 @@
+
+{% embed 'widgets/card-widget.html.twig' %}
+	{% block card_class %}flat
+	{% endblock %}
+	{% block card_body %} 
+
+		<div class="form-group row m-2 js-createTip-wrapper">
+			<p>{{ item.category.name }}</p>
+
+			<div class="createTip">
+
+				<div class="createTip__title">
+					Type de document
+				</div>
+				<p>
+					Un libellé avec "<b>+ validation du contrôle</b>" signifie que le porte document puisse être validé par le service contrôle
+				</p>
+                <div class="createTip__title">
+                    Description
+                </div>
+                <div id="contentofdescription"></div>
+			</div>
+		</div>
+
+
+	{% endblock %}
+
+{% endembed %}

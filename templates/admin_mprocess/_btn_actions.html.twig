@@ -7,14 +7,14 @@
 	{% set save={ 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
 	{% if item %}
 		{% set delete={ 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
-		{% set show={ 'show': {url: path(domaine~'_show',{id:item.id}),class:'btn-secondary',attr:{title:'Consulter'}}} %}
-		{% set edit={ 'edit': {url: path(domaine~'_edit',{id:item.id}),class:'btn-secondary',attr:{title:'Modifier'}}} %}
+		{% set show={ 'show': {url: path(domaine~'_show',{id:item.id}),class:'btn-p-dark',attr:{title:'Consulter'}}} %}
+		{% set edit={ 'edit': {url: path(domaine~'_edit',{id:item.id}),class:'btn-p-dark',attr:{title:'Modifier'}}} %}
 		{% set deletable= (item.processes.count==0 ? true : false) %}
 	{% endif %}
-	{% set create={ 'create': {url: path(domaine~'_add'),class:'btn-secondary',attr:{title:'Ajouter un élément'}}} %}
-	{% set list={ 'list': {url: path(domaine~'_list'),class:'btn-secondary',attr:{title:'Liste'}}} %}
-	{% set home={ 'home': {url: path('home'),class:'btn-secondary',attr:{title:'Accueil'}}} %}
-	{% set admin={ 'admin': {url: path('admin'),class:'btn-secondary',attr:{title:'Accueil de l\'administration'}}} %}
+	{% set create={ 'create': {url: path(domaine~'_add'),class:'btn-p-dark',attr:{title:'Ajouter un élément'}}} %}
+	{% set list={ 'list': {url: path(domaine~'_list'),class:'btn-p-dark',attr:{title:'Liste'}}} %}
+	{% set home={ 'home': {url: path('home'),class:'btn-p-dark',attr:{title:'Accueil'}}} %}
+	{% set admin={ 'admin': {url: path('admin'),class:'btn-p-dark',attr:{title:'Accueil de l\'administration'}}} %}
 
 
 
@@ -22,7 +22,6 @@
 
     {% set actions = actions|merge(home) %}
     {% set actions = actions|merge(admin) %}
-    {% set actions = actions|merge({'divider': null}) %}
     {% if twigTemplace!='list' %}
         {% set actions = actions|merge(list) %}
     {% endif %}

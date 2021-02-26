@@ -1,47 +1,73 @@
 {% import "macros/widgets.html.twig" as widgets %}
 {% import "macros/workflow.html.twig" as workflow %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/backpack.html.twig" as bpk %}
+<section>
+	<div class="row col-12 ">
 
-<h3 class="text-bold text-info">
-	{{ widgets.icon('backpack') }}
-	{{ item.name }}
-</h3>
-<div class="row d-flex justify-content-end">
-	<div class="bg-white  mr-4 text-info shadow">
-		<span class=" bg-white p-1  text-secondary h-100">
+		<h3 class="text-bold text-p-dark ">
+
+			<a href="{{ path('backpack_show',{id: item.id})}}" class="text-p-dark">
+
+				{{ widgets.icon('backpack') }}
+				{% if item.ref %}
+					<span class="text-muted">{{ item.ref }}</span>
+				{% endif %}
+
+				{{ item.name }}
+				{% if item.stateCurrent=='published' %}
+					{{ bpk.isNew(item.updatedat)}}
+				{% endif %}
+			</a>
+		</h3>
+	</div>
+
+	<div class="row  d-flex justify-content-end mr-1 pb-2 text-gray">
+
+
+		<div class="badge">
 			<i class="{{ item.category.icone }} " style="
-								                {% if item.category.forecolor is defined %}
-								                    color:{{ item.category.forecolor }};
-								                {% endif %}
-								        {% if item.category.bgcolor is defined %}
-								            background-color:{{ item.category.bgcolor }};
-								        {% endif %}"></i>
+															{% if item.category.forecolor is defined %}
+																color:{{ item.category.forecolor }};
+															{% endif %}
+															{% if item.category.bgcolor is defined %}
+																background-color:{{ item.category.bgcolor }};
+															{% endif %}"></i>
 			{{ item.category.name }}
-		</span>
-		|<span class=" bg-white p-1  pl-2 text-secondary">
-			{{ widgets.icon('user','text-info') }}
+		</div>
+		<div class="badge">
+			{{ widgets.icon('user') }}
 			{{item.owner.name}}
-		</span>
+		</div>
 
 		{% if item.updatedat %}
-			|<span class=" bg-white p-1  pl-2 text-secondary">
-				{{ widgets.icon('calendar','text-info') }}
-
-				<small class="text-muted">Modifié
+			<div class="badge">
+				{{ widgets.icon('calendar') }}
+				<small class="text-muted">Modifié le
 				</small>
 				{{ widgets.showShortDate(item.updatedat) }}
-			</span>
+			</div>
 		{% else %}
-			|<span class=" bg-white p-1  pl-2 text-secondary">
-				{{ widgets.icon('calendar','text-info') }}
-				<small class="text-muted">Créé
+			<div class="badge">
+				{{ widgets.icon('calendar') }}
+				<small class="text-muted">Créé le
 				</small>
 				{{ widgets.showShortDate(item.createdat) }}
-			</span>
-
+			</div>
 		{% endif %}
 
-		|<span class=" bg-white p-1 pl-2 text-secondary">
+		<div class="badge">
 			{{ workflow.badge_state(item.stateCurrent) }}
-		</span>
+		</div>
+
+		<div class="badge">
+			{% if item.backpackSlave %}
+				<a href="{{ path('backpack_show',{id:item.backpackSlave.id}) }}">Porte-document en révision</a>
+			{% endif %}
+			{% if item.backpackMaster %}
+				<a href="{{ path('backpack_show',{id:item.backpackMaster.id}) }}">Porte-document principal</a>
+			{% endif %}
+		</div>
+
 	</div>
-</div>
+</section>
