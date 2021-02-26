@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% import "macros/widgets.html.twig" as widgets %}
+
+
+{% block title %}
+	{{ app_name }}
+	- Abonnement
+{% endblock %}
+{% block page_title %}
+	{{ widgets.icon('subscription') }}
+	Abonnement
+	{% if admin==true %}
+		de
+		{{ user.name }}
+	{% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+	{% if admin==true %}
+		{% import "user/_btn_actions.html.twig" as actions %}
+		{{ actions.show(
+            'subscription',
+            is_granted('ROLE_ADMIN'),
+            user,
+            'user'
+        ) }}
+	{% endif %}
+{% endblock %}
+
+
+{% block page_content %}
+
+	{% import "macros/subscription.html.twig" as sub %}
+
+
+	<div class="row justify-content-center">
+		<div class="col-sm-12 col-xl-2">
+			<img src="{{ asset('img/subscription.svg')}}" alt"Choix des abonnements" style="width:100%"/>
+			<br/><br/>
+			{{ sub.showNbr(app.user) }}
+		</div>
+		<div class="col-sm-12 col-xl-7">
+			{% embed 'widgets/card-widget.html.twig' %}
+				{% import "macros/widgets.html.twig" as widgets %}
+				{% block card_class %}flat
+				{% endblock %}
+				{% block card_body_class %}p-0
+				{% endblock %}
+				{% block card_body %}
+					<div class="list-group">
+
+						{% for  item in items %}
+							<a href="{{path('ajax_toogle_abonnement_mp',{id:item.id,'u_id':user.id})}}" class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
+								<span class='js-title mr-5'>
+									<span class="js-title-icone {{ item in abosMP ? 'text-success':'text-warning' }} ">
+										{{ widgets.icon('mprocess') }}
+									</span>
+									{{ item.fullname | raw}}
+								</span>
+								<span class='js-toggle'>
+									<span class=' text-muted mr-1'></span>
+									{% if item in abosMP %}
+										<i class="fa fa-check text-success"></i>
+									{% else %}
+										<i class="fa fa-times text-warning"></i>
+									{% endif %}
+								</span>
+							</a>
+							{% for  p in item.processes %}
+								<a href="{{path('ajax_toogle_abonnement_p',{id:p.id,'u_id': user.id})}}" class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center js-subscription">
+									<span class='js-title mr-5 ml-5 text-sm'>
+										<span class="js-title-icone {{ p in abosP ? 'text-success':'text-warning' }} ">
+											{{ widgets.icon('process') }}
+										</span>
+										{{ p.fullname | raw}}
+									</span>
+									<span class='js-toggle'>
+										<span class=' text-muted mr-1'></span>
+										{% if p in abosP %}
+											<i class="fa fa-check text-success"></i>
+										{% else %}
+											<i class="fa fa-times text-warning"></i>
+										{% endif %}
+									</span>
+								</a>
+							{% endfor %}
+						{% endfor %}
+
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+		<div class=" col-sm-12 col-xl-3">
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
+	<script>
+
+
+		function onClickToggleSubscription(event) {
+event.preventDefault();
+
+const url = this.href;
+const spanToggle = this.querySelector('span.js-toggle');
+const spanMessage = spanToggle.querySelector('span');
+const icone = spanToggle.querySelector('i');
+const title_icone = this.querySelector('.js-title-icone');
+const subscription = document.querySelector('.js-subscription-nbr h3');
+const subscription_title = document.querySelector('.js-subscription-nbr p');
+
+let nbr = parseInt(subscription.innerHTML);
+
+console.log(nbr);
+
+
+axios.get(url).then(function (response) {
+spanMessage.textContent = response.data.message;
+if (! response.data.value) {
+title_icone.classList = "js-title-icone text-warning";
+nbr = nbr - 1;
+
+
+icone.classList = "fa fa-times text-warning";
+spanMessage.classList = "text-warning";
+} else {
+title_icone.classList = "js-title-icone text-success";
+
+nbr = nbr + 1;
+icone.classList = "fa fa-check text-success";
+spanMessage.classList = "text-success";
+}
+console.log(nbr);
+
+subscription.innerHTML = nbr;
+
+if (nbr > 1) {
+subscription_title.innerHTML = "Abonnements";
+
+} else {
+subscription_title.innerHTML = "Abonnement";
+}
+}).catch(function (error) {
+if (error.response.status === 403) {
+windows.alert('Vous n\'êtes pas connecté');
+} else {
+windows.alert('Une erreur s\'est produite, merci de contacter l\'administrateur : '.error.response.status);
+}
+})
+
+
+}
+
+
+document.querySelectorAll("a.js-subscription").forEach(function (link) {
+link.addEventListener('click', onClickToggleSubscription);
+})
+	</script>
+{% endblock %}

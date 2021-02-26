@@ -1,0 +1,11 @@
+{% if item  %}
+	{{ include('backpack/_show/_identification.html.twig') }}
+	{{ include('backpack/_show/_content.html.twig') }}
+	{{ include('backpack/_show/_files.html.twig') }}
+
+	<a href="{{ path('backpack_show',{id:item.id}) }}" class="btn btn-p-dark">Consulter</a>
+
+	{% if  item | backpackCanUpdate %}
+		<a href="{{ path('backpack_edit',{id:item.id}) }}" class="btn btn-p-dark">Modifier</a>
+	{% endif %}
+{% endif %}

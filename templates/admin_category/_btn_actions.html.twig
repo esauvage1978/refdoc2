@@ -1,0 +1,49 @@
+{% macro show(twigTemplace,gestionnaire,item, domaine) %}
+	{% import "macros/delele.html.twig" as del %}
+	{% import "macros/btn_actions.html.twig" as btn_actions %}
+
+	{% set actions = {} %}
+
+	{% set save={ 'save': {onclick: '$(\'#submit_1\').click();',class:'btn-success',attr:{title:'Sauvegarder'}}} %}
+	{% if item %}
+		{% set delete={ 'delete': {onclick: '$(\'#delete_1\').click();',class:'btn-danger',attr:{title:'Supprimer'}}} %}
+		{% set show={ 'show': {url: path(domaine~'_show',{id:item.id}),class:'btn-p-dark',attr:{title:'Consulter'}}} %}
+		{% set edit={ 'edit': {url: path(domaine~'_edit',{id:item.id}),class:'btn-p-dark',attr:{title:'Modifier'}}} %}
+	{% endif %}
+	{% set create={ 'create': {url: path(domaine~'_add'),class:'btn-p-dark',attr:{title:'Ajouter un élément'}}} %}
+
+	{% set list={ 'list': {url: path(domaine~'_list'),class:'btn-p-dark',attr:{title:'Liste'}}} %}
+
+	{% set home={ 'home': {url: path('home'),class:'btn-p-dark',attr:{title:'Accueil'}}} %}
+
+	{% set admin={ 'admin': {url: path('admin'),class:'btn-p-dark',attr:{title:'Accueil de l\'administration'}}} %}
+
+
+
+
+    {% set actions = actions|merge(home) %}
+    {% set actions = actions|merge(admin) %}
+    {% if twigTemplace!='list' %}
+        {% set actions = actions|merge(list) %}
+    {% endif %}
+
+    {% if gestionnaire ==true %}
+        {% if twigTemplace=='list' %}
+            {% set actions = actions|merge(create) %}
+        {% elseif twigTemplace=='add' %}
+            {% set actions = actions|merge(save) %}
+        {% elseif twigTemplace=='edit' %}
+            {% set actions = actions|merge(show) %}
+            {% set actions = actions|merge(delete) %}
+            {{ del.delete_form(domaine~'_del',item.id, null) }}
+            {% set actions = actions|merge(save) %}
+        {% elseif twigTemplace=='show' %}
+            {% set actions = actions|merge(delete) %}
+            {{ del.delete_form(domaine~'_del',item.id, null) }}
+            {% set actions = actions|merge(edit) %}
+        {% endif %}
+    {% endif %}
+
+{{ btn_actions.show(actions) }}
+
+{% endmacro %}

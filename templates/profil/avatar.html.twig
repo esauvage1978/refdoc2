@@ -1,0 +1,105 @@
+{% extends 'nothing.html.twig' %}
+
+
+
+{% block body %}
+    <link href="{{ absolute_url( asset('/vendor/croppie/croppie.css')) }}" rel="stylesheet"/>
+    <link href="{{ absolute_url( asset('/vendor/bootstrap-4.4.1-dist/css/bootstrap.min.css')) }}" rel="stylesheet"/>
+    <script src="{{ absolute_url( asset('/vendor/jquery/dist/jquery.min.js')) }}"></script>
+    <script src="{{ absolute_url( asset('/vendor/croppie/croppie.js')) }}"></script>
+    <div class="row justify-content-center">
+        <div class="col-xs-12 col-lg-6 ">
+            <div class="card mt-5">
+                <div class="card-body ">
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type='file' id="imgInp"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="my-image-container" class="form-group">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                    </form>
+                    <p class="text-center">
+                        <button class="btn btn-lg btn-primary  mb-4" id="use" name="use" type="submit">
+                            Appliquer
+                        </button>
+                    </p>
+                    <div class="d-none">
+                        <img id="result" src="" alt="résultat"/>
+                    </div>
+                    <span id="retourDataImg"> </span>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('profil') }}" class="btn btn-primary">
+                        Retour au profil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $('#use').fadeOut();
+        $('#my-image').fadeOut();
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#my-image').attr('src', e.target.result);
+                    var resize = new Croppie($('#my-image')[0], {
+                        viewport: {width: 200, height: 200},
+                        boundary: {width: 300, height: 300},
+                        showZoomer: true,
+                        enableResize: false,
+                        enableExif: true,
+                        enableOrientation: false
+                    });
+                    $('#use').fadeIn();
+                    $('#use').on('click', function () {
+                        resize.result('base64').then(function (dataImg) {
+                            var data = [{image: dataImg}, {name: 'myimgage.jpg'}];
+                            // use ajax to send data to php
+                            $('#result').attr('src', dataImg);
+                            var r = confirm('êtes vous sûr de vouloir modifier votre avatar ?');
+                            if (r) {
+                                $.ajax({
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    url: '{{ absolute_url(path('avatar_update')) }}',
+                                    data: 'dataImg=' + dataImg,
+                                    success: function (data) {
+                                        $('#retourDataImg').text(data.retour);
+                                        window.location.href = '{{ path('profil') }}';
+                                    },
+                                    error: function (resultat, statut, erreur) {
+                                        alert('error' + erreur);
+                                    }
+                                });
+                            }
+                        })
+                    })
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            $("#my-image-container").text("");
+            $("#my-image-container").append("<img id=\"my-image\" src=\"#\"/>");
+
+            readURL(this);
+        });
+    </script>
+
+{% endblock %}
+

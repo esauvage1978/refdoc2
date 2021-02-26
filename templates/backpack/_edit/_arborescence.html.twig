@@ -1,0 +1,134 @@
+{% embed 'widgets/card-widget.html.twig' %}
+	{% block card_class %}flat
+	{% endblock %}
+	{% block card_body %}
+
+
+		<div class="form-group row m-2 col-12 js-createTip-wrapper">
+
+			<label class="col-form-label" for="cmb_dir1" id="lbl_dir1">Niveau 1</label>
+			<button type="button" class="btn col-1 float-right" data-toggle="modal" data-target="#addDir" data-whatever="cmb_dir1">
+				<i class="fa fa-plus-circle text-success"></i>
+			</button>
+			<select aria-label="lbl_dir1" name="cmb_dir1" id="cmb_dir1" class="form-control"></select>
+			<div class="createTip  mt-4">
+				<div class="createTip__title">
+					Arborescence
+				</div>
+				<p>
+					Cette section vous permet d'affiner le classement de vos porte-documents.
+				</p>
+
+				<div class="createTip__title">
+					Niveau 1
+				</div>
+				<p>
+					Le niveau 1 du classement peut être le nom de l'activité ou de la tâche
+				</p>
+				<p>
+					Il n'y a pas de contrainte de nommage
+				</p>
+			</div>
+		</div>
+
+		<div class="form-group row d-none col-12 m-2 js-createTip-wrapper" id="div_dir2">
+
+			<label for="cmb_dir2" id="lbl_dir2" class="col-form-label">Niveau 2</label>
+			<button type="button" class="btn  float-right" data-toggle="modal" data-target="#addDir" data-whatever="cmb_dir2">
+				<i class="fa fa-plus-circle text-success"></i>
+			</button>
+			<select aria-label="lbl_dir2" name="cmb_dir2" id="cmb_dir2" class="form-control"></select>
+			<div class="createTip  mt-4">
+				<div class="createTip__title">
+					Arborescence
+				</div>
+				<p>
+					Cette section vous permet d'affiner le classement de vos porte-documents.
+				</p>
+
+				<div class="createTip__title">
+					Niveau 2
+				</div>
+				<p>
+					Le niveau 2 du classement peut être le nom de l'activité ou de la tâche
+				</p>
+			</div>
+
+		</div>
+		<div class="form-group row d-none col-12 m-2 js-createTip-wrapper" id="div_dir3">
+
+			<label for="cmb_dir3" id="lbl_dir3" class="col-form-label">Niveau 3</label>
+			<button type="button" class="btn  float-right" data-toggle="modal" data-target="#addDir" data-whatever="cmb_dir3">
+				<i class="fa fa-plus-circle text-success"></i>
+			</button>
+			<select aria-label="lbl_dir3" name="cmb_dir3" id="cmb_dir3" class="form-control"></select>
+			<div class="createTip  mt-4">
+				<div class="createTip__title">
+					Arborescence
+				</div>
+				<p>
+					Cette section vous permet d'affiner le classement de vos porte-documents.
+				</p>
+
+				<div class="createTip__title">
+					Niveau 3
+				</div>
+				<p>
+					Le niveau 3 du classement peut être le nom de l'activité ou de la tâche
+				</p>
+			</div>
+
+		</div>
+		<div class="form-group row d-none col-12 m-2 js-createTip-wrapper" id="div_dir4">
+
+			<label for="cmb_dir4" id="lbl_dir4" class="col-form-label">Niveau 4</label>
+			<button type="button" class="btn  float-right" data-toggle="modal" data-target="#addDir" data-whatever="cmb_dir4">
+				<i class="fa fa-plus-circle text-success"></i>
+			</button>
+			<select aria-label="lbl_dir4" name="cmb_dir4" id="cmb_dir4" class="form-control"></select>
+			<div class="createTip  mt-4">
+				<div class="createTip__title">
+					Arborescence
+				</div>
+				<p>
+					Cette section vous permet d'affiner le classement de vos porte-documents.
+				</p>
+
+				<div class="createTip__title">
+					Niveau 4
+				</div>
+				<p>
+					Le niveau 4 du classement peut être le nom de l'activité ou de la tâche
+				</p>
+			</div>
+
+		</div>
+		<div class="form-group row d-none col-12 m-2 js-createTip-wrapper" id="div_dir5">
+
+			<label for="cmb_dir5" id="lbl_dir5" class="col-form-label">Niveau 5</label>
+			<button type="button" class="btn  float-right" data-toggle="modal" data-target="#addDir" data-whatever="cmb_dir5">
+				<i class="fa fa-plus-circle text-success"></i>
+			</button>
+			<select aria-label="lbl_dir5" name="cmb_dir5" id="cmb_dir5" class="form-control"></select>
+			<div class="createTip  mt-4">
+				<div class="createTip__title">
+					Arborescence
+				</div>
+				<p>
+					Cette section vous permet d'affiner le classement de vos porte-documents.
+				</p>
+
+				<div class="createTip__title">
+					Niveau 5
+				</div>
+				<p>
+					Le niveau 5 du classement peut être le nom de l'activité ou de la tâche
+				</p>
+			</div>
+
+		</div>
+
+
+	{% endblock %}
+
+{% endembed %}

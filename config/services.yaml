@@ -4,28 +4,71 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    es.directory.avatar: "%kernel.project_dir%/public/avatar/"
+
+    es.app.name: "%env(ES_APP_NAME)%"
+    es.mailer.name: "%env(ES_MAILER_NAME)%"
+    es.mailer.object.prefixe: "%env(ES_MAILER_OBJECT_PREFIXE)%"
+    es.mailer.smtp.host: "%env(ES_MAILER_SMTP_HOST)%"
+    es.mailer.smtp.port: "%env(ES_MAILER_SMTP_PORT)%"
+    es.mailer.user.name: "%env(ES_MAILER_USER_NAME)%"
+    es.mailer.user.mail: "%env(ES_MAILER_USER_MAIL)%"
+    es.mailer.user.password: "%env(ES_MAILER_USER_PASSWORD)%"
+
+    es.directory.upload.backpack: "%kernel.project_dir%/public/uploads/backpacks"
+    es.directory.css: "%kernel.project_dir%/public/css"
+
+    es.tree.undevelopped.nbr: "%env(ES_TREE_UNDEVELOPPED_NBR)%"
+    es.news.time: "%env(ES_NEWS_TIME)%"
+
+    es.mailer.workflow.toResume: "%env(ES_MAILER_WORKFLOW_TORESUME)%"
+    es.mailer.workflow.toValidate: "%env(ES_MAILER_WORKFLOW_TOVALIDATE)%"
+    es.mailer.workflow.toControl: "%env(ES_MAILER_WORKFLOW_TOCONTROL)%"
+    es.mailer.workflow.toCheck: "%env(ES_MAILER_WORKFLOW_TOCHECK)%"
+    es.mailer.workflow.published: "%env(ES_MAILER_WORKFLOW_PUBLISHED)%"
+    es.mailer.workflow.toRevise: "%env(ES_MAILER_WORKFLOW_TOREVISE)%"
+    es.mailer.workflow.inReview: "%env(ES_MAILER_WORKFLOW_INREVIEW)%"
 
 services:
     # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
+        autowire: true # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/'
+        resource: "../src/"
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
-            - '../src/Tests/'
+            - "../src/DependencyInjection/"
+            - "../src/Entity/"
+            - "../src/Kernel.php"
+            - "../src/Tests/"
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/Controller/'
-        tags: ['controller.service_arguments']
+        resource: "../src/Controller/"
+        tags: ["controller.service_arguments"]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Listener\UserLoginListener:
+        public: true
+        tags:
+            - {
+                  name: "kernel.event_listener",
+                  event: "security.interactive_login",
+              }
+
+    App\Listener\BackpackFileUploadListener:
+        arguments:
+            $directory: "%es.directory.upload.backpack%"
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    App\Listener\CategoryListener:
+        tags:
+            - name: "doctrine.orm.entity_listener"
+              event: "postUpdate"
+              entity: 'App\Entity\Category'

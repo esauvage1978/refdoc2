@@ -1,0 +1,103 @@
+{% extends 'admin_mprocess/layout.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+
+{% block title %}
+	{{ app_name }}
+	- Permission sur les macros processus
+{% endblock %}
+{% block page_title %}
+	{{ widgets.icon('mprocess') }}
+	Permission sur les macros processus
+{% endblock %}
+
+
+{% block breadcrumb %}
+	{% import domaine~"/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'list_permission',
+        is_granted('ROLE_GESTIONNAIRE'),
+        null,
+        domaine
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+	{% set striped = true %}
+
+
+	<div class="row justify-content-center">
+		<table class="table table-bordered table-sm">
+			<thead>
+				<tr>
+					<th class="text-center bg-p-dark text-p-light">
+						Macro processus
+					</th>
+					<th class=" bg-p-dark text-p-light">
+						Nom de l'agent
+					</th>
+					<th class="text-center bg-p-dark text-p-light">
+
+						Agent de Direction
+					</th>
+					<th class="text-center bg-p-dark text-p-light">
+
+						Manager stratégique
+					</th>
+					<th class="text-center bg-p-dark text-p-light">
+
+						Contributeurs
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				{% for item in items %}
+					{% set nbr = item.dirValidators.count + item.poleValidators.count + item.contributors.count %}
+					{% if nbr>0  %}
+
+						{% set nbr_user = 0 %}
+						{% set endofrow = '' %}
+
+						{% for user in users %}
+							{% set u_d = (user in item.dirValidators ? true : false) %}
+							{% set u_p = (user in item.poleValidators ? true : false) %}
+							{% set u_c = (user in item.contributors ? true : false) %}
+
+
+							{% if u_d == true or u_p == true or u_c == true %}
+								{% set endofrow = endofrow ~ (nbr_user == 1 ? '<tr>' : '') %}
+
+								{% set nbr_user = nbr_user + 1 %}
+
+								{% set endofrow = endofrow ~ '<td class="align-middle">' ~ nbr_user ~ ' : ' ~ user.name ~'</td>'%}
+
+
+								{% set endofrow = endofrow ~ '<td class="align-middle text-center">' ~ (u_d == true ? '<div class="p-2 badge badge-success text-success">x</div>':'') ~'</td>'%}
+								{% set endofrow = endofrow ~ '<td class="align-middle text-center">' ~ (u_p == true ? '<div class="p-2 badge badge-success text-success">x</div>':'') ~'</td>'%}
+								{% set endofrow = endofrow ~ '<td class="align-middle text-center">' ~ (u_c == true ? '<div class="p-2 badge badge-success text-success">x</div>':'') ~'</td>'%}
+
+
+								{% set endofrow = endofrow ~ '</tr>'%}
+
+							{% endif %}
+
+						{% endfor %}
+						{% set striped = striped == true ? false : true  %}
+
+						<tr>
+							<td class="align-middle  {{ striped == true ? 'bg-p-light' : '' }}" rowspan="{{nbr_user}}">
+								<a href="{{ path(route_show,{id:item.id}) }}" class="text-p-dark">
+									{{ item.fullname | raw }}
+									{{nbr}}
+								</a>
+							</td>
+							{{ endofrow | raw }}
+
+						{% endif %}
+
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% import "macros/widgets.html.twig" as widgets %}
+
+{% if nbr>1 %}
+	<div class="small-box bg-p-dark ">
+		<div class="inner text-p-light">
+			<h3>{{ nbr }}</h3>
+			<p>Publié{{nbr>1?'s':''}}
+				/ Abonnement</p>
+		</div>
+		<div class="icon">
+			{{ widgets.icon('visibility') }}
+		</div>
+		<a href="{{ path('backpacks_subscription')}}" class="small-box-footer ">Consulter
+			<i class="fas fa-arrow-circle-right"></i>
+		</a>
+	</div>
+{% endif %}

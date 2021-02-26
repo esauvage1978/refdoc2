@@ -1,0 +1,43 @@
+{% macro show(twigTemplace,item,deployement) %}
+	{% import "macros/delele.html.twig" as del %}
+{% import "macros/btn_actions.html.twig" as btn_actions %}
+
+
+	{% set _save = { 'save': {onclick: 'document.getElementById(\'submit_1\').click();', class:'btn-success',attr:{title:'Sauvegarder'}}} %}
+	{% set _home = { 'home': {url: path('home'),class:'btn-p-dark',attr:{title:'Accueil'}}}  %}
+
+	{% if item %}
+		{% set _show = { 'backpack': {url: path('backpack_show',{id:item.id}),class:'btn-p-dark',attr:{title:'Consulter l\'action'}}} %}
+		{% set _edit = { 'edit': {url: path('backpack_edit',{id:item.id}),class:'btn-p-dark',attr:{title:'Modifier l\'e déploiement'}}} %}
+		{% set _mail_sent = { 'mail-sent': {url: path('mailer_backpack_composer',{id:item.id}),class:'btn-p-dark',attr:{title:'Envoyer un message'}}} %}
+	{% endif %}
+
+
+	{% set actions = {} %}
+
+	{% set actions = actions|merge(_home) %}
+	{% set actions = actions|merge({'divider2': null}) %}
+
+	{% if twigTemplace=='show' %}
+		{% set actions = actions|merge(_show) %}
+		{% set actions = actions|merge(_edit) %}
+	{% elseif twigTemplace=='edit' %}
+		{% set actions = actions|merge(_show) %}
+		{% set actions = actions|merge(_edit) %}
+		{% set actions = actions|merge({'divider3': null}) %}
+
+		{% set actions = actions|merge(_save) %}
+	{% elseif twigTemplace=='history' %}
+
+		{% set actions = actions|merge(_mail_sent) %}
+
+		{% set actions = actions|merge({'divider3': null}) %}
+
+		{% set actions = actions|merge(_show) %}
+		{% set actions = actions|merge(_edit) %}
+
+	{% endif %}
+	{{ btn_actions.show(actions) }}
+
+
+{% endmacro %}

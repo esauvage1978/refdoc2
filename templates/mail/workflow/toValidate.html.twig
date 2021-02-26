@@ -1,0 +1,33 @@
+{% extends './mail/template.html.twig' %}
+
+{% block title %}
+	Le porte document est à valider
+{% endblock %}
+{% block title_content %}
+	Porte-document à valider
+{% endblock %}
+
+{% block body %}
+	<p>
+le porte-document
+<strong>{{ backpack.ref }}
+	-
+	{{ backpack.name }}</strong>
+est à valider. La personne qui l'a envoyé dans cet été a laissé le commentaire suivant
+
+
+	</p>
+	<p>
+		{{ backpack.stateContent | raw }}
+	</p>
+	<p>
+		Vous pouvez aller le consulter en cliquant sur le lien ou en saisissant l'adresse
+		<a style="color:#57a7fe;text-decoration: none" href="{{ url('backpack_show', {'id': backpack.id}) }}">cliquez-ici</a>
+
+		ou
+								            collez le lien suivant dans votre navigateur
+		<span style="color:#57a7fe;">
+			{{ url('backpack_show', {'id': backpack.id}) }}
+		</span>
+	</p>
+{% endblock %}

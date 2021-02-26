@@ -1,0 +1,119 @@
+{% extends 'admin_mprocess/layout.html.twig' %}
+{% import "macros/datatables.html.twig" as tables %}
+{% import "macros/subscription.html.twig" as sub %}
+
+{% set columns = {
+    'Référence': {'class': 'alwaysVisible text-center', 'orderBy': true},
+    'Macro processus': {'class': 'alwaysVisible', 'orderBy': true},
+    'Description': {'class': 'alwaysVisible', 'orderBy': true},
+    '<i class="fas fa-square"  data-toggle="tooltip" data-placement="top" title="Nombre de processus"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fas fa-user-tie" data-toggle="tooltip" data-placement="top" title="Agents de Direciton"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fas fa-user-check" data-toggle="tooltip" data-placement="top" title="Managers stratégiques"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fas fa-user-edit" data-toggle="tooltip" data-placement="top" title="Contributeurs"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fab fa-chromecast" data-toggle="tooltip" data-placement="top" title="Abonnés"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+	'<i class="fas fa-suitcase " data-toggle="tooltip" data-placement="top" title="Porte-documents"></i>': {'class': 'alwaysVisible text-center', 'orderBy': true},
+    'actions': {'class': 'alwaysVisible', 'orderBy': false}
+} %}
+{% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+{% block page_subtitle %}Liste
+{% endblock %}
+
+
+{% block breadcrumb %}
+	{% import domaine~"/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'list',
+        is_granted('ROLE_GESTIONNAIRE'),
+        null,
+        domaine
+    ) }}
+{% endblock %}
+
+
+{% block page_content %}
+
+
+	{% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+	{{ tables.datatable_header(tableName, columns,  {'striped': true}) }}
+	{% for item in items %}
+		<tr>
+			<td class="align-middle text-center ">{{ item.ref }}</td>
+			<td class="align-middle">
+				<a href="{{ path(route_show,{id:item.id}) }}" class="text-{{ item.isEnable ? 'p-dark' : 'danger text-bold' }}">
+					{{ item.name }}
+				</a>
+			</td>
+			<td class="align-middle">{{ item.content | raw }}</td>
+			<td class="align-middle text-center">
+				{% if   item.processes.count==0 %}
+					<div class="p-2 badge badge-light text-light">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success">
+						{{ item.processes.count }}
+					</div>
+				{% endif %}
+			</td>
+			<td class="align-middle text-center">
+				{% if   item.dirValidators.count==0 %}
+					<div class="p-2 badge badge-danger text-danger">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success">
+						{{ item.dirValidators.count }}
+					</div>
+				{% endif %}
+			</td>
+			<td class="align-middle text-center">
+				{% if   item.poleValidators.count==0 %}
+					<div class="p-2 badge badge-danger text-danger">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success">
+						{{ item.poleValidators.count }}
+					</div>
+				{% endif %}
+			</td>
+			<td class="align-middle text-center">
+				{% if   item.contributors.count==0 %}
+					<div class="p-2 badge badge-danger text-danger">
+						0
+					</div>
+				{% else %}
+					<div class="p-2 badge badge-success">
+						{{ item.contributors.count }}
+					</div>
+				{% endif %}
+			</td>
+			<td class="align-middle text-center">
+{{ sub.nbr(item) }}
+
+			</td>
+
+			<td class=" d-flex  justify-content-end ">
+				{% if is_granted('ROLE_GESTIONNAIRE') %}
+					{{ btn.link_button(
+                        'Modifier',
+                        path(route_edit,{id:item.id}),
+                        'fa fa-edit',
+                        'p-dark',
+                        'p-dark btn-sm'
+                    ) }}
+				{% endif %}
+			</td>
+		</tr>
+	{% else %}
+		{{ tables.datatable_data_else(columns) }}
+	{% endfor %}
+	{{ tables.datatable_footer(tableName,1) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ tables.datatable_javascript(tableName,0,columns) }}
+{% endblock %}

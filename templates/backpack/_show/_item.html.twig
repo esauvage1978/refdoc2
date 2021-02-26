@@ -1,0 +1,71 @@
+{% if item %}
+	{% embed 'widgets/card-widget.html.twig' %}
+		{% import "macros/workflow.html.twig" as workflow %}
+
+
+		{% import "macros/backpack.html.twig" as bpk %}
+		{% import "macros/file.html.twig" as file %}
+		{% block card_class %}
+flat-shadow
+
+
+		{% endblock %}
+		{% block card_title_class %}
+			d-flex align-items-center
+		{% endblock %}
+		{% block card_title %}
+			{{ bpk.icone(item) }}
+			<span class="ml-2">{{ item.name }}</span>
+		{% endblock %}
+		{% block card_tools %}
+			{{ item.stateCurrent }}
+
+			{{ bpk.isNew(item.updatedAt) }}
+		{% endblock %}
+		{% block card_body_class %}
+		{% endblock %}
+		{% block card_body %}
+			{{ bpk.identification(item) }}
+			{% if item.content %}
+				<hr/>
+				<small class="text-muted ">
+					{{ item.content | raw }}
+				</small>
+			{% endif %}
+		{% endblock %}
+		{% block card_liste %}
+			{% set nbrL=item.backpackLinks | length %}
+			{% set nbrF=item.backpackFiles | length %}
+			{% if nbrL>0 or nbrF>0 %}
+				<div class=" list-blk">
+					<table class="table table-hover">
+						<colgroup>
+							<col class="col-lg-1">
+							<col class="col-lg-8">
+							<col class="col-lg-2">
+							<col class="col-lg-1">
+						</colgroup>
+						<thead class="thead-default">
+							<tr>
+								<th></th>
+								<th>
+									Nom
+								</th>
+								<th class="hidden-xs text-center alert-">
+									Date
+								</th>
+								<th class="hidden-xs">
+									Taille
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{ file.showFiles(item.backpackFiles,item,'backpack_file_show') }}
+							{{ file.showLinks(item.backpackLinks) }}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
+		{% endblock %}
+	{% endembed %}
+{% endif %}

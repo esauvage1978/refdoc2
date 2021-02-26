@@ -1,0 +1,22 @@
+App\Entity\Process:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: [mProcess, name]
+        errorPath: name
+        message: 'Le nom {{ value }} est déjà utilisé.'
+  properties:
+    name:
+      - NotBlank: ~
+      - Length:
+          min: 3
+          max: 255
+          minMessage: 'Le nom {{ value }} doit avoir plus de 3 caractères'
+          maxMessage: 'Le nom {{ value }} ne peut pas avoir plus de 255 caractères'
+    ref:
+      - Length:
+          max: 25
+          maxMessage: 'la référence ne peut pas avoir plus de 25 caractères'
+    grouping:
+      - Length:
+          max: 255
+          maxMessage: 'Cette données ne doit pas avoir plus de 255 caractères'

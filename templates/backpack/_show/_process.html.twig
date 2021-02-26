@@ -1,0 +1,39 @@
+{% embed 'widgets/card-widget.html.twig' %}
+	{% block card_class %}flat
+	{% endblock %}
+	{% block card_body_class %}p-0
+	{% endblock %}
+
+	{% block card_body %}
+		{% import "macros/widgets.html.twig" as widgets %}
+
+		<div class="form-group row m-2 js-createTip-wrapper">
+			<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+				<span class='mr-5'>
+					<span class="text-gray">
+						{{ widgets.icon('mprocess') }}
+					</span>
+					{{ item.mprocess.fullname | raw}}
+				</span>
+			</div>
+			{% if item.process is not null %}
+				<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+					<span class='mr-5 ml-5 text-sm'>
+						<span class="text-gray">
+							{{ widgets.icon('process') }}
+						</span>
+						{{ item.process.fullname | raw}}
+					</span>
+				</div>
+			{% endif %}
+			<div class="createTip ">
+				<div class="createTip__title">
+					Macro processus / Processus
+				</div>
+				<p>
+					Le porte document est associé à un macro processus et éventuellement à un processus
+				</p>
+			</div>
+		</div>
+	{% endblock %}
+{% endembed %}

@@ -1,0 +1,32 @@
+{% macro show(twigTemplace) %}
+	{% import "macros/btn_actions.html.twig" as btn_actions %}
+
+
+	{% set _save = { 'save': {onclick: 'document.getElementById(\'submit_1\').click();', class:'btn-success',attr:{title:'Sauvegarder'}}} %}
+	{% set _home = { 'home': {url: path('home'),class:'btn-p-dark',attr:{title:'Accueil'}}}  %}
+	{% set _avatar = { 'avatar': {url: path('avatar'),class:'btn-p-dark',attr:{title:'changer d\'avatar'}}}  %}
+	{% set _profil = { 'profil': {url: path('profil'),class:'btn-p-dark',attr:{title:'votre profil'}}}  %}
+	{% set _pwd = { 'password': {url: path('password_change'),class:'btn-p-dark',attr:{title:'Changer de mot de passe'}}}  %}
+
+
+
+	{% set actions = {} %}
+
+	{% set actions = actions|merge(_home) %}
+	{% set actions = actions|merge(_avatar) %}
+
+	{% if twigTemplace!='index' %}
+		{% set actions = actions|merge(_profil) %}
+		{% set actions = actions|merge(_save) %}
+	{% elseif twigTemplace!='password' %}
+		{% set actions = actions|merge(_pwd) %}
+		{% set actions = actions|merge(_save) %}
+	{% endif %}
+
+	
+
+
+{{ btn_actions.show(actions) }}
+
+
+{% endmacro %}
