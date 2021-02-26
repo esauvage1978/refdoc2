@@ -1,3 +1,9 @@
+/***********************************
+** BLOC GLOBAL
+**********************************/
+
+
+
 body {
     background-color: lightgray;
 }
@@ -12,8 +18,8 @@ body {
     color: #e6e7f9;
 }
 
-.nav-icon{
-    color:#6c63ff;
+.nav-icon {
+    color: #6c63ff;
 }
 
 .select2-selection__choice {
@@ -33,14 +39,12 @@ body {
 }
 
 
-.text-p-dark
-{
-    color:#675ef2 !important;
+.text-p-dark {
+    color: #675ef2 !important;
 }
 
-.text-p-dark2
-{
-    color:#ff6584 !important;
+.text-p-dark2 {
+    color: #ff6584 !important;
 }
 
 .text-p-light {
@@ -54,6 +58,7 @@ body {
 .bg-p-dark {
     background-color: #675ef2 !important;
 }
+
 .bg-p-dark2 {
     background-color: #ff6584 !important;
 }
@@ -91,6 +96,7 @@ body {
 .callout.callout-p-dark {
     border-left-color: #675ef2;
 }
+
 .callout.callout-p-light {
     border-left-color: #e6e7f9;
 }
@@ -216,3 +222,4 @@ body {
 #tree_left {
     background-color: #fff;
 }
+

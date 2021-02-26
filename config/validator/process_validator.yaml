@@ -11,7 +11,7 @@ App\Entity\Process:
           min: 3
           max: 255
           minMessage: 'Le nom {{ value }} doit avoir plus de 3 caractères'
-          maxMessage: 'Le nom {{ value }} ne peut pas avoir plus de 30 caractères'
+          maxMessage: 'Le nom {{ value }} ne peut pas avoir plus de 255 caractères'
     ref:
       - Length:
           max: 25
