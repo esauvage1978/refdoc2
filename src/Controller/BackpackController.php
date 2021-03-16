@@ -89,6 +89,7 @@ class BackpackController extends AbstractGController
     public function edit(Request $request, Backpack $item)
     {
         $this->denyAccessUnlessGranted(BackpackVoter::UPDATE, $item);
+        
         $itemOld = clone ($item);
         $form = $this->createForm(BackpackType::class, $item);
 
