@@ -15,7 +15,8 @@ parameters:
     es.mailer.user.mail: "%env(ES_MAILER_USER_MAIL)%"
     es.mailer.user.password: "%env(ES_MAILER_USER_PASSWORD)%"
 
-    es.directory.upload.backpack: "%kernel.project_dir%/public/uploads/backpacks"
+    es.directory.upload.backpack.show: "%kernel.project_dir%/public/uploads/backpacks"
+    es.directory.upload.backpack.source: "%kernel.project_dir%/public/uploads/backpacksSource"
     es.directory.css: "%kernel.project_dir%/public/css"
 
     es.tree.undevelopped.nbr: "%env(ES_TREE_UNDEVELOPPED_NBR)%"
@@ -63,7 +64,13 @@ services:
 
     App\Listener\BackpackFileUploadListener:
         arguments:
-            $directory: "%es.directory.upload.backpack%"
+            $directory: "%es.directory.upload.backpack.show%"
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    App\Listener\BackpackFileSourceUploadListener:
+        arguments:
+            $directory: "%es.directory.upload.backpack.source%"
         tags:
             - { name: doctrine.orm.entity_listener }
 

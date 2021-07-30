@@ -7,6 +7,7 @@
 
 {% block navbar_search %}
 	{% block sidebar_search %}
+		{{ render(controller('App\\Controller\\HomeController::searchFormAction')) }}
 	{% endblock %}
 {% endblock %}
 
@@ -25,4 +26,3 @@
 
 	{% include 'home/_footer.html.twig' %}
 {% endblock %}
-

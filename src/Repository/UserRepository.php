@@ -44,7 +44,7 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    
     public function findAllForControl()
     {
         return $this->createQueryBuilder(self::ALIAS)
@@ -53,8 +53,8 @@ class UserRepository extends ServiceEntityRepository
                 UserParamRepository::ALIAS
             )
             ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
-            ->where(self::ALIAS.'.isEnable=1')
-            ->andWhere(UserParamRepository::ALIAS . '.isControl=1')
+            ->where(self::ALIAS.'.isEnable=true')
+            ->andWhere(UserParamRepository::ALIAS . '.isControl=true')
             ->orderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
             ->getResult();
@@ -67,11 +67,24 @@ class UserRepository extends ServiceEntityRepository
                 UserParamRepository::ALIAS
             )
             ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
-            ->where(self::ALIAS . '.isEnable=1')
-            ->andWhere(UserParamRepository::ALIAS . '.isDoc=1')
+            ->where(self::ALIAS . '.isEnable=true')
+            ->andWhere(UserParamRepository::ALIAS . '.isDoc=true')
             ->orderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
             ->getResult();
     }
-
+    public function findAllUsersNotification()
+    {
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS,
+                UserParamRepository::ALIAS
+            )
+            ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
+            ->where(self::ALIAS . '.isEnable=true')
+            ->andWhere(UserParamRepository::ALIAS . '.isSubscription=true')
+            ->orderBy(self::ALIAS . '.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

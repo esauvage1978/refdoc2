@@ -45,17 +45,28 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
             $this->addProfil();
             $this->addSubscription();
             $this->addAdmin();
+            $this->addDoc();
             $this->addDeconnexion();
         } elseif ($this->currentUser->isAuthenticatedRemember()) {
             $this->addHome();
             $this->addProfil();
+            $this->addDoc();
             $this->addConnexion();
         } else {
             $this->addHome();
+            $this->addDoc();
             $this->addConnexion();
         }
     }
 
+    private function addDoc()
+    {
+        $this->menu->addChild('documentation', [
+            'route' => 'documentation',
+            'label' => 'Documentation',
+            'childOptions' => $this->event->getChildOptions()
+        ])->setLabelAttribute('icon', 'fas fa-book');
+    }
 
     private function addDashboard(): void
     {

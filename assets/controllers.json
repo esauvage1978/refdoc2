@@ -1,0 +1,14 @@
+{
+    "controllers": {
+        "@symfony/ux-dropzone": {
+            "dropzone": {
+                "enabled": true,
+                "webpackMode": "eager",
+                "autoimport": {
+                    "@symfony/ux-dropzone/src/style.css": false
+                }
+            }
+        }
+    },
+    "entrypoints": []
+}

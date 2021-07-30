@@ -109,7 +109,7 @@ class BackpackMakerDto
                     ->setIsShow(BackpackDto::TRUE)
                     ->setIsNew(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                            
+                break;
             case self::HOME_SUBSCRIPTION:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
@@ -227,7 +227,7 @@ class BackpackMakerDto
                 $dto
                     ->setIsShow(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                
+                break;
             case self::PUBLISHED:
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
@@ -244,7 +244,7 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_PUBLISHED)
                     ->setIsGoToReviseSoon(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                
+                break;
             case self::PUBLISHED_UPDATABLE:
                 if (!is_null($this->user)) {
                     $dto->setUserDto((new UserDto())->setId($this->user->getId()));
@@ -311,7 +311,15 @@ class BackpackMakerDto
                     ->setStateCurrent(WorkflowData::STATE_IN_REVIEW)
                     ->setIsContributor(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
-                break;                                        
+                break;
+            case self::SEARCH:
+                if (null === $param) {
+                    throw new \InvalidArgumentException('Il manque le critère de recherche');
+                }
+                $dto
+                    ->setWordSearch($param)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
         }
 
         return $dto;

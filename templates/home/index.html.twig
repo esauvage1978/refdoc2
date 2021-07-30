@@ -6,6 +6,7 @@
 {% block page_title %}{% endblock %}
 
 {% block page_content %}
+dsds
 	{% import "macros/default.html.twig" as dft %}
 	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 		{{ dft.no_connexion() }}
@@ -34,9 +35,18 @@
 
 		<div class="row justify-content-center mt-2  d-flex align-items-center ">
 			<div class="col-sm-12 col-lg-8 row">
+				{% set nbr = 0 %}
+				{% for sub in app.user.subscriptions %}
+					{% if sub.isEnable is same as(true) %}
+						{% set nbr=nbr+1 %}
+					{% endif %}
+				{% endfor %}
+
 				{% if news | length==0 %}
 					<div class="col-sm-12 col-lg-4 ">
-						<h5 class="text-p-dark">Aucune actualité pour vos abonnements</h5>
+						{% if nbr>0 %}
+							<h5 class="text-p-dark">Aucune actualité pour vos abonnements</h5>
+						{% endif %}
 						<a href="{{ path('backpacks_news') }}" class=" text-p-dark2 text-lg mb-2 text-center ">Toutes les actualités</a>
 					</div>
 					<div class="col-sm-12 col-xl-8  d-flex justify-content-center mt-3 mb-3">

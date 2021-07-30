@@ -21,7 +21,8 @@ class ParamsInServices
     public const ES_APP_NAME = 'es.app.name';
     public const ES_DIRECTORY_AVATAR = 'es.directory.avatar';
     public const ES_DIRECTORY_CSS = 'es.directory.css';
-    public const ES_DIRECTORY_UPLOAD_BACKPACK = 'es.directory.upload.backpack';
+    public const ES_DIRECTORY_UPLOAD_BACKPACK_SHOW = 'es.directory.upload.backpack.show';
+    public const ES_DIRECTORY_UPLOAD_BACKPACK_SOURCE = 'es.directory.upload.backpack.source';
     public const ES_MAILER_OBJECT_PREFIXE = 'es.mailer.object.prefixe';
     public const ES_MAILER_USER_NAME = 'es.mailer.user.name';
     public const ES_MAILER_USER_MAIL = 'es.mailer.user.mail';
@@ -51,7 +52,8 @@ class ParamsInServices
             self::ES_APP_NAME,
             self::ES_DIRECTORY_AVATAR,
             self::ES_DIRECTORY_CSS,
-            self::ES_DIRECTORY_UPLOAD_BACKPACK,
+            self::ES_DIRECTORY_UPLOAD_BACKPACK_SHOW,
+            self::ES_DIRECTORY_UPLOAD_BACKPACK_SOURCE,
             self::ES_MAILER_OBJECT_PREFIXE,
             self::ES_MAILER_USER_NAME,
             self::ES_MAILER_USER_MAIL,

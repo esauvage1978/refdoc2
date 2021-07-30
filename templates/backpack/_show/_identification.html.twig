@@ -27,12 +27,13 @@
 
 		<div class="badge">
 			<i class="{{ item.category.icone }} " style="
-															{% if item.category.forecolor is defined %}
-																color:{{ item.category.forecolor }};
-															{% endif %}
-															{% if item.category.bgcolor is defined %}
-																background-color:{{ item.category.bgcolor }};
-															{% endif %}"></i>
+				{% if item.category.forecolor is defined %}
+					color:{{ item.category.forecolor }};
+				{% endif %}
+				{% if item.category.bgcolor is defined %}
+					background-color:{{ item.category.bgcolor }};
+				{% endif %}">
+			</i>
 			{{ item.category.name }}
 		</div>
 		<div class="badge">

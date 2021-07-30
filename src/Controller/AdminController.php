@@ -25,6 +25,13 @@ class AdminController extends AbstractController
                 'icon'=> 'fa fa-users text-p-dark' 
             ],
             [
+                'name' => 'Utilisateurs avec notification',
+                'route' => 'notification_users_subscription',
+                'content'=> 'Consultation des utilisateurs valide et ayant accepté de recevoir les notifications',
+                'smallcontent'=>'',
+                'icon'=> 'fa fa-users text-p-dark' 
+            ],
+            [
                 'name' => 'Macro processus',
                 'route' => 'admin_mprocess_list',
                 'content' => 'Gestion des macro-processus et des intervenants',

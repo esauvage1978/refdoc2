@@ -9,19 +9,27 @@ use App\Service\MakeDashboard;
 use App\Service\BackpackCounter;
 use App\Service\BackpackMakerDto;
 use App\Repository\BackpackDtoRepository;
+use App\Security\Role;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController extends AbstractController
+class HomeController extends AbstractGController
 {
     /**
      * @Route("/", name="home")
-     * @IsGranted("ROLE_USER")
      */
     public function index(BackpackDtoRepository $backpackDtoRepository, CurrentUser $user)
     {
+        if($user->getUser()===null) {
+            return $this->redirectToRoute('user_login');
+        }
+
+        if (!Role::isUser( $user->getUser()) || !$user->getUser()->getEmailValidated()) {
+            return $this->redirectToRoute('profil');
+        }
+
         $md = new MakeDashboard($backpackDtoRepository, $user->getUser());
         $m=new BackpackMakerDto($user->getUser());
 
@@ -44,6 +52,14 @@ class HomeController extends AbstractController
         }
 
         return $this->render('home/index.html.twig', ['dash_options' => $dash_options,'news'=>$news]);
+    }
+
+        /**
+     * @return Response
+     */
+    public function searchFormAction(): Response
+    {
+        return $this->render('home/search-form.html.twig', []);
     }
 
 }

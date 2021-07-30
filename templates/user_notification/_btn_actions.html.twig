@@ -1,0 +1,16 @@
+{% macro show(twigTemplace,admin,item, domaine) %}
+	{% import "macros/btn_actions.html.twig" as btn_actions %}
+
+
+	{% set home={ 'home': {url: path('home'),class:'btn-p-dark',attr:{title:'Accueil'}}} %}
+
+	{% set admin={ 'admin': {url: path('admin'),class:'btn-p-dark',attr:{title:'Accueil de l\'administration'}}} %}
+
+    {% set actions = {} %}
+
+    {% set actions = actions|merge(home) %}
+    {% set actions = actions|merge(admin) %}
+
+    {{ btn_actions.show(actions) }}
+
+{% endmacro %}

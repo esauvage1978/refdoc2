@@ -91,4 +91,16 @@ class UserController extends AbstractGController
     {
         return $this->render('user/_myWidgetNotification.html.twig');
     }
+
+    
+     /**
+     * @Route("/list/notifications", name="notification_users_subscription", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function NotificationUsersSubscription(UserRepository $userRepository): Response
+    {
+        return $this->render(
+            'user_notification/list.html.twig',['items'=>$userRepository->findAllUsersNotification()]
+        );
+    }
 }

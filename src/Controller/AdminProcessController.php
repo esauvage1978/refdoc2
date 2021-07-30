@@ -37,7 +37,6 @@ class AdminProcessController extends AbstractGController
                 'users' => $userRepository->findBy(['isEnable' => true])
             ]
         );
-        return $this->listAction('list_permission');
     }
 
     /**

@@ -1,0 +1,52 @@
+{% extends 'user_notification/layout.html.twig' %}
+{% import "macros/datatables.html.twig" as tables %}
+{% import "macros/user.html.twig" as usr %}
+
+{% set columns = {
+    '#': {'class': 'all', 'orderBy': true},
+    'Nom / Email': {'class': 'alwaysVisible', 'orderBy': true},
+	'<i class="fa fa-clock" data-toggle="tooltip" data-placement="top" title="dernière connexion"></i>': {'class': 'align-middle text-center', 'orderBy': true},
+} %}
+
+
+
+{% block page_subtitle %}Liste
+{% endblock %}
+
+{% block breadcrumb %}
+	{% import "user_notification/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+    ) }}
+{% endblock %}
+
+{% block page_content %}
+
+
+
+	{{ tables.datatable_header(tableName, columns,  {'striped': true}) }}
+	{% for item in items %}
+		<tr>
+			<td class="align-middle">
+				<div class="image">
+					<img src="{{ asset(item.avatar) }}" class="img-circle elevation-2 direct-chat-img" alt="{{ item.id }}">
+				</div>
+			</td>
+			<td class="align-middle">
+					{{ item.name }} 
+				<small>{{ item.email }}</small>
+				{% if item.phone != null %}
+					<br/>
+					<small>{{ item.phone }}</small>
+				{% endif %}
+			</td>
+						<td class="align-middle text-center p-0 m-0 ">{{ usr.lastConnexion(item)  }}</td>
+		</tr>
+	{% else %}
+		{{ tables.datatable_data_else(columns) }}
+	{% endfor %}
+	{{ tables.datatable_footer(tableName,1) }}
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ tables.datatable_javascript(tableName,1,columns) }}
+{% endblock %}

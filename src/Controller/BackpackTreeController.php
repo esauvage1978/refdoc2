@@ -368,4 +368,21 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
+     
+    /**
+     * @Route("/search", name="search", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function search(Request $request) {
+        $r = $request->get('r');
+        if ($r === null) {
+            return $this->redirectToRoute('home');
+        } else {
+
+            $dto = $this->backpackForTree->getDto(BackpackMakerDto::SEARCH, $r);
+            $renderArray = $this->backpackForTree->getDatas($this->container, $request, null, $dto);
+            return $this->render('backpack/tree.html.twig', $renderArray);
+        }
+    }
+
 }

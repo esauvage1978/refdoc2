@@ -26,6 +26,8 @@ class MProcessDtoRepository extends ServiceEntityRepository implements DtoReposi
     public const FILTRE_DTO_INIT_SUBSCRIPTION = 'subscription';
     public const FILTRE_DTO_INIT_UNITAIRE = 'unitaire';
 
+    private $type_order="all";
+
     public const ALIAS = 'r';
 
     public function __construct(ManagerRegistry $registry)
@@ -39,6 +41,8 @@ class MProcessDtoRepository extends ServiceEntityRepository implements DtoReposi
          * var ContactDto
          */
         $this->dto = $dto;
+
+        $this->type_order='count';
 
         $this->initialise_selectCount();
 
@@ -55,6 +59,8 @@ class MProcessDtoRepository extends ServiceEntityRepository implements DtoReposi
         $this->dto = $dto;
 
         $this->initialise_selectCombobox();
+
+        $this->type_order='combo';
 
         $this->initialise_where();
 

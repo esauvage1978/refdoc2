@@ -32,7 +32,7 @@ $(document).ready(function () {
         var template = $container.attr('data-prototype')
             .replace(/__name__label__/g, name_label)
             .replace(/__name__/g, index)
-        ;
+            ;
         var $prototype = $(template);
 
         addDeleteLink($prototype);
@@ -40,7 +40,7 @@ $(document).ready(function () {
 
         if (type === 'link') {
             $('#backpack_backpackLinks_' + index + '_modifyAt').addClass('d-none');
-            $('#backpack_backpackLinks_' + index + '_modifyAt_date_month').val(new Date().getMonth()+1);
+            $('#backpack_backpackLinks_' + index + '_modifyAt_date_month').val(new Date().getMonth() + 1);
             $('#backpack_backpackLinks_' + index + '_modifyAt_date_day').val(new Date().getDate());
             $('#backpack_backpackLinks_' + index + '_modifyAt_date_year').val(new Date().getFullYear());
             $('#backpack_backpackLinks_' + index + '_modifyAt_time_hour').val(new Date().getHours());
@@ -48,7 +48,7 @@ $(document).ready(function () {
         }
         if (type === 'file') {
             $('#backpack_backpackFiles_' + index + '_modifyAt').addClass('d-none');
-            $('#backpack_backpackFiles_' + index + '_modifyAt_date_month').val(new Date().getMonth()+1);
+            $('#backpack_backpackFiles_' + index + '_modifyAt_date_month').val(new Date().getMonth() + 1);
             $('#backpack_backpackFiles_' + index + '_modifyAt_date_day').val(new Date().getDate());
             $('#backpack_backpackFiles_' + index + '_modifyAt_date_year').val(new Date().getFullYear());
             $('#backpack_backpackFiles_' + index + '_modifyAt_time_hour').val(new Date().getHours());
@@ -61,6 +61,12 @@ $(document).ready(function () {
         $prototype.append($deleteLink);
 
         $deleteLink.click(function (e) {
+            var media_type = $(this).attr('data-msg');
+            if (media_type === 'file') {
+                file_index--;
+            } else if (media_type === 'link') {
+                link_index--;
+            }
             $prototype.remove();
             e.preventDefault();
             return false;
@@ -85,9 +91,9 @@ $(document).ready(function () {
 
 function showOtherFile($index) {
     $('#backpack_edit_backpackFiles_' + $index + '_tempoDate').val(new Date());
-    $('#backpackFile_' + $index).removeClass('d-none')
+    $('#backpackFile_' + $index).removeClass('d-none');
 
-    $('#backpack_backpackFiles_' + $index + '_modifyAt_date_month').val(new Date().getMonth()+1);
+    $('#backpack_backpackFiles_' + $index + '_modifyAt_date_month').val(new Date().getMonth() + 1);
     $('#backpack_backpackFiles_' + $index + '_modifyAt_date_day').val(new Date().getDate());
     $('#backpack_backpackFiles_' + $index + '_modifyAt_date_year').val(new Date().getFullYear());
     $('#backpack_backpackFiles_' + $index + '_modifyAt_time_hour').val(new Date().getHours());
@@ -100,7 +106,7 @@ function showOtherFile($index) {
 function showOtherLink($index) {
     $('#backpack_backpackLinks_' + $index + '_modifyAt').addClass('d-none');
 
-    $('#backpack_backpackLinks_' + $index + '_modifyAt_date_month').val(new Date().getMonth()+1);
+    $('#backpack_backpackLinks_' + $index + '_modifyAt_date_month').val(new Date().getMonth() + 1);
     $('#backpack_backpackLinks_' + $index + '_modifyAt_date_day').val(new Date().getDate());
     $('#backpack_backpackLinks_' + $index + '_modifyAt_date_year').val(new Date().getFullYear());
     $('#backpack_backpackLinks_' + $index + '_modifyAt_time_hour').val(new Date().getHours());

@@ -10,6 +10,7 @@ use App\History\HistoryShow;
 use App\Security\BackpackVoter;
 use App\Manager\BackpackManager;
 use App\Service\BackpackForTree;
+use App\Repository\UserRepository;
 use App\Form\Backpack\BackpackType;
 use App\Form\Backpack\BackpackNewType;
 use App\Repository\BackpackRepository;
@@ -36,7 +37,7 @@ class BackpackController extends AbstractGController
         BackpackRepository $repository,
         BackpackForTree $backpackForTree,
         backpackManager $manager
-            ) {
+    ) {
         $this->repository = $repository;
         $this->manager = $manager;
         $this->backpackForTree = $backpackForTree;
@@ -59,7 +60,7 @@ class BackpackController extends AbstractGController
      * @Route("/backpack/{id}", name="backpack_show", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
-    public function show( Backpack $item)
+    public function show(Backpack $item)
     {
         $this->denyAccessUnlessGranted(BackpackVoter::READ, $item);
 
@@ -89,7 +90,7 @@ class BackpackController extends AbstractGController
     public function edit(Request $request, Backpack $item)
     {
         $this->denyAccessUnlessGranted(BackpackVoter::UPDATE, $item);
-        
+        //$links = clone ($item->getBackpackLinks());
         $itemOld = clone ($item);
         $form = $this->createForm(BackpackType::class, $item);
 
@@ -98,6 +99,7 @@ class BackpackController extends AbstractGController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->manager->save($item)) {
                 $this->addFlash(self::SUCCESS, self::MSG_MODIFY);
+                //$this->manager->historizeLinks($item, $item->getBackpackLinks(), $links);
                 $this->manager->historize($item, $itemOld);
             } else {
                 $this->addFlash(self::DANGER, self::MSG_MODIFY_ERROR . $this->manager->getErrors($item));
@@ -156,7 +158,7 @@ class BackpackController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
- 
+
     /**
      * @Route("/backpack/{id}/file/{fileId}", name="backpack_file_show", methods={"GET"})
      * @IsGranted("ROLE_USER")
@@ -174,6 +176,4 @@ class BackpackController extends AbstractGController
 
         return $this->file($file, Slugger::slugify($actionFile->getTitle()) . '.' . $actionFile->getFileExtension());
     }
- 
-
 }

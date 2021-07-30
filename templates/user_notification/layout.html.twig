@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+
+{% set domaine = 'user_notification' %}
+{% set domaineTitle = 'Utilisateurs' %}
+{% set tableName = domaine %}
+{% set route_list = domaine ~ '_list' %}
+
+{% block title %}{{ app_name }} - {{domaineTitle}}{% endblock %}
+{% block page_title %}<i class="fas fa-user"></i> {{domaineTitle}}{% endblock %}

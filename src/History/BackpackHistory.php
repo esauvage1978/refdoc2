@@ -5,41 +5,133 @@ namespace App\History;
 
 
 use App\Entity\Backpack;
+use App\Entity\EntityInterface;
 use App\Manager\HistoryManager;
 use App\Security\CurrentUser;
 use Symfony\Component\Security\Core\Security;
 
-class BackpackHistory extends HistoryAbstract
+class BackpackHistory implements HistoryEntityInterface
 {
+
+    protected $history;
+
     public function __construct(
-        HistoryManager $manager,
-        CurrentUser $currentUser
-    )
-    {
-        parent::__construct($manager, $currentUser);
+        History $history
+    ) {
+        $this->history = $history;
     }
 
-    public function compare(Backpack $backpackOld, Backpack $backpackNew)
+    public function setHistoryRelation(EntityInterface $entity)
     {
-        $this->history->setBackpack($backpackNew);
-        $diffPresent = false;
+        $historyEntity = $this->history->getHistoryRelationEntity()->setBackpack($entity);
+        $this->history->setHistoryRelationEntity($historyEntity);
+    }
 
-        $this->compareField('Type de porte-document', $backpackOld->getCategory()->getName(), $backpackNew->getCategory()->getName()) && $diffPresent = true;
-        $this->compareFieldOneToOne('Macro-processus','FullName', $backpackOld->getMProcess(), $backpackNew->getMProcess()) && $diffPresent = true;
-        $this->compareFieldOneToOne('Processus', 'FullName', $backpackOld->getProcess(), $backpackNew->getProcess()) && $diffPresent = true;
-        $this->compareField('Nom', $backpackOld->getName(), $backpackNew->getName()) && $diffPresent = true;
-        $this->compareField('Référence', $backpackOld->getRef(), $backpackNew->getRef()) && $diffPresent = true;
-        $this->compareField('Description', $backpackOld->getContent(), $backpackNew->getContent()) && $diffPresent = true;
-        $this->compareField('Niveau 1', $backpackOld->getDir1(), $backpackNew->getDir1()) && $diffPresent = true;
-        $this->compareField('Niveau 2', $backpackOld->getDir2(), $backpackNew->getDir2()) && $diffPresent = true;
-        $this->compareField('Niveau 3', $backpackOld->getDir3(), $backpackNew->getDir3()) && $diffPresent = true;
-        $this->compareField('Niveau 4', $backpackOld->getDir4(), $backpackNew->getDir4()) && $diffPresent = true;
-        $this->compareField('Niveau 5', $backpackOld->getDir5(), $backpackNew->getDir5()) && $diffPresent = true;
+    public function compare(EntityInterface $itemOld, EntityInterface $itemNew)
+    {
+        /**
+         * @var Backpack
+         */
+        $itemOld = $itemOld;
+        /**
+         * @var Backpack
+         */
+        $itemNew = $itemNew;
 
+        $compare = [
+            (new HistoryData())
+                ->setTitle("Type de porte-document")
+                ->setDataOld($itemOld->getCategory())
+                ->setDataNew($itemNew->getCategory())
+                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_ONE)
+                ->setField("Name"),
+            (new HistoryData())
+                ->setTitle("Macro-processus")
+                ->setDataOld($itemOld->getMProcess())
+                ->setDataNew($itemNew->getMProcess())
+                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_ONE)
+                ->setField("FullName"),
+            (new HistoryData())
+                ->setTitle("Processus")
+                ->setDataOld($itemOld->getProcess())
+                ->setDataNew($itemNew->getProcess())
+                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_ONE)
+                ->setField("FullName"),
+            (new HistoryData())
+                ->setTitle("Nom")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Name"),
+            (new HistoryData())
+                ->setTitle("Référence")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Ref"),
+            (new HistoryData())
+                ->setTitle("Description")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Content"),
+            (new HistoryData())
+                ->setTitle("Niveau 1")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Dir1"),
+            (new HistoryData())
+                ->setTitle("Niveau 2")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Dir2"),
+            (new HistoryData())
+                ->setTitle("Niveau 3")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Dir3"),
+            (new HistoryData())
+                ->setTitle("Niveau 4")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Dir4"),
+            (new HistoryData())
+                ->setTitle("Niveau 5")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setField("Dir5"),
+            (new HistoryData())
+                ->setTitle("Liens")
+                ->setDataOld($itemOld->getBackpackLinks())
+                ->setDataNew($itemNew->getBackpackLinks())
+                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
+                ->setField("Title"),
+        ];
 
-        
-        if ($diffPresent) {
-            $this->save();
-        }
+        $this->history->compare($compare);
+    }
+
+    public function compareLinks($itemOld, $itemNew)
+    {
+
+        $compare = [
+            (new HistoryData())
+                ->setTitle("Nom du lien")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
+                ->setField("Title"),
+            (new HistoryData())
+                ->setTitle("Adresse du lien")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
+                ->setField("Link"),
+            (new HistoryData())
+                ->setTitle("Description du lien")
+                ->setDataOld($itemOld)
+                ->setDataNew($itemNew)
+                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
+                ->setField("Content"),
+        ];
+
+        $this->history->compare($compare);
     }
 }

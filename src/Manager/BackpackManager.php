@@ -40,7 +40,7 @@ class BackpackManager extends AbstractManager
         parent::__construct($manager, $validator);
         $this->currentUser = $currentUser;
         $this->backpackHistory = $backpackHistory;
-        $this->backpackRepository= $backpackRepository;
+        $this->backpackRepository = $backpackRepository;
     }
 
     public function initialise(EntityInterface $entity): void
@@ -65,12 +65,16 @@ class BackpackManager extends AbstractManager
             $backpackFile->setBackpack($bp);
         }
 
+        foreach ($bp->getBackpackFileSources() as $backpackFileSource) {
+            $backpackFileSource->setBackpack($bp);
+        }
+
         if ($bp->getProcess() !== null) {
             $bp->setMProcess($bp->getProcess()->getMProcess());
         }
 
-        if($bp->getRef()===null && null !== $entity->getId()) {
-            $ref=(new BackpackRefGenerator($this->backpackRepository, $bp))->get();
+        if ($bp->getRef() === null && null !== $entity->getId()) {
+            $ref = (new BackpackRefGenerator($this->backpackRepository, $bp))->get();
             $bp->setRef($ref);
         }
     }
@@ -78,7 +82,13 @@ class BackpackManager extends AbstractManager
     public function historize(Backpack $entity, ?Backpack $entityOld = null)
     {
         if (null !== $entityOld) {
+            $this->backpackHistory->setHistoryRelation($entity);
             $this->backpackHistory->compare($entityOld, $entity);
         }
+    }
+    public function historizeLinks($entity, $entityLinks, $entityOldLinks)
+    {
+        $this->backpackHistory->setHistoryRelation($entity);
+        $this->backpackHistory->compareLinks($entityOldLinks, $entityLinks);
     }
 }

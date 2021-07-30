@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BackpackLinkRepository")
  */
-class BackpackLink
+class BackpackLink implements EntityInterface
 {
     /**
      * @ORM\Id()
@@ -110,6 +110,4 @@ class BackpackLink
 
         return $this;
     }
-
-
 }

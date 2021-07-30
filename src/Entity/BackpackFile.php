@@ -17,7 +17,7 @@ class BackpackFile implements EntityInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
+ 
     /**
      * @ORM\Column(type="string", length=255)
      */

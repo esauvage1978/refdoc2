@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="`user`")
  */
 class User implements UserInterface, EntityInterface
 {
@@ -115,7 +116,7 @@ class User implements UserInterface, EntityInterface
     private $processValidators;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $subscriptions;
 

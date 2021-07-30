@@ -111,6 +111,11 @@ class Backpack implements EntityInterface
     private $backpackFiles;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BackpackFileSource", mappedBy="backpack", orphanRemoval=true,cascade={"persist"})
+     */
+    private $backpackFileSources;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\BackpackLink", mappedBy="backpack",cascade={"persist"})
      */
     private $backpackLinks;
@@ -138,11 +143,13 @@ class Backpack implements EntityInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Backpack::class, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $backpackMaster;
 
     /**
      * @ORM\OneToOne(targetEntity=Backpack::class, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $backpackSlave;
 
@@ -158,6 +165,7 @@ class Backpack implements EntityInterface
         $this->setStateCurrent(WorkflowData::STATE_DRAFT);
         $this->setStateAt(new \DateTime());
         $this->backpackFiles = new ArrayCollection();
+        $this->backpackFileSources = new ArrayCollection();
         $this->backpackLinks = new ArrayCollection();
         $this->histories = new ArrayCollection();
         $this->backpackStates = new ArrayCollection();
@@ -378,6 +386,25 @@ class Backpack implements EntityInterface
         if (!$this->backpackFiles->contains($backpackFile)) {
             $this->backpackFiles[] = $backpackFile;
             $backpackFile->setBackpack($this);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|BackpackFileSource[]
+     */
+    public function getBackpackFileSources(): Collection
+    {
+        return $this->backpackFileSources;
+    }
+
+    public function addBackpackFileSource(BackpackFileSource $backpackFileSource): self
+    {
+        if (!$this->backpackFileSources->contains($backpackFileSource)) {
+            $this->backpackFileSources[] = $backpackFileSource;
+            $backpackFileSource->setBackpack($this);
         }
 
         return $this;

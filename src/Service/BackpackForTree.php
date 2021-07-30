@@ -48,9 +48,9 @@ class BackpackForTree
         $this->paramsInServices = $paramsInServices;
     }
 
-    private function getDto(string $filter): BackpackDto
+    public function getDto(string $filter,?string $params=null): BackpackDto
     {
-        return $this->backpackMakerDto->get($filter);
+        return $this->backpackMakerDto->get($filter,$params);
     }
 
     public function getDatas($container, Request $request, string $filter = null, $dto = null): array

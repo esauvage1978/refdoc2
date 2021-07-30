@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Notification;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UserRepository;
+use App\Controller\AbstractGController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class NotificationController extends AbstractController
+class NotificationController extends AbstractGController
 {
+
+
     /**
      * @Route("/notification/{id}", name="notification")
      */
@@ -28,4 +33,6 @@ class NotificationController extends AbstractController
 
         return null;
     }
+
+
 }

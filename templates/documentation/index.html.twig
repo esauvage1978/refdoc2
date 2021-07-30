@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+
+{% block title %}{{ app_name }} - Documentation{% endblock %}
+{% block page_title %}{{widgets.icon('manual')}} Documentation{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3" >
+            {# ... box widget with defaults ... #}
+            {% embed 'widgets/card-widget.html.twig'%}
+                {% block card_body %}
+                    {% for doc in docs %}
+                        <div class="row ">
+                            <div class="col-sm-8">
+                                <a href="doc/{{ doc.url }}" target="_blank">
+                                    <i class="fas fa-angle-right text-purple"></i>  {{ doc.name }}
+                                </a>
+                            </div>
+                            <div class="col-sm-4 text-muted">
+                                version du {{ doc.date }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
+
+
