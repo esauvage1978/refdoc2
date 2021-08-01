@@ -1,0 +1,9 @@
+{%  macro icone(item) %}
+	<i class="{{ item.category.icone }} " style="
+		        {% if item.category.forecolor is defined %}
+		            color:{{ item.category.forecolor }};
+		        {% endif %}
+		        {% if item.category.bgcolor is defined %}
+		            background-color:{{ item.category.bgcolor }};
+		        {% endif %}"></i>
+{% endmacro %}

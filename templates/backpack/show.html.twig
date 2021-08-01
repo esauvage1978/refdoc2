@@ -22,14 +22,16 @@
 
 	<div class="row justify-content-center">
 		<div class="col-lg-12 col-xl-8">
-			{{ include(domaine ~ '/_show/_identification.html.twig') }}
+
+			<div class="bg-white rounded border-light p-4">
+				{{ include(domaine ~ '/_show/_identification.html.twig') }}
 
 
-			{{ include(domaine ~ '/_show/_process.html.twig') }}
-			{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
-			{{ include(domaine ~ '/_show/_content.html.twig') }}
-			{{ include(domaine ~ '/_show/_files.html.twig') }}
-
+				{{ include(domaine ~ '/_show/_process.html.twig') }}
+				{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
+				{{ include(domaine ~ '/_show/_content.html.twig') }}
+				{{ include(domaine ~ '/_show/_files.html.twig') }}
+			</div>
 
 		</div>
 		<div class="col-lg-12 col-xl-4 ">

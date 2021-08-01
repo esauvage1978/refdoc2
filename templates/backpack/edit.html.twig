@@ -4,6 +4,8 @@
 {% import "macros/submit.html.twig" as sub %}
 {% import "macros/save.html.twig" as save %}
 {% import "macros/workflow.html.twig" as wfl %}
+{% import "macros/link.html.twig" as link %}
+{% import "macros/file.html.twig" as file %}
 
 {% block page_subtitle %}
 	<small class="muted text-xs">Modification</small>
@@ -27,70 +29,73 @@
 {% block page_content %}
 
 
-	{{ form_start(form) }}
-	{{ form_errors(form) }}
-
 	<div class="row justify-content-center">
 		<div class="col-lg-12 col-xl-8">
+			<div class="bg-white rounded border-light p-4">
+				{{ include(domaine ~ '/_show/_identification.html.twig') }}
 
-			{{ include(domaine ~ '/_show/_identification.html.twig') }}
+				{% if item.stateCurrent in ["draft","toResume","toCheck"] %}
+					{% set nbrL=item.backpackLinks | length %}
+					{% set nbrF=item.backpackFiles | length %}
 
-			{% if item.stateCurrent in ["draft","toResume","toCheck"] %}
-				{% set nbrL=item.backpackLinks | length %}
-				{% set nbrF=item.backpackFiles | length %}
+					<div class="card card-p-dark card-tabs">
+						<div class="card-header p-0 pt-1">
+							<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
+										Général
+									</a>
+								</li>
 
-				<div class="card card-p-dark card-tabs">
-					<div class="card-header p-0 pt-1">
-						<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-							<li class="nav-item">
-								<a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
-									Général
-								</a>
-							</li>
-
-							<li class="nav-item">
-								<a class="nav-link" id="custom-tabs-one-file-tab" data-toggle="pill" href="#custom-tabs-one-file" role="tab" aria-controls="custom-tabs-one-file" aria-selected="false">
-									Fichiers (<strong>{{ nbrL + nbrF}}</strong>)
-								</a>
-							</li>
-
-
-						</ul>
-					</div>
-
-					<!-- /.card -->
-				</div>
+								<li class="nav-item">
+									<a class="nav-link" id="custom-tabs-one-file-tab" data-toggle="pill" href="#custom-tabs-one-file" role="tab" aria-controls="custom-tabs-one-file" aria-selected="false">
+										Pièce jointe (<strong>{{ nbrL + nbrF}}</strong>)
+									</a>
+								</li>
 
 
-				<div class="tab-content " id="custom-tabs-one-tabContent">
+							</ul>
+						</div>
 
-					<div class="tab-pane fade active show " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-
-						{% if item is defined %}
-							{{ include(domaine ~ '/_edit/_reference.html.twig') }}
-							{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
-							{{ include(domaine ~ '/_edit/_process.html.twig') }}
-							{{ include(domaine ~ '/_edit/_arborescence.html.twig') }}
-							{{ include(domaine ~ '/_edit/_name.html.twig') }}
-							{{ save.btn()}}
-						{% endif %}
+						<!-- /.card -->
 					</div>
 
 
-					<div class="tab-pane fade" id="custom-tabs-one-file" role="tabpanel" aria-labelledby="custom-tabs-one-file-tab">
-						{% if item.stateCurrent  in ["draft","toResume"] %}
-							{{ include(domaine ~ '/_edit/_files.html.twig') }}
-							{{ save.btn()}}
-						{% endif %}
+					<div class="tab-content " id="custom-tabs-one-tabContent">
 
+						<div class="tab-pane fade active show " id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+							{{ form_start(form) }}
+							{{ form_errors(form) }}
+							{% if item is defined %}
+								{{ include(domaine ~ '/_edit/_reference.html.twig') }}
+								{{ include(domaine ~ '/_edit/_type_doc.html.twig') }}
+								{{ include(domaine ~ '/_edit/_process.html.twig') }}
+								{{ include(domaine ~ '/_edit/_arborescence.html.twig') }}
+								{{ include(domaine ~ '/_edit/_name.html.twig') }}
+								{{ save.btn()}}
+							{% endif %}
+						</div>
+						<div class="d-none">
+							{{form_rest(form)}}
+							{{ sub.btn() }}
+						</div>
+
+						{{ form_end(form) }}
+
+						<div class="tab-pane fade" id="custom-tabs-one-file" role="tabpanel" aria-labelledby="custom-tabs-one-file-tab">
+							{% if item.stateCurrent  in ["draft","toResume"] %}
+								{{ link.twig('backpacklink') }}
+								{{ file.twig('backpackfile') }}
+							{% endif %}
+						</div>
 					</div>
-				</div>
-			{% elseif item.stateCurrent in ["abandonned","toValidate","toControl","published","toRevise"] %}
-				{{ include(domaine ~ '/_show/_process.html.twig') }}
-				{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
-				{{ include(domaine ~ '/_show/_content.html.twig') }}
-				{{ include(domaine ~ '/_show/_files.html.twig') }}
-			{% endif %}
+				{% elseif item.stateCurrent in ["abandonned","toValidate","toControl","published","toRevise"] %}
+					{{ include(domaine ~ '/_show/_process.html.twig') }}
+					{{ include(domaine ~ '/_show/_arborescence.html.twig') }}
+					{{ include(domaine ~ '/_show/_content.html.twig') }}
+					{{ include(domaine ~ '/_show/_files.html.twig') }}
+				{% endif %}
+			</div>
 
 		</div>
 		<div class="col-lg-12 col-xl-4 ">
@@ -102,12 +107,6 @@
 	</div>
 
 
-	<div class="d-none">
-		{{form_rest(form)}}
-		{{ sub.btn() }}
-	</div>
-
-	{{ form_end(form) }}
 	{% for transition in workflow_transitions(item,item.category.workflowName) %}
 		{{ include('workflow/_modal_transition.html.twig',{'transition':transition.name,'id':item.id}) }}
 	{% endfor %}
@@ -148,8 +147,7 @@
 			</div>
 		</div>
 	</div>
-</div>
-</div>{% endblock %}{%  block javascripts %}{{ parent() }}<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script><script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script><script type="text/javascript">
+</div></div>{% endblock %}{%  block javascripts %}{{ parent() }}<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script><script src="{{ absolute_url( asset('/vendor/jquery-form/dist/jquery.form.min.js')) }}"></script><script src="{{ absolute_url( asset('js/es_backpack_file.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_category.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_combomp.js')) }}"></script><script src="{{ absolute_url( asset('/js/es_arborescence.js')) }}"></script>{{ link.script('backpacklink', item) }}{{ file.script('backpackfile', item) }}<script type="text/javascript">
 
 
 function getBackpackRef(id) {

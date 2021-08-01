@@ -42,9 +42,7 @@ class BackpackLink implements EntityInterface
      */
     private $modifyAt;
 
-    public function __construct()
-    {
-    }
+
 
     public function getId(): ?int
     {

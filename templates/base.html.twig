@@ -11,6 +11,14 @@
 	{% endblock %}
 {% endblock %}
 
+{% block navbar_start %}
+	{% if liam_link  %}
+		<a href="{{liam_link}}" target="_blank">
+			<img src="{{ absolute_url( asset('img/liam.png')) }}" style="height:30px;">
+		</a>
+	{% endif %}
+{% endblock %}
+
 {% block stylesheets %}
 	<!-- add category -->
 	<link rel="stylesheet" href="{{ asset('css/category.css') }}">

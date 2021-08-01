@@ -6,16 +6,18 @@
 	{% import "macros/submit.html.twig" as sub %}
 	{{ form_start(form) }}
 
-
 	<div style="width:630px">
 		{% embed 'widgets/card-widget.html.twig' %}
-			{% block card_class %}flat
+			{% block card_class %}
+				flat
 			{% endblock %}
 			{% block card_body %}
 				{{ form_errors(form) }}
 
 				<div class="form-group row m-2 js-createTip-wrapper">
-					<p>{{ form_label(form.name) }}</p>
+					<p>
+						{{ form_label(form.name) }}
+					</p>
 					{{ form_widget(form.name) }}
 					<div class="createTip  mt-4">
 
@@ -27,23 +29,29 @@
 						</p>
 						<p>
 							Si les documents de ce type doivent être validé par le service contrôle, le titre devra avoir la mention
-							<b>validé</b>
-
+							<b>
+								validé
+							</b>
 							et il faudra cocher la case validation
-
 						</p>
 					</div>
 				</div>
 				<div class="form-group row m-2 js-createTip-wrapper">
-					<p>{{ form_label(form.ref) }}</p>
+					<p>
+						{{ form_label(form.ref) }}
+					</p>
 					{{ form_widget(form.ref) }}
 					<div class="createTip  mt-4">
 
 						<div class="createTip__title">
 							Référence du type de document
+
+
 						</div>
 						<p>
 							Il doit avoir entre 1 et 3 caractères.
+
+
 						</p>
 
 					</div>
@@ -57,33 +65,87 @@
 						<div class="createTip__title">
 							Rendre ce type de document utilisable
 
+
 						</div>
 						<p>
-							<b>Coché</b>
+							<b>
+								Coché
+
+
+							</b>
 							: Permet d'utiliser ce type de document
+
+
 						</p>
 						<p>
-							<b>décoché</b>
+							<b>
+								décoché
+
+
+							</b>
 							: Il ne sera plus possible de créer de nouveau porte-document de ce type. Cependant les anciens porte-documents restent accessibles
+
 
 						</p>
 
 					</div>
 				</div>
 				<div class="form-group row m-2 js-createTip-wrapper">
+					<div class=" mt-4">
+
+						{{ form_row(form.genre) }}
+					</div>
+					<div class="createTip">
+						<div class="createTip__title">
+							Genre du nom de la catégorie
 
 
-					<p>{{ form_label(form.content) }}</p>
+						</div>
+						<p>
+							<b>
+								Coché
+
+
+							</b>
+							: Le nom est féminin
+
+
+						</p>
+						<p>
+							<b>
+								décoché
+
+
+							</b>
+							: Le nom est masculin
+
+
+						</p>
+						<p>
+							Le seul intérêt est l'affichage de l'accord
+
+
+						</p>
+					</div>
+				</div>
+				<div class="form-group row m-2 js-createTip-wrapper">
+
+					<p>
+						{{ form_label(form.content) }}
+					</p>
 					{{ form_widget(form.content) }}
 					<div class="createTip   mt-5">
 
 						<div class="createTip__title">
 							Description
+
+
 						</div>
 						<p>
 							La description sera affichée en aide à l'utilisateur lorsqu'il sera en création d'un porte-document
-						</p>
 
+
+						</p>
 
 					</div>
 
@@ -92,12 +154,14 @@
 			{% endblock %}
 
 		{% endembed %}
-		{{ save.btn()}}
+		{{ save.btn() }}
 		{% embed 'widgets/card-widget.html.twig' %}
-			{% block card_class %}flat mt-5
+			{% block card_class %}
+				flat mt-5
+
+
 			{% endblock %}
 			{% block card_body %}
-
 
 				<div class="form-group row m-2 js-createTip-wrapper">
 					<div class=" mt-4">
@@ -109,14 +173,27 @@
 					<div class="createTip ">
 						<div class="createTip__title">
 							Passage par le service documentation
+
+
 						</div>
 						<p>
-							<b>Coché</b>
+							<b>
+								Coché
+
+
+							</b>
 							: Les porte-documents de ce type seront envoyés au service documentation
+
+
 						</p>
 						<p>
-							<b>décoché</b>
+							<b>
+								décoché
+
+
+							</b>
 							: Les porte-documents de ce type ne seront pas envoyés au service documentation. Les consignes sont concernées afin de les rendre visible rapidement
+
 
 						</p>
 					</div>
@@ -130,30 +207,43 @@
 					<div class="createTip">
 						<div class="createTip__title">
 							Passage par le service documentation
+
+
 						</div>
 
 						<p>
-							<b>Coché</b>
+							<b>
+								Coché
+
+
+							</b>
 							: Les porte-documents de ce type seront envoyés au service contrôle
+
+
 						</p>
 						<p>
-							<b>décoché</b>
+							<b>
+								décoché
+
+
+							</b>
 							: Les porte-documents de ce type ne seront pas envoyés au service contrôle. Ceci permet de valider les points réglementaires avant diffusion aux agents.
 
 
 						</p>
 					</div>
 
-
 				</div>
-
 
 			{% endblock %}
 		{% endembed %}
-		{{ save.btn()}}
+		{{ save.btn() }}
 
 		{% embed 'widgets/card-widget.html.twig' %}
-			{% block card_class %}flat mt-5
+			{% block card_class %}
+				flat mt-5
+
+
 			{% endblock %}
 			{% block card_body %}
 				<div class="form-group row m-2 js-createTip-wrapper">
@@ -164,38 +254,51 @@
 					<div class="createTip ">
 						<div class="createTip__title">
 							Validation par un agent de Direction
+
+
 						</div>
 						<p>
-							<b>Coché</b>
+							<b>
+								Coché
+
+
+							</b>
 							: Les porte-documents de ce type seront validés par un agent de Direction
+
+
 						</p>
 						<p>
-							<b>décoché</b>
+							<b>
+								décoché
+
+
+							</b>
 							: Les porte-documents de ce type ne seront pas validés par un agent de Direction mais par un manager Stratégique pour les macros processus et un cadre pour les processus.
+
+
 						</p>
 					</div>
 				</div>
 
 			{% endblock %}
 		{% endembed %}
-		{{ save.btn()}}
-
+		{{ save.btn() }}
 
 		{% embed 'widgets/card-widget.html.twig' %}
-			{% block card_class %}flat mt-5
+			{% block card_class %}
+				flat mt-5
+
+
 			{% endblock %}
 			{% block card_body %}
-
 
 				<div class="form-group row m-2  js-createTip-wrapper">
 
 					<div class="col mt-4">
 
-
 						{{ form_label(form.timeBeforeRevision) }}
 					</div>
 					<div class="col mt-4">
-
 
 						{{ form_widget(form.timeBeforeRevision) }}
 					</div>
@@ -204,7 +307,6 @@
 						<span class='js-value'></span>
 
 					</div>
-
 
 					<script>
 						function onClickShowValue(event) {
@@ -224,24 +326,29 @@ link.addEventListener('input', onClickShowValue);
 })
 					</script>
 
-
 					<div class="createTip ">
 						<div class="createTip__title">
 							Délai avant révision
+
+
 						</div>
 						<p>
 							Nombre de mois avant que le porte-document publié passe automatique en révision
+
+
 						</p>
 					</div>
 				</div>
 
 			{% endblock %}
 		{% endembed %}
-		{{ save.btn()}}
-
+		{{ save.btn() }}
 
 		{% embed 'widgets/card-widget.html.twig' %}
-			{% block card_class %}flat mt-5
+			{% block card_class %}
+				flat mt-5
+
+
 			{% endblock %}
 			{% block card_body %}
 
@@ -249,15 +356,21 @@ link.addEventListener('input', onClickShowValue);
 					<div class="createTip ">
 						<div class="createTip__title">
 							Icône de présentation
+
+
 						</div>
 						<p>
 							Permet d'afficher une icône au niveau de la liste des porte-documents
+
+
 						</p>
 					</div>
 					<div class=" col-12 ">
 
 						<div class="form-group row">
-							{{ form_label(form.icone,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+							{{ form_label(form.icone,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}
+							) }}
+
 
 							<div class="col">
 								{{ form_errors(form.icone) }}
@@ -274,15 +387,21 @@ link.addEventListener('input', onClickShowValue);
 					<div class="createTip ">
 						<div class="createTip__title">
 							Couleur de fond
+
+
 						</div>
 						<p>
 							Permet de modifier la couleur de l'icône
+
+
 						</p>
 					</div>
 
 					<div class=" col-12">
 						<div class="form-group row">
-							{{ form_label(form.bgColor,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+							{{ form_label(form.bgColor,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}
+							) }}
+
 
 							<div class="col">
 								{{ form_errors(form.bgColor) }}
@@ -297,15 +416,22 @@ link.addEventListener('input', onClickShowValue);
 					<div class="createTip ">
 						<div class="createTip__title">
 							Couleur de l'icône
+
+
 						</div>
 						<p>
 							Permet de modifier la couleur de l'icône
+
+
 						</p>
 					</div>
 
 					<div class=" col-12">
 						<div class="form-group row">
-							{{ form_label(form.foreColor,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}) }}
+							{{ form_label(form.foreColor,'', { 'label_attr': {'class':'col-sm-3 col-form-label' }}
+							) }}
+
+
 							<div class="col">
 								{{ form_errors(form.foreColor) }}
 								{{ form_widget(form.foreColor) }}
@@ -315,11 +441,9 @@ link.addEventListener('input', onClickShowValue);
 					</div>
 				</div>
 
-
 			{% endblock %}
 		{% endembed %}
-		{{ save.btn()}}
-
+		{{ save.btn() }}
 
 	</div>
 
@@ -328,7 +452,10 @@ link.addEventListener('input', onClickShowValue);
 	<p class="mt-5 mb-5"></p>
 	<p class="mt-5 mb-5"></p>
 </div>
-{% import "macros/submit.html.twig" as sub %}<div class="d-none">{{ sub.btn() }}</div>
+{% import "macros/submit.html.twig" as sub %}
+<div class="d-none">
+	{{ sub.btn() }}
+</div>
 {{ form_end(form) }}
 {% if item.id is not null %}
 	{{ del.delete_form(route_del,item.id, 'show') }}

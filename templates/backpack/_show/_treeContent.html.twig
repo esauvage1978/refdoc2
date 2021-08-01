@@ -1,8 +1,10 @@
 {% if item  %}
-	{{ include('backpack/_show/_identification.html.twig') }}
-	{{ include('backpack/_show/_content.html.twig') }}
-	{{ include('backpack/_show/_files.html.twig') }}
 
+	<div class="bg-white rounded border-light p-4">
+			{{ include('backpack/_show/_identification.html.twig') }}
+			{{ include('backpack/_show/_content.html.twig') }}
+			{{ include('backpack/_show/_files.html.twig') }}
+	</div>
 	<a href="{{ path('backpack_show',{id:item.id}) }}" class="btn btn-p-dark">Consulter</a>
 
 	{% if  item | backpackCanUpdate %}

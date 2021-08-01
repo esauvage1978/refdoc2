@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Dto\ProcessDto;
 use App\Dto\MProcessDto;
 use App\Entity\Backpack;
+use App\Entity\BackpackLink;
 use App\Entity\Category;
 use App\Service\BackpackRefGenerator;
 use App\Repository\BackpackRepository;
@@ -35,13 +36,13 @@ class AjaxBackpackController extends AbstractGController
 
         $backpack = $backpackRepository->find($id);
         $brc = new BackpackRefControllator($backpackRepository, $backpack);
-        
-        $msgOK="<span class='alert alert-success'>".$ref . " est utilisable</span>";
+
+        $msgOK = "<span class='alert alert-success'>" . $ref . " est utilisable</span>";
         $msgK0 = "<span class='alert alert-danger'>" . $ref . " est déjà utilisé</span>";
 
         return $this->json([
             'code' => 200,
-            'value' => $brc->isUnique($ref)===true ? $msgOK : $msgK0,
+            'value' => $brc->isUnique($ref) === true ? $msgOK : $msgK0,
             'message' => 'données transmises'
         ], 200);
     }
@@ -52,12 +53,28 @@ class AjaxBackpackController extends AbstractGController
      * @return Response
      * @IsGranted("ROLE_USER")
      */
-    public function AjaxBackpackGetData(Request $request, BackpackRepository $backpackRepository, Backpack $backpack): Response
+    public function AjaxBackpackGetData(Backpack $backpack): Response
     {
 
         return $this->json([
             'code' => 200,
             'value' => $this->renderView('backpack/_show/_treeContent.html.twig', ['item' => $backpack]),
+            'message' => 'données transmises'
+        ], 200);
+    }
+
+    /**
+     * @Route("/ajax/backpackLink/{id}", name="ajax_backpack_get_link", methods={"GET","POST"})
+     *
+     * @return Response
+     * @IsGranted("ROLE_USER")
+     */
+    public function AjaxGetBackpackLink(Request $request, BackpackRepository $backpackRepository, BackpackLink $backpackLink): Response
+    {
+
+        return $this->json([
+            'code' => 200,
+            'value' => $this->renderView('backpack/_show/_treeContent.html.twig', ['item' => $backpackLink]),
             'message' => 'données transmises'
         ], 200);
     }

@@ -117,6 +117,7 @@ class Backpack implements EntityInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BackpackLink", mappedBy="backpack",cascade={"persist"})
+     * @ORM\OrderBy({"title" = "ASC"})
      */
     private $backpackLinks;
 

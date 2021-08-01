@@ -5,11 +5,11 @@ namespace App\Listener;
 use App\Entity\BackpackFile;
 use App\Helper\DirectoryTools;
 use App\Helper\FileTools;
-use App\Helper\Slugger;
 use App\Helper\SplitNameOfFile;
 use App\Service\Uploader;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class BackpackFileUploadListener
 {
@@ -23,13 +23,19 @@ class BackpackFileUploadListener
      */
     private $directory;
 
+    /**
+     * @var SluggerInterface
+     */
+    private $sluggerInterface;
 
-
-    public function __construct(Uploader $uploader, string $directory)
+    public function __construct(
+        Uploader $uploader,
+        string $directory,
+        SluggerInterface $sluggerInterface )
     {
         $this->uploader = $uploader;
         $this->directory = $directory;
-        
+        $this->sluggerInterface=$sluggerInterface;
     }
 
     /**
@@ -46,7 +52,7 @@ class BackpackFileUploadListener
             $extension = $splitNameFile->getExtension();
 
             if (empty($backpackFile->getFileName())) {
-                $backpackFile->setFileName(Slugger::slugify($splitNameFile->getName()));
+                $backpackFile->setFileName($this->sluggerInterface->slug($splitNameFile->getName()));
             }
             if (empty($backpackFile->getTitle())) {
                 $backpackFile->setTitle('Nouveau fichier');

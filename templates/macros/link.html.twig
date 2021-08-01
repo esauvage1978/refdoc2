@@ -1,0 +1,203 @@
+
+{% macro delete_btn(domaine,item) %}
+    <span class="btn btn-danger btn-sm " onclick="delete_{{ domaine }}({{ item.id }});">
+        <i class="fas fa-trash"></i>
+    </span>
+{% endmacro %}
+
+{% macro edit_btn(domaine, item) %}
+    <button class="btn btn-info  btn-sm" data-toggle="modal" data-target="#{{ domaine }}_modal_edit"
+     data-whatever="{{ item.id }}">
+        <i class="fas fa-edit"></i>
+    </button>   
+{% endmacro %}
+
+
+{% macro script(domaine, entity_parent) %}
+
+    <script type="text/javascript">
+		function showPJ_{{ domaine  }}() {
+            $.ajax('/{{ domaine }}/{{ entity_parent.id }}', {
+                success: function (data) {
+					$('#{{domaine}}').html(data);
+                }
+            });
+		};
+		showPJ_{{ domaine }}();
+    </script>
+    <script type="text/javascript">
+		function delete_{{ domaine }}(id) {
+            if( confirm('Êtes-vous sûr de vouloir supprimer le lien ?')) {
+                $.ajax('/{{ domaine }}/'+id+'/delete', {
+                    success: function () {
+                        showPJ_{{ domaine }}();
+                    }
+                });
+            }
+		};
+    </script>    
+    <script type="text/javascript">
+        $('#{{domaine}}_modal_add').on('shown.bs.modal', function () {
+            let modal = $(this);
+            $.ajax('/{{ domaine }}/{{ entity_parent.id }}/add', {
+                success: function (data) {
+                    modal.find('.{{domaine}}_modal_add_body').html(data);
+                }
+            });
+        });
+    </script>   
+    <script type="text/javascript">
+        $('#{{domaine}}_modal_edit').on('shown.bs.modal', function (event) {
+            let modal = $(this);
+            let button = $(event.relatedTarget)
+            let id_link = button.data('whatever')
+            $.ajax('/{{ domaine }}/' + id_link + '/edit', {
+                success: function (data) {
+                    modal.find('.{{domaine}}_modal_edit_body').html(data);
+                }
+            });
+        });
+    </script>    
+    <script type="text/javascript">
+ 		$(document).on('submit', '#{{ domaine }}_form_add', function (e){
+            e.preventDefault();
+            $form = $(e.target);
+            modal = $('#{{ domaine }}_modal_add');
+            var $submitButton = $form.find(':submit');
+            $submitButton.html('<i class="fas fa-spinner fa-pulse"></i>');
+            $submitButton.prop('disabled', true);
+            $form.ajaxSubmit({
+                type: 'post',
+                success: function (data) {
+                    if (data == 'ok') {
+						modal.modal('toggle');
+						showPJ_{{ domaine  }}();
+                    } else {
+                        modal.find('.{{ domaine }}_modal_add_body').html(data);
+                    }
+                },
+                error: function (jqXHR, status, error) {
+                    $submitButton.html(button.data('label'));
+                    $submitButton.prop('disabled', false);
+                }
+            });
+        });
+    </script> 
+    <script type="text/javascript">
+ 		$(document).on('submit', '#{{ domaine }}_form_edit', function (e){
+            e.preventDefault();
+            $form = $(e.target);
+            modal = $('#{{ domaine }}_modal_edit');
+            var $submitButton = $form.find(':submit');
+            $submitButton.html('<i class="fas fa-spinner fa-pulse"></i>');
+            $submitButton.prop('disabled', true);
+            $form.ajaxSubmit({
+                type: 'post',
+                success: function (data) {
+                    if (data == 'ok') {
+						modal.modal('toggle');
+						showPJ_{{ domaine  }}();
+                    } else {
+                        modal.find('.{{ domaine }}_modal_edit_body').html(data);
+                    }
+                },
+                error: function (jqXHR, status, error) {
+                    $submitButton.html(button.data('label'));
+                    $submitButton.prop('disabled', false);
+                }
+            });
+        });
+    </script>         
+{% endmacro %}
+
+
+{% macro twig(domaine) %}
+    {% import "macros/submit.html.twig" as sub %}
+    {% import "macros/save.html.twig" as save %}
+    <div class="modal fade" id="{{ domaine }}_modal_add" tabindex="-1" role="dialog" aria-labelledby="{{ domaine }}_modal_add" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalTitle">Ajouter un lien</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="{{ domaine }}_modal_add_body modal-body"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="{{ domaine }}_modal_edit" tabindex="-1" role="dialog" aria-labelledby="{{ domaine }}_modal_edit" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalTitle">Modifier un lien</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="{{ domaine }}_modal_edit_body modal-body"></div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#{{ domaine }}_modal_add">
+        <i class="fa fa-plus"></i>
+        Ajouter un lien
+    </button>
+    <div id="{{domaine}}"></div>
+{% endmacro %}
+
+
+{% macro form(domaine, type, form) %}
+    {{ form_start(form, {'attr': {'id': domaine ~ '_form_' ~ type }}) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.link) }}
+    {{ form_row(form.content) }}
+    <div class="d-none">
+    {{ form_rest(form) }}
+    </div>
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-10 right">
+    <button type="submit" class="btn btn-primary" data-label="Enregistrer">
+    Enregistrer
+    </button>
+    </div>
+    </div>
+    {{ form_end(form) }}
+{% endmacro %}
+
+{% macro showLinks(links) %}
+	{% for link in links %}
+
+		{% set color='text-p-dark' %}
+
+		{% if link.modifyAt %}
+			{% set difference = date("today").diff(date(link.modifyAt)) %}
+			{% set leftDays = difference.days %}
+			{% if leftDays < news_time %}
+				{% set color='text-p-dark2' %}
+			{% endif %}
+		{% endif %}
+		<tr>
+			<td class="align-middle text-center">
+				<i class="fas fa-globe  fa-3x align-self-start mr-3 {{ color }} mt-2"></i>
+			</td>
+			<td class="align-middle">
+				<a target="_blank" href="{{ link.link }}">{{ link.title }}
+					<span class="small">(
+						{{ link.link }}
+						)</span>
+				</a>
+				<br/>
+				<div class="small text-muted">
+					{{ link.content | raw }}
+				</div>
+			</td>
+			<td class="align-middle text-center text-muted small">
+				{{ link.modifyAt |format_datetime('full', 'short', locale='fr') }}
+			</td>
+			<td></td>
+		</tr>
+	{% endfor %}
+{% endmacro %}

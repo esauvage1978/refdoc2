@@ -10,14 +10,11 @@ use App\Entity\UnderRubric;
 use App\Form\AppTypeAbstract;
 use Doctrine\ORM\EntityRepository;
 use App\Form\File\BackpackFileType;
-use App\Form\File\BackpackLinkType;
 use App\Security\CurrentUser;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -94,17 +91,7 @@ class BackpackType extends AppTypeAbstract
             ->add('ref', TextType::class, [
                 self::LABEL => 'Référence',
                 self::REQUIRED => false,
-                self::ATTR => [self::PLACEHOLDER => '__-__-__', self::MAXLENGTH => 30, self::CSS_CLASS =>'text-lg bold'],
-            ])
-            ->add('backpackFiles', CollectionType::class, [
-                'entry_type' => BackpackFileType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-            ])
-            ->add('backpackLinks', CollectionType::class, [
-                'entry_type' => BackpackLinkType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
+                self::ATTR => [self::PLACEHOLDER => '__-__-__', self::MAXLENGTH => 30, self::CSS_CLASS => 'text-lg bold'],
             ]);
     }
 

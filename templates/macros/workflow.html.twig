@@ -44,7 +44,7 @@
 				</span>
 				<small class="text-muted">
 					depuis le
-					{{ widget.showLongDate(item.stateAt) }}
+					{{ widget.showFullDateShortTime(item.stateAt) }}
 				</small>
 			</div>
 			<div class="card-body">
@@ -52,7 +52,7 @@
 					{% if item.stateCurrent=="published" %}
 						<small class="text-xs">
 							Sera à réviser le
-							{{ widget.showLongDate(item | workflowDateGoToRevise )}}
+							{{ widget.showFullDateShortTime(item | workflowDateGoToRevise )}}
 						</small>
 					{% endif %}
 				</p>

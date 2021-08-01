@@ -11,3 +11,4 @@ twig:
         col_sm_1_2: 'col-sm-12 col-md-12 col-lg-6 col-xl-3'
         col_sm_2_2: 'col-sm-12 col-md-12 col-lg-6 col-xl-9'
         news_time: '%env(ES_NEWS_TIME)%'
+        liam_link: '%env(LIAM_LINK)%'        

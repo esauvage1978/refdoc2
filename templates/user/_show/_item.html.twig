@@ -90,7 +90,7 @@
 							</div>
 							<div class="col-9">
 								{% if item.createdat %}
-									{{ widgets.showLongDate(item.createdat) }}
+									{{ widgets.showFullDateShortTime(item.createdat) }}
 								{% endif %}
 							</div>
 						</div>
@@ -103,7 +103,7 @@
 							</div>
 							<div class="col-9">
 								{% if item.modifiedat %}
-									{{ widgets.showLongDate(item.modifiedat) }}
+									{{ widgets.showFullDateShortTime(item.modifiedat) }}
 								{% endif %}
 							</div>
 						</div>

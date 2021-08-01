@@ -22,16 +22,16 @@ class HomeController extends AbstractGController
      */
     public function index(BackpackDtoRepository $backpackDtoRepository, CurrentUser $user)
     {
-        if($user->getUser()===null) {
+        if ($user->getUser() === null) {
             return $this->redirectToRoute('user_login');
         }
 
-        if (!Role::isUser( $user->getUser()) || !$user->getUser()->getEmailValidated()) {
+        if (!Role::isUser($user->getUser()) || !$user->getUser()->getEmailValidated()) {
             return $this->redirectToRoute('profil');
         }
 
         $md = new MakeDashboard($backpackDtoRepository, $user->getUser());
-        $m=new BackpackMakerDto($user->getUser());
+        $m = new BackpackMakerDto($user->getUser());
 
         $dash_options = [
             $md->getData(BackpackMakerDto::DRAFT_UPDATABLE),
@@ -43,23 +43,22 @@ class HomeController extends AbstractGController
 
         $news = $backpackDtoRepository->findAllForDto($m->get(BackpackMakerDto::HOME_NEWS_SUBSCRIPTION));
 
-        if($user->isControl()) {
-            $dash_options=array_merge($dash_options,[$md->getData(BackpackMakerDto::TO_CONTROL)]);
+        if ($user->isControl()) {
+            $dash_options = array_merge($dash_options, [$md->getData(BackpackMakerDto::TO_CONTROL)]);
         }
 
         if ($user->isDoc()) {
             $dash_options = array_merge($dash_options, [$md->getData(BackpackMakerDto::TO_CHECK)]);
         }
 
-        return $this->render('home/index.html.twig', ['dash_options' => $dash_options,'news'=>$news]);
+        return $this->render('home/index.html.twig', ['dash_options' => $dash_options, 'news' => $news]);
     }
 
-        /**
+    /**
      * @return Response
      */
     public function searchFormAction(): Response
     {
         return $this->render('home/search-form.html.twig', []);
     }
-
 }

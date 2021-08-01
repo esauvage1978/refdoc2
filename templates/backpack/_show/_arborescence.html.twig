@@ -11,73 +11,48 @@
 			{% import "macros/widgets.html.twig" as widgets %}
 
 			<div class="form-group row m-2 js-createTip-wrapper js-createTip-wrapper">
-
-				<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-					<span class="">
-						<span class="text-yellow">
-							<i class="fa fa-folder-open"></i>
-
-
-						</span>
-						{{item.dir1}}
-
-					</span>
-				</div>
-				{% if item.dir2 %}
-					<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-						<span class="">
+				<ul class="list-unstyled">
+					{% if item.dir1 %}
+						<li>
 							<span class="text-yellow">
-
 								<i class="fa fa-folder-open"></i>
-
-
+							</span>
+							{{item.dir1}}
+						</li>
+					{% endif %}
+					{% if item.dir2 %}
+						<li>
+							<span class="text-yellow">
+								<i class="fa fa-folder-open"></i>
 							</span>
 							{{item.dir2}}
-
-						</span>
-					</div>
-				{% endif %}
-				{% if item.dir3 %}
-
-					<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-						<span class="">
+						</li>
+					{% endif %}
+					{% if item.dir3 %}
+						<li>
 							<span class="text-yellow">
-
 								<i class="fa fa-folder-open"></i>
-
-
 							</span>
 							{{item.dir3}}
-
-						</span>
-					</div>
-				{% endif %}
-				{% if item.dir4 %}
-
-					<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-						<span class="">
+						</li>
+					{% endif %}
+					{% if item.dir4 %}
+						<li>
 							<span class="text-yellow">
-
 								<i class="fa fa-folder-open"></i>
-
-
 							</span>
 							{{item.dir4}}
-
-						</span>
-					</div>
-				{% endif %}
-
-				{% if item.dir5 %}
-					<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-						<span class="">
+						</li>
+					{% endif %}
+					{% if item.dir5 %}
+						<li>
 							<span class="text-yellow">
 								<i class="fa fa-folder-open"></i>
 							</span>
 							{{item.dir5}}
-						</span>
-					</div>
-				{% endif %}
+						</li>
+					{% endif %}
+				</ul>
 				<div class="createTip ">
 					<div class="createTip__title">
 						Arborescence

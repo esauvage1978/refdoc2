@@ -5,6 +5,7 @@
 
 		{% import "macros/backpack.html.twig" as bpk %}
 		{% import "macros/file.html.twig" as file %}
+		{% import "macros/link.html.twig" as link %}
 		{% block card_class %}
 flat-shadow
 
@@ -61,7 +62,7 @@ flat-shadow
 						</thead>
 						<tbody>
 							{{ file.showFiles(item.backpackFiles,item,'backpack_file_show') }}
-							{{ file.showLinks(item.backpackLinks) }}
+							{{ link.showLinks(item.backpackLinks) }}
 						</tbody>
 					</table>
 				</div>

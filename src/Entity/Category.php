@@ -85,6 +85,11 @@ class Category implements EntityInterface
      */
     private $ref;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $genre;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -284,5 +289,17 @@ class Category implements EntityInterface
     public function getFullName(): ?string
     {
         return $this->getRef() . ' - ' . $this->getName();
+    }
+
+    public function getGenre(): ?bool
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?bool $genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
     }
 }

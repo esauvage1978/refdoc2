@@ -6,7 +6,6 @@
 {% block page_title %}{% endblock %}
 
 {% block page_content %}
-dsds
 	{% import "macros/default.html.twig" as dft %}
 	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 		{{ dft.no_connexion() }}

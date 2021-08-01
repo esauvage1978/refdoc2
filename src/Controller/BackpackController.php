@@ -2,27 +2,24 @@
 
 namespace App\Controller;
 
-use App\Helper\Slugger;
 use App\Dto\BackpackDto;
 use App\Dto\MProcessDto;
 use App\Entity\Backpack;
+use App\Entity\BackpackLink;
 use App\History\HistoryShow;
 use App\Security\BackpackVoter;
 use App\Manager\BackpackManager;
 use App\Service\BackpackForTree;
-use App\Repository\UserRepository;
 use App\Form\Backpack\BackpackType;
+use App\Form\File\BackpackLinkType;
 use App\Form\Backpack\BackpackNewType;
 use App\Repository\BackpackRepository;
-use App\Repository\BackpackFileRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * Class ThematicController
  * @package App\Controller
  */
 class BackpackController extends AbstractGController
@@ -70,6 +67,7 @@ class BackpackController extends AbstractGController
     }
 
 
+
     /**
      * @Route("/backpack/test/{id}", name="backpack_test", methods={"GET"})
      * @IsGranted("ROLE_USER")
@@ -93,6 +91,7 @@ class BackpackController extends AbstractGController
         //$links = clone ($item->getBackpackLinks());
         $itemOld = clone ($item);
         $form = $this->createForm(BackpackType::class, $item);
+        $formLink = $this->createForm(BackpackLinkType::class, new BackpackLink);
 
         $form->handleRequest($request);
 
@@ -109,6 +108,7 @@ class BackpackController extends AbstractGController
         return $this->render('backpack/edit.html.twig', [
             'item' => $item,
             self::FORM => $form->createView(),
+            'formlink' => $formLink->createView()
         ]);
     }
 
@@ -156,24 +156,5 @@ class BackpackController extends AbstractGController
 
         $renderArray = $this->backpackForTree->getDatas($this->container, $request, null, $dto);
         return $this->render('backpack/tree.html.twig', $renderArray);
-    }
-
-
-    /**
-     * @Route("/backpack/{id}/file/{fileId}", name="backpack_file_show", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
-    public function actionFileShowAction(
-        Request $request,
-        Backpack $backpack,
-        string $fileId,
-        BackpackFileRepository $backpackFileRepository
-    ): Response {
-
-        $actionFile = $backpackFileRepository->find($fileId);
-
-        $file = new File($actionFile->getHref());
-
-        return $this->file($file, Slugger::slugify($actionFile->getTitle()) . '.' . $actionFile->getFileExtension());
     }
 }

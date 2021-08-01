@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\BackpackLink;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method BackpackLink|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,10 +14,9 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class BackpackLinkRepository extends ServiceEntityRepository
 {
-    const ALIAS="bls";
+    const ALIAS = "bl";
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BackpackLink::class);
     }
-
 }

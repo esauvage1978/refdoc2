@@ -66,6 +66,14 @@ class CategoryType extends AppTypeAbstract
                 ]
             )
             ->add(
+                'genre',
+                CheckboxType::class,
+                [
+                    self::LABEL => "Nom féminin",
+                    self::REQUIRED => false,
+                ]
+            )
+            ->add(
                 'icone',
                 TextType::class,
                 [

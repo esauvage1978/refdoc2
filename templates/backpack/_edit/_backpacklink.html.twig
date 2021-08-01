@@ -1,0 +1,30 @@
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/link.html.twig" as link %}
+<table id="file-media" class="table table-striped table-condensed " style="width:100%">
+    {% for backpackLink in item.backpackLinks %}
+        <tr>
+            <td>
+                <a type="button" class="text-p-dark" target="_blank" href="{{ backpackLink.link }}">
+                    <i class="fas fa-globe"></i>
+                    {{ backpackLink.title }}
+                </a>
+                <br/>
+                <span class="text-muted">
+                    {{ backpackLink.link }}
+                </span>
+            </td>
+            <td>
+                {{ backpackLink.content | raw }}
+            </td>
+            <td>
+                <small>
+                    {{ widgets.showFullDateShortTime(backpackLink.modifyAt) }}
+                </small>
+            </td>
+            <td class="float-right" style="width: 100px">
+                {{ link.delete_btn('backpacklink',backpackLink)}}
+            	{{ link.edit_btn('backpacklink',backpackLink)}}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

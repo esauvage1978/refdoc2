@@ -16,28 +16,41 @@ class BackpackLinkType extends AppTypeAbstract
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class,
+            ->add(
+                'title',
+                TextType::class,
                 [
-                    self::LABEL => 'titre',
-                    self::REQUIRED => false
-                ])
-            ->add('link', UrlType::class,
+                    self::LABEL => 'Titre',
+                    self::REQUIRED => false,
+                    self::ATTR => [self::PLACEHOLDER => "Titre du lien"]
+                ]
+            )
+            ->add(
+                'link',
+                UrlType::class,
                 [
-                    'label' => 'adresse',
-                    'required' => false
-                ])
-            ->add('content', TextareaType::class,
+                    'label' => 'Adresse du lien',
+                    'required' => false,
+                    self::ATTR => [self::PLACEHOLDER => "URL, exemple:http://google.fr"]
+                ]
+            )
+            ->add(
+                'content',
+                TextareaType::class,
                 [
                     'label' => 'Description',
                     'required' => false,
                     self::ATTR => [self::ROWS => 3, self::CSS_CLASS => 'textarea'],
-                ])
-            ->add('modifyAt', DateTimeType::class,
+                ]
+            )
+            ->add(
+                'modifyAt',
+                DateTimeType::class,
                 [
                     'label' => ' ',
                     'required' => false
-                ])
-        ;
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
