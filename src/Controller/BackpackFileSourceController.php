@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Backpack;
-use App\Entity\BackpackFile;
-use App\Form\File\BackpackFileType;
-use App\Manager\BackpackFileManager;
+use App\Entity\BackpackFileSource;
+use App\Form\File\BackpackFileSourceType;
+use App\Manager\BackpackFileSourceManager;
 use App\Repository\BackpackRepository;
-use App\Repository\BackpackFileRepository;
+use App\Repository\BackpackFileSourceRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,21 +18,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 /**
  * @package App\Controller
  */
-class BackpackFileController extends AbstractGController
+class BackpackFileSourceController extends AbstractGController
 {
 
 
     public function __construct(
-        BackpackFileRepository $repository,
-        BackpackFileManager $manager
+        BackpackFileSourceRepository $repository,
+        BackpackFileSourceManager $manager
     ) {
         $this->repository = $repository;
         $this->manager = $manager;
-        $this->domaine = 'backpackfile';
+        $this->domaine = 'backpackfilesource';
     }
 
     /**
-     * @Route("/backpackfile/{parent_id}/add", name="backpack_file_add", methods={"GET","POST"})
+     * @Route("/backpackfilesource/{parent_id}/add", name="backpack_file_source_add", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
     public function add(
@@ -41,10 +41,10 @@ class BackpackFileController extends AbstractGController
         string $parent_id
     ) {
         $backpack = $backpackRepository->find($parent_id);
-        $file = new BackpackFile();
+        $file = new BackpackFileSource();
         $file->setBackpack($backpack);
 
-        $form = $this->createForm(BackpackFileType::class, $file, ['action' => $this->generateUrl($request->get('_route'), ['parent_id' => $parent_id])]);
+        $form = $this->createForm(BackpackFileSourceType::class, $file, ['action' => $this->generateUrl($request->get('_route'), ['parent_id' => $parent_id])]);
 
         $form->handleRequest($request);
 
@@ -56,7 +56,7 @@ class BackpackFileController extends AbstractGController
             }
         }
 
-        return $this->render('backpack/_edit/_backpack_file_form_add.html.twig', [
+        return $this->render('backpack/_edit/_backpack_file_source_form_add.html.twig', [
             'file' => $file,
             self::FORM => $form->createView(),
         ]);
@@ -64,16 +64,16 @@ class BackpackFileController extends AbstractGController
 
 
     /**
-     * @Route("/backpackfile/{id}/edit", name="backpack_file_edit", methods={"GET","POST"})
+     * @Route("/backpackfilesource/{id}/edit", name="backpack_file_source_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
     public function edit(
         Request $request,
-        BackpackFile $item
+        BackpackFileSource $item
     ) {
         $itemOld = clone ($item);
         $form = $this->createForm(
-            BackpackFileType::class,
+            BackpackFileSourceType::class,
             $item,
             ['action' => $this->generateUrl($request->get('_route'), ['id' => $item->getId()])]
         );
@@ -89,18 +89,18 @@ class BackpackFileController extends AbstractGController
             }
         }
 
-        return $this->render('backpack/_edit/_backpack_file_form_edit.html.twig', [
+        return $this->render('backpack/_edit/_backpack_file_source_form_edit.html.twig', [
             'file' => $item,
             self::FORM => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/backpackfile/{id}/delete", name="backpack_file_delete", methods={"GET"})
+     * @Route("/backpackfilesource/{id}/delete", name="backpack_file_source_delete", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
     public function deleteFileAction(
-        BackpackFile $item
+        BackpackFileSource $item
     ) {
         $this->manager->remove($item);
 
@@ -108,23 +108,23 @@ class BackpackFileController extends AbstractGController
     }
 
     /**
-     * @Route("/backpackfile/{id}", name="backpack_files_show", methods={"GET"})
+     * @Route("/backpackfilesource/{id}", name="backpack_files_source_show", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
     public function showPJ_edit(Backpack $item)
     {
-        return $this->render('backpack/_edit/_backpackfile.html.twig', [
+        return $this->render('backpack/_edit/_backpackfilesource.html.twig', [
             'item' => $item
         ]);
     }
 
     /**
-     * @Route("/backpackfile/{id}/showsecure", name="backpack_file_show_secure", methods={"GET"})
+     * @Route("/backpackfilesource/{id}/showsecure", name="backpack_file_source_show_secure", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
     public function actionFileShowSecureAction(
         SluggerInterface $slugger,
-        BackpackFile $actionFile
+        BackpackFileSource $actionFile
     ): Response {
 
         $actionFile->setNbrView($actionFile->getNbrView() + 1);

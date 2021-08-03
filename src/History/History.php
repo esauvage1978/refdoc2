@@ -31,47 +31,37 @@ class History extends HistoryAbstract
 
     public function compare(array $historyDatas)
     {
-
-        $diffPresent = false;
-
         foreach ($historyDatas as $historyData) {
+            $diffPresent = false;
+            
             /**
              * @var HistoryData
              */
             $historyData = $historyData;
+
             switch ($historyData->getTypeOfCompare()) {
                 case HistoryTypeOfCompare::FIELD:
                     $this->compareField(
-                        $historyData->getTitle(),
-                        $historyData->getField(),
-                        $historyData->getDataOld(),
-                        $historyData->getDataNew(),
-                        $historyData->getTypeOfData()
+                        $historyData
                     ) && $diffPresent = true;
                     break;
                 case HistoryTypeOfCompare::RELATION_ONE_TO_ONE:
                     $this->compareFieldOneToOne(
-                        $historyData->getTitle(),
-                        $historyData->getField(),
-                        $historyData->getDataOld(),
-                        $historyData->getDataNew(),
-                        $historyData->getTypeOfData()
+                        $historyData
                     ) && $diffPresent = true;
                     break;
                 case HistoryTypeOfCompare::RELATION_ONE_TO_MANY:
                     $this->compareFieldOneToMany(
-                        $historyData->getTitle(),
-                        $historyData->getField(),
-                        $historyData->getDataOld(),
-                        $historyData->getDataNew(),
-                        $historyData->getTypeOfData()
+                        $historyData
                     ) && $diffPresent = true;
                     break;
             }
+
+            if ($diffPresent) {
+                $this->save();
+            }
         }
 
-        if ($diffPresent) {
-            $this->save();
-        }
+
     }
 }

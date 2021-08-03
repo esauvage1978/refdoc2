@@ -67,29 +67,28 @@ class BackpackLinkController extends AbstractGController
      */
     public function edit(
         Request $request,
-        string $id,
-        BackpackLinkRepository $backpackLinkRepository
+        BackpackLink $item
     ) {
-        $link = $backpackLinkRepository->find($id);
-
+        $itemOld = clone ($item);
         $form = $this->createForm(
             BackpackLinkType::class,
-            $link,
-            ['action' => $this->generateUrl($request->get('_route'), ['id' => $id])]
+            $item,
+            ['action' => $this->generateUrl($request->get('_route'), ['id' => $item->getId() ])]
         );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->manager->save($link)) {
+            if ($this->manager->save($item)) {
+                $this->manager->historize($item, $itemOld);
                 return new Response('ok');
             } else {
-                $this->addFlash(self::DANGER, self::MSG_MODIFY_ERROR . $this->manager->getErrors($link));
+                $this->addFlash(self::DANGER, self::MSG_MODIFY_ERROR . $this->manager->getErrors($item));
             }
         }
 
         return $this->render('backpack/_edit/_backpack_link_form_edit.html.twig', [
-            'link' => $link,
+            'link' => $item,
             self::FORM => $form->createView(),
         ]);
     }

@@ -75,6 +75,11 @@ class MProcess implements EntityInterface
      */
     private $backpacks;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $showOrder;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -84,6 +89,7 @@ class MProcess implements EntityInterface
         $this->processes = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->backpacks = new ArrayCollection();
+        $this->showOrder=0;
     }
 
     public function getId(): ?int
@@ -307,6 +313,18 @@ class MProcess implements EntityInterface
                 $backpack->setMProcess(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShowOrder(): ?int
+    {
+        return $this->showOrder;
+    }
+
+    public function setShowOrder(int $showOrder): self
+    {
+        $this->showOrder = $showOrder;
 
         return $this;
     }

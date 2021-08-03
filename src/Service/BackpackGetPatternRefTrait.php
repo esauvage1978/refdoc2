@@ -8,10 +8,10 @@ trait BackpackGetPatternRefTrait
     {
         $refPattern = '';
 
-        if ($this->backpack->getMProcess() !== null) {
-            $refPattern = $this->backpack->getMProcess()->getRef();
-        } else {
+        if ($this->backpack->getProcess() !== null) {
             $refPattern = $this->backpack->getProcess()->getRef();
+        } else {
+            $refPattern = $this->backpack->getMProcess()->getRef();
         }
 
         return $refPattern . '-' . $this->backpack->getCategory()->getRef() . '-';

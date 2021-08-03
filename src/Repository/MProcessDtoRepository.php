@@ -283,7 +283,8 @@ class MProcessDtoRepository extends ServiceEntityRepository implements DtoReposi
     private function initialise_orderBy(): void
     {
         $this->builder
-            ->orderBy(self::ALIAS . '.ref', 'ASC')
+            ->orderBy(self::ALIAS . '.showOrder', 'ASC')
+            ->addOrderBy(self::ALIAS . '.ref', 'ASC')
             ->addOrderBy(self::ALIAS . '.name', 'ASC')
             ->addOrderBy(ProcessRepository::ALIAS . '.grouping', 'ASC')
             ->addOrderBy(ProcessRepository::ALIAS . '.ref', 'ASC')

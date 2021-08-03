@@ -29,7 +29,7 @@ class CategoryManager extends AbstractManager
 
         if($cat->getIsValidatedByDoc() && $cat->getIsValidatedByControl()) {
             $cat->setWorkflowName(WorkflowNames::WORKFLOW_ALL);
-        } else if(!$cat->getIsValidatedByDoc() && !$cat->getIsValidatedByControl()) {
+        } else if($cat->getIsValidatedByDoc() && !$cat->getIsValidatedByControl()) {
             $cat->setWorkflowName(WorkflowNames::WORKFLOW_WITHOUT_CONTROL);
         } else if (!$cat->getIsValidatedByDoc() && $cat->getIsValidatedByControl()) {
             $cat->setWorkflowName(WorkflowNames::WORKFLOW_WITHOUT_DOC);

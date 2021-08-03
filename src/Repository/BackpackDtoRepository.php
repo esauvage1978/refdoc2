@@ -494,6 +494,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
     private function initialise_orderBy()
     {
         $this->builder
+            ->orderBy(MProcessRepository::ALIAS . '.showOrder', 'ASC')
             ->addOrderBy(MProcessRepository::ALIAS . '.ref', 'ASC')
             ->addOrderBy(MProcessRepository::ALIAS . '.name', 'ASC')
             ->addOrderBy(processRepository::ALIAS . '.ref', 'ASC')

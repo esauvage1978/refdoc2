@@ -57,18 +57,6 @@ class BackpackManager extends AbstractManager
             $bp->setUpdatedAt(new \DateTime());
         }
 
-        foreach ($bp->getBackpackLinks() as $backpackLink) {
-            $backpackLink->setBackpack($bp);
-        }
-
-        foreach ($bp->getBackpackFiles() as $backpackFile) {
-            $backpackFile->setBackpack($bp);
-        }
-
-        foreach ($bp->getBackpackFileSources() as $backpackFileSource) {
-            $backpackFileSource->setBackpack($bp);
-        }
-
         if ($bp->getProcess() !== null) {
             $bp->setMProcess($bp->getProcess()->getMProcess());
         }
@@ -82,13 +70,9 @@ class BackpackManager extends AbstractManager
     public function historize(Backpack $entity, ?Backpack $entityOld = null)
     {
         if (null !== $entityOld) {
-            $this->backpackHistory->setHistoryRelation($entity);
+            $this->backpackHistory->setHistoryRelation($entity,'Porte-document');
             $this->backpackHistory->compare($entityOld, $entity);
         }
     }
-    public function historizeLinks($entity, $entityLinks, $entityOldLinks)
-    {
-        $this->backpackHistory->setHistoryRelation($entity);
-        $this->backpackHistory->compareLinks($entityOldLinks, $entityLinks);
-    }
+
 }

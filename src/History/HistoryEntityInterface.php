@@ -9,5 +9,4 @@ interface HistoryEntityInterface
 {
     public function compare(EntityInterface $itemOld, EntityInterface $itemNew);
 
-    public function setHistoryRelation(EntityInterface $entity);
 }

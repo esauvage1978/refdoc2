@@ -86,6 +86,102 @@ class BackpackDto extends AbstractDto
      */
     private $isGoToReviseSoon;
 
+    private $searchDate;
+    private $search;
+    private $ref;
+
+       /**
+     * @return mixed
+     */
+    public function getSearch()
+    {
+        return $this->search;
+    }
+
+    /**
+     * @param mixed $search
+     * @return ActionSearchDto
+     */
+    public function setSearch($search)
+    {
+        $this->search = $search;
+
+        $this->searchReference();
+
+        $this->searchDate();
+
+        return $this;
+    }
+
+    private function searchReference()
+    {
+        if (!empty($this->search)) {
+            
+            if (mb_substr_count($this->search, '-') == 2) {
+                
+                $this->setRef(str_replace($this->search,"*","%"));
+            }
+        }
+    }
+
+    private function searchDate()
+    {
+        if (!empty($this->search)) {
+            $d = $this->validateDate($this->search);
+            if (!empty($d)) {
+                $this->setSearchDate($d);
+                $this->search = null;
+            }
+        }
+    }
+
+    function validateDate($date)
+    {
+        if (mb_substr_count($this->search, '/') == 2) {
+            $d = explode('/', $date);
+            return (strlen($d[2]) == 2 ? '20' . $d[2] : $d[2])
+                . '-' .
+                (strlen($d[1]) == 2 ? $d[1] : '0' . $d[1])
+                . '-' .
+                (strlen($d[0]) == 2 ? $d[0] : '0' . $d[0]);
+        }
+        return null;
+    }
+        /**
+     * @return mixed
+     */
+    public function getSearchDate()
+    {
+        return $this->searchDate;
+    }
+
+    /**
+     * @param mixed $searchDate
+     */
+    public function setSearchDate($searchDate)
+    {
+        $this->searchDate = $searchDate;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRef()
+    {
+        return $this->ref;
+    }
+
+    /**
+     * @param mixed $ref
+     */
+    public function setRef($ref)
+    {
+        $this->ref = $ref;
+        return $this;
+    }
+
+
     /**
      * @return mixed
      */

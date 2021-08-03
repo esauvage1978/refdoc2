@@ -2,6 +2,8 @@
 
 namespace App\History;
 
+use App\Entity\EntityInterface;
+
 
 class HistoryData
 {
@@ -17,12 +19,12 @@ class HistoryData
     /**
      * @var string|null|EntityInterface
      */
-    private $dataOld;
+    private $oldData;
 
     /**
      * @var string|null|EntityInterface
      */
-    private $dataNew;
+    private $newData;
 
     /**
      * @var string
@@ -37,7 +39,17 @@ class HistoryData
     /**
      * @var string
      */
+    private $domaine;
+
+    /**
+     * @var string
+     */
     private $typeOfData;
+
+    /**
+     * @var EntityInterface
+     */
+    private $entityMaster;
 
     public function __construct()
     {
@@ -57,26 +69,50 @@ class HistoryData
         return $this;
     }
 
-    public function getDataOld()
+    public function getEntityMaster(): EntityInterface
     {
-        return $this->dataOld;
+        return $this->entityMaster;
     }
 
-    public function setDataOld($dataOld): self
+    public function setEntityMaster(EntityInterface $entityMaster): self
     {
-        $this->dataOld = $dataOld;
+        $this->entityMaster = $entityMaster;
 
         return $this;
     }
 
-    public function getDataNew()
+    public function getDomaine(): string
     {
-        return $this->dataNew;
+        return $this->domaine;
     }
 
-    public function setDataNew($dataNew): self
+    public function setDomaine(string $domaine): self
     {
-        $this->dataNew = $dataNew;
+        $this->domaine = $domaine;
+
+        return $this;
+    }
+
+    public function getOldData()
+    {
+        return $this->oldData;
+    }
+
+    public function setOldData($oldData): self
+    {
+        $this->oldData = $oldData;
+
+        return $this;
+    }
+
+    public function getNewData()
+    {
+        return $this->newData;
+    }
+
+    public function setNewData($newData): self
+    {
+        $this->newData = $newData;
 
         return $this;
     }

@@ -3,12 +3,14 @@
 namespace App\Workflow;
 
 use App\Entity\Backpack;
+use App\Service\BackpackRefGenerator;
 use App\Repository\BackpackRepository;
 use App\Service\BackpackRefControllator;
-use App\Service\BackpackRefGenerator;
+use App\Service\BackpackGetPatternRefTrait;
 
 class BackpackCheck
 {
+    
     /**
      * var Backpack
      */
@@ -93,7 +95,7 @@ class BackpackCheck
         if ($brc->isCoherent()) {
             $this->backpackCheckMessage->addMessageSuccess('Référence cohérente');
         } else {
-            $this->backpackCheckMessage->addMessageError('La référence n\'est pas cohérente. Elle doit commencer par : ' . $pattern );
+            $this->backpackCheckMessage->addMessageError('La référence n\'est pas cohérente. Elle doit commencer par : ' . $brc->getPattern() );
         }
     }
 

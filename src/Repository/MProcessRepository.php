@@ -37,7 +37,8 @@ class MProcessRepository extends ServiceEntityRepository
             ->leftJoin(self::ALIAS . '.dirValidators', UserRepository::ALIAS_MP_DV)
             ->leftJoin(self::ALIAS . '.poleValidators', UserRepository::ALIAS_MP_PV)
             ->leftJoin(self::ALIAS . '.contributors', UserRepository::ALIAS_MP_C)
-            ->orderBy(self::ALIAS . '.ref', 'ASC')
+            ->orderBy(self::ALIAS . '.showOrder', 'ASC')
+            ->addOrderBy(self::ALIAS . '.ref', 'ASC')
             ->addOrderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
             ->getResult();

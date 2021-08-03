@@ -15,8 +15,7 @@
 	{% set list={ 'list': {url: path(domaine~'_list'),class:'btn-p-dark',attr:{title:'Liste'}}} %}
 	{% set home={ 'home': {url: path('home'),class:'btn-p-dark',attr:{title:'Accueil'}}} %}
 	{% set admin={ 'admin': {url: path('admin'),class:'btn-p-dark',attr:{title:'Accueil de l\'administration'}}} %}
-
-
+	{% set sort={ 'sort': {url: path(domaine~'_sort'),class:'btn-p-dark',attr:{title:'Ordonner les éléments'}}} %}
 
 
 
@@ -29,8 +28,11 @@
     {% if gestionnaire ==true %}
         {% if twigTemplace=='list' %}
             {% set actions = actions|merge(create) %}
+            {% set actions = actions|merge(sort) %}			
         {% elseif twigTemplace=='add' %}
             {% set actions = actions|merge(save) %}
+        {% elseif twigTemplace=='sort' %}
+			{% set actions = actions|merge({ 'save': {onclick: 'sortSend();',class:'btn-success',attr:{title:'Sauvegarder'}}}) %}
         {% elseif twigTemplace=='edit' %}
             {% set actions = actions|merge(show) %}
 			{% if deletable %}

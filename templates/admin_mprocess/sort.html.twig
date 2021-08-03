@@ -1,0 +1,62 @@
+{% extends 'admin_mprocess/layout.html.twig' %}
+
+{% block page_subtitle %}Tri des listes{% endblock %}
+
+
+{% block breadcrumb %}
+	{% import domaine~"/_btn_actions.html.twig" as actions %}
+	{{ actions.show(
+        'sort',
+        is_granted('ROLE_GESTIONNAIRE'),
+        null,
+        domaine
+    ) }}
+{% endblock %}
+
+
+{% block page_content %}
+    {% embed 'widgets/card-widget.html.twig' %}
+        {% block card_class %} card-primary card-outline{% endblock %}
+        {% block card_body_class %} p-0{% endblock %}
+        {% block card_body %}
+            <ul class="list-group" id="liste">
+                {% for item in items %}
+                    <li class="list-group-item" id="{{ item.id }}">
+                        [<strong>{{ item.showOrder }}</strong>] {{ item.fullName }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endblock %}
+    {% endembed %}
+    <div id="ret"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ absolute_url( asset('/vendor/sortable/sortable.min.js')) }}"></script>
+    <script>
+
+        Sortable.create(document.getElementById('liste'), {
+                animation: 100,
+                group: 'list-1',
+                draggable: '.list-group-item',
+                handle: '.list-group-item',
+                sort: true,
+                filter: '.sortable-disabled',
+                chosenClass: 'active'
+            })
+        ;
+
+        function sortSend()
+        {
+            var liste='';
+            $('#liste li').each(function(){
+                if (liste !== '') {
+                    liste+="_";
+                }
+                liste+=this.id;
+            });
+            window.location.href = "{{path(route_sort_apply)}}?result=" + liste;
+        }
+    </script>
+{% endblock %}

@@ -18,6 +18,9 @@ class TransitionGoToValidate  extends TransitionAbstract
     public function check()
     {
         $this->checkAll();
+        $this->backpackCheck->checkRef();
+        $this->backpackCheck->checkRefUnique();
+        $this->backpackCheck->checkRefCoherent();
     }
 
 }

@@ -1,4 +1,5 @@
 {% extends 'backpack/layout.html.twig' %}
+{% import "macros/history.html.twig" as history %}
 
 {% block page_subtitle %}Historique des modifications
 {% endblock %}
@@ -6,7 +7,6 @@
 {% block breadcrumb %}
 	{% import "backpack/_btn_actions.html.twig" as actions %}
 	{{ actions.backpack(
-
         'history',
         item.stateCurrent,
         item.owner==app.user,
@@ -22,22 +22,16 @@
 			<div class="bg-white rounded border-light p-4">
 				{{ include(domaine ~ '/_show/_identification.html.twig') }}
 				{{ include(domaine ~ '/_show/_content.html.twig') }}
-
-				{% embed 'widgets/timeline-widget.html.twig' %}
-					{% block timeline_title %}Modification
-					{% endblock %}
-					{% block timeline_title_class %}bg-secondary
-					{% endblock %}
-					{% block timeline_body %}
-						{% import "macros/history.html.twig" as history %}
-						{% for data in item.histories %}
-							{{ history.timeline(data,'fas fa-suitcase text-info') }}
-						{% endfor %}
-					{% endblock %}
-				{% endembed %}
 			</div>
+
+
+			{{ history.twig( item.histories ) }}
 		</div>
 	</div>
 
+{% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+	{{ history.script() }}
 {% endblock %}

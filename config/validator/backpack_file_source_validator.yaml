@@ -1,0 +1,14 @@
+App\Entity\BackpackFileSource:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: [backpack, title]
+        errorPath: title
+        message: "Le nom du fichier {{ value }} est déjà déclaré dans ce porte-document."
+  properties:
+    title:
+      - NotBlank: ~
+      - Length:
+          min: 3
+          max: 255
+          minMessage: "Le nom du lien {{ value }} doit avoir plus de 2 caractères"
+          maxMessage: "Le nom du lien {{ value }} ne peut pas avoir plus de 255 caractères"

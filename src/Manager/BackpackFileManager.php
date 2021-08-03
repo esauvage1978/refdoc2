@@ -2,8 +2,9 @@
 
 namespace App\Manager;
 
-use App\Security\CurrentUser;
+use App\Entity\BackpackFile;
 
+use App\Security\CurrentUser;
 use App\Entity\EntityInterface;
 use App\History\BackpackHistory;
 use App\Manager\BackpackManager;
@@ -52,6 +53,14 @@ class BackpackFileManager extends AbstractManager
     public function initialise(EntityInterface $entity): void
     {
         $entity->setModifyAt(new \DateTime());
+    }
+
+    public function historize(BackpackFile $entity, ?BackpackFile $entityOld = null)
+    {
+        if (null !== $entityOld) {
+            $this->backpackHistory->setHistoryRelation($entity->getBackpack(),'Fichier');
+            $this->backpackHistory->compareFile($entityOld, $entity);
+        }
     }
 
     public function save(EntityInterface $entity): bool

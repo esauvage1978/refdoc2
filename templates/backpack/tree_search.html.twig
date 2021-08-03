@@ -1,0 +1,57 @@
+{% extends 'backpack/layout_tree.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/workflow.html.twig" as workflow %}
+{% import "macros/backpack.html.twig" as new %}
+
+{% block title %}Porte-document
+{% endblock %}
+
+{% block page_subtitle %}
+	<span class="text-muted">
+		{{ count }}
+		{% if stateCurrent is defined and stateCurrent  %}
+			{{ workflow.badge_state(stateCurrent) }}
+		{% endif %}
+		{% if isNew is defined and isNew==true %}
+			{{ new.spanNew() }}
+		{% endif %}
+		{% if hide is defined and item %}
+			{{ widgets.badge('Masqué','#252525') }}
+		{% endif %}
+	</span>
+{% endblock %}
+
+
+{% block breadcrumb %}{% endblock %}
+
+{% block page_content %}
+	{% embed 'widgets/card-widget.html.twig' %}
+		{% block card_class %}
+			border border-def1 mb-4 bg-p-dark border-p-dark
+		{% endblock %}
+		{% block card_body_class %}
+			text-center text-p-light
+		{% endblock %}
+		{% block card_body %}
+			<form class="form-inline ml-3" method="POST" action="{{path('search')}}">
+				<div class="input-group input-group-sm">
+					<label for="show_all">
+						&nbsp;voir l'ensemble des documents&nbsp;:&nbsp;
+					</label>
+					<input type="checkbox" id="show_all" name="show_all" {{ show_all?'checked':'' }}>
+				</div>
+				<div class="input-group input-group-sm ml-5">
+					<label for="r">Mot recherché&nbsp;:&nbsp;</label>
+					<input class="form-control " value="{{ word }}" type="search" name="r" placeholder="Rechercher" aria-label="Rechercher">
+				</div>
+				<div class="input-group input-group-sm ml-5">
+					<button class="btn btn-navbar bg-p-dark2" type="submit">
+						<i class="fas fa-search "></i>
+					</button>
+				</div>
+			</form>
+
+		{% endblock %}
+	{% endembed %}
+	{{ parent() }}
+{% endblock %}

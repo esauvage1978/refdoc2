@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BackpackFileSourceRepository::class)
+* @ORM\EntityListeners({"App\Listener\BackpackFileSourceUploadListener"})
  */
 class BackpackFileSource implements EntityInterface
 {

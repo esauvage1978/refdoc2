@@ -21,9 +21,11 @@ class BackpackHistory implements HistoryEntityInterface
         $this->history = $history;
     }
 
-    public function setHistoryRelation(EntityInterface $entity)
+    public function setHistoryRelation(EntityInterface $entity,string $domaine)
     {
-        $historyEntity = $this->history->getHistoryRelationEntity()->setBackpack($entity);
+        $historyEntity = $this->history->getHistoryRelationEntity()
+        ->setBackpack($entity)
+        ->setDomaine($domaine);
         $this->history->setHistoryRelationEntity($historyEntity);
     }
 
@@ -41,94 +43,110 @@ class BackpackHistory implements HistoryEntityInterface
         $compare = [
             (new HistoryData())
                 ->setTitle("Type de porte-document")
-                ->setDataOld($itemOld->getCategory())
-                ->setDataNew($itemNew->getCategory())
+                ->setOldData($itemOld->getCategory())
+                ->setNewData($itemNew->getCategory())
                 ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_ONE)
                 ->setField("Name"),
             (new HistoryData())
                 ->setTitle("Macro-processus")
-                ->setDataOld($itemOld->getMProcess())
-                ->setDataNew($itemNew->getMProcess())
+                ->setOldData($itemOld->getMProcess())
+                ->setNewData($itemNew->getMProcess())
                 ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_ONE)
                 ->setField("FullName"),
             (new HistoryData())
                 ->setTitle("Processus")
-                ->setDataOld($itemOld->getProcess())
-                ->setDataNew($itemNew->getProcess())
+                ->setOldData($itemOld->getProcess())
+                ->setNewData($itemNew->getProcess())
                 ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_ONE)
                 ->setField("FullName"),
             (new HistoryData())
                 ->setTitle("Nom")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Name"),
             (new HistoryData())
                 ->setTitle("Référence")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Ref"),
             (new HistoryData())
                 ->setTitle("Description")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Content"),
             (new HistoryData())
                 ->setTitle("Niveau 1")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Dir1"),
             (new HistoryData())
                 ->setTitle("Niveau 2")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Dir2"),
             (new HistoryData())
                 ->setTitle("Niveau 3")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Dir3"),
             (new HistoryData())
                 ->setTitle("Niveau 4")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Dir4"),
             (new HistoryData())
                 ->setTitle("Niveau 5")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Dir5"),
-            (new HistoryData())
-                ->setTitle("Liens")
-                ->setDataOld($itemOld->getBackpackLinks())
-                ->setDataNew($itemNew->getBackpackLinks())
-                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
-                ->setField("Title"),
+
         ];
 
         $this->history->compare($compare);
     }
 
-    public function compareLinks($itemOld, $itemNew)
+    public function compareLink($itemOld, $itemNew)
     {
 
         $compare = [
             (new HistoryData())
-                ->setTitle("Nom du lien")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
-                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
+                ->setTitle("Nom")
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Title"),
             (new HistoryData())
-                ->setTitle("Adresse du lien")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
-                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
+                ->setTitle("URL")
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Link"),
             (new HistoryData())
                 ->setTitle("Description du lien")
-                ->setDataOld($itemOld)
-                ->setDataNew($itemNew)
-                ->setTypeOfCompare(HistoryTypeOfCompare::RELATION_ONE_TO_MANY)
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
+                ->setField("Content"),
+        ];
+
+        $this->history->compare($compare);
+    }
+
+    public function compareFile($itemOld, $itemNew)
+    {
+
+        $compare = [
+            (new HistoryData())
+                ->setTitle("Nom")
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
+                ->setField("Title"),
+            (new HistoryData())
+                ->setTitle("nom du fichier")
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
+                ->setField("fileName"),
+            (new HistoryData())
+                ->setTitle("Description du lien")
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
                 ->setField("Content"),
         ];
 

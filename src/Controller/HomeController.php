@@ -54,11 +54,4 @@ class HomeController extends AbstractGController
         return $this->render('home/index.html.twig', ['dash_options' => $dash_options, 'news' => $news]);
     }
 
-    /**
-     * @return Response
-     */
-    public function searchFormAction(): Response
-    {
-        return $this->render('home/search-form.html.twig', []);
-    }
 }

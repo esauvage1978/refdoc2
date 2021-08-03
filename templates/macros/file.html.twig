@@ -182,14 +182,14 @@
 {% endmacro %}
 
 
-{% macro twig(domaine) %}
+{% macro twig(domaine,btnTitle) %}
 	{% import "macros/submit.html.twig" as sub %}
 	{% import "macros/save.html.twig" as save %}
 	<div class="modal fade" id="{{ domaine }}_modal_add" tabindex="-1" role="dialog" aria-labelledby="{{ domaine }}_modal_add" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalTitle">Ajouter un fichier</h5>
+					<h5 class="modal-title" id="exampleModalTitle">Ajouter un {{ btnTitle ? btnTitle : 'fichier'}}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
@@ -202,7 +202,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalTitle">Modifier un fichier</h5>
+					<h5 class="modal-title" id="exampleModalTitle">Modifier un {{ btnTitle ? btnTitle : 'fichier'}}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
@@ -213,7 +213,7 @@
 	</div>
 	<button class="btn btn-primary" data-toggle="modal" data-target="#{{ domaine }}_modal_add">
 		<i class="fa fa-plus"></i>
-		Ajouter un fichier
+		Ajouter un {{ btnTitle ? btnTitle : 'fichier'}}
 	</button>
 	<div id="{{domaine}}"></div>
 {% endmacro %}

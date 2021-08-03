@@ -2,7 +2,7 @@
 
 namespace App\Form\File;
 
-use App\Entity\BackpackFile;
+use App\Entity\BackpackFileSource;
 use App\Form\AppTypeAbstract;
 use Symfony\UX\Dropzone\Form\DropzoneType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class BackpackFileType extends AppTypeAbstract
+class BackpackFileSourceType extends AppTypeAbstract
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -42,7 +42,7 @@ class BackpackFileType extends AppTypeAbstract
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => BackpackFile::class,
+            'data_class' => BackpackFileSource::class,
         ]);
     }
 }

@@ -24,6 +24,36 @@ class AdminMProcessController extends AbstractGController
         $this->domaine = 'admin_mprocess';
     }
 
+        /**
+     * @Route("/admin/mprocess/sort/apply", name="admin_mprocess_sort_apply", methods={"GET"})
+     *
+     * @IsGranted("ROLE_GESTIONNAIRE")
+     */
+    public function sortApply(Request $request)
+    {
+        $result=$request->get('result');
+        $datas=explode('_',$result);
+
+        foreach ($datas as $key => $id){
+            $rubric=$this->repository->find($id);
+            $rubric->setShowOrder($key);
+            $this->manager->save($rubric);
+        }
+        return $this->redirectToRoute('admin_mprocess_list');
+    }
+ 
+    /**
+    * @Route("/admin/mprocess/sort", name="admin_mprocess_sort", methods={"GET"})
+     * @IsGranted("ROLE_GESTIONNAIRE")
+     */
+    public function sort()
+    {
+        return $this->render($this->domaine . '/sort.html.twig',
+            [
+                'items' => $this->repository->findAllForAdmin()
+            ]);
+    }    
+
     /**
      * @Route("/admin/mprocess/permission", name="admin_mprocess_list_permission", methods={"GET"})
      * @IsGranted("ROLE_USER")

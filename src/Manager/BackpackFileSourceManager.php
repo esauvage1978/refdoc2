@@ -2,17 +2,18 @@
 
 namespace App\Manager;
 
-use App\Entity\BackpackLink;
+use App\Entity\BackpackFileSource;
 
 use App\Security\CurrentUser;
 use App\Entity\EntityInterface;
 use App\History\BackpackHistory;
-use App\Validator\BackpackLinkValidator;
+use App\Manager\BackpackManager;
+use App\Validator\BackpackFileSourceValidator;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\BackpackLinkRepository;
+use App\Repository\BackpackFileSourceRepository;
 
 
-class BackpackLinkManager extends AbstractManager
+class BackpackFileSourceManager extends AbstractManager
 {
     /**
      * @var CurrentUser
@@ -25,10 +26,9 @@ class BackpackLinkManager extends AbstractManager
     private $backpackHistory;
 
     /**
-     * @var BackpackLinkRepository
+     * @var BackpackFileSourceRepository
      */
-    private $backpackLinkRepository;
-
+    private $backpackFileSourceRepository;
 
     /**
      * @var BackpackManager
@@ -37,16 +37,16 @@ class BackpackLinkManager extends AbstractManager
 
     public function __construct(
         EntityManagerInterface $manager,
-        BackpackLinkValidator $validator,
+        BackpackFileSourceValidator $validator,
         CurrentUser $currentUser,
         BackpackHistory $backpackHistory,
-        BackpackLinkRepository $backpackLinkRepository,
+        BackpackFileSourceRepository $backpackFileSourceRepository,
         BackpackManager $backpackManager
     ) {
         parent::__construct($manager, $validator);
         $this->currentUser = $currentUser;
         $this->backpackHistory = $backpackHistory;
-        $this->backpackLinkRepository = $backpackLinkRepository;
+        $this->backpackFileSourceRepository = $backpackFileSourceRepository;
         $this->backpackManager = $backpackManager;
     }
 
@@ -55,11 +55,11 @@ class BackpackLinkManager extends AbstractManager
         $entity->setModifyAt(new \DateTime());
     }
 
-    public function historize(BackpackLink $entity, ?BackpackLink $entityOld = null)
+    public function historize(BackpackFileSource $entity, ?BackpackFileSource $entityOld = null)
     {
         if (null !== $entityOld) {
-            $this->backpackHistory->setHistoryRelation($entity->getBackpack(),'Lien');
-            $this->backpackHistory->compareLink($entityOld, $entity);
+            $this->backpackHistory->setHistoryRelation($entity->getBackpack(),'Fichier source');
+            $this->backpackHistory->compareFile($entityOld, $entity);
         }
     }
 
