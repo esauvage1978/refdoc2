@@ -116,10 +116,8 @@ class BackpackDto extends AbstractDto
     private function searchReference()
     {
         if (!empty($this->search)) {
-            
             if (mb_substr_count($this->search, '-') == 2) {
-                
-                $this->setRef(str_replace($this->search,"*","%"));
+                $this->setRef(str_replace("*","%",$this->search));
             }
         }
     }
@@ -128,9 +126,10 @@ class BackpackDto extends AbstractDto
     {
         if (!empty($this->search)) {
             $d = $this->validateDate($this->search);
-            if (!empty($d)) {
-                $this->setSearchDate($d);
-                $this->search = null;
+
+            if ($d!==null) {
+
+                $this->setSearchDate($d.'%');
             }
         }
     }
@@ -139,11 +138,11 @@ class BackpackDto extends AbstractDto
     {
         if (mb_substr_count($this->search, '/') == 2) {
             $d = explode('/', $date);
-            return (strlen($d[2]) == 2 ? '20' . $d[2] : $d[2])
+            return (strlen($d[2]) == 2 ? '20' . $d[2] : ($d[2] ==='*' ? '%' :  $d[2]))
                 . '-' .
-                (strlen($d[1]) == 2 ? $d[1] : '0' . $d[1])
+                ( $d[1] ==='*' ? '%' :  (strlen($d[1]) == 2 ? $d[1] :   '0' . $d[1]))
                 . '-' .
-                (strlen($d[0]) == 2 ? $d[0] : '0' . $d[0]);
+                ($d[0] ==='*' ? '%' :  (strlen($d[0]) == 2 ? $d[0] : '0' . $d[0]));
         }
         return null;
     }

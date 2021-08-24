@@ -107,7 +107,7 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 							</span>
 						</a>
 					</td>
-					{% if app.user.userParam.isControl %}
+					{% if app.user.isControl %}
 						<td class="align-middle text-center text-lg">
 							<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
 								<span class=''>
@@ -134,7 +134,7 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 							</span>
 						</a>
 					</td>
-					{% if app.user.userParam.isDoc %}
+					{% if app.user.isDoc %}
 						<td class="align-middle text-center text-lg">
 							<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
 								<span class=''>

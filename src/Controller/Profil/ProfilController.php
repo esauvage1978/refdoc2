@@ -34,12 +34,12 @@ class ProfilController extends AbstractGController
         UserManager $manager
     ): Response {
         $user = $this->getUser();
-        $oldUserMail = (clone $user)->getEmail();
+        $oldUser = (clone $user);
         $form = $this->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($manager->save($user, $oldUserMail)) {
+            if ($manager->save($user, $oldUser)) {
                 $this->addFlash(self::SUCCESS, self::MSG_MODIFY);
             } else {
                 $this->addFlash(self::DANGER, self::MSG_MODIFY_ERROR . $manager->getErrors($user));

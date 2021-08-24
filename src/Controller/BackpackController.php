@@ -5,13 +5,11 @@ namespace App\Controller;
 use App\Dto\BackpackDto;
 use App\Dto\MProcessDto;
 use App\Entity\Backpack;
-use App\Entity\BackpackLink;
 use App\History\HistoryShow;
 use App\Security\BackpackVoter;
 use App\Manager\BackpackManager;
 use App\Service\BackpackForTree;
 use App\Form\Backpack\BackpackType;
-use App\Form\File\BackpackLinkType;
 use App\Form\Backpack\BackpackNewType;
 use App\Repository\BackpackRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +47,27 @@ class BackpackController extends AbstractGController
     {
         $this->denyAccessUnlessGranted(BackpackVoter::CREATE, null);
 
-        return $this->editAction($request, new Backpack(), BackpackNewType::class, false);
+        $item=new Backpack();
+        $form = $this->createForm(BackpackNewType::class, $item);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->manager->save($item)) {
+                if($item->getRef()===null) {
+                    $this->manager->save($item);
+                }
+                $this->addFlash(self::SUCCESS, self::MSG_CREATE);
+                return $this->redirectToRoute('backpack_edit', ['id' => $item->getId()]);
+            } else {
+                $this->addFlash(self::DANGER, self::MSG_CREATE_ERROR . $this->manager->getErrors($item));
+            }
+        }
+
+        return $this->render('backpack/add.html.twig', [
+            'item' => $item,
+            self::FORM => $form->createView()
+        ]);
     }
 
 
@@ -91,12 +109,14 @@ class BackpackController extends AbstractGController
         //$links = clone ($item->getBackpackLinks());
         $itemOld = clone ($item);
         $form = $this->createForm(BackpackType::class, $item);
-        $formLink = $this->createForm(BackpackLinkType::class, new BackpackLink);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->manager->save($item)) {
+                if($item->getRef()===null) {
+                    $this->manager->save($item);
+                }
                 $this->addFlash(self::SUCCESS, self::MSG_MODIFY);
                 //$this->manager->historizeLinks($item, $item->getBackpackLinks(), $links);
                 $this->manager->historize($item, $itemOld);
@@ -107,8 +127,7 @@ class BackpackController extends AbstractGController
 
         return $this->render('backpack/edit.html.twig', [
             'item' => $item,
-            self::FORM => $form->createView(),
-            'formlink' => $formLink->createView()
+            self::FORM => $form->createView()
         ]);
     }
 

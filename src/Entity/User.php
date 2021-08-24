@@ -79,11 +79,19 @@ class User implements UserInterface, EntityInterface
     private $phone;
 
     /**
-     * @ORM\OneToOne(targetEntity=UserParam::class, inversedBy="user", cascade={"persist", "remove"})
-    */
-    private $userParam;
+     * @ORM\Column(type="boolean")
+     */
+    private $isSubscription;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDoc;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isControl;
 
     /**
      * @ORM\ManyToMany(targetEntity=MProcess::class, mappedBy="contributors")
@@ -136,6 +144,11 @@ class User implements UserInterface, EntityInterface
      */
     private $backpackStates;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $subscriptionAt;
+
     public function __construct()
     {
         $this->setIsEnable(true);
@@ -149,6 +162,9 @@ class User implements UserInterface, EntityInterface
         $this->backpacks = new ArrayCollection();
         $this->histories = new ArrayCollection();
         $this->backpackStates = new ArrayCollection();
+        $this->setIsDoc(false);
+        $this->setIsControl(false);
+        $this->setIsSubscription(false);
     }
 
     public function getId(): ?int
@@ -208,6 +224,17 @@ class User implements UserInterface, EntityInterface
     {
         return (string) $this->email;
     }
+
+        /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
 
     /**
      * @see UserInterface
@@ -380,17 +407,42 @@ class User implements UserInterface, EntityInterface
         return 'avatar/' . $this->getId() . '.png';
     }
 
-    public function getUserParam(): ?UserParam
+    public function getIsSubscription(): ?bool
     {
-        return $this->userParam;
+        return $this->isSubscription;
     }
 
-    public function setUserParam(?UserParam $userParam): self
+    public function setIsSubscription(bool $isSubscription): self
     {
-        $this->userParam = $userParam;
+        $this->isSubscription = $isSubscription;
 
         return $this;
     }
+
+    public function getIsDoc(): ?bool
+    {
+        return $this->isDoc;
+    }
+
+    public function setIsDoc(bool $isDoc): self
+    {
+        $this->isDoc = $isDoc;
+
+        return $this;
+    }
+
+    public function getIsControl(): ?bool
+    {
+        return $this->isControl;
+    }
+
+    public function setIsControl(bool $isControl): self
+    {
+        $this->isControl = $isControl;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection|Process[]
@@ -650,6 +702,18 @@ class User implements UserInterface, EntityInterface
                 $backpackState->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSubscriptionAt(): ?\datetime
+    {
+        return $this->subscriptionAt;
+    }
+
+    public function setSubscriptionAt(?\datetime $subscriptionAt): self
+    {
+        $this->subscriptionAt = $subscriptionAt;
 
         return $this;
     }

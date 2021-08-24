@@ -6,7 +6,6 @@ namespace App\Form\Profil;
 
 use App\Entity\User;
 use App\Form\AppTypeAbstract;
-use App\Form\Admin\UserParamType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -29,7 +28,15 @@ class ProfilType extends AppTypeAbstract
                 self::LABEL => 'Téléphone',
                 self::REQUIRED => false,
             ])
-        ->add('userParam', UserParamType::class)
+            ->add(
+                'iSsubscription',
+                CheckboxType::class,
+                [
+                    self::LABEL => ' Autorise à recevoir hebdomadairement les actualités par rapport aux abonnements',
+                    self::REQUIRED => false,
+                ]
+            )
+
             ;
     }
 

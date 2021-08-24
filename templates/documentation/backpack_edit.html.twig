@@ -1,0 +1,296 @@
+<div class="card card-primary card-outline ">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+				<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+						Modifier un porte-document
+					</a>
+					<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">
+						Les informations générales
+					</a>
+					<a class="nav-link" id="vert-tabs-3-tab" data-toggle="pill" href="#vert-tabs-3" role="tab" aria-controls="vert-tabs-3" aria-selected="false">
+						Les fichiers
+					</a>
+					<a class="nav-link" id="vert-tabs-7-tab" data-toggle="pill" href="#vert-tabs-7" role="tab" aria-controls="vert-tabs-7" aria-selected="false">
+						Les fichiers sources
+					</a>
+					<a class="nav-link" id="vert-tabs-4-tab" data-toggle="pill" href="#vert-tabs-4" role="tab" aria-controls="vert-tabs-4" aria-selected="false">
+						Les liens
+					</a>
+					<a class="nav-link" id="vert-tabs-5-tab" data-toggle="pill" href="#vert-tabs-5" role="tab" aria-controls="vert-tabs-5" aria-selected="false">
+						Changer d'état
+					</a>
+					<a class="nav-link" id="vert-tabs-6-tab" data-toggle="pill" href="#vert-tabs-6" role="tab" aria-controls="vert-tabs-6" aria-selected="false">
+						Les traces
+					</a>
+				</div>
+			</div>
+			<div class="col-7 col-sm-9">
+				<div class="tab-content" id="vert-tabs-tabContent">
+					<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+						<p>
+							Les porte-documents éditables sont matérialisés par la présence du bouton
+							<b>modifier</b>
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/edit_1.png')) }}">
+						</div>
+						<p>
+							Si vous êtes
+							<b>contributeur</b>
+							d'un macro-processus ou processus, vous pouvez modifier les porte-documents dans les états
+							<ul>
+								<li>Brouillon</li>
+								<li>A reprendre</li>
+								<li>En révision</li>
+								<li>Abandonner</li>
+							</ul>
+						</p>
+						<p>
+							Si vous êtes
+							<b>Valideur</b>
+							d'un macro-processus ou processus, vous pouvez modifier les porte-documents dans les états
+							<ul>
+								<li>A valider</li>
+								<li>Abandonner</li>
+							</ul>
+						</p>
+						<p>
+							Si vous avez l'habilitation
+							<b>service documentation</b>
+							, vous pouvez modifier les porte-documents dans les états
+							<ul>
+								<li>A vérifier</li>
+							</ul>
+						</p>
+						<p>
+							Si vous avez l'habilitation
+							<b>service contrôle</b>
+							, vous pouvez modifier les porte-documents dans les états
+							<ul>
+								<li>A contrôler</li>
+							</ul>
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+						<p>
+							Pa rapport à la création, vous avez 2 nouveaux champs disponibles :
+							<ul>
+								<li>La référence</li>
+								<li>L'arborescence</li>
+							</ul>
+						</p>
+						<h2 class="mb-5 text-p-dark">La référence</h2>
+						<p>
+							La référence permet de retrouver rapidement et facilement un porte-document
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/ref_1.png')) }}">
+						</div>
+
+						<p>
+							<b>RefDoc</b>
+							attribue automatiquement la référence lors de la création de celui-ci
+						</p>
+						<p>
+							Il vous est possible de modifier cette information. Cependant une vérification de la cohérence avec le macro-processus ou le processus et le type de document sera effectuée
+						</p>
+						<p>
+							Vous pouvez saisir une référence et appuyer sur le bouton
+							<b>Vérifier</b>
+							pour vous assurer que la référence est unique
+						</p>
+						<p>
+							Le bouton
+							<b>générer</b>
+							quand a lui vous donnera la première référence disponible.
+						</p>
+						<h2 class="mb-5 text-p-dark">L'arborescence</h2>
+						<p>
+							En plus des macro-processus et processus, Vous pouvez créer votre propre arborescence pour classer vos porte-documents
+						</p>
+						<p>
+							Vous pouvez aller jusque
+							<b>5</b>
+							niveaux
+						</p>
+						<p>
+							Un niveau peut par exemple correspondre à une activité.
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab">
+						<p>
+							RefDoc vous donne la possibilité d'associer des fichiers aux porte-documents
+						</p>
+						<p>
+							Il n'y a aucune limitation dans le nombre de fichier ajouté
+						</p>
+						<h2 class="mb-5 text-p-dark">Ajout</h2>
+						<p>
+							Pour ajouter un fichier, il vous suffit d'appuyer sur le bouton
+							<b>Ajouter un fichier</b>
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_1.png')) }}">
+						</div>
+
+						<p>
+							La fenêtre ci-dessous s'affiche et vous devez saisir le titre du fichier ainsi que le fichier. La description n'est pas obligatoire mais conseillé.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_2.png')) }}">
+						</div>
+						<p>
+							Confirmer la création en appuyant sur le bouton
+							<b>Enregistrer</b>
+						</p>
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+						<p>
+							Pour pouvez modifier les informations saisies en appuyant sur le bouton ci-dessous
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/edit.png')) }}">
+						</div>
+
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_3.png')) }}">
+						</div>
+						<blockquote>
+							Lors de la modification et si le fichier n'est pas modifié, il sera conservé.
+						</blockquote>
+						<h2 class="mb-5 text-p-dark">Suppression</h2>
+						<p>
+							Pour supprimer un lien, il vous suffit d'appuyer sur le bouton ci-dessous. Une confirmation vous sera demandé.
+						</p>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/delete.png')) }}">
+						</div>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_4.png')) }}">
+						</div>
+						<blockquote>
+							La suppression est irreversible et tracée. Le fichier est également supprimé.
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab">
+						<p>
+							RefDoc vous donne la possibilité d'associer des liens aux porte-documents
+						</p>
+						<p>
+							Il n'y a aucune limitation dans le nombre de lien ajouté
+						</p>
+						<h2 class="mb-5 text-p-dark">Ajout</h2>
+						<p>
+							Pour ajouter un lien, il vous suffit d'appuyer sur le bouton
+							<b>Ajouter un lien</b>
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_1.png')) }}">
+						</div>
+
+						<p>
+							La fenêtre ci-dessous s'affiche et vous devez saisir le titre du lien ainsi que l'adresse. La description n'est pas obligatoire mais conseillé.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_2.png')) }}">
+						</div>
+						<p>
+							Confirmer la création en appuyant sur le bouton
+							<b>Enregistrer</b>
+						</p>
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+						<p>
+							Pour pouvez modifier les informations saisies en appuyant sur le bouton ci-dessous
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/edit.png')) }}">
+						</div>
+
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_3.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Suppression</h2>
+						<p>
+							Pour supprimer un lien, il vous suffit d'appuyer sur le bouton ci-dessous. Une confirmation vous sera demandé.
+						</p>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/delete.png')) }}">
+						</div>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_4.png')) }}">
+						</div>
+						<blockquote>
+							La suppression est irreversible et tracée.
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-5" role="tabpanel" aria-labelledby="vert-tabs-5-tab">
+						<p>
+							Lorsque vous êtes en modification, vous pouvez envoyer le porte-document dans un autre état (validation, publication...)
+						</p>
+						<p>
+							Suivant les états, des vérifications sont effectuées. Par exemple, il faut qu'il y ait une description ou des fichiers dans un porte-document
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/etat_1.png')) }}">
+						</div>
+						<p>
+							Le changement d'état s'effectue en validant à l'aide du bouton.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/etat_2.png')) }}">
+						</div>
+						<p>
+							Le commentaire est obligatoire
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/etat_3.png')) }}">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-6" role="tabpanel" aria-labelledby="vert-tabs-6-tab">
+						<p>
+							Toutes les modifications sur les porte-documents sont tracées et conservées dans l'appication.
+						</p>
+						<p>
+							Pour y accéder, il vous suffit d'appuyer sur le bouton ci-dessous
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/trace_1.png')) }}">
+						</div>
+						<p>
+							Vous avez la possibilité de filtrer directement sur le tableau
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/trace_2.png')) }}">
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-7" role="tabpanel" aria-labelledby="vert-tabs-7-tab">
+						<p>
+							RefDoc vous donne la possibilité d'ajouter les
+							<b>fichiers sources</b>
+							(souvent au format word) au sein d'un porte-document.
+						</p>
+						<p>
+							Ces fichiers ne seront pas visibles par les utilisateurs, seuls les personnes qui modifient un porte-document auront l'accès.
+						</p>
+						<p>
+							Cette option permet de retrouver rapidement les fichiers sources qui ont permis l'élaboration des documents proposés aux utilisateurs.
+						</p>
+						<blockquote>
+							Le système d'ajout, de modification et de suppression est identique à celui des fichiers.
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-8" role="tabpanel" aria-labelledby="vert-tabs-8-tab"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.card -->
+</div>

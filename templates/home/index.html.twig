@@ -43,20 +43,36 @@
 
 				{% if news | length==0 %}
 					<div class="col-sm-12 col-lg-4 ">
+					<div class="mb-5">
+						<a href="{{ path('backpacks_news') }}" target="_self" class=" hvr-float-shadow">
+							<div class="d-flex w-100 align-items-center">
+								<div class="col-sm-2 col-md-2 text-center">
+									<i class="fas fa-certificate fa-2x text-p-dark2"></i>
+
+								</div>
+								<div class="col-sm-10 col-md-10">
+									<h5 class="mb-1 text-p-dark2">
+										<strong>Toutes les actualités</strong>
+									</h5>
+								</div>
+							</div>
+						</a>
+					</div>					
 						{% if nbr>0 %}
 							<h5 class="text-p-dark">Aucune actualité pour vos abonnements</h5>
 						{% endif %}
-						<a href="{{ path('backpacks_news') }}" class=" text-p-dark2 text-lg mb-2 text-center ">Toutes les actualités</a>
 					</div>
 					<div class="col-sm-12 col-xl-8  d-flex justify-content-center mt-3 mb-3">
 						<img src="{{ asset('img/notnews.svg')}}" alt"choix des abonnements" style="width:80%"/>
 					</div>
 				{% else %}
-					<div class="col-sm-12 col-lg-6">
+					<div class="col-sm-12 col-lg-4">
 						{{ include('backpack/_widgetNewsSubscription.html.twig') }}
 					</div>
-					<div class="col-sm-12 col-xl-6  d-flex justify-content-center mt-3 mb-3">
-						<img src="{{ asset('img/news.svg')}}" alt"choix des abonnements" style="width:80%"/>
+					<div class="col-sm-12 col-xl-8  d-flex justify-content-center mt-3 mb-3">
+						<div id="showdata">
+							<img src="{{ asset('img/news.svg')}}" alt"choix des abonnements" style="width:80%"/>
+						</div>
 					</div>
 				{% endif %}
 			</div>
@@ -69,4 +85,28 @@
 			</div>
 		</div>
 	{% endif %}
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
+	<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
+	<script type="text/javascript">
+		function getBackpackData(id) {
+
+var url = '/ajax/backpack/' + id;
+let showData = $('#showdata');
+let hideData = $('#hidedata');
+showData.fadeOut();
+
+axios.get(url).then(function(response) {
+showData.fadeIn(300);
+html(showData, response.data.value);
+html(hideData, '');
+}).catch(function(error) {
+console.log(error);
+});
+}
+	</script>
 {% endblock %}

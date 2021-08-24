@@ -39,7 +39,7 @@
 					<small>{{ item.phone }}</small>
 				{% endif %}
 			</td>
-						<td class="align-middle text-center p-0 m-0 ">{{ usr.lastConnexion(item)  }}</td>
+			<td class="align-middle text-center p-0 m-0 ">{{ usr.dateSubscription(item)  }}</td>
 		</tr>
 	{% else %}
 		{{ tables.datatable_data_else(columns) }}

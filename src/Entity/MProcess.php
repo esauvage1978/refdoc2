@@ -146,7 +146,7 @@ class MProcess implements EntityInterface
     }
 
     /**
-     * @return Collection|UserParam[]
+     * @return Collection|User[]
      */
     public function getContributors(): Collection
     {

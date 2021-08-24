@@ -79,7 +79,7 @@ class BackpackVoter extends Voter
 
     public function canUpdate(Backpack $backpack, User $user)
     {
-        if ($user->getUserparam()->getIsDoc()) {
+        if ($user->getIsDoc()) {
             return true;
         }
 
@@ -159,13 +159,13 @@ class BackpackVoter extends Voter
         }
 
         //restriction pour les contrôleurs
-        if($stateCurrent=== WorkflowData::STATE_TO_CONTROL && $this->user->getUserParam()->getIsControl() )
+        if($stateCurrent=== WorkflowData::STATE_TO_CONTROL && $this->user->getIsControl() )
         {
             return true;
         }
 
         //restriction pour les contrôleurs
-        if ($stateCurrent === WorkflowData::STATE_TO_CHECK && $this->user->getUserParam()->getIsDoc()) {
+        if ($stateCurrent === WorkflowData::STATE_TO_CHECK && $this->user->getIsDoc()) {
             return true;
         }
 
@@ -174,7 +174,7 @@ class BackpackVoter extends Voter
 
     public function canDelete(Backpack $backpack, User $user)
     {
-        if ($user->getUserparam()->getIsDoc() || Role::isAdmin($user)) {
+        if ($user->getIsDoc() || Role::isAdmin($user)) {
             return true;
         }
 
@@ -183,7 +183,7 @@ class BackpackVoter extends Voter
 
     public function canCreate(User $user)
     {
-        if ($user->getUserparam()->getIsDoc()) {
+        if ($user->getIsDoc()) {
             return true;
         }
 

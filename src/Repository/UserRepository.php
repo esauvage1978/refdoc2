@@ -35,10 +35,8 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder(self::ALIAS)
             ->select(
                 self::ALIAS,
-                SubscriptionRepository::ALIAS,
-                UserParamRepository::ALIAS
+                SubscriptionRepository::ALIAS
             )
-            ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
             ->leftJoin(self::ALIAS.'.subscriptions',SubscriptionRepository::ALIAS)
             ->orderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
@@ -49,12 +47,10 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder(self::ALIAS)
             ->select(
-                self::ALIAS,
-                UserParamRepository::ALIAS
+                self::ALIAS
             )
-            ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
             ->where(self::ALIAS.'.isEnable=true')
-            ->andWhere(UserParamRepository::ALIAS . '.isControl=true')
+            ->andWhere(self::ALIAS . '.isControl=true')
             ->orderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
             ->getResult();
@@ -63,12 +59,10 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder(self::ALIAS)
             ->select(
-                self::ALIAS,
-                UserParamRepository::ALIAS
+                self::ALIAS
             )
-            ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
             ->where(self::ALIAS . '.isEnable=true')
-            ->andWhere(UserParamRepository::ALIAS . '.isDoc=true')
+            ->andWhere(self::ALIAS . '.isDoc=true')
             ->orderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
             ->getResult();
@@ -77,12 +71,10 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder(self::ALIAS)
             ->select(
-                self::ALIAS,
-                UserParamRepository::ALIAS
+                self::ALIAS
             )
-            ->innerJoin(self::ALIAS . '.userParam', UserParamRepository::ALIAS)
             ->where(self::ALIAS . '.isEnable=true')
-            ->andWhere(UserParamRepository::ALIAS . '.isSubscription=true')
+            ->andWhere(self::ALIAS . '.isSubscription=true')
             ->orderBy(self::ALIAS . '.name', 'ASC')
             ->getQuery()
             ->getResult();

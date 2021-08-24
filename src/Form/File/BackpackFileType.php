@@ -24,7 +24,7 @@ class BackpackFileType extends AppTypeAbstract
             ->add('title', TextType::class,
                 [
                     self::LABEL => 'titre',
-                    self::REQUIRED => false
+                    self::REQUIRED => true
                 ])
             ->add('content', TextareaType::class,
                 [

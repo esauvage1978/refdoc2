@@ -1,0 +1,98 @@
+
+	<div class="card card-primary card-outline ">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-5 col-sm-3">
+					<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+						<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+							Ajout d'un porte-document
+						</a>
+						<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">
+							Message : 403 forbidden
+						</a>
+
+					</div>
+				</div>
+				<div class="col-7 col-sm-9">
+					<div class="tab-content" id="vert-tabs-tabContent">
+						<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+							<p>A partir du menu principal, appuyez sur
+								<b>Porte-documents</b>
+								puis
+								<b>création</b>
+							</p>
+							<div class="doc-image mt-4 mb-4">
+								<img src="{{ absolute_url( asset('doc/backpack_add_1.png')) }}">
+							</div>
+							<p>
+								Le formulaire de création d'un porte-document s'affiche.
+							</p>
+							<blockquote>
+								Si vous n'avez aucun droit de contribution dans les rubriques ou sous-rubrique, un message d'accès interdit sera affiché.<br/>
+								Vous pouvez vérifier vos droits sur votre profil
+							</blockquote>
+							<p>
+								<div class="alert alert-info ">
+									<h5>
+										<i class="icon fas fa-info"></i>Info bulle
+									</h5>
+
+									<p>Lors du survol avec la souris de chaque zone, une aide succinte est affichée</p>
+								</div>
+							</p>
+							<p>
+								La première zone concerne le type de porte-document que vous souhaitez ajouter.
+							</p>
+							<p>
+								Le type de porte-document est obligatoire
+							</p>
+							<div class="doc-image mt-4 mb-4">
+								<img src="{{ absolute_url( asset('doc/backpack_add_2.png')) }}">
+							</div>
+							<p>
+								La rubrique ou sous-rubrique du porte-document est obligatoire
+							</p>
+							<div class="doc-image mt-4 mb-4">
+								<img src="{{ absolute_url( asset('doc/backpack_add_3.png')) }}">
+							</div>
+							<p>
+								Le nom du porte-document est obligatoire.
+							</p>
+							<p>
+								La description n'est pas obligatoire mais conseillé pour aider les utilisateurs. Cette zone est concernée par la recherche, ce qui n'est pas le cas du contenu des documents joints.
+							</p>
+							<div class="doc-image mt-4 mb-4">
+								<img src="{{ absolute_url( asset('doc/backpack_add_4.png')) }}">
+							</div>
+							<p>
+								Finalisez la création en appuyant sur le bouton <b>Sauvegarder</b>
+							</p>
+							<div class="doc-image mt-4 mb-4">
+								<img src="{{ absolute_url( asset('doc/backpack_add_5.png')) }}">
+							</div>
+							<p>
+								Vous pouvez maintenant modifier le porte-document et ajouter des pièces jointes
+							</p>
+							<blockquote>
+								Le porte-document est dans l'état <b>brouillon</b>
+							</blockquote>
+						</div>
+						<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+							<p>
+								Si le message ci-dessous s'affiche, cela veut simplement signifier que vous n'avez aucun droit de contributeur pour ajouter des porte-documents.
+							</p>
+							<div class="doc-image mt-4 mb-4">
+								<img src="{{ absolute_url( asset('doc/backpack_add_6.png')) }}">
+							</div>
+							<p>
+								Vous pouvez vous rapprocher du service documentation pour mettre à jour vos droits sur les rubriques ou sous rubriques.
+							</p>
+						</div>
+						<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab"></div>
+						<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.card -->
+	</div>

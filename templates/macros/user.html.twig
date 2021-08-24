@@ -18,8 +18,20 @@
 
 
 {% macro lastConnexion(item) %}
-	{% if item.loginAt %}
-		{% set difference = date("today").diff(date(item.loginAt)) %}
+	{% import _self as usr %}
+	{{ usr.showDate(item.loginAt)}}
+{% endmacro %}
+
+{% macro dateSubscription(item) %}
+	{% import _self as usr %}
+	{{ usr.showDate(item.subscriptionAt)}}
+{% endmacro %}
+
+
+
+{% macro showDate(dateToShow) %}
+	{% if dateToShow %}
+		{% set difference = date("today").diff(date(dateToShow)) %}
 
 		{% set leftDays = difference.days %}
 		{% if leftDays > 396 %}

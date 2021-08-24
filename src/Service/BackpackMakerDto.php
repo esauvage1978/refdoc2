@@ -317,7 +317,7 @@ class BackpackMakerDto
                     throw new \InvalidArgumentException('Il manque le critère de recherche');
                 }
                 $dto
-                    ->setWordSearch($param)
+                    ->setSearch($param)
                     ->setVisible(BackpackDto::TRUE);
                 break;
         }

@@ -58,7 +58,7 @@
 				{% block card_body_class %}text-center
 				{% endblock %}
 				{% block card_body %}
-					{{ form_row(form.userParam.iSsubscription) }}
+					{{ form_row(form.iSsubscription) }}
 				{% endblock %}
 			{% endembed %}
 
@@ -70,8 +70,8 @@
 				{% endblock %}
 				{% block card_body %}
 					{{ form_widget(form.roles) }}
-					{{ form_widget(form.userParam.isDoc) }}
-					{{ form_widget(form.userParam.isControl) }}
+					{{ form_widget(form.isDoc) }}
+					{{ form_widget(form.isControl) }}
 				{% endblock %}
 			{% endembed %}
 

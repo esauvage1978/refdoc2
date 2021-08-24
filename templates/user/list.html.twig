@@ -77,13 +77,13 @@
 				</div>
 			</td>
 			<td class="align-middle text-center p-0 m-0">
-				<div class="p-2 {{ item.userParam.isDoc ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
-					{{ item.userParam.isDoc ? '1' : '0' }}
+				<div class="p-2 {{ item.isDoc ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ item.isDoc ? '1' : '0' }}
 				</div>
 			</td>
 			<td class="align-middle text-center p-0 m-0">
-				<div class="p-2 {{ item.userParam.isControl ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
-					{{ item.userParam.isControl ? '1' : '0' }}
+				<div class="p-2 {{ item.isControl ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ item.isControl ? '1' : '0' }}
 				</div>
 			</td>
 			<td class="align-middle text-center p-0 m-0">
@@ -92,8 +92,8 @@
 				</div>
 			</td>
 			<td class="align-middle text-center p-0 m-0">
-				<div class="p-2 {{ item.userParam.isSubscription ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
-					{{ item.userParam.isSubscription ? '1' : '0' }}
+				<div class="p-2 {{ item.isSubscription ? 'badge badge-success text-success' : 'badge badge-light text-light' }}">
+					{{ item.isSubscription ? '1' : '0' }}
 				</div>
 			</td>
 			<td class="align-middle text-center p-0 m-0 ">{{ sub.nbr(item) }}</td>

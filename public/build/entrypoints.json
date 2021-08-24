@@ -2,13 +2,13 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors-node_modules_admin-lte_dist_js_adminlte_min_js-node_modules_bootstrap-select_dist_js_-b9a34b.js",
-        "/build/app.js"
+        "/build/runtime.54e0a2f9.js",
+        "/build/658.01ffeb81.js",
+        "/build/app.fc6b3b34.js"
       ],
       "css": [
-        "/build/vendors-node_modules_admin-lte_dist_js_adminlte_min_js-node_modules_bootstrap-select_dist_js_-b9a34b.css",
-        "/build/app.css"
+        "/build/658.93659c6f.css",
+        "/build/app.68afa531.css"
       ]
     }
   }

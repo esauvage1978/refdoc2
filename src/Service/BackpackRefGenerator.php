@@ -42,7 +42,7 @@ class BackpackRefGenerator
     {
         $pattern=$this->getPattern();
 
-        $nbr= ($this->backpackRepository->findCountForRefPattern($pattern)+1);
+        $nbr= 1;
 
         while(!$this->controllator->isUnique($pattern.$nbr)) {
             $nbr=$nbr+1;

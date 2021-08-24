@@ -1,0 +1,241 @@
+<div class="card card-primary card-outline ">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+				<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+						Utilisateur
+					</a>
+					<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">
+						Utilisateur avec notification
+					</a>
+					<a class="nav-link" id="vert-tabs-3-tab" data-toggle="pill" href="#vert-tabs-3" role="tab" aria-controls="vert-tabs-3" aria-selected="false">
+						Macro processus
+					</a>
+					<a class="nav-link" id="vert-tabs-4-tab" data-toggle="pill" href="#vert-tabs-4" role="tab" aria-controls="vert-tabs-4" aria-selected="false">
+						Processus
+					</a>
+					<a class="nav-link" id="vert-tabs-5-tab" data-toggle="pill" href="#vert-tabs-5" role="tab" aria-controls="vert-tabs-5" aria-selected="false">
+						Type de document
+					</a>
+					<a class="nav-link" id="vert-tabs-6-tab" data-toggle="pill" href="#vert-tabs-6" role="tab" aria-controls="vert-tabs-6" aria-selected="false">
+						Permissions sur les macro-processus
+					</a>
+					<a class="nav-link" id="vert-tabs-7-tab" data-toggle="pill" href="#vert-tabs-7" role="tab" aria-controls="vert-tabs-7" aria-selected="false">
+						Premissions sur les processus
+					</a>
+
+
+				</div>
+			</div>
+			<div class="col-7 col-sm-9">
+				<div class="tab-content" id="vert-tabs-tabContent">
+					<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+						<blockquote>
+							Cette section est réservée aux administrateurs
+						</blockquote>
+						<p>
+							Cette section permet de gérer les utilisateurs (ajout, modification, suppression)
+						</p>
+
+						<h2 class="mb-5 text-p-dark">Liste</h2>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/user_1.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Ajout</h2>
+						<p>
+							La création d'un utilisateur devrait être utilisé à la marge. L'utilisateur étant autonome pour réaliser les actions nécessaires
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/user_2.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Consultation</h2>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/user_3.png')) }}">
+						</div>
+
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+						<p>
+							A partir de la modification de l'utilisateur, il est possible de consulter les abonnements de celui-ci
+						</p>
+						<blockquote>
+							Si un utilisateur est propriétaire de porte-documents, il ne sera pas possible de le supprimer.
+						</blockquote>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/user_4.png')) }}">
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+						<blockquote>
+							Cette section est réservée aux administrateurs et aux gestionnaires
+						</blockquote>
+						<p>
+							Permet de consulter la liste des utilisateurs ayant donné leur accord pour recevoir les notifications
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab">
+						<blockquote>
+							Cette section est réservée aux administrateurs et aux gestionnaires
+						</blockquote>
+						<p>
+							Cette section permet de gérer les macro-processus (ajout, ordonner, consultation, modification et suppression)
+						</p>
+						<p>
+							Les macro-processus sont principalement basés sur le SMI
+						</p>
+						<h2 class="mb-5 text-p-dark">Liste</h2>
+						<blockquote>
+							il ne devrait pas y avoir de macro-processus sans contributeur ou valideur
+						</blockquote>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/mp_1.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Ajout</h2>
+						<p>
+							Comme pour la modification, il faut définir les agents qui seront chargé de la validation versant Direction et manager stratégique ainsi que les contributeurs.
+						</p>
+						<p>
+							La distinction entre agent de Direction et manager Stratégique est effectuée au niveau du type de porte-document.
+						</p>
+						<p>
+							La référence et le nom sont obligatoire
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/mp_2.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Ordonner</h2>
+						<p>
+							Par défaut, l'affichage des macros-processus s'effectue par ordre alphabétique. Cependant il est possible de changer cet ordre d'affichage.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/mp_3.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Consultation</h2>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/mp_4.png')) }}">
+						</div>
+
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/mp_5.png')) }}">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab">
+						<blockquote>
+							Cette section est réservée aux administrateurs et aux gestionnaires
+						</blockquote>
+						<p>
+							Cette section permet de gérer les processus (ajout, consultation, modification et suppression)
+						</p>
+						<p>
+							Les processus sont principalement basés sur le SMI
+						</p>
+						<h2 class="mb-5 text-p-dark">Liste</h2>
+						<blockquote>
+							il ne devrait pas y avoir de processus sans contributeur ou valideur
+						</blockquote>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/p_1.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Ajout</h2>
+						<p>
+							Comme pour la modification, il faut définir les agents qui seront chargé de la validation ainsi que les contributeurs.
+						</p>
+						<p>
+							Suivant le type porte-document, la validation sera effectué par l'agent de Direction en charge du macro-processus de rattachement.
+						</p>
+						<p>
+							La référence et le nom sont obligatoire
+						</p>
+						<p>
+							Le regroupement est une donnée permettant de regrouper les processus. Le seul intérêt est pour l'affichage.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/p_2.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Consultation</h2>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/mp_3.png')) }}">
+						</div>
+
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/mp_4.png')) }}">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-5" role="tabpanel" aria-labelledby="vert-tabs-5-tab">
+						<blockquote>
+							Cette section est réservée aux administrateurs et aux gestionnaires
+						</blockquote>
+						<p>
+							Cette section permet de gérer les type de porte-document (ajout, consultation, modification et suppression)
+						</p>
+						<h2 class="mb-5 text-p-dark">Liste</h2>
+						<blockquote>
+							il ne devrait pas y avoir de processus sans contributeur ou valideur
+						</blockquote>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/t_1.png')) }}">
+						</div>
+
+						<h2 class="mb-5 text-p-dark">Consultation</h2>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/t_2.png')) }}">
+						</div>
+
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+						<p>
+							Le nom féminin permet de faire l'accord lors de l'affichage du terme
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/t_3.png')) }}">
+						</div>
+						<p>
+							permet de choisir si le type de porte-document doit passer par le service contrôle pour la validation du fond et par le service documentation pour la validation de la forme
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/t_4.png')) }}">
+						</div>
+						<p>
+							Le nombre de mois avant que le porte-document passe automatiquement en révision.
+						</p>
+						<p>
+							Permet de définir l'icône et les couleurs affichées
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/t_5.png')) }}">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-6" role="tabpanel" aria-labelledby="vert-tabs-6-tab">
+						<blockquote>
+							Cette section est réservée aux personnes ayant à minima le rôle utilisateur
+						</blockquote>
+						<p>
+							Cette page permet de lister toutes les permissions sur les macro-processus
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/permission_mp_1.png')) }}">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-7" role="tabpanel" aria-labelledby="vert-tabs-7-tab">
+						<blockquote>
+							Cette section est réservée aux personnes ayant à minima le rôle utilisateur
+						</blockquote>
+						<p>
+							Cette page permet de lister toutes les permissions sur les processus
+
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/permission_p_1.png')) }}">
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.card -->
+</div>

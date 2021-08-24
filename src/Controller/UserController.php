@@ -95,7 +95,7 @@ class UserController extends AbstractGController
     
      /**
      * @Route("/list/notifications", name="notification_users_subscription", methods={"GET"})
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_GESTIONNAIRE")
      */
     public function NotificationUsersSubscription(UserRepository $userRepository): Response
     {

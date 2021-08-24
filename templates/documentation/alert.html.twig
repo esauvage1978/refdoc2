@@ -1,0 +1,75 @@
+<div class="card card-primary card-outline ">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+				<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+						Coquille dans un porte-document
+					</a>
+					<a class="nav-link" id="vert-tabs-4-tab" data-toggle="pill" href="#vert-tabs-4" role="tab" aria-controls="vert-tabs-4" aria-selected="false">
+						porte-document perdu
+					</a>
+					<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">
+						Un problème technique
+					</a>
+					<a class="nav-link" id="vert-tabs-3-tab" data-toggle="pill" href="#vert-tabs-3" role="tab" aria-controls="vert-tabs-3" aria-selected="false">
+						Besoin de formation
+					</a>
+
+				</div>
+			</div>
+			<div class="col-7 col-sm-9">
+				<div class="tab-content" id="vert-tabs-tabContent">
+					<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/recherche_1.png')) }}">
+						</div>
+						<p>
+						Si vous trouvez une coquille dans un document, vous avez la possibilité de le signaler à l'émetteur en cliquand sur l'icône ci-dessous présente lors de la consultation d'un porte-document.
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+						<p>
+							Pour tout problème technique sur l'application, vous pouvez contacter
+							<b>{{ es_contact_name }}</b>
+							<ul>
+								<li>par messagerie
+									<a href="mailto://{{ es_contact_mail }}">{{ es_contact_mail }}</a>
+								</li>
+								<li>ou par téléphone
+									<b>{{ es_contact_tel }}</b>
+								</li>
+							</ul>
+						</p>
+						<p>
+							Ou le service informatique par SDGDI
+						</p>
+						<p>
+							Le groupe LIAM <b>{{ liam_name }}</b> (<a href="{{ liam_link }}">{{ liam_link }}</a>) vous permet également d'intéragir avec la communauté.
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab">
+											<p>
+							Concernant les demandes de formation sur REFDOC, vous pouvez contacter
+							<b>{{ es_contact_name }}</b>
+							<ul>
+								<li>par messagerie
+									<a href="mailto://{{ es_contact_mail }}">{{ es_contact_mail }}</a>
+								</li>
+								<li>ou par téléphone
+									<b>{{ es_contact_tel }}</b>
+								</li>
+							</ul>
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab">
+						<p>
+							Si après avoir recherché un document vous ne le trouvez toujours pas, rapprochez vous du service documentation qui assure l'assistance de cette application.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.card -->
+</div>

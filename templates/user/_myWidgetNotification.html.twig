@@ -2,14 +2,14 @@
 <a href="{{ path('profil') }}" target="_self" class="list-group-item list-group-item-action hvr-float-shadow">
 	<div class="d-flex w-100 align-items-center">
 		<div class="col-sm-2 col-md-4  text-center">
-			{{ widgets.icon('mail-sent', app.user.userParam.isSubscription?'fa-5x text-success':' fa-3x text-warning') }}
+			{{ widgets.icon('mail-sent', app.user.isSubscription?'fa-5x text-success':' fa-3x text-warning') }}
 		</div>
 		<div class="col-sm-10 col-md-8">
-			<h5 class="mb-1 {{ app.user.userParam.isSubscription?'text-success':'text-warning' }}">
+			<h5 class="mb-1 {{ app.user.isSubscription?'text-success':'text-warning' }}">
 				<strong>Notification</strong>
 			</h5>
 			<p class="mb-1"></p>
-			{% if app.user.userParam.isSubscription %}
+			{% if app.user.isSubscription %}
 				<small>Activé : Envoi hebdomadaire des actualités</small>
 			{% else %}
 				<small class="text-p-dark">Désactivé (cliquez pour activer)</small>

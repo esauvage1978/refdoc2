@@ -1,7 +1,7 @@
 {
     "devDependencies": {
         "@fortawesome/fontawesome-free": "~5.12",
-        "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/Resources/assets",
+        "@symfony/ux-dropzone": "file:vendor//symfony/ux-dropzone/Resources/assets",
         "@symfony/webpack-encore": "^1.5.0",
         "admin-lte": "^3.1.0",
         "bootstrap": "^4.6.0",
@@ -15,9 +15,10 @@
         "jquery-ui": "^1.12",
         "js-cookie": "^2.2",
         "jstree": "^3.3.11",
-        "node-sass": "^4.0.*",
+        "node-sass": "^4.0.1",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^9.0",
+        "stimulus": "^2.0.0",
         "summernote": "^0.8.18",
         "webpack-notifier": "^1.12.0"
     },

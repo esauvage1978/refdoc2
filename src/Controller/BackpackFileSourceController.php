@@ -4,14 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Backpack;
 use App\Entity\BackpackFileSource;
+use App\Repository\BackpackRepository;
 use App\Form\File\BackpackFileSourceType;
 use App\Manager\BackpackFileSourceManager;
-use App\Repository\BackpackRepository;
-use App\Repository\BackpackFileSourceRepository;
+use App\Form\File\BackpackFileSourceAddType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\BackpackFileSourceRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -44,7 +45,7 @@ class BackpackFileSourceController extends AbstractGController
         $file = new BackpackFileSource();
         $file->setBackpack($backpack);
 
-        $form = $this->createForm(BackpackFileSourceType::class, $file, ['action' => $this->generateUrl($request->get('_route'), ['parent_id' => $parent_id])]);
+        $form = $this->createForm(BackpackFileSourceAddType::class, $file, ['action' => $this->generateUrl($request->get('_route'), ['parent_id' => $parent_id])]);
 
         $form->handleRequest($request);
 

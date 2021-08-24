@@ -468,7 +468,19 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
     {
         $dto = $this->dto;
         $builder = $this->builder;
-        if (!empty($dto->getWordSearch())) {
+        if (!empty($dto->getRef())) {
+            $builder->andwhere(self::ALIAS . '.ref like :bpref');
+            $this->addParams('bpref', $dto->getRef());
+        } elseif  (!empty($dto->getSearchDate())) {
+                $builder
+                    ->andWhere(
+                        self::ALIAS . '.createdAt like :search ' .
+                        ' OR ' . self::ALIAS . '.updatedAt like :search' .
+                        ' OR ' . self::ALIAS . '.stateAt like :search' 
+                    );
+                $this->addParams('search', $dto->getSearchDate());
+        }
+        elseif (!empty($dto->getSearch())) {
             $builder
                 ->andwhere(
                     self::ALIAS . '.content like :search' .
@@ -487,7 +499,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                         ' OR ' . BackpackFileRepository::ALIAS . '.content like :search'
                 );
 
-            $this->addParams('search', '%' . $dto->getWordSearch() . '%');
+            $this->addParams('search', '%' . $dto->getSearch() . '%');
         }
     }
 

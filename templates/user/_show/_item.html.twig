@@ -38,7 +38,7 @@
 					text-center
 				{% endblock %}
 				{% block card_body %}
-					{% if item.userParam.isSubscription %}
+					{% if item.isSubscription %}
 						<span class="text-success">
 							<i class="fa fa-check-circle"></i>
 							L'utilisateur est abonné
@@ -163,7 +163,7 @@
 							{% endif %}
 						</div>
 						<div class="list-group-item list-group-item-action">
-							{% if item.userParam.isDoc %}
+							{% if item.isDoc %}
 								<span class="text-success">
 									<i class="fas fa-check"></i>
 									Service documentation</span>
@@ -176,7 +176,7 @@
 						</div>
 
 						<div class="list-group-item list-group-item-action">
-							{% if  item.userParam.isControl %}
+							{% if  item.isControl %}
 								<span class="text-success">
 									<i class="fas fa-check"></i>
 									Service contrôle</span>

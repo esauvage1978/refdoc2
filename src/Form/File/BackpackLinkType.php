@@ -21,7 +21,7 @@ class BackpackLinkType extends AppTypeAbstract
                 TextType::class,
                 [
                     self::LABEL => 'Titre',
-                    self::REQUIRED => false,
+                    self::REQUIRED => true,
                     self::ATTR => [self::PLACEHOLDER => "Titre du lien"]
                 ]
             )
@@ -30,7 +30,7 @@ class BackpackLinkType extends AppTypeAbstract
                 UrlType::class,
                 [
                     'label' => 'Adresse du lien',
-                    'required' => false,
+                    'required' => true,
                     self::ATTR => [self::PLACEHOLDER => "URL, exemple:http://google.fr"]
                 ]
             )

@@ -68,7 +68,7 @@
 									Utilisateur</span>
 							</div>
 						{% endif %}
-						{% if app.user.userParam.isDoc %}
+						{% if app.user.isDoc %}
 							<div class="list-group-item list-group-item-action">
 								<span class="text-success">
 									<i class="fas fa-check"></i>
@@ -76,7 +76,7 @@
 							</div>
 						{% endif %}
 
-						{% if app.user.userParam.isControl %}
+						{% if app.user.isControl %}
 							<div class="list-group-item list-group-item-action">
 								<span class="text-success">
 									<i class="fas fa-check"></i>
@@ -107,7 +107,7 @@
 					text-center text-p-light
 				{% endblock %}
 				{% block card_body %}
-					{{ form_row(form.userParam.iSsubscription) }}
+					{{ form_row(form.iSsubscription) }}
 
 				{% endblock %}
 

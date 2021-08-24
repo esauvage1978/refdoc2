@@ -1,31 +1,56 @@
 {% extends 'base.html.twig' %}
 {% import "macros/widgets.html.twig" as widgets %}
 
-{% block title %}{{ app_name }} - Documentation{% endblock %}
-{% block page_title %}{{widgets.icon('manual')}} Documentation{% endblock %}
-
-{% block page_content %}
-    <div class="row">
-        <div class="col-md-6 offset-md-3" >
-            {# ... box widget with defaults ... #}
-            {% embed 'widgets/card-widget.html.twig'%}
-                {% block card_body %}
-                    {% for doc in docs %}
-                        <div class="row ">
-                            <div class="col-sm-8">
-                                <a href="doc/{{ doc.url }}" target="_blank">
-                                    <i class="fas fa-angle-right text-purple"></i>  {{ doc.name }}
-                                </a>
-                            </div>
-                            <div class="col-sm-4 text-muted">
-                                version du {{ doc.date }}
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% endblock %}
-            {% endembed %}
-        </div>
-    </div>
+{% block title %}
+	{{ app_name }}
+	- Documentation
+{% endblock %}
+{% block page_title %}
+	{{widgets.icon('manual')}}
+	Documentation
 {% endblock %}
 
+{% block page_content %}
+	{# ... box widget with defaults ... #}
+	<div class="row ">
+		<div class="col-md-2 ">
+			<div class="list-group ">
 
+				{% for entry in entries %}
+					<a class="list-group-item list-group-item-action doc-entry" target="_self" href="{{ path('documentation_show_page',{data:entry.url})}}">
+						<i class="{{ entry.icone}}"></i>
+						{{ entry.name | raw}}
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="col-md-10">
+			<div id="showdata">
+				<div class="jumbotron d-flex align-items-center text-lg text-p-dark">
+				<i class="fas fa-hand-point-left fa-5x mr-5 "></i>Choisissez une rubrique</div>
+				<img src="{{ asset('img/notnews.svg')}}" alt"choix des abonnements" style="max-width:400px"/>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ absolute_url( asset('/vendor/axios/dist/axios.min.js')) }}"></script>
+	<script src="{{ absolute_url( asset('/js/es_widget.js')) }}"></script>
+	<script type="text/javascript">
+		document.querySelectorAll("a.doc-entry").forEach(function (link) {
+			link.addEventListener('click', onClickDocumentation);
+		});
+		function onClickDocumentation(event) {
+			event.preventDefault();
+
+			const url = this.href;
+			let showData = $('#showdata');
+			showData.fadeOut();
+			axios.get(url).then(function (response) {
+				showData.fadeIn(300);
+				html(showData, response.data.value);
+			});
+		};	
+	</script>
+{% endblock %}

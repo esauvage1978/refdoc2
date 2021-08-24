@@ -148,6 +148,7 @@ abstract class AppTypeAbstract extends AbstractType
         $builder
             ->add('mprocess', EntityType::class, [
                 'class' => MProcess::class,
+                self::LABEL=>"Macro-processus",
                 self::CHOICE_LABEL => 'fullname',
                 self::MULTIPLE => false,
                 self::ATTR => ['class' => ''],

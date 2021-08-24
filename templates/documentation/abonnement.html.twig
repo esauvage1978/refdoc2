@@ -1,0 +1,106 @@
+<div class="card card-primary card-outline">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+				<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+						Utilité ?
+					</a>
+					<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">
+						Consulter ses abonnements
+					</a>
+					<a class="nav-link" id="vert-tabs-3-tab" data-toggle="pill" href="#vert-tabs-3" role="tab" aria-controls="vert-tabs-3" aria-selected="false">
+						Modifier ses abonnements
+					</a>
+					<a class="nav-link" id="vert-tabs-4-tab" data-toggle="pill" href="#vert-tabs-4" role="tab" aria-controls="vert-tabs-4" aria-selected="false">
+						Modifier les abonnements d'un utilisateur (administrateur)
+					</a>
+				</div>
+			</div>
+			<div class="col-7 col-sm-9">
+				<div class="tab-content" id="vert-tabs-tabContent">
+					<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+						<p>
+							L'application RefDoc permet la consultation de l'ensemble des documents présents.
+						</p>
+						<p>
+							Afin de réduire cette liste et de gagner en efficacité, un système d'abonnement vous permet de choisir les macros-processus, processus et thématique qui vous concernent et vous interesse.
+						</p>
+
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+						<h2 class="mb-5 text-p-dark">Si vous n'avez pas d'abonnement</h2>
+						<p>
+							Si vous n'avez pas encore d'abonnement, le bloc ci-dessous sera présent sur la page d'accueil. En cliquant dessus vous serez en capacité de choisir vos abonnements.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_3.png')) }}">
+						</div>
+						<h2 class="mb-5 mt-5 text-p-dark">Si vous avez des abonnements</h2>
+						<p>
+							Vous pouvez consulter vos abonnements directement sur la page d'accueil en cliquant sur le mot
+							<b>Liste</b>
+							du bloc abonnement.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_1.png')) }}">
+						</div>
+						<p>
+							La liste de vos abonnement s'affiche
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_2.png')) }}">
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab">
+						<p>
+							La modification des abonnements est accessible via le menu principal
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_4.png')) }}">
+						</div>
+						<p>
+							La liste des rubriques s'affiche.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_5.png')) }}" style="max-width:98%">
+						</div>
+						<p>
+							Pour s'abonner, il suffit de cliquer sur la rubrique souhaitée. Elle changera de couleur et sera verte
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_6.png')) }}">
+						</div>
+						<p>
+							Pour se désabonner, il suffit de cliquer sur la rubrique souhaitée. Elle changera de couleur et sera jaune
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_7.png')) }}">
+						</div>
+						<blockquote>
+							S'abonner à un macro-processus vous donne automatiquement l'accès aux processus associés
+
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab">
+						<p>
+							L'administrateur de RefDoc a la possibilité de consulter et de modifier les abonnements d'un utilisateur.
+						</p>
+						<p>
+							Cette possibilité n'est présente que pour vérifier le bon fonctionnement de l'application. Les utilisateurs sont autonomes pour gérer leur abonnement.
+						</p>
+						<p>
+							A partir de l'<b>espace d'administration</b>
+							>
+							<b>Liste des utilisateur</b>
+							>
+							<b>Modifier</b>, un bouton avec l'icône d'abonnement permet d'accéder à la page de gestion.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.card -->
+</div>

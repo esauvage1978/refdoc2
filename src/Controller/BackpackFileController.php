@@ -6,6 +6,7 @@ use App\Entity\Backpack;
 use App\Entity\BackpackFile;
 use App\Form\File\BackpackFileType;
 use App\Manager\BackpackFileManager;
+use App\Form\File\BackpackFileAddType;
 use App\Repository\BackpackRepository;
 use App\Repository\BackpackFileRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +45,7 @@ class BackpackFileController extends AbstractGController
         $file = new BackpackFile();
         $file->setBackpack($backpack);
 
-        $form = $this->createForm(BackpackFileType::class, $file, ['action' => $this->generateUrl($request->get('_route'), ['parent_id' => $parent_id])]);
+        $form = $this->createForm(BackpackFileAddType::class, $file, ['action' => $this->generateUrl($request->get('_route'), ['parent_id' => $parent_id])]);
 
         $form->handleRequest($request);
 

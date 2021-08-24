@@ -40,12 +40,12 @@ final class CurrentUser
 
     public function isControl(): bool
     {
-        return $this->user->getUserParam()->getIsControl();
+        return $this->user->getIsControl();
     }
 
 
     public function isDoc(): bool
     {
-        return $this->user->getUserParam()->getIsDoc();
+        return $this->user->getIsDoc();
     }
 }

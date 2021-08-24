@@ -78,4 +78,13 @@ class BackpackLinkManager extends AbstractManager
 
         return true;
     }
+
+    public function remove(EntityInterface $entity): void
+    {
+        $this->backpackHistory->setHistoryRelation($entity->getBackpack(),'Lien');
+        $this->backpackHistory->compareLink( $entity,null);
+
+        $this->manager->remove($entity);
+        $this->manager->flush();
+    }
 }

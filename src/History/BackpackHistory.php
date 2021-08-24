@@ -113,17 +113,20 @@ class BackpackHistory implements HistoryEntityInterface
                 ->setTitle("Nom")
                 ->setOldData($itemOld)
                 ->setNewData($itemNew)
-                ->setField("Title"),
+                ->setField("Title")
+                ->setTypeOfCompare(($itemNew===null||$itemOld===null)?HistoryTypeOfCompare::ADD_OR_DELETE:HistoryTypeOfCompare::FIELD),
             (new HistoryData())
                 ->setTitle("URL")
                 ->setOldData($itemOld)
                 ->setNewData($itemNew)
-                ->setField("Link"),
+                ->setField("Link")
+                ->setTypeOfCompare(($itemNew===null||$itemOld===null)?HistoryTypeOfCompare::ADD_OR_DELETE:HistoryTypeOfCompare::FIELD),                
             (new HistoryData())
                 ->setTitle("Description du lien")
                 ->setOldData($itemOld)
                 ->setNewData($itemNew)
-                ->setField("Content"),
+                ->setField("Content")
+                ->setTypeOfCompare(($itemNew===null||$itemOld===null)?HistoryTypeOfCompare::ADD_OR_DELETE:HistoryTypeOfCompare::FIELD),
         ];
 
         $this->history->compare($compare);
@@ -137,17 +140,23 @@ class BackpackHistory implements HistoryEntityInterface
                 ->setTitle("Nom")
                 ->setOldData($itemOld)
                 ->setNewData($itemNew)
-                ->setField("Title"),
+                ->setField("Title")
+                ->setTypeOfCompare(($itemNew===null||$itemOld===null)?HistoryTypeOfCompare::ADD_OR_DELETE:HistoryTypeOfCompare::FIELD),
+
             (new HistoryData())
                 ->setTitle("nom du fichier")
                 ->setOldData($itemOld)
                 ->setNewData($itemNew)
-                ->setField("fileName"),
+                ->setField("fileName")
+                ->setTypeOfCompare(($itemNew===null||$itemOld===null)?HistoryTypeOfCompare::ADD_OR_DELETE:HistoryTypeOfCompare::FIELD),
+
             (new HistoryData())
                 ->setTitle("Description du lien")
                 ->setOldData($itemOld)
                 ->setNewData($itemNew)
-                ->setField("Content"),
+                ->setField("Content")
+                ->setTypeOfCompare(($itemNew===null||$itemOld===null)?HistoryTypeOfCompare::ADD_OR_DELETE:HistoryTypeOfCompare::FIELD),
+
         ];
 
         $this->history->compare($compare);

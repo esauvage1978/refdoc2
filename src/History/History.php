@@ -33,7 +33,7 @@ class History extends HistoryAbstract
     {
         foreach ($historyDatas as $historyData) {
             $diffPresent = false;
-            
+
             /**
              * @var HistoryData
              */
@@ -55,13 +55,17 @@ class History extends HistoryAbstract
                         $historyData
                     ) && $diffPresent = true;
                     break;
+                case HistoryTypeOfCompare::ADD_OR_DELETE:
+                    $this->ObjectAddOrSupp(
+                        $historyData,
+                        ($historyData->getOldData()===null?true:false)
+                    ) && $diffPresent = true;
+                    break;
             }
 
             if ($diffPresent) {
                 $this->save();
             }
         }
-
-
     }
 }

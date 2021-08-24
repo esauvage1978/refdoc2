@@ -13,18 +13,78 @@ class DocumentationController extends AbstractController
     public function index()
     {
         //les fichiers sont à déposer dans public/doc
-        $docs = [[
-            'name' => 'Guide de l\'abonnement',
-            'url' => 'REFDOC - abonnement.pdf',
-            'date' => '12/03/2021'
-        ], [
-            'name' => 'Guide du compte utilisateur',
-            'url' => 'DCGDR_SHAREPOINT - compte utilisateur.pdf',
-            'date' => '05/07/2020'
-        ]];
+        $entries = [
+            [
+                'name' => 'Votre&nbsp;compte',
+                'url' => 'profil',
+                'icone' => 'fa fa-user'
+            ],
+            [
+                'name' => 'Abonnement',
+                'url' => 'abonnement',
+                'icone' => 'fab fa-chromecast'
+            ],
+            [
+                'name' => 'Recherche',
+                'url' => 'recherche',
+                'icone' => 'fas fa-search'
+            ],
+            [
+                'name' => 'Accueil',
+                'url' => 'home',
+                'icone' => 'fas fa-home'
+            ],   
+            [
+                'name' => 'Notification',
+                'url' => 'notification',
+                'icone' => 'fas fa-paper-plane'
+            ],              
+            [
+                'name' => 'Tableau de bord',
+                'url' => 'dashboard',
+                'icone' => 'fas fa-tachometer-alt'
+            ],    
+            [
+                'name' => 'Administration',
+                'url' => 'admin',
+                'icone' => 'fas fa-wrench'
+            ],                                   
+            [
+                'name' => 'Ajouter&nbsp;un&nbsp;porte-document',
+                'url' => 'backpack_add',
+                'icone' => 'fas fa-suitcase'
+            ],
+            [
+                'name' => 'Modifier&nbsp;un&nbsp;porte-document',
+                'url' => 'backpack_edit',
+                'icone' => 'fas fa-suitcase'
+            ],
+            [
+                'name' => 'Un problème ?',
+                'url' => 'alert',
+                'icone' => 'fas fa-exclamation-triangle'
+            ]            
+        ];
 
         return $this->render('documentation/index.html.twig', [
-            'docs' => $docs,
+            'entries' => $entries,
         ]);
+    }
+
+    /**
+     * @Route("/documentation/{data}", name="documentation_show_page")
+     */
+    public function showPage(string $data)
+    {
+        $msgOK = "<span class='alert alert-success'>" . $data . " </span>";
+        $msgK0 = "<span class='alert alert-danger'>" . $data . "</span>";
+
+        return $this->json([
+            'code' => 200,
+            'value' => $this->renderView('documentation/' . $data . '.html.twig'),
+            'message' => 'données transmises'
+        ], 200);
+
+        return $this->render('documentation/' . $data . '.html.twig');
     }
 }

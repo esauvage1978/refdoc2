@@ -11,7 +11,7 @@ class TransitionGoInReview  extends TransitionAbstract
     {
         return
             [
-            'Envoyer <strong>EN REVISION</strong> . Une copie de ce porte document sera conservé pour la consultation par l\'ensemble du personnel. Le porte-document orignial sera placé dans l\'état <strong>à reprendre</strong>.'
+            'Envoyer <strong>EN REVISION</strong> . Une copie de ce porte document sera conservé pour la consultation par l\'ensemble du personnel. Le porte-document original sera placé dans l\'état <strong>à reprendre</strong>.'
             ];
     }
 

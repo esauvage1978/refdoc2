@@ -1,0 +1,175 @@
+<div class="card card-primary card-outline ">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+				<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+						Vos abonnements
+					</a>
+					<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">
+						Porte-documents par rapport à vos abonnements
+					</a>
+					<a class="nav-link" id="vert-tabs-3-tab" data-toggle="pill" href="#vert-tabs-3" role="tab" aria-controls="vert-tabs-3" aria-selected="false">
+						Porte-documents publiés
+					</a>
+					<a class="nav-link" id="vert-tabs-4-tab" data-toggle="pill" href="#vert-tabs-4" role="tab" aria-controls="vert-tabs-4" aria-selected="false">
+						Porte-document en cours de publication
+					</a>
+					<a class="nav-link" id="vert-tabs-5-tab" data-toggle="pill" href="#vert-tabs-5" role="tab" aria-controls="vert-tabs-5" aria-selected="false">
+						Actualités
+					</a>
+					<a class="nav-link" id="vert-tabs-6-tab" data-toggle="pill" href="#vert-tabs-6" role="tab" aria-controls="vert-tabs-6" aria-selected="false">
+						Actions à effectuer
+					</a>
+					<a class="nav-link" id="vert-tabs-7-tab" data-toggle="pill" href="#vert-tabs-7" role="tab" aria-controls="vert-tabs-7" aria-selected="false">
+						Notification
+					</a>
+				</div>
+			</div>
+			<div class="col-7 col-sm-9">
+				<div class="tab-content" id="vert-tabs-tabContent">
+					<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+						<h2 class="mb-5 text-p-dark">Si vous n'avez pas d'abonnement</h2>
+						<p>
+							Si vous n'avez pas encore d'abonnement, le bloc ci-dessous sera présent sur la page d'accueil. En cliquant dessus vous serez en capacité de choisir vos abonnements.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_3.png')) }}">
+						</div>
+						<h2 class="mb-5 mt-5 text-p-dark">Si vous avez des abonnements</h2>
+						<p>
+							Vous pouvez consulter vos abonnements directement sur la page d'accueil en cliquant sur le mot
+							<b>Liste</b>
+							du bloc abonnement.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_1.png')) }}">
+						</div>
+						<p>
+							La liste de vos abonnement s'affiche
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/abonnement_2.png')) }}">
+						</div>
+						<p>
+							Pour aller plus loin, consultez la rubrique
+							<b>abonnement</b>
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+						<blockquote>
+							Si ce bloc n'est pas présent, soit vous n'avez aucun abonnement, soit il n'y a aucun porte-document par rapport à vos abonnements
+						</blockquote>
+						<p>
+							Ce bloc vous permet d'accéder à la liste des porte-documents publiés et à réviser par rapport à vos abonnements.
+						</p>
+						<p>
+							Le nombre de porte-document concerné est présent dans le bloc
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/accueil_1.png')) }}">
+						</div>
+						<p>
+							Pour consulter la liste, il vous suffit d'appuyer sur le lien
+							<b>Consulter</b>
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab">
+						<p>
+							Ce bloc vous permet d'accéder à la liste
+							<b>complète</b>
+							des porte-documents publiés et à réviser.
+						</p>
+						<p>
+							Le nombre de porte-document concerné est présent dans le bloc
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/accueil_2.png')) }}">
+						</div>
+						<p>
+							Pour consulter la liste, il vous suffit d'appuyer sur le lien
+							<b>Consulter</b>
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab">
+						<blockquote>
+							Ce bloc est présent uniquement si vous avez des porte-documents en attente de publication
+						</blockquote>
+						<p>
+							Le nombre de porte-document concerné est présent dans le bloc
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/accueil_3.png')) }}">
+						</div>
+						<p>
+							Pour consulter la liste, il vous suffit d'appuyer sur le lien
+							<b>Consulter</b>
+						</p>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-5" role="tabpanel" aria-labelledby="vert-tabs-5-tab">
+						<p>
+							<div class="alert alert-info ">
+								<h5>
+									<i class="icon fas fa-info"></i>Délai
+								</h5>
+
+								<p>Un porte-document est présent dans les actualités pendant
+									<b>{{ news_time }}</b>
+									jours</p>
+							</div>
+						</p>
+						<h2 class="mb-5 text-p-dark">Si vous n'avez pas d'abonnement</h2>
+						<p>
+							Si vous n'avez pas encore d'abonnement, Il n'y aura aucune actualité affichée
+						</p>
+					</p>
+					Par contre vous pouvez consulter la liste des actualités de l'application en cliquant sur
+					<b>Toutes les actualités</b>
+				</p>
+				<div class="doc-image mt-4 mb-4">
+					<img src="{{ absolute_url( asset('doc/accueil_4.png')) }}">
+				</div>
+				<h2 class="mb-5 mt-5 text-p-dark">Si vous avez des abonnements</h2>
+				<p>
+					La liste des actualités s'affichent sur la page d'accueil.
+				</p>
+				<div class="doc-image mt-4 mb-4">
+					<img src="{{ absolute_url( asset('doc/accueil_5.png')) }}">
+				</div>
+				<p>
+					Si vous cliquez sur un des liens, le porte-document s'affiche directement sur la page d'accueil
+				</p>
+				<div class="doc-image mt-4 mb-4">
+					<img src="{{ absolute_url( asset('doc/accueil_6.png')) }}">
+				</div>
+			</div>
+			<div class="tab-pane fade" id="vert-tabs-6" role="tabpanel" aria-labelledby="vert-tabs-6-tab">
+				<p>
+					Sera présent sur la page d'accueil un bloc contenant les actions à effectuer sur les porte-documents
+				</p>
+				<div class="doc-image mt-4 mb-4">
+					<img src="{{ absolute_url( asset('doc/accueil_7.png')) }}">
+				</div>
+				<p>
+					<ul>
+						<li>
+							<b>Les brouillons</b>
+							: Les porte-documents dans cet état dans lesquels vous êtes contributeur</lI>
+						<li>
+							<b>Mes brouillons</b>
+							: les porte-documents dans l'état brouillon où vous êtes l'émetteur et avec des droits de contributeur</lI>
+						<li>
+							<b>A reprendre</b>
+							: Les porte-documents dans cet état dans lesquels vous êtes contributeur</lI>
+						<li>
+							<b>A valider</b>
+							: Les porte-documents dans cet état dans lesquels vous êtes contributeur</lI>
+					</ul>
+				</p>
+			</div>
+			<div class="tab-pane fade" id="vert-tabs-7" role="tabpanel" aria-labelledby="vert-tabs-7-tab">
+				{{ include('documentation/partial/_notification_home.html.twig') }}
+			</div>
+		</div>
+	</div>
+</div></div><!-- /.card --></div>

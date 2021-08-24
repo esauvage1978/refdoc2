@@ -40,6 +40,30 @@ class UserType extends AppTypeAbstract
                 self::LABEL => 'form.roles',
             ])
             ->add(
+                'iSsubscription',
+                CheckboxType::class,
+                [
+                    self::LABEL => ' Autorise à recevoir hebdomadairement les actualités par rapport aux abonnements',
+                    self::REQUIRED => false,
+                ]
+            )
+            ->add(
+                'isDoc',
+                CheckboxType::class,
+                [
+                    self::LABEL => ' Service documentation',
+                    self::REQUIRED => false,
+                ]
+            )
+            ->add(
+                'isControl',
+                CheckboxType::class,
+                [
+                    self::LABEL => ' Service contrôle',
+                    self::REQUIRED => false,
+                ]
+            )
+            ->add(
                 'emailValidated',
                 CheckboxType::class,
                 [
@@ -50,7 +74,7 @@ class UserType extends AppTypeAbstract
             ->add('loginAt')
             ->add('createdAt')
             ->add('modifiedAt')
-            ->add('userParam', UserParamType::class);
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

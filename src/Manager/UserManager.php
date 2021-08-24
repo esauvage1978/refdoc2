@@ -19,7 +19,6 @@ use function in_array;
 use function date_format;
 use function file_exists;
 use function str_replace;
-use App\Entity\UserParam;
 use function random_bytes;
 use function base64_decode;
 use function file_put_contents;
@@ -64,7 +63,7 @@ class UserManager
     {
         $this->initialise($user, $oldUserMail);
 
-        if (! $this->validator->isValid($user)) {
+        if (!$this->validator->isValid($user)) {
             return false;
         }
 
@@ -81,7 +80,7 @@ class UserManager
         $this->checkAvatar($item);
     }
 
-    public function initialise(User $user, $oldUserMail = null)
+    public function initialise(User $user, User $oldUserData = null)
     {
         $this->encodePassword($user);
 
@@ -93,8 +92,8 @@ class UserManager
         }
 
         if (
-            ! $user->getEmailValidatedToken() or
-            ($user->getEmail() !== $oldUserMail and $oldUserMail !== null)
+            !$user->getEmailValidatedToken() or
+            ($oldUserData !== null and $user->getEmail() !== $oldUserData->getEmail())
         ) {
             $user
                 ->setEmailValidated(false)
@@ -103,8 +102,8 @@ class UserManager
 
         $this->checkAvatar($user);
 
-        if(null == $user->getUserParam()) {
-            $user->setUserParam((new UserParam()));
+        if (null !== $oldUserData and $user->getIsSubscription() != $oldUserData->getIsSubscription()) {
+            $user->setSubscriptionAt(new DateTime());
         }
 
         return true;
@@ -116,7 +115,7 @@ class UserManager
             return false;
         }
 
-        if (! file_exists($this->params->get(ParamsInServices::ES_DIRECTORY_AVATAR) . '/' . $user->getId() . '.png')) {
+        if (!file_exists($this->params->get(ParamsInServices::ES_DIRECTORY_AVATAR) . '/' . $user->getId() . '.png')) {
             copy(
                 $this->params->get(ParamsInServices::ES_DIRECTORY_AVATAR) . '/__default_' . rand(1, 16) . '.png',
                 $this->params->get(ParamsInServices::ES_DIRECTORY_AVATAR) . '/' . $user->getId() . '.png'
@@ -182,7 +181,7 @@ class UserManager
     {
         $user->setEmailValidated(true);
         $user->setEmailValidatedToken(date_format(new DateTime(), 'Y-m-d H:i:s'));
-        if (! in_array(Role::ROLE_USER, $user->getRoles())) {
+        if (!in_array(Role::ROLE_USER, $user->getRoles())) {
             $user->setRoles([Role::ROLE_USER]);
         }
 

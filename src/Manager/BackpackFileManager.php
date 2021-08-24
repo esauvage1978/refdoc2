@@ -78,4 +78,13 @@ class BackpackFileManager extends AbstractManager
 
         return true;
     }
+
+    public function remove(EntityInterface $entity): void
+    {
+        $this->backpackHistory->setHistoryRelation($entity->getBackpack(),'Fichier');
+        $this->backpackHistory->compareFile( $entity,null);
+
+        $this->manager->remove($entity);
+        $this->manager->flush();
+    }
 }

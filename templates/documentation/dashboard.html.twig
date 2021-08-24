@@ -1,0 +1,59 @@
+<div class="card card-primary card-outline ">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+				<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+						Le tableau de bord
+					</a>
+
+				</div>
+			</div>
+			<div class="col-7 col-sm-9">
+				<div class="tab-content" id="vert-tabs-tabContent">
+					<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+						<p>
+							Le dashboard permet d'avoir une vue d'ensemble sur l'application RefDoc.
+						</p>
+						<p>
+							On y retrouve par exemple la ventilation des porte-documents par état, les porte-documents qui seront à réviser...
+						</p>
+						<p>
+							Pour consulter les porte-documents associés, il vous suffit de cliquer sur un des nombres
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/dashboard_1.png')) }}">
+						</div>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/dashboard_2.png')) }}">
+						</div>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/dashboard_3.png')) }}">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/recherche_1.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Recherche exacte</h2>
+						<p>
+							<div class="alert alert-info ">
+								<h5>
+									<i class="icon fas fa-info"></i>Exemple
+								</h5>
+
+								<p>D1-CO-1</p>
+							</div>
+						</p>
+						<blockquote>
+							dd
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab"></div>
+					<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.card -->
+</div>

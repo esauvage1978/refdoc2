@@ -134,7 +134,7 @@ abstract class HistoryAbstract
         return $return;
     }
 
-    private function ObjectAddOrSupp(HistoryData $historyData, $add = true): bool
+    protected function ObjectAddOrSupp(HistoryData $historyData, $add = true): bool
     {
         $func = 'get' . $historyData->getField();
         $add?$data=$historyData->getNewData():$data=$historyData->getOldData();
@@ -150,7 +150,7 @@ abstract class HistoryAbstract
                 break;
         }
 
-        $this->initHistory($add?null:$dataValue,$add?$dataValue:null,$historyData);
+        $this->initHistory($add?'ajout':$dataValue,$add?$dataValue:'suppression',$historyData);
 
         return true;
     }

@@ -115,7 +115,7 @@ class AjaxBackpackController extends AbstractGController
             ->setForUpdate(MProcessDto::TRUE)
             ->setVisible(MProcessDto::TRUE);
 
-        if (!$user->getUserParam()->getIsDoc()) {
+        if (!$user->getIsDoc()) {
             $dto->setUserDto((new UserDto())->setId($this->getUser()->getId()));
         }
 
@@ -144,7 +144,7 @@ class AjaxBackpackController extends AbstractGController
             ->setForUpdate(ProcessDto::TRUE)
             ->setVisible(ProcessDto::TRUE);
 
-        if (!$user->getUserParam()->getIsDoc()) {
+        if (!$user->getIsDoc()) {
             $dto->setUserDto((new UserDto())->setId($this->getUser()->getId()));
         }
 

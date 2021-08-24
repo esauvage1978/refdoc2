@@ -1,0 +1,118 @@
+
+	<div class="card card-primary card-outline ">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-5 col-sm-3">
+					<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+						<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">Recherche</a>
+						<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">Recherche par référence</a>
+						<a class="nav-link" id="vert-tabs-3-tab" data-toggle="pill" href="#vert-tabs-3" role="tab" aria-controls="vert-tabs-3" aria-selected="false">Recherche par date</a>
+						<a class="nav-link" id="vert-tabs-4-tab" data-toggle="pill" href="#vert-tabs-4" role="tab" aria-controls="vert-tabs-4" aria-selected="false">Recherche de l'ensemble des porte-documents</a>
+					</div>
+				</div>
+				<div class="col-7 col-sm-9">
+					<div class="tab-content" id="vert-tabs-tabContent">
+						<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+							<p>Saisir le terme à rechercher dans la zone située depuis le menu supérieur et valider en appuyant par la touche
+								<b>entrée</b>
+							</p>
+							<div class="doc-image">
+								<img src="{{ absolute_url( asset('doc/recherche_1.png')) }}">
+							</div>
+							<p>Les résultats s'affichent directement.</p>
+							<p>Ne sont affichés que les document dans les états : publié, à réviser</p>
+							<p>Les données concernées par la recherche sont :
+								<ul>
+									<li>Nom du porte-document</li>
+									<li>Description du porte-document</li>
+									<li>Arborescence du porte-document</li>
+									<li>Description du dernier changement d'état du porte-document</li>
+									<li>Nom, lien et description des liens associés</li>
+									<li>Nom et description des fichiers associés</li>
+								</ul>
+							</p>
+						</div>
+						<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+							<h2 class="mb-5 text-p-dark">Recherche exacte</h2>
+							<p>Vous pouvez saisir la référence exacte d'un porte document directement dans la zone de recherche.</p>
+							<p>
+								<div class="alert alert-info ">
+									<h5>
+										<i class="icon fas fa-info"></i>Exemple
+									</h5>
+
+									<p>D1-CO-1</p>
+								</div>
+							</p>
+							<h2 class="mt-5 mb-5 text-p-dark">Recherche partielle</h2>
+							<p>Vous pouvez saisir une référence partielle d'un porte document directement dans la zone de recherche en remplaçant les zones inconnues par le caractère
+								<b>*</b>.
+							</p>
+							<p>
+								<div class="alert alert-info ">
+									<h5>
+										<i class="icon fas fa-info"></i>Exemple
+									</h5>
+
+									<p>D1-*-1 ou *-CO-1 ou D1-CO-* ou *-CO-*</p>
+								</div>
+							</p>
+							<blockquote>
+								La présence de 2 caractères
+								<b>-</b>
+								permet de définir que la recherche porte sur la référence uniquement
+							</blockquote>
+						</div>
+						<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab">
+                            <p>
+                                La recherche par date s'effectue sur les données suivantes :
+                                <ul>
+                                    <li>Date de création</li>
+                                    <li>Date de modification</li>
+                                    <li>Date de changement d'état</li>
+                                </ul>
+                            </p>
+							<h2 class="mt-5 mb-5 text-p-dark">Recherche exacte</h2>
+							<p>Vous pouvez saisir la date exacte d'un porte document directement dans la zone de recherche.</p>
+							<p>
+								<div class="alert alert-info ">
+									<h5>
+										<i class="icon fas fa-info"></i>Exemple
+									</h5>
+
+									<p>05/08/2021</p>
+								</div>
+							</p>
+							<h2 class="mt-5 mb-5 text-p-dark">Recherche partielle</h2>
+							<p>Vous pouvez saisir une date partielle d'un porte document directement dans la zone de recherche en remplaçant les zones inconnues par le caractère
+								<b>*</b>.
+							</p>
+							<p>
+								<div class="alert alert-info ">
+									<h5>
+										<i class="icon fas fa-info"></i>Exemple
+									</h5>
+
+									<p>08/*/2021 ou */08/2021 ou 05/08/* ou */*/2021</p>
+								</div>
+							</p>
+							<blockquote>
+								La présence de 2 caractères
+								<b>/</b>
+								permet de définir que la recherche porte sur la date de création ou de modification uniquement
+							</blockquote>
+						</div>
+						<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab">
+							<p>Il est possible de faire une recherche sur l'ensemble des porte-documents en cochant la case
+								<b>Voir l'ensemble des documents</b>
+							</p>
+							<div style="" class="doc-image">
+								<img src="{{ absolute_url( asset('doc/recherche_2.png')) }}">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.card -->
+	</div>
