@@ -168,6 +168,7 @@
 {% endmacro %}
 
 {% macro showLinks(links) %}
+{% import "macros/widgets.html.twig" as widgets %}
 	{% for link in links %}
 
 		{% set color='text-p-dark' %}
@@ -195,7 +196,7 @@
 				</div>
 			</td>
 			<td class="align-middle text-center text-muted small">
-				{{ link.modifyAt |format_datetime('full', 'short', locale='fr') }}
+				{{ widgets.showFullDateShortTime( link.modifyAt) }}
 			</td>
 			<td></td>
 		</tr>

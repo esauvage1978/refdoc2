@@ -22,7 +22,7 @@ class HistoryData
     private $oldData;
 
     /**
-     * @var string|null|EntityInterface
+     * @var string|null|EntityInterface 
      */
     private $newData;
 

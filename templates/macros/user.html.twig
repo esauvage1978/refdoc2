@@ -88,7 +88,8 @@
 {% endmacro %}
 
 {% macro avatar(item) %}
-	<img src="{{ asset(item.avatar) }}" text="{{item.name}}" style="cursor:pointer" alt="{{item.name}}" class="img-circle elevation-2 direct-chat-img mr-3" data-toggle="modal" data-target="#avatar_{{item.id}}">
+	
+	<img src="{{ asset(item.avatar) }}" title="{{item.name}}" style="cursor:pointer" alt="{{item.name}}" class="img-circle elevation-2 direct-chat-img mr-3" data-toggle="modal" data-target="#avatar_{{item.id}}">
 	<div class="modal fade" id="avatar_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="avatar_{{item.id}}" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">

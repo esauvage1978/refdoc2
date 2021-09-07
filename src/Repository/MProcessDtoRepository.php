@@ -64,7 +64,7 @@ class MProcessDtoRepository extends ServiceEntityRepository implements DtoReposi
 
         $this->initialise_where();
 
-        $this->initialise_orderBy();
+        $this->initialise_orderByForCombobox();
 
         return $this->builder
             ->getQuery()
@@ -291,9 +291,10 @@ class MProcessDtoRepository extends ServiceEntityRepository implements DtoReposi
             ->addOrderBy(ProcessRepository::ALIAS . '.name', 'ASC');
     }
 
-    private function initialise_orderByName(): void
+    private function initialise_orderByForCombobox(): void
     {
         $this->builder
-            ->orderBy(self::ALIAS . '.name', 'ASC');
+            ->orderBy('name', 'ASC')
+            ->addOrderBy(self::ALIAS . '.id', 'ASC');
     }
 }

@@ -28,12 +28,12 @@ class BackpackRefControllator
         $this->backpack = $backpack;
     }
 
-    public function isUnique(string $ref)
+    public function isUnique(string $ref):bool
     {
-        return $this->backpackRepository->findCountForRef($ref,$this->backpack->getId())==="0"?true:false;
+        return !$this->backpackRepository->findCountForRef($ref,$this->backpack->getId());
     }
 
-    public function isCoherent()
+    public function isCoherent(): bool
     {
         return strpos($this->backpack->getRef(), $this->getPattern()) === false?false:true;
     }

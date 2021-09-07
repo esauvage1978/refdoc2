@@ -50,10 +50,6 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
 
         $this->initialise_where();
 
-        $this->initialise_orderBy();
-
-
-
         return $this->builder
             ->getQuery()->getSingleScalarResult();
     }
@@ -265,7 +261,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                     ->join(self::ALIAS . '6.mProcess', MProcessRepository::ALIAS . '6')
                     ->join(MProcessRepository::ALIAS . '6.poleValidators', UserRepository::ALIAS_MP_PV . '6')
                     ->where(UserRepository::ALIAS_MP_PV . '6.id= :idUser')
-                    ->andWhere(categoryRepository::ALIAS . '6.isValidatedByADD=0');
+                    ->andWhere(categoryRepository::ALIAS . '6.isValidatedByADD=false');
                 $rqtMPValidatorADD = $this->createQueryBuilder(self::ALIAS . '5')
                     ->select(self::ALIAS . '5.id')
                     ->join(self::ALIAS . '5.mProcess', MProcessRepository::ALIAS . '5')
@@ -277,7 +273,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                     ->join(self::ALIAS . '7.mProcess', MProcessRepository::ALIAS . '7')
                     ->join(MProcessRepository::ALIAS . '7.dirValidators', UserRepository::ALIAS_MP_DV . '7')
                     ->where(UserRepository::ALIAS_MP_DV . '7.id= :idUser')
-                    ->andWhere(categoryRepository::ALIAS . '7.isValidatedByADD=1');
+                    ->andWhere(categoryRepository::ALIAS . '7.isValidatedByADD=true');
                 $rqtPValidator = $this->createQueryBuilder(self::ALIAS . '4')
                     ->select(self::ALIAS . '4.id')
                     ->join(self::ALIAS . '4.process', ProcessRepository::ALIAS . '4')
@@ -351,7 +347,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                     ->join(MProcessRepository::ALIAS . '1.subscriptions', SubscriptionRepository::ALIAS . '1')
                     ->join(SubscriptionRepository::ALIAS . '1.user', UserRepository::ALIAS_MP_C . '1')
                     ->where(UserRepository::ALIAS_MP_C . '1.id= :idUser')
-                    ->andWhere(SubscriptionRepository::ALIAS . '1.isEnable=1');
+                    ->andWhere(SubscriptionRepository::ALIAS . '1.isEnable=true');
 
                 $qWC2 = $this->createQueryBuilder(self::ALIAS . '2')
                     ->select(self::ALIAS . '2.id')
@@ -359,7 +355,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
                     ->join(ProcessRepository::ALIAS . '2.subscriptions', SubscriptionRepository::ALIAS . '2')
                     ->join(SubscriptionRepository::ALIAS . '2.user', UserRepository::ALIAS_MP_C . '2')
                     ->where(UserRepository::ALIAS_MP_C . '2.id= :idUser')
-                    ->andWhere(SubscriptionRepository::ALIAS . '2.isEnable=1');
+                    ->andWhere(SubscriptionRepository::ALIAS . '2.isEnable=true');
 
                 $this->addParams('idUser', $u->getId());
 

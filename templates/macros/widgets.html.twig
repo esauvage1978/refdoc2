@@ -3,19 +3,19 @@
 {% endmacro %}
 
 {% macro showFullDateShortTime(date) %}
-	{{ date |format_datetime('full', 'short', locale='fr') }}
+	{{ date |format_datetime('full', 'short') }}
 {% endmacro %}
 
 {% macro showMediumDateShortTime(date) %}
-	{{ date |format_datetime('medium', 'short', locale='fr') }}
+	{{ date |format_datetime('medium', 'short') }}
 {% endmacro %}
 
 {% macro showMediumDateNoneTime(date) %}
-	{{ date |format_datetime('medium', 'none', locale='fr') }}
+	{{ date |format_datetime('medium', 'none') }}
 {% endmacro %}
 
 {% macro showFullDateNoneTime(date) %}
-	{{ date |format_datetime('full', 'none', locale='fr') }}
+	{{ date |format_datetime('full', 'none') }}
 {% endmacro %}
 
 

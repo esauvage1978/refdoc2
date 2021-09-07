@@ -7,11 +7,10 @@ namespace App\Mail;
 use App\Entity\User;
 use App\Helper\ParamsInServices;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
 use Twig\Environment;
+use Swift_Mailer;
+use Swift_Message;
 
 use function array_merge;
 use function dump;
@@ -37,9 +36,6 @@ class Mail
     /** @var Environment */
     private $twig;
 
-    /** @var EsmtpTransport */
-    private $transport;
-
     /** @var ParamsInServices */
     private $paramsInServices;
 
@@ -49,29 +45,32 @@ class Mail
 
     private $paramsTwig;
 
+    /**
+     * @var Swift_Mailer
+     */
+    private $mailer;
+
     public function __construct(
         Environment $twig,
         ParamsInServices $paramsInServices,
-        MailerTransport $mailerTransport
+        Swift_Mailer $mailer
     ) {
         $this->twig = $twig;
         $this->paramsInServices = $paramsInServices;
-        $this->transport = $mailerTransport->getTransport();
+        $this->mailer = $mailer;
     }
 
     public function send(): int
     {
-        $email = (new Email())
-            ->from($this->getUserFrom())
-            ->to($this->getUserTo())
-            ->priority(Email::PRIORITY_HIGH)
-            ->subject($this->getSubject())
-            ->html($this->getHtml());
+        $email = (new Swift_Message())
+            ->setFrom($this->getUserFrom())
+            ->setTo($this->getUserTo())
+            ->setSubject($this->getSubject())
+            ->setBody($this->getHtml(), 'text/html');
 
-        $mailer = new Mailer($this->transport);
 
         try {
-            $mailer->send($email);
+            $this->mailer->send($email);
 
             return 1;
         } catch (TransportExceptionInterface $e) {
@@ -161,7 +160,7 @@ class Mail
 
     public function setUserTo(User $user): Mail
     {
-        $this->usersTo =  new Address($user->getEmail(), $user->getUsername());
+        $this->usersTo = [$user->getEmail()=> $user->getUsername()];
 
         return $this;
     }
@@ -172,7 +171,7 @@ class Mail
             foreach ($this->paramsTwig[self::USERS_TO] as $user) {
                 $this->usersTo = array_merge(
                     $this->usersTo,
-                    [new Address($user->getEmail(), $user->getUsername())]
+                    [$user->getEmail()=> $user->getUsername()]
                 );
             }
         }
@@ -189,7 +188,7 @@ class Mail
 
     public function setUserFrom(User $user): Mail
     {
-        $this->userFrom =  [new Address($user->getEmail(), $user->getUsername())];
+        $this->userFrom = [ $user->getEmail()=> $user->getUsername()];
 
         return $this;
     }
@@ -205,11 +204,11 @@ class Mail
     //######################################
     //   CONTACT APP
     //######################################
-    private function getContactApp(): Address
+    private function getContactApp()
     {
         $contact_mail = $this->paramsInServices->get(ParamsInServices::ES_MAILER_USER_MAIL);
         $contact_name = $this->paramsInServices->get(ParamsInServices::ES_MAILER_USER_NAME);
 
-        return new Address($contact_mail, $contact_name);
+        return [$contact_mail=> $contact_name];
     }
 }
