@@ -20,7 +20,7 @@ class BackpackFileType extends AppTypeAbstract
                 [
                     self::LABEL => 'Choisir le fichier',
                     self::REQUIRED => false,
-                ])
+                ]) 
             ->add('title', TextType::class,
                 [
                     self::LABEL => 'titre',
