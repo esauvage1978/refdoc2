@@ -4,7 +4,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    es.directory.avatar: "%kernel.project_dir%/public/avatar/"
 
     es.app.name: "%env(ES_APP_NAME)%"
     es.mailer.name: "%env(ES_MAILER_NAME)%"
@@ -15,6 +14,7 @@ parameters:
     es.mailer.user.mail: "%env(ES_MAILER_USER_MAIL)%"
     es.mailer.user.password: "%env(ES_MAILER_USER_PASSWORD)%"
 
+    es.directory.avatar: "%kernel.project_dir%/public/avatar/"
     es.directory.upload.backpack.show: "%kernel.project_dir%/public/uploads/backpacks"
     es.directory.upload.backpack.source: "%kernel.project_dir%/public/uploads/backpacksSource"
     es.directory.css: "%kernel.project_dir%/public/css"

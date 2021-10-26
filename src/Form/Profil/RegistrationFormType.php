@@ -20,7 +20,7 @@ class RegistrationFormType extends AppTypeAbstract
     {
         $builder
             ->add('name', TextType::class, [
-                self::LABEL => 'Nom',
+                self::LABEL => 'NOM et Prénom',
                 self::REQUIRED => true,
             ])
             ->add(

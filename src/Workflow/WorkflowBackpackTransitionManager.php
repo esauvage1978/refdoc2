@@ -17,7 +17,7 @@ class WorkflowBackpackTransitionManager
     /**
      * @var BackpackRepository
      */
-    private $BackpackRepository;
+    private $backpackRepository;
 
 
     /**

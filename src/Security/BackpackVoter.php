@@ -70,7 +70,7 @@ class BackpackVoter extends Voter
 
     public function canRead(Backpack $backpack, User $user)
     {
-        if (Role::isGestionnaire($this->user)) {
+        if (Role::isUser($this->user)) {
             return true;
         }
 

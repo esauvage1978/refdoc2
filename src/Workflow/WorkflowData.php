@@ -28,6 +28,7 @@ class WorkflowData
     const WORKFLOW_IS_SAME = 'same';
     
     private const NAME = 'name';
+    private const NAME_PERSO = 'name_persi';
     private const ICON = 'icon';
     private const TITLE_MAIL = 'title_mail';
     private const BGCOLOR = 'bgcolor';
@@ -40,6 +41,7 @@ class WorkflowData
             self::STATE_DRAFT =>
             [
                 self::NAME => ' Brouillon',
+                self::NAME_PERSO => ' Brouillon',
                 self::ICON => 'fab fa-firstdraft',
                 self::TITLE_MAIL => ' Un porte-document est passé à l\'état brouillon',
                 self::BGCOLOR => '#440155',
@@ -54,6 +56,7 @@ class WorkflowData
             self::STATE_TO_VALIDATE =>
             [
                 self::NAME => ' A valider',
+                self::NAME_PERSO => ' J\'envoie en validation',
                 self::ICON => 'fas fa-stamp',
                 self::TITLE_MAIL => ' Un porte-document est à valider par les responsables hiérarchiques',
                 self::BGCOLOR => '#5b0570',
@@ -84,6 +87,7 @@ class WorkflowData
             self::STATE_TO_CONTROL =>
             [
                 self::NAME => ' A contrôler',
+                self::NAME_PERSO => ' J\'envoie au contrôle',
                 self::ICON => 'fas fa-copyright',
                 self::TITLE_MAIL => ' Un porte-document est à valider par le service contrôle',
                 self::BGCOLOR => '#794A8D',
@@ -113,6 +117,7 @@ class WorkflowData
             self::STATE_ABANDONNED =>
             [
                 self::NAME => ' Abandonné',
+                self::NAME_PERSO => ' J\'abandonne',
                 self::ICON => 'far fa-trash-alt',
                 self::TITLE_MAIL => ' Un porte-document est abandonné',
                 self::BGCOLOR => '#AA0C0C',
@@ -126,6 +131,7 @@ class WorkflowData
             self::STATE_TO_RESUME =>
             [
                 self::NAME => ' A reprendre',
+                self::NAME_PERSO => ' Je renvoie à l\'émetteur',
                 self::ICON => 'far fa-edit',
                 self::TITLE_MAIL => ' Un porte-document est à reprendre',
                 self::BGCOLOR => '#5B2971',
@@ -140,6 +146,7 @@ class WorkflowData
             self::STATE_TO_REVISE =>
             [
                 self::NAME => ' A réviser',
+                self::NAME_PERSO => ' J\'envoie en révision',
                 self::ICON => 'fas fa-recycle',
                 self::TITLE_MAIL => ' Un porte-document est à réviser',
                 self::BGCOLOR => '#E851BB',
@@ -154,6 +161,7 @@ class WorkflowData
             self::STATE_IN_REVIEW =>
             [
                 self::NAME => ' En révision',
+                self::NAME_PERSO => ' En révision',
                 self::ICON => 'fas fa-crosshairs',
                 self::TITLE_MAIL => ' Un porte-document est à réviser',
                 self::BGCOLOR => '#ED59FF',
@@ -166,7 +174,8 @@ class WorkflowData
             ],           
             self::STATE_TO_CHECK =>
             [
-                self::NAME => ' A vérifier',
+                self::NAME => ' A vérifier par la documentation',
+                self::NAME_PERSO => ' J\'envoie au service documentation',
                 self::ICON => 'fas fa-barcode',
                 self::TITLE_MAIL => ' Un porte-document est à valider par le service documentation',
                 self::BGCOLOR => '#9974AA',
@@ -195,6 +204,7 @@ class WorkflowData
             self::STATE_PUBLISHED =>
             [
                 self::NAME => ' Publié',
+                self::NAME_PERSO => ' Je publie',
                 self::ICON => 'fab fa-product-hunt',
                 self::TITLE_MAIL => ' Un porte-document est publié',
                 self::BGCOLOR => '#ff6584',
@@ -267,6 +277,11 @@ class WorkflowData
         return self::getStatesValue($state, self::NAME);
     }
 
+    public static function getShortNamePersoOfState(string $state)
+    {
+        return self::getStatesValue($state, self::NAME_PERSO);
+    }
+
     public static function getBGColorOfState(string $state)
     {
         return self::getStatesValue($state, self::BGCOLOR);
@@ -316,42 +331,42 @@ class WorkflowData
             case self::TRANSITION_GO_TO_VALIDATE:
                 $data['state'] = self::STATE_TO_VALIDATE;
                 $data['titre'] = 'Mettre à la validation hiérarchique';
-                $data['btn_label'] = 'A valider';
+                $data['btn_label'] = self::getStatesValue(self::STATE_TO_VALIDATE, self::NAME_PERSO);
                 break;
             case self::TRANSITION_GO_ABANDONNED:
                 $data['state'] = self::STATE_ABANDONNED;
                 $data['titre'] = 'Abandonner le porte-document';
-                $data['btn_label'] = 'A abandonner';
+                $data['btn_label'] = self::getStatesValue(self::STATE_ABANDONNED, self::NAME_PERSO);
                 break;
             case self::TRANSITION_GO_TO_RESUME:
                 $data['state'] = self::STATE_TO_RESUME;
                 $data['titre'] = 'Le document est à reprendre';
-                $data['btn_label'] = 'A reprendre';
+                $data['btn_label'] = self::getStatesValue(self::STATE_TO_RESUME, self::NAME_PERSO);
                 break;
             case self::TRANSITION_GO_TO_CONTROL:
                 $data['state'] = self::STATE_TO_CONTROL;
                 $data['titre'] = 'Mettre à la validation du service contrôle';
-                $data['btn_label'] = 'A contrôler';
+                $data['btn_label'] = self::getStatesValue(self::STATE_TO_CONTROL, self::NAME_PERSO);
                 break;
             case self::TRANSITION_GO_TO_CHECK:
                 $data['state'] = self::STATE_TO_CHECK;
                 $data['titre'] = 'Vérifier la forme des documents';
-                $data['btn_label'] = 'A vérifier';
+                $data['btn_label'] = self::getStatesValue(self::STATE_TO_CHECK, self::NAME_PERSO);
                 break;
             case self::TRANSITION_GO_PUBLISHED:
                 $data['state'] = self::STATE_PUBLISHED;
                 $data['titre'] = 'Publier le document';
-                $data['btn_label'] = 'A publier';
+                $data['btn_label'] = self::getStatesValue(self::STATE_PUBLISHED, self::NAME_PERSO);
                 break;
             case self::TRANSITION_GO_TO_REVISE:
                 $data['state'] = self::STATE_TO_REVISE;
                 $data['titre'] = 'Mettre à réviser';
-                $data['btn_label'] = 'A réviser';
+                $data['btn_label'] = self::getStatesValue(self::STATE_TO_REVISE, self::NAME_PERSO);
                 break;
             case self::TRANSITION_GO_IN_REVIEW:
                 $data['state'] = self::STATE_IN_REVIEW;
                 $data['titre'] = 'Mettre en révision';
-                $data['btn_label'] = 'En révision';
+                $data['btn_label'] = self::getStatesValue(self::STATE_IN_REVIEW, self::NAME_PERSO);
                 break;                                 
         }
 

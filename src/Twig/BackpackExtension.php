@@ -4,7 +4,6 @@ namespace App\Twig;
 
 use App\Entity\Backpack;
 use App\Entity\User;
-use App\Repository\BackpackDtoRepository;
 use App\Security\BackpackVoter;
 use App\Security\CurrentUser;
 use Twig\Extension\AbstractExtension;
@@ -26,7 +25,6 @@ class BackpackExtension extends AbstractExtension
     /**
      * BackpackExtension constructor.
      * @param CurrentUser $user
-     * @param BackpackDtoRepository $backpackDtoRepository
      * @param BackpackVoter $backpackVoter
      */
     public function __construct(

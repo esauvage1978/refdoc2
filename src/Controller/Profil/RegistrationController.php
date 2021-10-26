@@ -37,7 +37,7 @@ class RegistrationController extends AbstractGController
                 $event = new UserRegistrationEvent($user);
                 $dispatcher->dispatch($event, UserRegistrationEvent::NAME);
 
-                return $this->redirectToRoute('user_login');
+                return $this->redirectToRoute('app_login');
             }
 
             $this->addFlash(self::DANGER, self::MSG_CREATE_ERROR . $userManager->getErrors($user));

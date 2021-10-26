@@ -7,11 +7,9 @@ namespace App\Controller\Profil;
 use App\Controller\AbstractGController;
 use App\Form\Profil\PasswordChangeFormType;
 use App\Manager\UserManager;
-use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordChangeController extends AbstractGController
 {
@@ -20,9 +18,7 @@ class PasswordChangeController extends AbstractGController
      */
     public function changePasswordAction(
         Request $request,
-        UserRepository $userRepository,
-        UserManager $userManager,
-        UserPasswordEncoderInterface $encoder
+        UserManager $userManager
     ): Response {
         $user = $this->getUser();
 

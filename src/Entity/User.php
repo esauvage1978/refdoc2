@@ -11,13 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="`user`")
  */
-class User implements UserInterface, EntityInterface
+class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id()

@@ -55,7 +55,7 @@ class BackpackCheck
     public function checkContentOrFile()
     {
         $nbr = $this->backpack->getBackpackFiles()->count() + $this->backpack->getBackpackLinks()->count();
-        if (($this->backpack->getContent()==='<br>' or $this->backpack->getContent()===null) && $nbr== 0) {
+        if (($this->backpack->getContent()==='<br>'  or $this->backpack->getContent()=== '<p><br></p>' or $this->backpack->getContent()===null) && $nbr== 0) {
             $this->backpackCheckMessage->addMessageError('Vous devez saisir une description ou ajouter des fichiers ou des liens');
         } else {
             $this->backpackCheckMessage->addMessageSuccess('Description ou fichiers');

@@ -23,7 +23,7 @@ class HomeController extends AbstractGController
     public function index(BackpackDtoRepository $backpackDtoRepository, CurrentUser $user)
     {
         if ($user->getUser() === null) {
-            return $this->redirectToRoute('user_login');
+            return $this->redirectToRoute('app_login');
         }
 
         if (!Role::isUser($user->getUser()) || !$user->getUser()->getEmailValidated()) {

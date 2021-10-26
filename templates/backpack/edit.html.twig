@@ -69,13 +69,13 @@
 								{{ include(domaine ~ '/_edit/_name.html.twig') }}
 								{{ save.btn()}}
 							{% endif %}
-						</div>
-						<div class="d-none">
-							{{form_rest(form)}}
-							{{ sub.btn() }}
-						</div>
+							<div class="d-none">
+								{{form_rest(form)}}
+								{{ sub.btn() }}
+							</div>
 
-						{{ form_end(form) }}
+							{{ form_end(form) }}
+						</div>
 
 						<div class="tab-pane fade" id="custom-tabs-one-file" role="tabpanel" aria-labelledby="custom-tabs-one-file-tab">
 							{% if item.stateCurrent  in ["draft","toResume"] %}

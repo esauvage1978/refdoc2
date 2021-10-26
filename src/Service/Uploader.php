@@ -19,9 +19,8 @@ class Uploader
      * @param UploadedFile $file
      * @param string $name
      */
-    public function upload(UploadedFile $file, string $name)
+    public function upload(UploadedFile $file, string $name, string $extension)
     {
-        $extension = $this->getExtension($file);
         $file->move(
             $this->getTargetDir(),
             $name.'.'.$extension

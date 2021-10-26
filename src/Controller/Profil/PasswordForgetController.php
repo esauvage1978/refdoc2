@@ -41,7 +41,7 @@ class PasswordForgetController extends AbstractGController
                 $event = new UserPasswordForgetEvent($user);
                 $dispatcher->dispatch($event, UserPasswordForgetEvent::NAME);
 
-                return $this->redirectToRoute('user_login');
+                return $this->redirectToRoute('app_login');
             }
 
             $this->addFlash(self::DANGER, 'L\'utilisateur n\'a pas été trouvé.');
@@ -80,7 +80,7 @@ class PasswordForgetController extends AbstractGController
             if ($userManager->save($user)) {
                 $this->addFlash(self::SUCCESS, 'Votre mot de passe est changé. Vous pouvez vous connecter !');
 
-                return $this->redirectToRoute('user_login');
+                return $this->redirectToRoute('app_login');
             }
         }
 

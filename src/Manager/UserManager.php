@@ -26,11 +26,11 @@ use App\Helper\ParamsInServices;
 use App\Validator\UserValidator;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserManager
 {
-    /** @var UserPasswordEncoderInterface */
+    /** @var UserPasswordHasherInterface */
     private $passwordEncoder;
 
     /** @var EntityManagerInterface */
@@ -48,7 +48,7 @@ class UserManager
     public function __construct(
         EntityManagerInterface $manager,
         UserValidator $validator,
-        UserPasswordEncoderInterface $passwordEncoder,
+        UserPasswordHasherInterface $passwordEncoder,
         UserRepository $userRepository,
         ParamsInServices $params
     ) {
@@ -156,7 +156,7 @@ class UserManager
 
         if ($plainPassword) {
             $user->setPassword(
-                $this->passwordEncoder->encodePassword(
+                $this->passwordEncoder->hashPassword(
                     $user,
                     $plainPassword
                 )

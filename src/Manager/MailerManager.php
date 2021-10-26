@@ -73,8 +73,6 @@ class MailerManager extends AbstractManager
 
         /** @var User $userFrom */
         $userFrom = $this->currentUser->getUser();
-dump($this->getUsersEmailTo());
-        dump($data);
         $mailer = new Mailer();
 
         $mailer

@@ -1,9 +1,13 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    encoders:
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
+    enable_authenticator_manager: true
+    password_hashers:
         App\Entity\User:
             algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
+        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
@@ -13,16 +17,14 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppCustomAuthenticator
             logout:
-                path: user_logout
-            remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 604800 # 1 week in seconds
-                path:     /
+                path: app_logout
+            login_throttling:
+                max_attempts: 3
+                interval: '15 minutes'                
     role_hierarchy:
         ROLE_ADMIN:         [ROLE_USER, ROLE_GESTIONNAIRE, ROLE_EDITEUR]       # Un admin hérite des autres droits
         ROLE_GESTIONNAIRE:         [ROLE_USER, ROLE_EDITEUR]       # Un gestionnaire hérite des autres droits

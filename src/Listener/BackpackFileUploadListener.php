@@ -82,7 +82,7 @@ class BackpackFileUploadListener
             }
 
             $this->uploader->setTargetDir($targetDir);
-            $this->uploader->upload($backpackFile->getFile(), $backpackFile->getFileName());
+            $this->uploader->upload($backpackFile->getFile(), $backpackFile->getFileName(), $backpackFile->getFileExtension());
         }
     }
 

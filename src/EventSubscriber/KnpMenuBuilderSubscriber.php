@@ -90,7 +90,7 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
     {
         $this->menu->addChild(
             'logout',
-            ['route' => 'user_logout', 'label' => 'Déconnexion', 'childOptions' => $this->event->getChildOptions()]
+            ['route' => 'app_logout', 'label' => 'Déconnexion', 'childOptions' => $this->event->getChildOptions()]
         )->setLabelAttribute('icon', 'fas fa-sign-out-alt');
     }
 
@@ -98,7 +98,7 @@ class KnpMenuBuilderSubscriber implements EventSubscriberInterface
     {
         $this->menu->addChild(
             'login',
-            ['route' => 'user_login', 'label' => 'Connexion', 'childOptions' => $this->event->getChildOptions()]
+            ['route' => 'app_login', 'label' => 'Connexion', 'childOptions' => $this->event->getChildOptions()]
         )->setLabelAttribute('icon', 'fas fa-sign-in-alt');
     }
 

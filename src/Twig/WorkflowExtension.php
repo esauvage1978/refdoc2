@@ -17,7 +17,7 @@ class WorkflowExtension extends AbstractExtension
     /**
      * @var BackpackRepository
      */
-    private $BackpackRepository;
+    private $backpackRepository;
 
     public function __construct(BackpackRepository $backpackRepository)
     {

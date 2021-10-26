@@ -73,7 +73,7 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
 
         $this->initialise_where();
 
-        $this->initialise_orderBy();
+        $this->initialise_orderByForComboboxGrouping();
 
         return $this->builder
             ->getQuery()
@@ -317,6 +317,12 @@ class ProcessDtoRepository extends ServiceEntityRepository implements DtoReposit
         $this->builder
             ->orderBy('name', 'ASC')
             ->addOrderBy(self::ALIAS . '.id', 'ASC');
+    }
+
+    private function initialise_orderByForComboboxGrouping(): void
+    {
+        $this->builder
+            ->orderBy(self::ALIAS . '.grouping', 'ASC');
     }
 
     private function initialise_where_subscription(): void
