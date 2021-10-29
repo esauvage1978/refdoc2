@@ -68,6 +68,18 @@ private const STATE='state';
                 self::STATE =>  WorkflowData::STATE_ABANDONNED,
                 self::TITLE => 'Mes abandonnés',
             ],
+            BackpackMakerDto::ARCHIVED => [
+                self::STATE =>  WorkflowData::STATE_ARCHIVED,
+                self::TITLE => 'Les archives',
+            ],
+            BackpackMakerDto::ARCHIVED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_ARCHIVED,
+                self::TITLE => 'Les archives',
+            ],
+            BackpackMakerDto::MY_ARCHIVED_UPDATABLE => [
+                self::STATE =>  WorkflowData::STATE_ARCHIVED,
+                self::TITLE => 'Mes archives',
+            ],           
             BackpackMakerDto::TO_RESUME => [
                 self::STATE =>  WorkflowData::STATE_TO_RESUME,
                 self::TITLE => 'Tous ceux à reprendre',

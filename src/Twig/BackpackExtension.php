@@ -41,6 +41,7 @@ class BackpackExtension extends AbstractExtension
             new TwigFilter('backpackCanRead', [$this, 'backpackCanRead']),
             new TwigFilter('backpackCanUpdate', [$this, 'backpackCanUpdate']),
             new TwigFilter('backpackCanDelete', [$this, 'backpackCanDelete']),
+            new TwigFilter('backpackCanClassify', [$this, 'backpackCanClassify']),
         ];
     }
 
@@ -59,5 +60,10 @@ class BackpackExtension extends AbstractExtension
     public function backpackCanDelete(Backpack $item)
     {
         return $this->backpackVoter->canDelete($item, $this->user);
+    }
+
+    public function backpackCanClassify(Backpack $item)
+    {
+        return $this->backpackVoter->canClassify($item, $this->user);
     }
 }

@@ -10,4 +10,8 @@
 	{% if  item | backpackCanUpdate %}
 		<a href="{{ path('backpack_edit',{id:item.id}) }}" class="btn btn-p-dark">Modifier</a>
 	{% endif %}
+
+	{% if  item | backpackCanClassify %}
+		<a href="{{ path('backpack_classify',{id:item.id}) }}" class="btn btn-p-dark">Reclasser</a>
+	{% endif %}
 {% endif %}

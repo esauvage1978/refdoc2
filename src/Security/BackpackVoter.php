@@ -16,6 +16,7 @@ class BackpackVoter extends Voter
     const UPDATE = 'update';
     const DELETE = 'delete';
     const CREATE = 'create';
+    const CLASSIFY = 'classify';
 
     /**
      * @var User|null $currentUser
@@ -30,7 +31,7 @@ class BackpackVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::READ, self::UPDATE, self::DELETE, self::CREATE])) {
+        if (!in_array($attribute, [self::READ, self::UPDATE, self::DELETE, self::CREATE, self::CLASSIFY])) {
             return false;
         }
 
@@ -61,6 +62,8 @@ class BackpackVoter extends Voter
                 return $this->canUpdate($backpack, $this->user);
             case self::DELETE:
                 return $this->canDelete($backpack, $this->user);
+            case self::CLASSIFY:
+                    return $this->canClassify($backpack, $this->user);                
             case self::CREATE:
                 return $this->canCreate($this->user);
         }
@@ -71,7 +74,7 @@ class BackpackVoter extends Voter
     public function canRead(Backpack $backpack, User $user)
     {
         if (Role::isUser($this->user)) {
-            return true;
+            return false;
         }
 
         return $this->canUpdate($backpack, $user);
@@ -79,12 +82,17 @@ class BackpackVoter extends Voter
 
     public function canUpdate(Backpack $backpack, User $user)
     {
+
+        if ($backpack->getBackpackMaster() !== null) {
+            return false;
+        }
+
         if ($user->getIsDoc()) {
             return true;
         }
 
         if (!Role::isUser($this->user)) {
-            return true;
+            return false;
         }
 
         $stateCurrent = $backpack->getStateCurrent();
@@ -159,8 +167,7 @@ class BackpackVoter extends Voter
         }
 
         //restriction pour les contrôleurs
-        if($stateCurrent=== WorkflowData::STATE_TO_CONTROL && $this->user->getIsControl() )
-        {
+        if ($stateCurrent === WorkflowData::STATE_TO_CONTROL && $this->user->getIsControl()) {
             return true;
         }
 
@@ -172,8 +179,46 @@ class BackpackVoter extends Voter
         return false;
     }
 
+    public function canClassify(Backpack $backpack, User $user)
+    {
+
+        if (!Role::isUser($this->user)) {
+            return false;
+        }
+
+        if (Role::isAdmin($user)) {
+            return true;
+        }
+
+        $process = $backpack->getProcess();
+        $Mprocess = $backpack->getMProcess();
+
+        $mprocesses_ADDs = $user->getMProcessDirValidators()->toArray();
+        $processes_validators = $user->getProcessValidators()->toArray();
+        $mprocesses_validators = $user->getMProcessPoleValidators()->toArray();
+
+
+        if (
+            $process !== null &&
+                in_array($process, $processes_validators)
+        ) {
+            return true;
+        } elseif (
+            in_array($Mprocess, $mprocesses_ADDs) ||
+            in_array($Mprocess, $mprocesses_validators)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function canDelete(Backpack $backpack, User $user)
     {
+        if ($backpack->getBackpackMaster() !== null) {
+            return false;
+        }
+
         if ($user->getIsDoc() || Role::isAdmin($user)) {
             return true;
         }

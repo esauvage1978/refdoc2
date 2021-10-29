@@ -135,12 +135,13 @@ class WorkflowBackpackManager
 
     private function duplicator(User $user, Backpack $item, string $stateOld)
     {
-        if($stateOld=== WorkflowData::STATE_TO_REVISE) {
+        if($stateOld=== WorkflowData::STATE_TO_REVISE && $item->getBackpackSlave()===null) {
+            dump('$stateOld=== WorkflowData::STATE_TO_REVISE && $item->getBackpackSlave()===null');
             $this->backpackDuplicatorManager->duplicate($item, $user);
         }
 
-        if ($item->getStateCurrent() === WorkflowData::STATE_PUBLISHED && null!== $item->getBackpackSlave() ) {
-            $this->backpackDuplicatorManager->remove($item->getBackpackSlave());
+        if ( null!== $item->getBackpackSlave() ) {
+            $this->backpackDuplicatorManager->checkSlave($item);
         }
     }
 

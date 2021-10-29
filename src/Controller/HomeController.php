@@ -6,14 +6,10 @@ namespace App\Controller;
 
 use App\Security\CurrentUser;
 use App\Service\MakeDashboard;
-use App\Service\BackpackCounter;
 use App\Service\BackpackMakerDto;
 use App\Repository\BackpackDtoRepository;
 use App\Security\Role;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractGController
 {

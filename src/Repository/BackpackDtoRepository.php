@@ -5,18 +5,14 @@ namespace App\Repository;
 
 
 use DateTime;
-use App\Dto\RubricDto;
 use App\Dto\ProcessDto;
 use App\Dto\BackpackDto;
 use App\Dto\MProcessDto;
 use App\Entity\Backpack;
-use App\Entity\MProcess;
 use App\Dto\DtoInterface;
-use App\Entity\BackpackLink;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bundle\MakerBundle\Validator;
 
 class BackpackDtoRepository extends ServiceEntityRepository implements DtoRepositoryInterface
 {
@@ -470,7 +466,7 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
         } elseif  (!empty($dto->getSearchDate())) {
                 $builder
                     ->andWhere(
-                        self::ALIAS . '.createdAt like :search ' .
+                        ' ' . self::ALIAS . '.createdAt  like :search ' .
                         ' OR ' . self::ALIAS . '.updatedAt like :search' .
                         ' OR ' . self::ALIAS . '.stateAt like :search' 
                     );
@@ -479,23 +475,24 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
         elseif (!empty($dto->getSearch())) {
             $builder
                 ->andwhere(
-                    self::ALIAS . '.content like :search' .
-                        ' OR ' . self::ALIAS . '.dir1 like :search' .
-                        ' OR ' . self::ALIAS . '.dir2 like :search' .
-                        ' OR ' . self::ALIAS . '.dir3 like :search' .
-                        ' OR ' . self::ALIAS . '.dir4 like :search' .
-                        ' OR ' . self::ALIAS . '.dir5 like :search' .
-                        ' OR ' . self::ALIAS . '.name like :search' .
-                        ' OR ' . self::ALIAS . '.stateContent like :search' .
-                        ' OR ' . BackpackLinkRepository::ALIAS . '.title like :search' .
-                        ' OR ' . BackpackLinkRepository::ALIAS . '.link like :search' .
-                        ' OR ' . BackpackLinkRepository::ALIAS . '.content like :search' .
-                        ' OR ' . BackpackFileRepository::ALIAS . '.title like :search' .
-                        ' OR ' . BackpackFileRepository::ALIAS . '.fileName like :search' .
-                        ' OR ' . BackpackFileRepository::ALIAS . '.content like :search'
+                    'LOWER('.self::ALIAS . '.content) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.dir1) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.dir2) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.dir3) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.dir4) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.dir5) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.name) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.ref) like :search' .
+                        ' OR LOWER(' . self::ALIAS . '.stateContent) like :search' .
+                        ' OR LOWER(' . BackpackLinkRepository::ALIAS . '.title) like :search' .
+                        ' OR LOWER(' . BackpackLinkRepository::ALIAS . '.link) like :search' .
+                        ' OR LOWER(' . BackpackLinkRepository::ALIAS . '.content) like :search' .
+                        ' OR LOWER(' . BackpackFileRepository::ALIAS . '.title) like :search' .
+                        ' OR LOWER(' . BackpackFileRepository::ALIAS . '.fileName) like :search' .
+                        ' OR LOWER(' . BackpackFileRepository::ALIAS . '.content) like :search'
                 );
 
-            $this->addParams('search', '%' . $dto->getSearch() . '%');
+            $this->addParams('search', '%' . strtolower($dto->getSearch()) . '%');
         }
     }
 

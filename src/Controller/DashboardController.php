@@ -35,6 +35,12 @@ class DashboardController extends AbstractController
             $md->getData(BackpackMakerDto::MY_ABANDONNED_UPDATABLE),
         ];
 
+        $archived = [
+            $md->getData(BackpackMakerDto::ARCHIVED),
+            $md->getData(BackpackMakerDto::ARCHIVED_UPDATABLE),
+            $md->getData(BackpackMakerDto::MY_ARCHIVED_UPDATABLE),
+        ];
+
         $toResume = [
             $md->getData(BackpackMakerDto::TO_RESUME),
             $md->getData(BackpackMakerDto::TO_RESUME_UPDATABLE),
@@ -46,6 +52,7 @@ class DashboardController extends AbstractController
             $md->getData(BackpackMakerDto::TO_VALIDATE_UPDATABLE),
             $md->getData(BackpackMakerDto::MY_TO_VALIDATE_UPDATABLE),
         ];
+
 
         $toControl = [
             $md->getData(BackpackMakerDto::TO_CONTROL),
@@ -88,6 +95,7 @@ class DashboardController extends AbstractController
             [
                 'draft' => $draft,
                 'abandonned' => $abandonned,
+                'archived' => $archived,
                 'toResume' => $toResume,
                 'toValidate' => $toValidate,
                 'toControl' => $toControl,

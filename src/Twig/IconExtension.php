@@ -29,6 +29,7 @@ final class IconExtension extends AbstractExtension
         'category' => 'fas fa-clipboard-list',
         'calendar' => 'far fa-calendar-alt',
         'check' => 'far fa-check-circle',
+        'classify' => 'fas fa-stream',
         'clock' => 'far fa-clock',
         'configuration' => 'fas fa-cogs',
         'contact' => 'fas fa-users',

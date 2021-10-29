@@ -75,4 +75,28 @@ class BackpackManager extends AbstractManager
         }
     }
 
+    public function remove(EntityInterface $entity): void
+    {
+        /**
+         * @var Backpack
+         */
+        $backpack =$entity;
+
+        if ($backpack->getBackpackSlave()!==null) {
+
+            $backpackSlave=$backpack->getBackpackSlave();
+            $backpackSlave->setBackpackMaster(null);
+            $this->save($backpackSlave);
+
+            $backpack->setBackpackSlave(null);
+            $this->save($backpack);
+
+            $this->remove($backpackSlave);
+        }
+
+        
+        $this->manager->remove($entity);
+        $this->manager->flush();
+    }
+
 }

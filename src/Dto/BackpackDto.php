@@ -116,7 +116,7 @@ class BackpackDto extends AbstractDto
     private function searchReference()
     {
         if (!empty($this->search)) {
-            if (mb_substr_count($this->search, '-') == 2) {
+            if (mb_substr_count($this->search, '-') >= 2) {
                 $this->setRef(str_replace("*","%",$this->search));
             }
         }
@@ -129,7 +129,7 @@ class BackpackDto extends AbstractDto
 
             if ($d!==null) {
 
-                $this->setSearchDate($d.'%');
+                $this->setSearchDate($d);
             }
         }
     }
@@ -343,6 +343,7 @@ class BackpackDto extends AbstractDto
             [
                 WorkflowData::STATE_PUBLISHED,
                 WorkflowData::STATE_TO_REVISE,
+                WorkflowData::STATE_IN_REVIEW,
             ];
     }
 

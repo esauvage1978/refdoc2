@@ -23,11 +23,6 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
     private $backpackMail;
 
     /**
-     * @var BackpackRepository
-     */
-    private $backpackRepository;
-
-    /**
      * @var ParamsInServices
      */
     private $paramsInServices;
@@ -47,13 +42,11 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
 
     public function __construct(
         BackpackMail $backpackMail,
-        BackpackRepository $backpackRepository,
         ParamsInServices $paramsInServices,
         BackpackMailHistoryManager $backpackMailHistoryManager,
         UserRepository $userRepository
     ) {
         $this->backpackMail = $backpackMail;
-        $this->backpackRepository = $backpackRepository;
         $this->paramsInServices = $paramsInServices;
         $this->users = new ArrayCollection();
         $this->backpackMailHistoryManager = $backpackMailHistoryManager;
@@ -110,6 +103,7 @@ class WorkflowMailerSubscriber implements EventSubscriberInterface
             WorkflowData::STATE_PUBLISHED,
             WorkflowData::STATE_TO_REVISE,
             WorkflowData::STATE_IN_REVIEW,
+            WorkflowData::STATE_ARCHIVED,
         ];
 
         $stateForContributor = [

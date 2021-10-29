@@ -96,6 +96,9 @@ class BackpackFileController extends AbstractGController
         ]);
     }
 
+    
+
+
     /**
      * @Route("/backpackfile/{id}/delete", name="backpack_file_delete", methods={"GET"})
      * @IsGranted("ROLE_USER")

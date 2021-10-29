@@ -60,6 +60,63 @@ class BackpackDuplicatorManager extends AbstractManager
         $this->backpackStateManager->saveActionInHistory($item, WorkflowData::STATE_IN_REVIEW, $user);
     }
 
+    public function checkSlave(Backpack $item): void
+    {
+        /*Vérification des actions à effectuer sur l'escale si master change d'état */
+        dump($item->getStateCurrent());
+        switch ($item->getStateCurrent()) {
+            case WorkflowData::STATE_ABANDONNED:
+                dump('WorkflowData::STATE_ABANDONNED');
+                $backpackSlave = $item->getBackpackSlave();
+
+                $item->setBackpackSlave(null);
+                $this->backpackManager->save($item);
+
+                $backpackSlave->setBackpackMaster(null);
+                $this->backpackManager->save($backpackSlave);
+                $this->backpackManager->remove($backpackSlave);
+
+                break;
+            case WorkflowData::STATE_ARCHIVED:
+                dump('WorkflowData::STATE_ARCHIVED');
+                $backpackSlave = $item->getBackpackSlave();
+
+                $item->setBackpackSlave(null);
+                $this->backpackManager->save($item);
+
+                $backpackSlave->setBackpackMaster(null);
+                $this->backpackManager->save($backpackSlave);
+                $this->backpackManager->remove($backpackSlave);
+
+                break;
+            case WorkflowData::STATE_PUBLISHED:
+                dump('WorkflowData::STATE_PUBLISHED');
+                $backpackSlave = $item->getBackpackSlave();
+
+                $item->setBackpackSlave(null);
+                $this->backpackManager->save($item);
+
+                $backpackSlave
+                    ->setBackpackMaster(null)
+                    ->setStateCurrent(WorkflowData::STATE_ARCHIVED)
+                    ->setStateAt(new \DateTime())
+                    ->setStateContent("Archivage automatique du dossier");
+                $this->backpackManager->save($backpackSlave);
+
+                break;
+            case WorkflowData::STATE_IN_REVIEW:
+                dump('WorkflowData::STATE_IN_REVIEW');
+                $item
+                    ->setBackpackMaster(null)
+                    ->setStateCurrent(WorkflowData::STATE_TO_RESUME)
+                    ->setStateAt(new \DateTime())
+                    ->setStateContent("Renvoi automatique pour reprendre le porte-document");
+                $this->backpackManager->save($item);
+
+                break;
+        }
+    }
+
     public function initialise(EntityInterface $entity): void
     {
     }
@@ -116,14 +173,14 @@ class BackpackDuplicatorManager extends AbstractManager
                 ->setTitle($file->getTitle())
                 ->setContent($file->getContent())
                 ->setFileExtension($file->getFileExtension())
-                ->setFileName($file->getFileName().'_copy');
+                ->setFileName($file->getFileName() . '_copy');
 
             $itemDupliqued->addBackpackFile($fileDuplicated);
             $this->backpackManager->save($itemDupliqued);
         }
     }
 
-    private function goToResume(Backpack $item)
+    public function goToResume(Backpack $item)
     {
         $item
             ->setStateAt(new \DateTime())
@@ -132,7 +189,7 @@ class BackpackDuplicatorManager extends AbstractManager
         $this->backpackManager->save($item);
     }
 
-    private function goInReview (Backpack $item)
+    private function goInReview(Backpack $item)
     {
         $item
             ->setStateAt(new \DateTime())

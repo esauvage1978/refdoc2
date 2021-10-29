@@ -2,17 +2,14 @@
 
 {% if nbr>0 %}
 	<div class="small-box bg-p-dark ">
-<div class="inner  text-p-light">
-
+		<div class="inner  text-p-light">
 			<h3 class=''>{{ nbr }}</h3>
 			<p>En cours de publication</p>
 		</div>
 		<div class="icon">
-{{ widgets.icon('workflow') }}
-
+			{{ widgets.icon('workflow') }}
 		</div>
-<a href="{{ path('backpacks_in_progress')}}" class="small-box-footer ">Consulter
-
+		<a href="{{ path('backpacks_in_progress')}}" class="small-box-footer ">Consulter
 			<i class="fas fa-arrow-circle-right"></i>
 		</a>
 	</div>

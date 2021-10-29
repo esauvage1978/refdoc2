@@ -32,6 +32,7 @@
 		{% endif %}
 
 		{% set _show = { 'show': {url: path('backpack_show',{id:item.id}),class:'btn-p-dark',attr:{title:'Consulter'}}} %}
+		{% set _classify = { 'classify': {url: path('backpack_classify',{id:item.id}),class:'btn-p-dark',attr:{title:'Reclasser le porte-document'}}} %}
 
 		{% set _history = { 'history': {url: path('backpack_history',{id:item.id}),class:'btn-p-dark',attr:{title:'historique des modifications'}}} %}
 		{% set _mail_sent = { 'mail-sent': {url: path('mailer_backpack_composer',{id:item.id}),class:'btn-p-dark',attr:{title:'Envoyer un message'}}} %}
@@ -47,17 +48,18 @@
 			{% if  _save != 'not' %}
 				{% set actions = actions|merge(_save) %}
 			{% endif %}
-		{% elseif twigTemplace in ['workflow','history'] %}
+		{% elseif twigTemplace in ['workflow','history','classify'] %}
 			{% set actions = actions|merge(_show) %}
 			{% if  _edit != 'not' %}
 				{% set actions = actions|merge(_edit) %}
 			{% endif %}
-		{% elseif twigTemplace=='show' %}
+		{% elseif twigTemplace == 'show' %}
 			{% set actions = actions|merge(_mail_sent) %}
 
 			{% set actions = actions|merge({'divider3': null}) %}
 
 			{% set actions = actions|merge(_history) %}
+			{% set actions = actions|merge(_classify) %}
 			{% if  _edit != 'not' %}
 				{% set actions = actions|merge(_edit) %}
 			{% endif %}

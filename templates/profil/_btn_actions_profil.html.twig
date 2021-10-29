@@ -7,6 +7,7 @@
 	{% set _avatar = { 'avatar': {url: path('avatar'),class:'btn-p-dark',attr:{title:'changer d\'avatar'}}}  %}
 	{% set _profil = { 'profil': {url: path('profil'),class:'btn-p-dark',attr:{title:'votre profil'}}}  %}
 	{% set _pwd = { 'password': {url: path('password_change'),class:'btn-p-dark',attr:{title:'Changer de mot de passe'}}}  %}
+	{% set _bpk = { 'backpack': {url: path('backpacks_yours'),class:'btn-p-dark',attr:{title:'Vos porte-documents'}}}  %}
 
 
 
@@ -14,6 +15,7 @@
 
 	{% set actions = actions|merge(_home) %}
 	{% set actions = actions|merge(_avatar) %}
+	{% set actions = actions|merge(_bpk) %}
 
 	{% if twigTemplace!='index' %}
 		{% set actions = actions|merge(_profil) %}

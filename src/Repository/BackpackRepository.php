@@ -64,13 +64,15 @@ class BackpackRepository extends ServiceEntityRepository
             ->select('count(\'ref\')');
 
         $builder
-            ->Where(self::ALIAS . '.stateCurrent != \'abandonned\' and ' . self::ALIAS . '.stateCurrent != \'inReview\'')
+            ->Where(self::ALIAS . '.stateCurrent != \'abandonned\' and ' . self::ALIAS . '.stateCurrent != \'inReview\' and ' . self::ALIAS . '.stateCurrent != \'archived\'')
             ->andWhere(self::ALIAS . '.ref = :ref')
             ->andWhere(self::ALIAS . '.id != :id')
             ->setParameters(['ref' => $ref , 'id' => $id]);
 
         return $builder->getQuery()->getSingleScalarResult();
     }
+
+
 
     public function findAllFillComboboxDirOther(string $idMp, string $idP, string $data, int $numDir)
     {

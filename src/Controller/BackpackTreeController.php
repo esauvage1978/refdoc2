@@ -100,6 +100,15 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
     /**
+     * @Route("/backpacks/yours", name="backpacks_yours", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function backpacks_yours(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::BACKPACK_YOURS);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
      * @Route("/backpacks/go_to_revise", name="backpacks_goToRevise", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
@@ -201,6 +210,35 @@ class BackpackTreeController extends AbstractGController
         return $this->render('backpack/tree.html.twig', $renderArray);
     }
 
+
+    /**
+     * @Route("/backpacks/archived", name="backpacks_archived", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_archived(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::ARCHIVED);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+    /**
+     * @Route("/backpacks/archivedupdatable", name="backpacks_archived_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_archived_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::ARCHIVED_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
+
+    /**
+     * @Route("/backpacks/myarchivedupdatable", name="backpacks_myarchived_updatable", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function state_myarchived_updatable(Request $request)
+    {
+        $renderArray = $this->backpackForTree->getDatas($this->container, $request, BackpackMakerDto::MY_ARCHIVED_UPDATABLE);
+        return $this->render('backpack/tree.html.twig', $renderArray);
+    }
 
     /**
      * @Route("/backpacks/toresume", name="backpacks_toResume", methods={"GET"})

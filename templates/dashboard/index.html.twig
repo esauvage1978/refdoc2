@@ -49,7 +49,21 @@ propriétaire': {'class': 'align-middle alwaysVisible text-center bg-def1 text-d
 				{% endfor %}
 
 			</tr>
+			<tr>
+				{{ wkf.state_table_td('archived') }}
 
+
+				{% for  item in archived %}
+					<td class="align-middle text-center text-lg">
+						<a class=" hvr-float-shadow " href="{{ path(item.route) }}">
+							<span class=''>
+								{{ item.data}}
+							</span>
+						</a>
+					</td>
+				{% endfor %}
+
+			</tr>
 			<tr>
 				{{ wkf.state_table_td('draft') }}
 

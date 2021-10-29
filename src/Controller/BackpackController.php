@@ -129,6 +129,36 @@ class BackpackController extends AbstractGController
         ]);
     }
 
+        /**
+     * @Route("/backpack/{id}/classify", name="backpack_classify", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function classify(Request $request, Backpack $item)
+    {
+        $this->denyAccessUnlessGranted(BackpackVoter::CLASSIFY, $item);
+        $itemOld = clone ($item);
+        $form = $this->createForm(BackpackType::class, $item);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->manager->save($item)) {
+                if($item->getRef()===null) {
+                    $this->manager->save($item);
+                }
+                $this->addFlash(self::SUCCESS, self::MSG_MODIFY);
+                $this->manager->historize($item, $itemOld);
+            } else {
+                $this->addFlash(self::DANGER, self::MSG_MODIFY_ERROR . $this->manager->getErrors($item));
+            }
+        }
+
+        return $this->render('backpack/classify.html.twig', [
+            'item' => $item,
+            self::FORM => $form->createView()
+        ]);
+    }
+
     /**
      * @Route("/backpack/{id}/history", name="backpack_history", methods={"GET","POST"})
      * @return Response

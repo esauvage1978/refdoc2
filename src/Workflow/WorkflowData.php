@@ -15,6 +15,7 @@ class WorkflowData
     const STATE_TO_RESUME = 'toResume';
     const STATE_TO_REVISE = 'toRevise';
     const STATE_IN_REVIEW = 'inReview';
+    const STATE_ARCHIVED = 'archived';
 
     const TRANSITION_GO_TO_RESUME = 'goToResume';
     const TRANSITION_GO_TO_REVISE = 'goToRevise';
@@ -24,9 +25,10 @@ class WorkflowData
     const TRANSITION_GO_TO_CHECK = 'goToCheck';
     const TRANSITION_GO_ABANDONNED = 'goAbandonned';
     const TRANSITION_GO_PUBLISHED = 'goPublished';
+    const TRANSITION_GO_TO_ARCHIVE = 'goToArchive';
 
     const WORKFLOW_IS_SAME = 'same';
-    
+
     private const NAME = 'name';
     private const NAME_PERSO = 'name_persi';
     private const ICON = 'icon';
@@ -113,11 +115,11 @@ class WorkflowData
                     ],
 
                 ]
-            ],            
+            ],
             self::STATE_ABANDONNED =>
             [
                 self::NAME => ' Abandonné',
-                self::NAME_PERSO => ' J\'abandonne',
+                self::NAME_PERSO => ' J\'abandonne le porte document',
                 self::ICON => 'far fa-trash-alt',
                 self::TITLE_MAIL => ' Un porte-document est abandonné',
                 self::BGCOLOR => '#AA0C0C',
@@ -139,7 +141,23 @@ class WorkflowData
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
                         self::TRANSITION_GO_TO_VALIDATE,
-                        self::TRANSITION_GO_ABANDONNED
+                        self::TRANSITION_GO_ABANDONNED,
+                        self::TRANSITION_GO_TO_ARCHIVE
+                    ]
+                ]
+            ],
+            self::STATE_ARCHIVED =>
+            [
+                self::NAME => ' Archivé',
+                self::NAME_PERSO => ' J\'archive le porte-document',
+                self::ICON => 'fas fa-archive',
+                self::TITLE_MAIL => ' Un porte-document est archivé',
+                self::BGCOLOR => '#ff8000',
+                self::FORECOLOR => '#ffffff',
+                self::TRANSITIONS => [
+                    self::WORKFLOW_IS_SAME => [
+                        self::TRANSITION_GO_TO_RESUME,
+                        self::TRANSITION_GO_PUBLISHED
                     ]
                 ]
             ],
@@ -161,7 +179,7 @@ class WorkflowData
             self::STATE_IN_REVIEW =>
             [
                 self::NAME => ' En révision',
-                self::NAME_PERSO => ' En révision',
+                self::NAME_PERSO => ' je veux réviser le porte-document',
                 self::ICON => 'fas fa-crosshairs',
                 self::TITLE_MAIL => ' Un porte-document est à réviser',
                 self::BGCOLOR => '#ED59FF',
@@ -171,7 +189,7 @@ class WorkflowData
                         self::TRANSITION_GO_ABANDONNED
                     ]
                 ]
-            ],           
+            ],
             self::STATE_TO_CHECK =>
             [
                 self::NAME => ' A vérifier par la documentation',
@@ -212,6 +230,7 @@ class WorkflowData
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
                         self::TRANSITION_GO_TO_REVISE,
+                        self::TRANSITION_GO_TO_ARCHIVE,
                         self::TRANSITION_GO_ABANDONNED
                     ]
                 ]
@@ -229,7 +248,8 @@ class WorkflowData
             self::TRANSITION_GO_TO_CHECK,
             self::TRANSITION_GO_PUBLISHED,
             self::TRANSITION_GO_TO_REVISE,
-            self::TRANSITION_GO_IN_REVIEW
+            self::TRANSITION_GO_IN_REVIEW,
+            self::TRANSITION_GO_TO_ARCHIVE
         ];
 
         if (in_array($data, $datas)) {
@@ -249,7 +269,8 @@ class WorkflowData
             self::STATE_TO_CHECK,
             self::STATE_PUBLISHED,
             self::STATE_TO_REVISE,
-            self::STATE_IN_REVIEW
+            self::STATE_IN_REVIEW,
+            self::STATE_ARCHIVED
         ];
 
         if (in_array($data, $datas)) {
@@ -338,6 +359,11 @@ class WorkflowData
                 $data['titre'] = 'Abandonner le porte-document';
                 $data['btn_label'] = self::getStatesValue(self::STATE_ABANDONNED, self::NAME_PERSO);
                 break;
+            case self::TRANSITION_GO_TO_ARCHIVE:
+                $data['state'] = self::STATE_ARCHIVED;
+                $data['titre'] = 'Archiver le porte-document';
+                $data['btn_label'] = self::getStatesValue(self::STATE_ARCHIVED, self::NAME_PERSO);
+                break;
             case self::TRANSITION_GO_TO_RESUME:
                 $data['state'] = self::STATE_TO_RESUME;
                 $data['titre'] = 'Le document est à reprendre';
@@ -367,7 +393,7 @@ class WorkflowData
                 $data['state'] = self::STATE_IN_REVIEW;
                 $data['titre'] = 'Mettre en révision';
                 $data['btn_label'] = self::getStatesValue(self::STATE_IN_REVIEW, self::NAME_PERSO);
-                break;                                 
+                break;
         }
 
         return $data;

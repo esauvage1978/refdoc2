@@ -19,6 +19,7 @@ class BackpackMakerDto
     const HOME_NEWS = 'news';
 
     public const BACKPACK_IN_PROGRESS = 'backpack_in_progress';
+    public const BACKPACK_YOURS = 'backpack_yours';
 
     public const SEARCH = 'search';
 
@@ -29,6 +30,10 @@ class BackpackMakerDto
     public const ABANDONNED = 'abandonned';
     public const ABANDONNED_UPDATABLE = 'abandonned_updatable';
     public const MY_ABANDONNED_UPDATABLE = 'myabandonned_updatable';
+
+    public const ARCHIVED = 'archived';
+    public const ARCHIVED_UPDATABLE = 'archived_updatable';
+    public const MY_ARCHIVED_UPDATABLE = 'archived_updatable';
 
     public const TO_RESUME = 'toResume';
     public const TO_RESUME_UPDATABLE = 'toResume_updatable';
@@ -90,6 +95,12 @@ class BackpackMakerDto
                 $dto
                     ->setIsInProgress(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::BACKPACK_YOURS:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+
                 break;
             case self::HOME_NEWS_SUBSCRIPTION:
                 if (!is_null($this->user)) {
@@ -163,6 +174,31 @@ class BackpackMakerDto
                 }
                 $dto
                     ->setStateCurrent(WorkflowData::STATE_ABANDONNED)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setIsValidator(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::ARCHIVED:
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_ARCHIVED)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::ARCHIVED_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setUserDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_ARCHIVED)
+                    ->setIsContributor(BackpackDto::TRUE)
+                    ->setIsValidator(BackpackDto::TRUE)
+                    ->setVisible(BackpackDto::TRUE);
+                break;
+            case self::MY_ARCHIVED_UPDATABLE:
+                if (!is_null($this->user)) {
+                    $dto->setOwnerDto((new UserDto())->setId($this->user->getId()));
+                }
+                $dto
+                    ->setStateCurrent(WorkflowData::STATE_ARCHIVED)
                     ->setIsContributor(BackpackDto::TRUE)
                     ->setIsValidator(BackpackDto::TRUE)
                     ->setVisible(BackpackDto::TRUE);

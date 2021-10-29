@@ -63,15 +63,13 @@
 {% macro size(data) %}
 	{% if data %}
 		{% if data <1024 %}
-			1 ko
+			1&nbsp;ko
 		{% elseif data < 1048576 %}
 			{% set nbr=data / 1024 %}
-			{{ nbr|number_format }}
-			Ko
+			{{ nbr|number_format }}&nbsp;Ko
 		{% else %}
 			{% set nbr=data / 1048576 %}
-			{{ nbr|number_format }}
-			Mo
+			{{ nbr|number_format }}&nbsp;Mo
 		{% endif %}
 	{% endif %}
 {% endmacro %}
