@@ -1,0 +1,43 @@
+		{% embed 'widgets/card-widget.html.twig' %}
+			{% block card_class %}
+				flat mt-3
+
+
+			{% endblock %}
+			{% block card_body %}
+				<div class="form-group row m-2 js-createTip-wrapper">
+					<div class=" mt-4">
+						{{ form_row(form.isHelpInterService) }}
+					</div>
+
+					<div class="createTip ">
+						<div class="createTip__title">
+							Peut être utilisé dans le cadre de l\'aide inter-service
+
+
+						</div>
+						<p>
+							<b>
+								Coché
+
+
+							</b>
+							: Ce porte-document peut-être utilisé dans le cadre de l'aide inter-service
+
+
+						</p>
+						<p>
+							<b>
+								décoché
+
+
+							</b>
+							: Ce porte-document n'est pas à utiliser dans le cadre de l'aide inter-service
+
+
+						</p>
+					</div>
+				</div>
+
+			{% endblock %}
+		{% endembed %}

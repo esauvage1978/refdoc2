@@ -160,6 +160,11 @@ class Backpack implements EntityInterface
      */
     private $mailers;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isHelpInterService;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -172,6 +177,7 @@ class Backpack implements EntityInterface
         $this->backpackStates = new ArrayCollection();
         $this->backpackMailHistories = new ArrayCollection();
         $this->mailers = new ArrayCollection();
+        $this->setIsHelpInterService(false);
     }
 
     public function getId(): ?int
@@ -614,6 +620,18 @@ class Backpack implements EntityInterface
                 $mailer->setBackpack(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsHelpInterService(): ?bool
+    {
+        return $this->isHelpInterService;
+    }
+
+    public function setIsHelpInterService(?bool $isHelpInterService): self
+    {
+        $this->isHelpInterService = $isHelpInterService;
 
         return $this;
     }

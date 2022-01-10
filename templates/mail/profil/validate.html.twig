@@ -7,7 +7,7 @@
         <p> Vous venez de demander le mail d'activation de votre compte.</p>
         <p>
             Merci de l'activer en cliquant sur le lien <a  style="color:#57a7fe;text-decoration: none"
-                    href="{{ url('profil_email_validated', {'token': user.emailValidatedToken}) }}">cliquez-ici</a> ou
+                    href="{{es_mailer_firefox_auto}}{{ url('profil_email_validated', {'token': user.emailValidatedToken}) }}">cliquez-ici</a> ou
             collez le lien suivant dans votre navigateur <span  style="color:#57a7fe;"> {{ url('profil_email_validated', {'token': user.emailValidatedToken}) }} </span>
         </p>
 {% endblock %}

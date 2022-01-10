@@ -55,12 +55,12 @@ abstract class AppTypeAbstract extends AbstractType
             );
     }
 
-    public function buildFormContent(FormBuilderInterface $builder, $label = 'Description'): void
+    public function buildFormContent(FormBuilderInterface $builder, $label = 'Description', $isObligatoire=false): void
     {
         $builder
             ->add('content', TextareaType::class, [
                 self::LABEL => $label,
-                self::REQUIRED => false,
+                self::REQUIRED => $isObligatoire,
                 self::ATTR => [self::ROWS => 3, self::CSS_CLASS => 'textarea'],
             ]);
     }

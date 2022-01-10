@@ -157,7 +157,7 @@ class WorkflowData
                 self::TRANSITIONS => [
                     self::WORKFLOW_IS_SAME => [
                         self::TRANSITION_GO_TO_RESUME,
-                        self::TRANSITION_GO_PUBLISHED
+                        self::TRANSITION_GO_ABANDONNED,
                     ]
                 ]
             ],

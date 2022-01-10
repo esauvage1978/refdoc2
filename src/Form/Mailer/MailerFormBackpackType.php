@@ -82,7 +82,25 @@ class MailerFormBackpackType extends MailerFormType
                         ->orderBy(UserRepository::ALIAS . '.name', 'ASC');
                 },
             ])                       
-
+            ->add('emetteur', EntityType::class, [
+                self::CSS_CLASS => User::class,
+                self::CHOICE_LABEL => 'name',
+                self::LABEL => ' Emetteur',
+                self::MULTIPLE => true,
+                self::ATTR => [self::CSS_CLASS => 'select2'],
+                self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder(UserRepository::ALIAS)
+                        ->select(
+                            UserRepository::ALIAS,
+                            BackpackRepository::ALIAS
+                        )
+                        ->innerJoin(UserRepository::ALIAS . '.backpacks', BackpackRepository::ALIAS)
+                        ->where(BackpackRepository::ALIAS . '.id = :actionid')
+                        ->setParameter('actionid', $options['data']['data'])
+                        ->orderBy(UserRepository::ALIAS . '.name', 'ASC');
+                },
+            ])  
     ;
     }
 }

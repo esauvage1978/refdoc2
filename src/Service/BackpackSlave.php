@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Manager;
+namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Backpack;
+use App\Helper\FileTools;
 use App\Entity\BackpackFile;
 use App\Entity\BackpackLink;
-use App\Entity\BackpackState;
+use App\Helper\ParamsInServices;
 use App\Workflow\WorkflowData;
-use App\Entity\EntityInterface;
-use App\Helper\FileTools;
+use App\Manager\BackpackManager;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Validator\BackpackStateValidator;
+use App\Manager\BackpackStateManager;
 
-class BackpackDuplicatorManager extends AbstractManager
+class BackpackSlave
 {
     /**
      * @var BackpackStateManager
@@ -27,22 +26,27 @@ class BackpackDuplicatorManager extends AbstractManager
     private $backpackManager;
 
     /**
-     * @var UserRepository
+     * @var FileTools
      */
-    private $userRepository;
+    private $fileTools;
+
+    /**
+     * @var String
+     */
+    private $directory;
 
     public function __construct(
         BackpackStateManager $backpackStateManager,
-        EntityManagerInterface $manager,
         BackpackManager $backpackManager,
-        BackpackStateValidator $validator,
         UserRepository $userRepository,
-        FileTools $fileTools
+        FileTools $fileTools,
+        ParamsInServices $paramsInServices
     ) {
-        parent::__construct($manager, $validator);
         $this->userRepository = $userRepository;
         $this->backpackStateManager = $backpackStateManager;
         $this->backpackManager = $backpackManager;
+        $this->fileTools = $fileTools;
+        $this->directory = $paramsInServices->get(ParamsInServices::ES_DIRECTORY_UPLOAD_BACKPACK_SHOW);
     }
 
     public function duplicate(Backpack $item, User $user)
@@ -58,6 +62,97 @@ class BackpackDuplicatorManager extends AbstractManager
         $this->goInReview($itemDupliqued);
 
         $this->backpackStateManager->saveActionInHistory($item, WorkflowData::STATE_IN_REVIEW, $user);
+    }
+
+
+
+
+    private function duplicateBackpack(Backpack $item): Backpack
+    {
+        $duplicate = new Backpack();
+        $duplicate
+            ->setName($item->getName())
+            ->setRef($item->getRef())
+            ->setCreatedAt($item->getCreatedAt())
+            ->setOwner($item->getOwner())
+            ->setProcess($item->getProcess())
+            ->setMProcess($item->getMProcess())
+            ->setCategory($item->getCategory())
+            ->setContent($item->getContent())
+            ->setDir1($item->getDir1())
+            ->setDir2($item->getDir2())
+            ->setDir3($item->getDir3())
+            ->setDir4($item->getDir4())
+            ->setDir5($item->getDir5());
+
+
+        return $duplicate;
+    }
+
+    private function setMasterSlave(Backpack $item, Backpack $itemDupliqued)
+    {
+        $itemDupliqued->setBackpackMaster($item);
+        $item->setBackpackSlave($itemDupliqued);
+
+        $this->backpackManager->save($itemDupliqued);
+        $this->backpackManager->save($item);
+    }
+
+    private function duplicateLink(Backpack $item, Backpack $itemDupliqued)
+    {
+        foreach ($item->getBackpackLinks() as $link) {
+            $linkDuplicated = new BackpackLink();
+            $linkDuplicated
+                ->setTitle($link->getTitle())
+                ->setContent($link->getContent())
+                ->setLink($link->getLink());
+
+            $itemDupliqued->addBackpackLink($linkDuplicated);
+            $this->backpackManager->save($itemDupliqued);
+        }
+    }
+
+    private function duplicateFile(Backpack $item, Backpack $itemDupliqued)
+    {
+        foreach ($item->getBackpackFiles() as $file) {
+            $targetDir = $this->directory . '/' . $itemDupliqued->getId();
+            $sourceDir = $this->directory . '/' . $item->getId();
+            $this->fileTools->copy($sourceDir, $file->getFullName(), $targetDir, $file->getFullName());
+
+            $fileDuplicated = new BackpackFile();
+            $fileDuplicated
+                ->setTitle($file->getTitle())
+                ->setContent($file->getContent())
+                ->setFileExtension($file->getFileExtension())
+                ->setSize($file->getSize())
+                ->setModifyAt($file->getModifyAt())
+                ->setFileName($file->getFileName() );
+
+            $itemDupliqued->addBackpackFile($fileDuplicated);
+            $this->backpackManager->save($itemDupliqued);
+        }
+    }
+
+    public function goToResume(Backpack $item)
+    {
+        $item
+            ->setStateAt(new \DateTime())
+            ->setStateContent('Duplication automatique effectuée du porte-document')
+            ->setStateCurrent(WorkflowData::STATE_TO_RESUME);
+        $this->backpackManager->save($item);
+    }
+
+    private function goInReview(Backpack $item)
+    {
+        $item
+            ->setStateAt(new \DateTime())
+            ->setStateContent('Duplication automatique effectuée du porte-document')
+            ->setStateCurrent(WorkflowData::STATE_IN_REVIEW);
+        $this->backpackManager->save($item);
+    }
+
+    public function checkRemove(Backpack $backpack)
+    {
     }
 
     public function checkSlave(Backpack $item): void
@@ -115,86 +210,5 @@ class BackpackDuplicatorManager extends AbstractManager
 
                 break;
         }
-    }
-
-    public function initialise(EntityInterface $entity): void
-    {
-    }
-
-    private function duplicateBackpack(Backpack $item): Backpack
-    {
-        $duplicate = new Backpack();
-        $duplicate
-            ->setName($item->getName())
-            ->setRef($item->getRef())
-            ->setCreatedAt($item->getCreatedAt())
-            ->setOwner($item->getOwner())
-            ->setProcess($item->getProcess())
-            ->setMProcess($item->getMProcess())
-            ->setCategory($item->getCategory())
-            ->setContent($item->getContent())
-            ->setDir1($item->getDir1())
-            ->setDir2($item->getDir2())
-            ->setDir3($item->getDir3())
-            ->setDir4($item->getDir4())
-            ->setDir5($item->getDir5());
-
-        return $duplicate;
-    }
-
-    private function setMasterSlave(Backpack $item, Backpack $itemDupliqued)
-    {
-        $itemDupliqued->setBackpackMaster($item);
-        $item->setBackpackSlave($itemDupliqued);
-
-        $this->backpackManager->save($itemDupliqued);
-        $this->backpackManager->save($item);
-    }
-
-    private function duplicateLink(Backpack $item, Backpack $itemDupliqued)
-    {
-        foreach ($item->getBackpackLinks() as $link) {
-            $linkDuplicated = new BackpackLink();
-            $linkDuplicated
-                ->setTitle($link->getTitle())
-                ->setContent($link->getContent())
-                ->setLink($link->getLink());
-
-            $itemDupliqued->addBackpackLink($linkDuplicated);
-            $this->backpackManager->save($itemDupliqued);
-        }
-    }
-
-    private function duplicateFile(Backpack $item, Backpack $itemDupliqued)
-    {
-        foreach ($item->getBackpackFiles() as $file) {
-            $fileDuplicated = new BackpackFile();
-            $fileDuplicated
-                ->setTitle($file->getTitle())
-                ->setContent($file->getContent())
-                ->setFileExtension($file->getFileExtension())
-                ->setFileName($file->getFileName() . '_copy');
-
-            $itemDupliqued->addBackpackFile($fileDuplicated);
-            $this->backpackManager->save($itemDupliqued);
-        }
-    }
-
-    public function goToResume(Backpack $item)
-    {
-        $item
-            ->setStateAt(new \DateTime())
-            ->setStateContent('Duplication automatique effectuée du porte-document')
-            ->setStateCurrent(WorkflowData::STATE_TO_RESUME);
-        $this->backpackManager->save($item);
-    }
-
-    private function goInReview(Backpack $item)
-    {
-        $item
-            ->setStateAt(new \DateTime())
-            ->setStateContent('Duplication automatique effectuée du porte-document')
-            ->setStateCurrent(WorkflowData::STATE_IN_REVIEW);
-        $this->backpackManager->save($item);
     }
 }

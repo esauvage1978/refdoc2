@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Subscription;
+use App\Repository\MProcessRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\SubscriptionRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -79,4 +81,52 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findAllUsersNotificationForProcessus(int $processusId)
+    {
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS
+            )
+            ->innerJoin(self::ALIAS . '.subscriptions', SubscriptionRepository::ALIAS)
+            ->innerJoin(SubscriptionRepository::ALIAS . '.process', ProcessRepository::ALIAS)
+            ->where(self::ALIAS . '.isEnable=true')
+            ->andWhere(self::ALIAS . '.isSubscription=true')
+            ->andWhere(ProcessRepository::ALIAS.'.id = :processusId')
+            ->setParameter('processusId',$processusId)
+            ->orderBy(self::ALIAS . '.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    } 
+    
+    public function findAllUsersNotificationForMProcessus(int $mprocessusId)
+    {
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS
+            )
+            ->innerJoin(self::ALIAS . '.subscriptions', SubscriptionRepository::ALIAS)
+            ->innerJoin(SubscriptionRepository::ALIAS . '.mProcess', MProcessRepository::ALIAS)
+            ->where(self::ALIAS . '.isEnable=true')
+            ->andWhere(self::ALIAS . '.isSubscription=true')
+            ->andWhere(MProcessRepository::ALIAS.'.id = :mprocessusId')
+            ->setParameter('mprocessusId',$mprocessusId)
+            ->orderBy(self::ALIAS . '.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findAllUsersSubscriptionForMProcessus(int $mprocessusId)
+    {
+        return $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS
+            )
+            ->innerJoin(self::ALIAS . '.subscriptions', SubscriptionRepository::ALIAS)
+            ->innerJoin(SubscriptionRepository::ALIAS . '.mProcess', MProcessRepository::ALIAS)
+            ->where(self::ALIAS . '.isEnable=true')
+            ->andWhere(MProcessRepository::ALIAS.'.id = :mprocessusId')
+            ->setParameter('mprocessusId',$mprocessusId)
+            ->orderBy(self::ALIAS . '.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }    
 }

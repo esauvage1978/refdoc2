@@ -145,7 +145,7 @@
 																			<tbody>
 																				<tr class="links">
 																					<td class="es-p10t es-p10b es-p5r es-p5l" style="padding-bottom: 10px; padding-top: 10px; " width="33%" valign="top" bgcolor="transparent" align="center">
-																						<a target="_blank" href="{{ absolute_url(path('home')) }}" style=" font-size: 16px; color:#57a7fe; text-transform: uppercase; text-decoration: none;font-weight: bolder">
+																						<a target="_blank" href="{{es_mailer_firefox_auto}}{{ absolute_url(path('home')) }}" style=" font-size: 16px; color:#57a7fe; text-transform: uppercase; text-decoration: none;font-weight: bolder">
 																							Page d'accueil
 																						</a>
 																					</td>
@@ -257,7 +257,7 @@
 																	<tr>
 																		<td class="esd-block-text es-p10b" esdev-links-color="#666666" align="left">
 																			<p style="color: #666666;">
-																				<a target="_blank" style="color: #666666;" href="{{ absolute_url(path('home')) }}">Page d'accueil</a>
+																				<a target="_blank" style="color: #666666;" href="{{es_mailer_firefox_auto}}{{ absolute_url(path('home')) }}">Page d'accueil</a>
 																				|
 																				<a target="_blank" style="color: #666666;" href="mailto:{{app_contact}}"> {{ es_contact_name }}</a><br></p>
 
@@ -268,6 +268,11 @@
 																			<p style="color: #666666;">{{ es_copyright | raw }}
 																				{{app_name}}
 																				- {{ es_contact_name }}<br></p>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td esdev-links-color="#666666" class="esd-block-text" align="left">
+																			Il est conseillé d'utiliser Firefox
 																		</td>
 																	</tr>
 																</tbody>

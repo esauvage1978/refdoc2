@@ -34,11 +34,26 @@
 		{% endblock %}
 		{% block card_body %}
 			<form class="form-inline ml-3" method="POST" action="{{path('search')}}">
+			Filtrer sur&nbsp;
+			<div>
 				<div class="input-group input-group-sm">
-					<label for="show_all">
-						&nbsp;voir l'ensemble des documents&nbsp;:&nbsp;
-					</label>
 					<input type="checkbox" id="show_all" name="show_all" {{ show_all?'checked':'' }}>
+					<label for="show_all">
+						&nbsp;l'ensemble des documents
+					</label>
+				</div>
+				<div class="input-group input-group-sm">
+					<input type="checkbox" id="show_subscription" name="show_subscription" {{ show_subscription?'checked':'' }}>
+					<label for="show_subscription">
+						&nbsp;les abonnements uniquement
+					</label>
+				</div>		
+				<div class="input-group input-group-sm">
+					<input type="checkbox" id="show_isHelpInterService" name="show_isHelpInterService" {{ show_isHelpInterService?'checked':'' }}>
+					<label for="show_isHelpInterService">
+						&nbsp;les porte-documents concernés par l'aide inter-service
+					</label>
+				</div>							
 				</div>
 				<div class="input-group input-group-sm ml-5">
 					<label for="r">Mot recherché&nbsp;:&nbsp;</label>

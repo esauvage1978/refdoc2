@@ -1,0 +1,315 @@
+<div class="card card-primary card-outline ">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+				<div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="vert-tabs-1-tab" data-toggle="pill" href="#vert-tabs-1" role="tab" aria-controls="vert-tabs-1" aria-selected="true">
+						{% set state = 'abandonned' %}
+						<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+							<i class="{{ state | workflowGetIconOfState}}"></i>
+							{{ state | workflowGetNameOfState }}
+						</span>
+					</a>
+					<a class="nav-link" id="vert-tabs-2-tab" data-toggle="pill" href="#vert-tabs-2" role="tab" aria-controls="vert-tabs-2" aria-selected="false">
+						{% set state = 'archived' %}
+						<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+							<i class="{{ state | workflowGetIconOfState}}"></i>
+							{{ state | workflowGetNameOfState }}
+						</span>
+					</a>
+					<a class="nav-link" id="vert-tabs-3-tab" data-toggle="pill" href="#vert-tabs-3" role="tab" aria-controls="vert-tabs-3" aria-selected="false">
+						Les fichiers
+					</a>
+					<a class="nav-link" id="vert-tabs-7-tab" data-toggle="pill" href="#vert-tabs-7" role="tab" aria-controls="vert-tabs-7" aria-selected="false">
+						Les fichiers sources
+					</a>
+					<a class="nav-link" id="vert-tabs-4-tab" data-toggle="pill" href="#vert-tabs-4" role="tab" aria-controls="vert-tabs-4" aria-selected="false">
+						Les liens
+					</a>
+					<a class="nav-link" id="vert-tabs-5-tab" data-toggle="pill" href="#vert-tabs-5" role="tab" aria-controls="vert-tabs-5" aria-selected="false">
+						Changer d'état
+					</a>
+					<a class="nav-link" id="vert-tabs-6-tab" data-toggle="pill" href="#vert-tabs-6" role="tab" aria-controls="vert-tabs-6" aria-selected="false">
+						Les traces
+					</a>
+				</div>
+			</div>
+			<div class="col-7 col-sm-9">
+				<div class="tab-content" id="vert-tabs-tabContent">
+					<div class="tab-pane text-left fade active show" id="vert-tabs-1" role="tabpanel" aria-labelledby="vert-tabs-1-tab">
+						{% set state = 'abandonned' %}
+						<h3 class="mb-3  text-p-dark">Description</h3>
+						<p>
+							L'état
+							<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+								<i class="{{ state | workflowGetIconOfState}}"></i>
+								{{ state | workflowGetNameOfState }}
+							</span>
+							est la première étape, avant la suppression de celui-ci.
+						</p>
+						<h3 class="mb-3 mt-5 text-p-dark">Etapes précédentes</h3>
+						<p>
+							A chaque étape il est possible d'envoyer un porte-document dans l'état
+							<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+								<i class="{{ state | workflowGetIconOfState}}"></i>
+								{{ state | workflowGetNameOfState }}
+							</span>.
+						</p>
+						<p>
+							Cependant il faut avoir les droits pour le faire basculer. Ces droits sont en rapport avec l'état où il se trouve.
+						</p>
+
+						<h3 class="mb-3 mt-5 text-p-dark">Etapes suivantes</h3>
+						<blockquote>
+							Des contrôles sont présents si un autre porte-document à la même référence, le changement d'état ne pourra pas se faire.
+						</blockquote>
+						<p>
+							<ul>
+								<li>
+									{% set state = 'toResume' %}
+									<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+										<i class="{{ state | workflowGetIconOfState}}"></i>
+										{{ state | workflowGetNameOfState }}
+									</span>
+								</li>
+							</ul>
+						</p>
+
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-2" role="tabpanel" aria-labelledby="vert-tabs-2-tab">
+						{% set state = 'archived' %}
+						<h3 class="mb-3  text-p-dark">Description</h3>
+						<p>
+							L'état
+							<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+								<i class="{{ state | workflowGetIconOfState}}"></i>
+								{{ state | workflowGetNameOfState }}
+							</span>
+							permet de garder une trace d'un porte-document.
+						</p>
+						<p>
+							Lorsqu'un porte-document maître est publié, celui en copie et dans l'état
+							{% set state = 'inReview' %}
+							<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+								<i class="{{ state | workflowGetIconOfState}}"></i>
+								{{ state | workflowGetNameOfState }}
+							</span>
+							est automatiquement archivé.
+						</p>
+						<h3 class="mb-3 mt-5 text-p-dark">Etapes précédentes</h3>
+						<ul>
+							<li>
+								{% set state = 'toResume' %}
+								<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+									<i class="{{ state | workflowGetIconOfState}}"></i>
+									{{ state | workflowGetNameOfState }}
+								</span>
+							</li>
+							<li>
+								{% set state = 'published' %}
+								<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+									<i class="{{ state | workflowGetIconOfState}}"></i>
+									{{ state | workflowGetNameOfState }}
+								</span>
+							</li>
+						</ul>
+
+						<h3 class="mb-3 mt-5 text-p-dark">Etapes suivantes</h3>
+						<blockquote>
+							Des contrôles sont présents si un autre porte-document à la même référence, le changement d'état ne pourra pas se faire.
+						</blockquote>
+						<p>
+							<ul>
+								<li>
+									{% set state = 'toResume' %}
+									<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+										<i class="{{ state | workflowGetIconOfState}}"></i>
+										{{ state | workflowGetNameOfState }}
+									</span>
+								</li>
+								<li>
+									{% set state = 'abandonned' %}
+									<span class="badge" style=" background-color: {{ state | workflowGetBGColorOfState }} ;color: {{ state | workflowGetForeColorOfState}} ;">
+										<i class="{{ state | workflowGetIconOfState}}"></i>
+										{{ state | workflowGetNameOfState }}
+									</span>
+								</li>								
+							</ul>
+						</p>
+
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3-tab">
+						<p>
+							RefDoc vous donne la possibilité d'associer des fichiers aux porte-documents
+						</p>
+						<p>
+							Il n'y a aucune limitation dans le nombre de fichier ajouté
+						</p>
+						<h2 class="mb-5 text-p-dark">Ajout</h2>
+						<p>
+							Pour ajouter un fichier, il vous suffit d'appuyer sur le bouton
+							<b>Ajouter un fichier</b>
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_1.png')) }}">
+						</div>
+
+						<p>
+							La fenêtre ci-dessous s'affiche et vous devez saisir le titre du fichier ainsi que le fichier. La description n'est pas obligatoire mais conseillé.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_2.png')) }}">
+						</div>
+						<p>
+							Confirmer la création en appuyant sur le bouton
+							<b>Enregistrer</b>
+						</p>
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+						<p>
+							Pour pouvez modifier les informations saisies en appuyant sur le bouton ci-dessous
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/edit.png')) }}">
+						</div>
+
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_3.png')) }}">
+						</div>
+						<blockquote>
+							Lors de la modification et si le fichier n'est pas modifié, il sera conservé.
+						</blockquote>
+						<h2 class="mb-5 text-p-dark">Suppression</h2>
+						<p>
+							Pour supprimer un lien, il vous suffit d'appuyer sur le bouton ci-dessous. Une confirmation vous sera demandé.
+						</p>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/delete.png')) }}">
+						</div>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/file_4.png')) }}">
+						</div>
+						<blockquote>
+							La suppression est irreversible et tracée. Le fichier est également supprimé.
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-4" role="tabpanel" aria-labelledby="vert-tabs-4-tab">
+						<p>
+							RefDoc vous donne la possibilité d'associer des liens aux porte-documents
+						</p>
+						<p>
+							Il n'y a aucune limitation dans le nombre de lien ajouté
+						</p>
+						<h2 class="mb-5 text-p-dark">Ajout</h2>
+						<p>
+							Pour ajouter un lien, il vous suffit d'appuyer sur le bouton
+							<b>Ajouter un lien</b>
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_1.png')) }}">
+						</div>
+
+						<p>
+							La fenêtre ci-dessous s'affiche et vous devez saisir le titre du lien ainsi que l'adresse. La description n'est pas obligatoire mais conseillé.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_2.png')) }}">
+						</div>
+						<p>
+							Confirmer la création en appuyant sur le bouton
+							<b>Enregistrer</b>
+						</p>
+						<h2 class="mb-5 text-p-dark">Modification</h2>
+						<p>
+							Pour pouvez modifier les informations saisies en appuyant sur le bouton ci-dessous
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/edit.png')) }}">
+						</div>
+
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_3.png')) }}">
+						</div>
+						<h2 class="mb-5 text-p-dark">Suppression</h2>
+						<p>
+							Pour supprimer un lien, il vous suffit d'appuyer sur le bouton ci-dessous. Une confirmation vous sera demandé.
+						</p>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/delete.png')) }}">
+						</div>
+
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/link_4.png')) }}">
+						</div>
+						<blockquote>
+							La suppression est irreversible et tracée.
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-5" role="tabpanel" aria-labelledby="vert-tabs-5-tab">
+						<p>
+							Lorsque vous êtes en modification, vous pouvez envoyer le porte-document dans un autre état (validation, publication...)
+						</p>
+						<p>
+							Suivant les états, des vérifications sont effectuées. Par exemple, il faut qu'il y ait une description ou des fichiers dans un porte-document
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/etat_1.png')) }}">
+						</div>
+						<p>
+							Le changement d'état s'effectue en validant à l'aide du bouton.
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/etat_2.png')) }}">
+						</div>
+						<p>
+							Le commentaire est obligatoire
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/etat_3.png')) }}">
+						</div>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-6" role="tabpanel" aria-labelledby="vert-tabs-6-tab">
+						<p>
+							Toutes les modifications sur les porte-documents sont tracées et conservées dans l'appication.
+						</p>
+						<p>
+							Pour y accéder, il vous suffit d'appuyer sur le bouton ci-dessous
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/trace_1.png')) }}">
+						</div>
+						<p>
+							Vous avez la possibilité de filtrer directement sur le tableau
+						</p>
+						<div class="doc-image mt-4 mb-4">
+							<img src="{{ absolute_url( asset('doc/trace_2.png')) }}">
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-7" role="tabpanel" aria-labelledby="vert-tabs-7-tab">
+						<p>
+							RefDoc vous donne la possibilité d'ajouter les
+							<b>fichiers sources</b>
+							(souvent au format word) au sein d'un porte-document.
+						</p>
+						<p>
+							Ces fichiers ne seront pas visibles par les utilisateurs, seuls les personnes qui modifient un porte-document auront l'accès.
+						</p>
+						<p>
+							Cette option permet de retrouver rapidement les fichiers sources qui ont permis l'élaboration des documents proposés aux utilisateurs.
+						</p>
+						<blockquote>
+							Le système d'ajout, de modification et de suppression est identique à celui des fichiers.
+						</blockquote>
+					</div>
+					<div class="tab-pane fade" id="vert-tabs-8" role="tabpanel" aria-labelledby="vert-tabs-8-tab"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.card -->
+</div>

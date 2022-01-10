@@ -4,7 +4,13 @@
 {% import "macros/category.html.twig" as category %}
 {% import "macros/backpack.html.twig" as bpk %}
 {% import "macros/user.html.twig" as user %}
-<div class="d-flex align-items-center mb-3 ">
+
+{% if item.isHelpInterService %}
+	<div class="d-flex align-items-center text-muted alert alert-info">
+		Ce porte-document peut être utilisé dans le cadre de l'aide inter-service
+	</div>
+{% endif %}
+<div class="d-flex align-items-center  ">
 	{{ user.avatar(item.owner) }}
 	<div class="d-flex flex-column ">
 		<div class="text-bold text-p-dark text-lg">
@@ -37,6 +43,7 @@
 		</div>
 	</div>
 </div>
+
 <section>
 
 	<div class="row  d-flex justify-content-end mr-1 pb-2 text-gray">
@@ -52,8 +59,6 @@
 			{% if item.backpackMaster %}
 				<a href="{{ path('backpack_show',{id:item.backpackMaster.id}) }}">
 					Porte-document principal
-
-
 				</a>
 			{% endif %}
 		</div>

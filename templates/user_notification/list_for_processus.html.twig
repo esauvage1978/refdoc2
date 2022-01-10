@@ -11,7 +11,7 @@
 
 
 
-{% block page_subtitle %}Liste
+{% block page_subtitle %}Liste pour le processus {{item.fullname}}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -42,6 +42,7 @@
 			</td>
 			<td class="align-middle text-center p-0 m-0 ">{{ usr.dateSubscription(item)  }}</td>
 			<td class="align-middle text-center p-0 m-0 ">{{ usr.lastConnexion(item)  }}</td>
+
 		</tr>
 	{% else %}
 		{{ tables.datatable_data_else(columns) }}

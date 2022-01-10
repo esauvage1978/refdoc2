@@ -10,7 +10,7 @@ use App\Manager\BackpackStateManager;
 use App\Event\WorkflowTransitionEvent;
 use App\Repository\BackpackRepository;
 use Symfony\Component\Workflow\Registry;
-use App\Manager\BackpackDuplicatorManager;
+use App\Service\BackpackSlave;
 use Symfony\Component\Workflow\StateMachine;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -23,9 +23,9 @@ class WorkflowBackpackManager
     private $backpackStateManager;
 
     /**
-     * @var BackpackDuplicatorManager
+     * @var BackpackSlave
      */
-    private $backpackDuplicatorManager;
+    private $backpackSlave;
 
     /**
      * @var Registry
@@ -63,7 +63,7 @@ class WorkflowBackpackManager
 
     public function __construct(
         BackpackStateManager $backpackStateManager,
-        BackpackDuplicatorManager $backpackDuplicatorManager,
+        BackpackSlave $backpackSlave,
         Registry $workflow,
         CurrentUser $currentUser,
         EventDispatcherInterface $dispatcher,
@@ -71,7 +71,7 @@ class WorkflowBackpackManager
         BackpackRepository $backpackRepository
     ) {
         $this->backpackStateManager = $backpackStateManager;
-        $this->backpackDuplicatorManager= $backpackDuplicatorManager;
+        $this->backpackSlave= $backpackSlave;
         $this->currentUser = $currentUser;
         $this->workflow = $workflow;
         $this->dispatcher = $dispatcher;
@@ -137,11 +137,11 @@ class WorkflowBackpackManager
     {
         if($stateOld=== WorkflowData::STATE_TO_REVISE && $item->getBackpackSlave()===null) {
             dump('$stateOld=== WorkflowData::STATE_TO_REVISE && $item->getBackpackSlave()===null');
-            $this->backpackDuplicatorManager->duplicate($item, $user);
+            $this->backpackSlave->duplicate($item, $user);
         }
 
         if ( null!== $item->getBackpackSlave() ) {
-            $this->backpackDuplicatorManager->checkSlave($item);
+            $this->backpackSlave->checkSlave($item);
         }
     }
 

@@ -44,11 +44,7 @@ class DocumentationController extends AbstractController
                 'url' => 'dashboard',
                 'icone' => 'fas fa-tachometer-alt'
             ],    
-            [
-                'name' => 'Administration',
-                'url' => 'admin',
-                'icone' => 'fas fa-wrench'
-            ],                                   
+                                 
             [
                 'name' => 'Ajouter&nbsp;un&nbsp;porte-document',
                 'url' => 'backpack_add',
@@ -60,10 +56,30 @@ class DocumentationController extends AbstractController
                 'icone' => 'fas fa-suitcase'
             ],
             [
+                'name' => 'Reclasser&nbsp;un&nbsp;porte-document',
+                'url' => 'backpack_classify',
+                'icone' => 'fas fa-suitcase'
+            ],    
+            [
+                'name' => 'Etapes&nbsp;d\'&nbsp;un&nbsp;porte-document',
+                'url' => 'state',
+                'icone' => 'fas fa-suitcase'
+            ],                      
+            [
+                'name' => 'Administration',
+                'url' => 'admin',
+                'icone' => 'fas fa-wrench'
+            ],              
+            [
                 'name' => 'Un problème ?',
                 'url' => 'alert',
                 'icone' => 'fas fa-exclamation-triangle'
-            ]            
+            ]   ,              
+            [
+                'name' => 'Changelog',
+                'url' => 'changelog',
+                'icone' => 'fas fa-bullhorn'
+            ]           
         ];
 
         return $this->render('documentation/index.html.twig', [

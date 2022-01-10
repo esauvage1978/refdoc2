@@ -32,7 +32,7 @@ class BackpackNewType extends AppTypeAbstract
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->buildFormName($builder);
-        $this->buildFormContent($builder);
+        $this->buildFormContent($builder,'Description', true);
         $builder
             ->add('category', EntityType::class, [
                 self::CSS_CLASS => Category::class,
@@ -94,6 +94,14 @@ class BackpackNewType extends AppTypeAbstract
                 [
                     self::LABEL            => 'dater',
                     self::REQUIRED => false
+                ]
+            )
+            ->add(
+                'isHelpInterService',
+                CheckboxType::class,
+                [
+                    self::LABEL => 'Peut être utilisé dans le cadre de l\'aide inter-service',
+                    self::REQUIRED => false,
                 ]
             );
     }

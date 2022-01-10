@@ -33,6 +33,8 @@
 
 				{{ include(domaine ~ '/_edit/_process.html.twig') }}
 
+				{{ include(domaine ~ '/_edit/_is_help_inter_service.html.twig') }}
+
 				{{ include(domaine ~ '/_edit/_name.html.twig') }}
 				{{ save.btn()}}
 
@@ -40,7 +42,9 @@
 				<p class="mt-5 mb-5"></p>
 				<p class="mt-5 mb-5"></p>
 			</div>
-			{% import "macros/submit.html.twig" as sub %}<div class="d-none">{{ sub.btn() }}{{form_rest(form)}}</div>
+			{% import "macros/submit.html.twig" as sub %}
+			<div class="d-none">{{ sub.btn() }}{{form_rest(form)}}</div>
+			
 			{{ form_end(form) }}
 
 

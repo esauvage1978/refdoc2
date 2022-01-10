@@ -5,6 +5,7 @@ namespace App\Manager;
 use App\Entity\BackpackLink;
 
 use App\Security\CurrentUser;
+use App\Helper\ContentChecker;
 use App\Entity\EntityInterface;
 use App\History\BackpackHistory;
 use App\Validator\BackpackLinkValidator;
@@ -53,6 +54,8 @@ class BackpackLinkManager extends AbstractManager
     public function initialise(EntityInterface $entity): void
     {
         $entity->setModifyAt(new \DateTime());
+
+        $entity->setContent( ContentChecker::run($entity->getContent()) );
     }
 
     public function historize(BackpackLink $entity, ?BackpackLink $entityOld = null)

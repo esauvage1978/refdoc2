@@ -79,6 +79,11 @@ class BackpackDto extends AbstractDto
     /**
      * @var ?string
      */
+    private $isHelpInterService;
+
+    /**
+     * @var ?string
+     */
     private $isGoToRevise;
 
     /**
@@ -107,8 +112,6 @@ class BackpackDto extends AbstractDto
         $this->search = $search;
 
         $this->searchReference();
-
-        $this->searchDate();
 
         return $this;
     }
@@ -285,6 +288,24 @@ class BackpackDto extends AbstractDto
     public function getIsGoToRevise()
     {
         return $this->isGoToRevise;
+    }
+
+        /**
+     * @param mixed $isHelpInterService
+     * @return BackpackDto
+     */
+    public function setIsHelpInterService($isHelpInterService)
+    {
+        $this->checkBool($isHelpInterService);
+        $this->isHelpInterService = $isHelpInterService;
+        return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getIsHelpInterService()
+    {
+        return $this->isHelpInterService;
     }
 
     /**

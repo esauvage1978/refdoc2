@@ -199,6 +199,8 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
 
         $this->initialise_where_go_to_revise();
 
+        $this->initialise_where_help_inter_service();
+
         $this->initialise_where_search();
 
         if (count($this->params) > 0) {
@@ -394,6 +396,14 @@ class BackpackDtoRepository extends ServiceEntityRepository implements DtoReposi
     {
         if (!empty($this->dto->getIsGoToRevise())) {
             $this->builder->andWhere(' CURRENT_DATE() >= DATE_ADD('. self::ALIAS. '.stateAt,'. CategoryRepository::ALIAS.'.timeBeforeRevision,\'month\')');
+        }
+    }
+
+    private function initialise_where_help_inter_service()
+    {
+
+        if (!empty($this->dto->getIsHelpInterService())) {
+            $this->builder->andwhere(self::ALIAS . '.isHelpInterService = true ');
         }
     }
 

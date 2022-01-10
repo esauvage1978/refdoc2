@@ -2,14 +2,15 @@
 
 namespace App\Manager;
 
-use App\Entity\BackpackFileSource;
-
 use App\Security\CurrentUser;
+
+use App\Helper\ContentChecker;
 use App\Entity\EntityInterface;
 use App\History\BackpackHistory;
 use App\Manager\BackpackManager;
-use App\Validator\BackpackFileSourceValidator;
+use App\Entity\BackpackFileSource;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Validator\BackpackFileSourceValidator;
 use App\Repository\BackpackFileSourceRepository;
 
 
@@ -53,6 +54,8 @@ class BackpackFileSourceManager extends AbstractManager
     public function initialise(EntityInterface $entity): void
     {
         $entity->setModifyAt(new \DateTime());
+
+        $entity->setContent( ContentChecker::run($entity->getContent()) );
     }
 
     public function historize(BackpackFileSource $entity, ?BackpackFileSource $entityOld = null)

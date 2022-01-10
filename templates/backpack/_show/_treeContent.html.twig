@@ -1,17 +1,25 @@
 {% if item  %}
 
 	<div class="bg-white rounded border-light p-4">
-			{{ include('backpack/_show/_identification.html.twig') }}
-			{{ include('backpack/_show/_content.html.twig') }}
-			{{ include('backpack/_show/_files.html.twig') }}
+		{{ include('backpack/_show/_identification.html.twig') }}
+		{{ include('backpack/_show/_content.html.twig') }}
+		{{ include('backpack/_show/_files.html.twig') }}
 	</div>
-	<a href="{{ path('backpack_show',{id:item.id}) }}" class="btn btn-p-dark">Consulter</a>
+	<div class="d-flex  mb-3 mt-3">
+		<a href="{{ path('backpack_show',{id:item.id}) }}" class="btn btn-p-dark">Consulter</a>
 
-	{% if  item | backpackCanUpdate %}
-		<a href="{{ path('backpack_edit',{id:item.id}) }}" class="btn btn-p-dark">Modifier</a>
-	{% endif %}
+		{% if  item | backpackCanUpdate %}
+			<a href="{{ path('backpack_edit',{id:item.id}) }}" class="btn btn-p-dark ml-1">Modifier</a>
+		{% endif %}
 
-	{% if  item | backpackCanClassify %}
-		<a href="{{ path('backpack_classify',{id:item.id}) }}" class="btn btn-p-dark">Reclasser</a>
-	{% endif %}
+		{% if  item | backpackCanClassify %}
+			<a href="{{ path('backpack_classify',{id:item.id}) }}" class="btn btn-p-dark ml-1">Reclasser</a>
+		{% endif %}
+		<div class="ml-auto ">
+				<a href="{{ path('mailer_backpack_composer',{id:item.id}) }}" class="text-p-dark">Signaler une erreur</a>
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('backpack_content',{id:item.id}) }}" class="text-muted">Modifier le content</a>
+			{% endif %}
+		</div>
+	</div>
 {% endif %}

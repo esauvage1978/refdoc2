@@ -67,6 +67,9 @@ class MailerManager extends AbstractManager
         if (array_key_exists('pilotep', $data)) {
             $this->setUsers($data['pilotep']);
         }
+        if (array_key_exists('emetteur', $data)) {
+            $this->setUsers($data['emetteur']);
+        }
         if (!$this->checkMailer($data)) {
             return null;
         }

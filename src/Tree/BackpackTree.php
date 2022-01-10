@@ -98,9 +98,19 @@ class BackpackTree extends AbstractTree
             $text = $text . '<small class="muted">' . $item->getRef() . '</small> ';
         }
         $filesNumber = $item->getBackpackFiles()->count() + $item->getBackpackLinks()->count();
-        $fileSpan = $filesNumber > 0 ? "&nbsp;<span class=\"small text-p-dark bg-p-light ml-2 pl-1 pr-1 rounded \"><i class=\"fas fa-paperclip\"></i> {$filesNumber}</span>&nbsp;" : '';
+        $bloc_icone_start="<span class=\"small text-p-dark bg-p-light ml-2 pl-1 pr-1 rounded \">";
+        $bloc_icone_end="</span>&nbsp;";
+        $fileSpan = $filesNumber > 0 ? "&nbsp;<i class=\"fas fa-paperclip\" title=\"Présence de fichier ou de lien sur le porte-document\"></i>" 
+        . "<span class='text-muted badge'>{$filesNumber} </span>" : '';
 
-        return  $text . '<span class="text-p-dark">' . $item->getName() . '</span> ' . $fileSpan . $this->checkNews($item) . $this->checkState($item);
+        return  $text . '<span class="text-small ">' . $item->getName() . '</span> ' 
+        . $bloc_icone_start
+        . $fileSpan 
+        . $this->checkNews($item)  
+        . $this->checkState($item)
+        . $this->checkIsHelpInterService($item)
+        . $bloc_icone_end;
+
     }
 
     private function checkNews(Backpack $item): string
@@ -111,7 +121,18 @@ class BackpackTree extends AbstractTree
             $this->getNbrDayBeetwenDates(new \DateTime(), $item->getUpdatedAt()) < $this->paramsInServices->get(ParamsInServices::ES_NEWS_TIME)
         ) {
 
-            return '<i class="fas fa-certificate text-p-dark2 bg-p-light"></i>';
+            return '<i class="fas fa-certificate text-p-dark2 ml-1" title="Nouveauté"></i>';
+        }
+        return '';
+    }
+
+    private function checkIsHelpInterService(Backpack $item): string
+    {
+        if (
+            $item->getIsHelpInterService()
+        ) {
+
+            return '<i class="fas fa-handshake text-p-dark2  ml-1" title="Peut être utilisé pour l\'aide inter-service"></i>';
         }
         return '';
     }
@@ -119,11 +140,11 @@ class BackpackTree extends AbstractTree
     private function checkState(Backpack $item): string
     {
         if ($item->getStateCurrent() !== null && $this->hideState === false) {
-            return "<span class='badge' style='color:" .
-                WorkflowData::getBGColorOfState($item->getStateCurrent()) .
-            ";background-color:" . WorkflowData::getForeColorOfState($item->getStateCurrent()) .
-                "'><i class='" . WorkflowData::getIconOfState($item->getStateCurrent()) . "'></i>" 
-                  . "</span>";//WorkflowData::getNameOfState($item->getStateCurrent())
+            return  
+                "<i class='" . WorkflowData::getIconOfState($item->getStateCurrent()) . " ml-1' style='color:" 
+                . WorkflowData::getBGColorOfState($item->getStateCurrent()) 
+                . "' title='" . WorkflowData::getShortNameOfState($item->getStateCurrent()) . "'></i>" 
+                ;
         }
         return '';
     }

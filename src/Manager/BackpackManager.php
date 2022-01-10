@@ -6,6 +6,7 @@ use App\Entity\Backpack;
 use App\Security\CurrentUser;
 
 use App\Entity\EntityInterface;
+use App\Helper\ContentChecker;
 use App\History\BackpackHistory;
 use App\Repository\BackpackRepository;
 use App\Service\BackpackRefGenerator;
@@ -30,6 +31,7 @@ class BackpackManager extends AbstractManager
      */
     private $backpackRepository;
 
+    
     public function __construct(
         EntityManagerInterface $manager,
         BackpackValidator $validator,
@@ -50,6 +52,8 @@ class BackpackManager extends AbstractManager
          */
         $bp = $entity;
 
+        $bp->setContent( ContentChecker::run($bp->getContent()) );
+        $bp->setStateContent( ContentChecker::run($bp->getStateContent()) );
 
         if (null === $entity->getId()) {
             $bp->setOwner($this->currentUser->getUser());
@@ -93,7 +97,6 @@ class BackpackManager extends AbstractManager
 
             $this->remove($backpackSlave);
         }
-
         
         $this->manager->remove($entity);
         $this->manager->flush();

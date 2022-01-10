@@ -10,4 +10,12 @@ class TransitionGoToResume extends TransitionAbstract
     {
         return ['<strong>REJETER</strong> ce porte-document en l\'envoyant à l\'état "à reprendre".'];
     }
+
+    public function check()
+    {
+        $this->checkAll();
+        $this->backpackCheck->checkRef();
+        $this->backpackCheck->checkRefUnique();
+        $this->backpackCheck->checkRefCoherent();
+    }
 }

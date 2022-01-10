@@ -19,12 +19,22 @@
 			{{ form_widget(form.pilotemp) }}
 		</div>
 	</div>
+	{% if item.process %}
 	<div class="card-body">
 		<div class="form-group row">
 			<label for="{{ form.pilotep.vars.id }}">
 				Pilotes du processus
 			</label>
 			{{ form_widget(form.pilotep) }}
+		</div>
+	</div>
+	{% endif %}
+	<div class="card-body">
+		<div class="form-group row">
+			<label for="{{ form.emetteur.vars.id }}">
+				Emetteur
+			</label>
+			{{ form_widget(form.emetteur) }}
 		</div>
 	</div>
 </section>

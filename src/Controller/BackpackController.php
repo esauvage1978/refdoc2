@@ -129,7 +129,7 @@ class BackpackController extends AbstractGController
         ]);
     }
 
-        /**
+    /**
      * @Route("/backpack/{id}/classify", name="backpack_classify", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
@@ -158,6 +158,33 @@ class BackpackController extends AbstractGController
             self::FORM => $form->createView()
         ]);
     }
+
+
+    /**
+     * @Route("/backpack/{id}/content", name="backpack_content", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function content(Request $request, Backpack $item)
+    {
+        $this->denyAccessUnlessGranted(BackpackVoter::CLASSIFY, $item);
+        $itemOld = clone ($item);
+        $form = $this->createForm(BackpackType::class, $item);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->manager->save($item)) {
+                $this->addFlash(self::SUCCESS, self::MSG_MODIFY);
+            } else {
+                $this->addFlash(self::DANGER, self::MSG_MODIFY_ERROR . $this->manager->getErrors($item));
+            }
+        }
+
+        return $this->render('backpack/content.html.twig', [
+            'item' => $item,
+            self::FORM => $form->createView()
+        ]);
+    }    
 
     /**
      * @Route("/backpack/{id}/history", name="backpack_history", methods={"GET","POST"})

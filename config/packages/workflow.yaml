@@ -100,7 +100,7 @@ framework:
                     from: toRevise
                     to: inReview
                 goToResume:
-                    from: [published, toValidate, toControl, abandonned]
+                    from: [published, toValidate, toControl, abandonned,archived]
                     to: toResume
                 goToArchive:
                     from:
@@ -144,7 +144,7 @@ framework:
                     from: [draft, toResume]
                     to: toValidate
                 goToResume:
-                    from: [published, toRevise, toValidate, toCheck, abandonned]
+                    from: [published, toRevise, toValidate, toCheck, abandonned,archived]
                     to: toResume
                 goPublished:
                     from: toCheck
@@ -199,7 +199,7 @@ framework:
                     from: [draft, toResume]
                     to: toValidate
                 goToResume:
-                    from: [published, toValidate, abandonned]
+                    from: [published, toValidate, abandonned,archived]
                     to: toResume
                 goPublished:
                     from: toValidate

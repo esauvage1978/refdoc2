@@ -6,7 +6,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Dto\ProcessDto;
+use App\Entity\Process;
 use App\Dto\MProcessDto;
+use App\Entity\MProcess;
 use App\Form\Admin\UserType;
 use App\Manager\UserManager;
 use App\Repository\UserRepository;
@@ -92,15 +94,52 @@ class UserController extends AbstractGController
         return $this->render('user/_myWidgetNotification.html.twig');
     }
 
-    
-     /**
+
+    /**
      * @Route("/list/notifications", name="notification_users_subscription", methods={"GET"})
      * @IsGranted("ROLE_GESTIONNAIRE")
      */
     public function NotificationUsersSubscription(UserRepository $userRepository): Response
     {
         return $this->render(
-            'user_notification/list.html.twig',['items'=>$userRepository->findAllUsersNotification()]
+            'user_notification/list.html.twig',
+            ['items' => $userRepository->findAllUsersNotification()]
+        );
+    }
+
+    /**
+     * @Route("/list/notifications/p/{id}", name="notification_users_subscription_for_processus", methods={"GET"})
+     * @IsGranted("ROLE_GESTIONNAIRE")
+     */
+    public function NotificationUsersSubscriptionForProcessus(UserRepository $userRepository, Process $process): Response
+    {
+        return $this->render(
+            'user_notification/list_for_processus.html.twig',
+            ['items' => $userRepository->findAllUsersNotificationForProcessus($process->getId()), 'item' => $process]
+        );
+    }
+
+    /**
+     * @Route("/list/notifications/mp/{id}", name="notification_users_subscription_for_mprocessus", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function NotificationUsersSubscriptionFormProcessus(UserRepository $userRepository, MProcess $mprocess): Response
+    {
+        return $this->render(
+            'user_notification/list_for_mprocessus.html.twig',
+            ['items' => $userRepository->findAllUsersNotificationForMProcessus($mprocess->getId()), 'item' => $mprocess]
+        );
+    }
+
+    /**
+     * @Route("/list/subscription/mp/{id}", name="users_subscription_for_mprocessus", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function UsersSubscriptionFormProcessus(UserRepository $userRepository, MProcess $mprocess): Response
+    {
+        return $this->render(
+            'subscription/list_for_mprocessus.html.twig',
+            ['items' => $userRepository->findAllUsersSubscriptionForMProcessus($mprocess->getId()), 'item' => $mprocess]
         );
     }
 }

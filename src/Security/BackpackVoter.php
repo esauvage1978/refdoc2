@@ -74,10 +74,8 @@ class BackpackVoter extends Voter
     public function canRead(Backpack $backpack, User $user)
     {
         if (Role::isUser($this->user)) {
-            return false;
+            return true;
         }
-
-        return $this->canUpdate($backpack, $user);
     }
 
     public function canUpdate(Backpack $backpack, User $user)

@@ -5,7 +5,6 @@
     {% for backpackFile in item.backpackFiles %}
         <tr>
             <td>
-                {{ file.showFiles(item.backpackFiles,item,'backpack_file_show_secure') }}
                 <a type="button" class="text-p-dark" target="_blank" href="{{ absolute_url( asset(backpackFile.href)) }}">
                     {{ file.icon(backpackFile.fileExtension) }}
 

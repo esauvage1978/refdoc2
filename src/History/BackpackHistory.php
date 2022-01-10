@@ -99,7 +99,12 @@ class BackpackHistory implements HistoryEntityInterface
                 ->setOldData($itemOld)
                 ->setNewData($itemNew)
                 ->setField("Dir5"),
-
+                (new HistoryData())
+                ->setTitle("Aide inter-service")
+                ->setOldData($itemOld)
+                ->setNewData($itemNew)
+                ->setField("isHelpInterService")
+                ->setTypeOfData(HistoryData::TYPE_BOOL),
         ];
 
         $this->history->compare($compare);

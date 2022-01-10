@@ -29,4 +29,5 @@ twig:
         es_mailer_workflow_tocheck: '%env(ES_MAILER_WORKFLOW_TOCHECK)%'
         es_mailer_workflow_published: '%env(ES_MAILER_WORKFLOW_PUBLISHED)%'
         es_mailer_workflow_torevise: '%env(ES_MAILER_WORKFLOW_TOREVISE)%'
-        es_mailer_workflow_inreview: '%env(ES_MAILER_WORKFLOW_INREVIEW)%'           
+        es_mailer_workflow_inreview: '%env(ES_MAILER_WORKFLOW_INREVIEW)%'  
+        es_mailer_firefox_auto: '%env(ES_MAILER_FIREFOX_AUTO)%'         

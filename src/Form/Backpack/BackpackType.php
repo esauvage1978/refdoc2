@@ -2,21 +2,19 @@
 
 namespace App\Form\Backpack;
 
+use App\Entity\Process;
 use App\Entity\Backpack;
 use App\Entity\Category;
-use App\Entity\Process;
 use App\Entity\MProcess;
-use App\Entity\UnderRubric;
 use App\Form\AppTypeAbstract;
-use Doctrine\ORM\EntityRepository;
-use App\Form\File\BackpackFileType;
 use App\Security\CurrentUser;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class BackpackType extends AppTypeAbstract
 {
@@ -29,7 +27,7 @@ class BackpackType extends AppTypeAbstract
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->buildFormName($builder);
-        $this->buildFormContent($builder);
+        $this->buildFormContent($builder,'Description', true);
         $builder
             ->add('category', EntityType::class, [
                 self::CSS_CLASS => Category::class,
@@ -92,7 +90,15 @@ class BackpackType extends AppTypeAbstract
                 self::LABEL => 'Référence',
                 self::REQUIRED => false,
                 self::ATTR => [self::PLACEHOLDER => '__-__-__', self::MAXLENGTH => 30, self::CSS_CLASS => 'text-lg bold'],
-            ]);
+            ])            
+            ->add(
+                'isHelpInterService',
+                CheckboxType::class,
+                [
+                    self::LABEL => 'Peut être utilisé dans le cadre de l\'aide inter-service',
+                    self::REQUIRED => false,
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -172,12 +172,12 @@
 								<div class="list-group">
 									{% for mp in mps %}
 										{% if mp in item.mProcessDirValidators or mp in item.mProcessPoleValidators or mp in item.mProcessContributors %}
-											<a href="{{path('admin_mprocess_show',{id:mp.id})}}" class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center ">
-												<span class='text-primary mr-5'>
+											<div class="list-group-item list-group-item-action   d-flex justify-content-between align-items-center ">
+												<a href="{{path('admin_mprocess_show',{id:mp.id})}}" class="a-animate text-primary mr-5">
 													{{ widgets.icon('mprocess') }}
 													{{ mp.fullname | raw}}
-												</span>
-												<span>
+												</a>
+												<span class="text-xs">
 													{% if mp in item.mProcessDirValidators %}
 														<i class="fas fa-user-tie mr-1 text-success" title='Agent de Direction'></i>
 													{% else %}
@@ -193,8 +193,14 @@
 													{% else %}
 														<i class="fas fa-user-edit text-light"></i>
 													{% endif %}
+													<a href="{{path('notification_users_subscription_for_mprocessus',{id:mp.id})}}" class="text-p-dark ml-1" title="Liste des personnes abonnés et recevant les notifications">
+														<i class="fas fa-bullhorn "></i>
+													</a>
+													<a href="{{path('users_subscription_for_mprocessus',{id:mp.id})}}" class="text-p-dark ml-1" title="Liste des personnes abonnés">
+														<i class="far fa-address-book "></i>
+													</a>													
 												</span>
-											</a>
+											</div>
 										{% endif %}
 									{% endfor %}
 								</div>
@@ -217,12 +223,12 @@
 								<div class="list-group">
 									{% for p in ps %}
 										{% if p in item.processValidators or p in item.processContributors %}
-											<a href="{{path('admin_process_show',{id:p.id})}}" class="list-group-item list-group-item-action a-animate  d-flex justify-content-between align-items-center ">
-												<span class='text-primary mr-5'>
+											<div class="list-group-item list-group-item-action   d-flex justify-content-between align-items-center ">
+												<a href="{{path('admin_process_show',{id:p.id})}}" class="a-animate text-primary mr-5">
 													{{ widgets.icon('process') }}
 													{{ p.fullname | raw}}
-												</span>
-												<span>
+												</a>
+												<span class="text-xs">
 													{% if p in item.processValidators %}
 														<i class="fas fa-user-check text-success" title='Valideur'></i>
 													{% else %}
@@ -233,8 +239,15 @@
 													{% else %}
 														<i class="fas fa-user-edit text-light"></i>
 													{% endif %}
+													<a href="{{path('notification_users_subscription_for_processus',{id:p.id})}}" class="text-p-dark ml-1" title="Liste des personnes abonnés et recevant les notifications">
+														<i class="fas fa-bullhorn "></i>
+													</a>
+													<a href="{{path('notification_users_subscription_for_processus',{id:p.id})}}" class="text-p-dark ml-1" title="Liste des personnes abonnés">
+														<i class="far fa-address-book "></i>
+													</a>
+
 												</span>
-											</a>
+											</div>
 										{% endif %}
 									{% endfor %}
 								</div>
